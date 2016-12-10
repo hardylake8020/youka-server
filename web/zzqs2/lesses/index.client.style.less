@@ -1,0 +1,358 @@
+@import "../directive/zz_dialog/zz_dialog.client.directive.style.less";
+@import "button.client.style.less";
+
+.ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.zz-toolbar {
+
+}
+
+.zz-mask-layer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background-color: #404040;
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+}
+
+@header-height: 60px;
+
+.main-header {
+  position: fixed;
+  width: 100%;
+  background-color: #0078c6;
+  line-height: @header-height;
+  margin: 0;
+  z-index: 2;
+  .left {
+    padding: 0;
+    position: relative;
+    padding-left: 10px;
+    margin: 0;
+    .half {
+      filter: alpha(opacity=80);
+      -moz-opacity: 0.8;
+      -khtml-opacity: 0.8;
+      opacity: 0.8;
+    }
+    .logo, .header-nav {
+      cursor: pointer;
+      display: inline;
+      height: 18px;
+      overflow: hidden;
+      font-size: 18px;
+      font-weight: 800;
+      color: #A9C3E1;
+      margin-left: 30px;
+      section {
+        display: inline;
+      }
+      img {
+        vertical-align: middle;
+      }
+      span {
+        vertical-align: middle;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+    }
+    .active {
+      color: #fff;
+    }
+
+  }
+  .right {
+    position: relative;
+    padding: 0;
+    .right-wrap {
+      //margin: 15px 0 0 0;
+    }
+    .mail, .search, .menu, .signout {
+      cursor: pointer;
+      padding: 0;
+      text-align: center;
+      //line-height: 34px;
+      &:hover {
+
+      }
+    }
+    .help {
+      color: white;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: right;
+    }
+    .signout {
+      color: white;
+      text-align: right;
+    }
+    .notification-btn {
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: visible;
+      cursor: pointer;
+      height: 62px;
+      .number {
+        background-color: #ef4426;
+        color: white;
+        text-align: center;
+        border-radius: 45px;
+        height: 20px;
+        position: absolute;
+        width: 33px;
+        top: 10px;
+        line-height: 22px;
+        left: 50%;
+        margin-left: 25px;
+        font-size: 12px;
+        &.single {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+        }
+      }
+      .email {
+        margin-bottom: 3px;
+        margin-right: 5px;
+      }
+      .text {
+        display: inherit;
+        .ellipsis();
+      }
+      &:hover {
+        background-color: #387dc8;
+        .zz-notification-panel {
+          display: block;
+        }
+      }
+      .zz-notification-panel {
+        display: none;
+        position: absolute;
+        right: 0px;
+        top: 62px;
+        background-color: white;
+        width: 500px;
+        z-index: 1000;
+        -webkit-box-shadow: #666 0px 0px 5px;
+        -moz-box-shadow: #666 0px 0px 5px;
+        box-shadow: #666 0px 0px 5px;
+        font-size: 14px;
+        .list {
+          padding: 0px 30px;
+          .row {
+            padding: 20px 0px;
+            border-bottom: 1px solid #fafafa;
+            line-height: 20px;
+            .title {
+              display: inline-block;
+              padding-left: 30px;
+              text-align: left;
+              color: #666;
+
+              &.pickup_damaged {
+                background: url("../../images/inform/delivery_damaged.png") no-repeat left center;
+              }
+              &.delivery_damaged {
+                background: url("../../images/inform/delivery_damaged.png") no-repeat left center;
+              }
+              &.pickup_deferred {
+                background: url("../../images/inform/delivery_deferred.png") no-repeat left center;
+              }
+              &.delivery_deferred {
+                background: url("../../images/inform/delivery_deferred.png") no-repeat left center;
+              }
+              &.delivery_missing_package {
+                background: url("../../images/inform/delivery_missing_package.png") no-repeat left center;
+              }
+              &.halfway_event {
+                background: url("../../images/inform/halfway_event.png") no-repeat left center;
+              }
+
+            }
+            .content {
+              text-align: left;
+              color: #333;
+            }
+            .time {
+              text-align: right;
+              color: #bbb;
+            }
+
+            &.last {
+              border: 0px;
+            }
+          }
+        }
+        .footer {
+          background-color: #fafafa;
+          padding: 10px 0px;
+          overflow: hidden;
+          line-height: 30px;
+          color: #666;
+          cursor: default;
+          .footer-text {
+            float: left;
+            margin-left: 30px;
+            .text-length {
+              &.red {
+                color: #ef4426;
+              }
+            }
+          }
+          .footer-btn {
+            float: right;
+            border: 1px solid #e5e5e5;
+            text-align: center;
+            background-color: white;
+            margin-right: 20px;
+            padding: 0px 10px;
+            cursor: pointer;
+            border-radius: 2px;
+          }
+        }
+      }
+    }
+    .account-select {
+      // line-height: 34px;
+      color: #fff;
+      cursor: pointer;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: right;
+      span {
+        //text-overflow: ellipsis;
+      }
+
+    }
+    .my-avatar {
+      overflow: hidden;
+      text-align: right;
+      padding-right: 20px;
+      img {
+        width: 34px;
+        height: 34px;
+      }
+    }
+  }
+  .page-navigation {
+    position: absolute;
+    width: 160px;
+    height: 200px;
+    right: 20px;
+    top: @header-height+20;
+    //border:1px solid #003399;
+    z-index: 9999;
+
+  }
+
+}
+
+.zz-wrap {
+  height: 100%;
+  width: 100%;
+  .view {
+    padding-top: @header-height;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+  }
+}
+
+.zz-notification-info-window {
+  position: absolute;
+  top: 60px;
+  z-index: 1;
+  width: 100%;
+  height: 0px;
+  background-color: #fff;
+  color: #fff;
+  line-height: 0px;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  .content{
+
+  }
+  .close-bar{
+    position: absolute;
+    right:30px;
+    font-size: 16px;
+    color: rgba(255,255,255, 0.8);
+    cursor: pointer;
+  }
+
+  &.show {
+    background-color: #ffa93c;
+    height: 60px;
+    line-height: 60px;
+    border-bottom: 2px solid #ffa93c;
+
+  }
+
+  transition: all 1s;
+  -moz-transition: all 1s; /* Firefox 4 */
+  -webkit-transition: all 1s; /* Safari 和 Chrome */
+  -o-transition: all 1s; /* Opera */
+}
+
+.dialog-img {
+  margin-top: 20px;
+}
+
+.dialog-bottom {
+  margin-top: 35px;
+}
+
+@import "global.client.style.less";
+@import "completion.client.style.less";
+
+@import "../directive/zz_range_datepicker/zz-range-datepicker.client.directive.style.less";
+@import "../directive/zz_select/zz_select.client.directive.style.less";
+@import "../directive/zz_pagination/zz_pagination.client.directive.style.less";
+@import "../directive/zz_list/zz_list.client.directive.style.less";
+@import "../directive/zz_photo_scan/zz_photo_scan.client.directive.style.less";
+@import "../directive/zz_order_assign/zz_order_assign.client.directive.style.less";
+@import "../directive/zz_order_option/zz_order_option.client.directive.style.less";
+@import "../directive/zz_switch/zz_switch.client.directive.style.less";
+@import "../directive/zz_progressbar/zz_progressbar.client.directive.style.less";
+
+@import "home.client.style.less";
+@import "company.management.client.style.less";
+@import "business.client.style.less";
+@import "order.create.client.style.less";
+@import "order.batch.create.client.style.less";
+@import "order.follow.client.style.less";
+@import "order.assign.client.style.less";
+@import "dashboard.client.style.less";
+@import "photo.search.client.style.less";
+@import "datacollection/total.client.style.less";
+@import "datacollection/register.client.style.less";
+@import "datacollection/order.client.style.less";
+@import "datacollection/visit.client.style.less";
+@import "datacollection/company.order.client.style.less";
+@import "order.export.dialog.client.style.less";
+@import "order.batch.assign.client.style.less";
+@import "order.trace.map.client.style.less";
+@import "company.edit.client.style.less";
+@import "company_address.client.style.less";
+@import "insurance_buy.client.style.less";
+@import "insurance_settlement.client.style.less";
+@import "payment_result.client.style.less";
+@import "notification_panel.client.style.less";
+@import "order_configuration.client.style.less";
+@import "order_operation.client.style.less";
+@import "online_report_config.client.style.less";
+@import "charts.client.style.less";

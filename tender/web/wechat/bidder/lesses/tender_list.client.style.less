@@ -1,0 +1,138 @@
+.ellipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zz-order-list {
+  //height: inherit;
+  .zz-tip {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    z-index: 1;
+    margin-top: -15px;
+    height: 30px;
+    line-height: 30px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #999;
+  }
+
+  .zz-tender-item {
+    //position: relative;
+    margin-bottom: 12px;
+    border-radius: 3px;
+    font-size: 14px;
+    overflow: hidden;
+    background-color: #fff;
+
+    .content {
+      padding: 0 20px;
+
+      .address {
+        position: relative;
+        margin: 10px 0px 5px;
+        width: 100%;
+        font-size: 18px;
+        .text {
+          span {
+            display: inline-block;
+          }
+          .line {
+            width: 40px;
+            text-align: center;
+          }
+        }
+        .price {
+          margin-top: 5px;
+          color: #4186c9;
+          background-color: #fff;
+          .text {
+            font-size: 18px;
+          }
+          .unit {
+            font-size: 12px;
+          }
+        }
+      }
+      .time, .truck {
+        position: relative;
+        padding-left: 65px;
+        height: 30px;
+        //line-height: 30px;
+        .tip {
+          position: absolute;
+          left: 0;
+        }
+        .text {
+          width: 100%;
+        }
+      }
+      .truck {
+        height: 50px;
+        .text {
+          span {
+            display: inline-block;
+            height: 20px;
+            line-height: 20px;
+            overflow: hidden;
+          }
+          .type {
+            width: 150px;
+            .ellipsis();
+          }
+        }
+        .status {
+          position: absolute;
+          top: 25px;
+          left: 0;
+        }
+      }
+    }
+
+    &.unQuoted {
+      .content {
+        .address {
+          .price {
+            display: none;
+          }
+        }
+        .truck {
+          .status {
+            color: #ffcc66;
+          }
+        }
+      }
+    }
+    &.quoted, &.success {
+      .content {
+        .address {
+          .price {
+            color: #4186c9;
+          }
+        }
+        .truck {
+          .status {
+            color: #4186c9;
+          }
+        }
+      }
+    }
+    &.failed {
+      .content {
+        .address {
+          .price {
+            color: #ff9595;
+          }
+        }
+        .truck {
+          .status {
+            color: #ff9595;
+          }
+        }
+      }
+    }
+  }
+}

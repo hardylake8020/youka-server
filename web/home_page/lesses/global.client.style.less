@@ -1,0 +1,108 @@
+html {
+  height: 100%;
+}
+body {
+  background-color: #fff;
+  font-family: Helvetica, Tahoma, Arial, Hiragino Sans GB, Hiragino Sans GB W3, Microsoft YaHei, STXihei, STHeiti, Heiti, SimSun, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100%;
+//
+//  //文本双击后不被选中，因为很多的点击按钮是用<p> / <span>等元素实现的，点击是文本会被选中
+//  -moz-user-select:none; /*火狐*/
+//  -webkit-user-select:none; /*webkit浏览器*/
+//  -ms-user-select:none; /*IE10*/
+//  -khtml-user-select:none; /*早期浏览器*/
+//  user-select:none;
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .zz-home-header {
+    width: 100%;
+    margin: 0 auto;
+    position: fixed;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.98);
+    top: 0px;
+    z-index: 100;
+
+  }
+  .body-content {
+    margin-top: 76px;
+  }
+}
+
+@input-border-color: #4186c9;
+
+input {
+  &:hover {
+    border-color: @input-border-color !important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  }
+  &:focus {
+    border-color: #4186c9 !important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px @input-border-color;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px @input-border-color;
+  }
+}
+
+input::-webkit-input-placeholder {
+  color: #bdbdbd;
+}
+
+input:-moz-placeholder {
+  color: #bdbdbd;
+}
+
+input::-moz-placeholder {
+  color: #bdbdbd;
+}
+
+input:-ms-input-placeholder {
+  color: #bdbdbd;
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    .zz-home-header {
+      position: static;
+    }
+
+    .body-content {
+      margin-top: 0px;
+    }
+    .operation {
+      height: 1080px;
+
+      .zz-home-header-two {
+        display: none;
+      }
+    }
+
+    .zz-home-footer {
+      .footer {
+        .center-area {
+          padding-bottom: 20px;
+          padding-top: 20px;
+          .footer-left,.footer-right {
+            display: none;
+          }
+
+          .cut-line {
+            display: none;
+
+          }
+          .remark {
+            width: 80%;
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+  }
+}

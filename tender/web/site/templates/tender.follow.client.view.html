@@ -1,0 +1,601 @@
+<div class="zz-tender-follow-view">
+  <div class="main-module">
+    <div class="center-area">
+      <div class="top">
+        <div class="title">
+          <p class="text">{{topHeader.title}}</p>
+        </div>
+        <div class="label">
+          <p class="processing"
+             ng-class="{current: topHeader.label.current === 'processing'}"
+             ng-click="topHeader.label.change('processing')">{{topHeader.label.processing}}</p>
+
+          <p class="completed"
+             ng-class="{current: topHeader.label.current === 'completed'}"
+             ng-click="topHeader.label.change('completed')">{{topHeader.label.completed}}</p>
+        </div>
+        <div class="actual-option">
+          <div class="quick-option">
+            <div class="row quick">
+
+                <div class="pull-left time-range" style="margin-right: 5px;margin-bottom: 15px;">
+                    <div class="dropdown start-time">
+                        <a class="dropdown-toggle dropdown-toggle1" data-toggle="dropdown">创建开始时间</a>
+                        <p class="text">{{ timeRange.start | date:'yyyy-MM-dd HH:mm' }}</p>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <datetimepicker data-ng-model="timeRange.start"
+                                            data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle1' }"></datetimepicker>
+                        </ul>
+                    </div>
+                    <div class="dropdown end-time">
+                        <a class="dropdown-toggle dropdown-toggle2" data-toggle="dropdown">创建结束时间</a>
+                        <p class="text">{{ timeRange.end | date:'yyyy-MM-dd HH:mm' }}</p>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <datetimepicker data-ng-model="timeRange.end"
+                                            data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle2' }"></datetimepicker>  <!-- dropdownSelector 指示要close那个标签 wayne -->
+                        </ul>
+                    </div>
+                </div>
+              <div class="pull-left search">
+
+                <form>
+
+                  <input ng-class="{'not-empty': topHeader.search.orderNumber !== ''}"
+                         ng-model="topHeader.search.orderNumber"
+                         placeholder="输入运单号/参考单号"/>
+                  <input type="submit" value="搜索" class="search-button" ng-click="topHeader.search.exec()"/>
+                  <input ng-show="topHeader.label.current === 'completed'" type="submit" value="下载" class="search-button" ng-click="topHeader.search.download()"/>
+                </form>
+
+                <!--<span class="more-condition" ng-show="!topHeader.search.isExpand"-->
+                <!--ng-click="topHeader.search.expand(true)">更多筛选条件</span>-->
+                <!--<span class="more-condition" ng-show="topHeader.search.isExpand"-->
+                <!--ng-click="topHeader.search.expand(false)">精简筛选条件</span>-->
+              </div>
+
+              <div class="pull-right button-option">
+                <p ng-click="topHeader.createTender()">创建标书</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="middle">
+        <zz-list config="tenderConfig.list"></zz-list>
+      </div>
+    </div>
+  </div>
+
+  <div class="zz-mask-layer tender-detail" ng-show="tenderConfig.detail.isShow === true">
+    <div class="mask-container">
+      <div class="row header">
+        <div class="col-xs-10 tabs">
+          <div class="row header-wrap">
+            <div class="col-xs-2 tab" ng-class="{'selected': tenderConfig.detail.currentTab === 'detail'}"
+                 ng-click="tenderConfig.detail.changeTab('detail')">招标信息
+            </div>
+
+            <div class="col-xs-2 tab" ng-class="{'selected': tenderConfig.detail.currentTab === 'assign'}"
+                 ng-show="tenderConfig.detail.currentTender.status === 'completed' && tenderConfig.detail.currentTender.order"
+                 ng-click="tenderConfig.detail.changeTab('assign')">运单分配
+            </div>
+
+            <div class="col-xs-2 tab" ng-class="{'selected': tenderConfig.detail.currentTab === 'timeline'}"
+                 ng-show="tenderConfig.detail.currentTender.status === 'completed' && tenderConfig.detail.currentTender.order"
+                 ng-click="tenderConfig.detail.changeTab('timeline')">时间轴
+            </div>
+
+            <div class="col-xs-4 tab" ng-class="{'selected': tenderConfig.detail.currentTab === 'map'}"
+                 ng-show="tenderConfig.detail.currentTender.status === 'completed' && tenderConfig.detail.currentTender.order"
+                 ng-click="tenderConfig.detail.changeTab('map')">
+              地图(GPS点数：{{tenderConfig.detail.currentOrder.gpsCount}}，非GPS点数:{{tenderConfig.detail.currentOrder.ungpsCount}})
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-2 close"><span ng-click="tenderConfig.detail.close($event);"></span></div>
+      </div>
+
+      <div class="content">
+        <div class="row detail-container evaluation" ng-show="tenderConfig.detail.currentTab == 'detail'">
+          <div class="col-xs-4 detail">
+            <div class="item">
+              <span class="name">运单号:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.order_number}}</span>
+            </div>
+            <div class="item">
+              <span class="name">参考单号:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.refer_order_number || '未填'}}</span>
+            </div>
+            <div class="item">
+              <span class="name">车辆要求:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.truck_type}}*{{tenderConfig.detail.currentTender.truck_count}}</span>
+            </div>
+
+            <div class="item" ng-repeat="goodsItem in tenderConfig.detail.currentTender.goodsInfo">
+              <span class="name">{{goodsItem.title}}</span>
+
+              <p class="value">
+                <span>{{goodsItem.name}}</span>
+                <span class="unit">{{goodsItem.value}}</span>
+                <span>{{goodsItem.sum | number:2}}元</span>
+              </p>
+            </div>
+
+            <div class="item">
+              <span class="name">备注:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.remark || '无'}}</span>
+            </div>
+
+            <div class="halving-line"></div>
+
+            <div class="item">
+              <span class="name">提货地址:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.pickup_address}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">提货时间:</span>
+            <span class="value">{{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.pickup_start_time, 'yy/MM/dd hh:mm', '未填')
+              + ' ~ '
+              + tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.pickup_end_time, 'yy/MM/dd hh:mm', '未填')}}
+            </span>
+            </div>
+
+            <div class="item">
+              <span class="name">提货联系人:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.pickup_name || '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">联系人手机:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.pickup_mobile_phone || '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">联系人固话:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.pickup_tel_phone || '未填'}}</span>
+            </div>
+
+            <div class="halving-line"></div>
+
+            <div class="item">
+              <span class="name">收货地址:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.delivery_address}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">收货时间:</span>
+            <span class="value">{{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.delivery_start_time, 'yy/MM/dd hh:mm', '未填')
+              + ' ~ '
+              + tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.delivery_end_time, 'yy/MM/dd hh:mm', '未填')}}
+            </span>
+            </div>
+
+            <div class="item">
+              <span class="name">收货联系人:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.delivery_name || '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">联系人手机:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.delivery_mobile_phone || '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">联系人固话:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.delivery_tel_phone || '未填'}}</span>
+            </div>
+          </div>
+          <p class="vertical-halving-border-one"></p>
+
+          <div class="col-xs-8 tender">
+            <div class="view unstarted" ng-show="tenderConfig.detail.currentTender.status==='unStarted'">
+              <div class="header">
+                <div class="left">
+                  <p class="time">
+                    <span class="tip">招标开始时间：</span>
+                    <span class="text">{{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.start_time, 'yy/MM/dd hh:mm', '未填')}}</span>
+                  </p>
+                </div>
+                <div class="right">
+                  <p class="status">
+                    <span class="text">未开始</span>
+                  </p>
+                </div>
+              </div>
+              <div class="content">
+                <div class="info">
+                  <p class="tip-text">招标尚未开始，您现在可以：</p>
+                </div>
+                <div class="operation">
+                  <p class="button-item highlight left"
+                     ng-click="tenderConfig.detail.modifyTender()">修改标书</p>
+
+                  <p class="button-item unhighlight right"
+                     ng-click="tenderConfig.detail.deleteTender()">删除标书</p>
+                </div>
+              </div>
+            </div>
+            <div class="view inprogress" ng-show="tenderConfig.detail.currentTender.status==='inProgress' || tenderConfig.detail.currentTender.status==='stop'">
+              <div class="header">
+                <div class="left">
+                  <p class="time">
+                    <span class="tip">距离招标结束还剩余：</span>
+                    <span class="text">{{tenderConfig.detail.currentTender.remainTime}}</span>
+                  </p>
+                </div>
+                <div class="right">
+                  <p class="status">
+                    <span class="text number">{{tenderConfig.detail.currentTender.has_participate_bidders_count}}</span>
+                    <span class="text">人已报价</span>
+                  </p>
+                </div>
+              </div>
+              <div class="content">
+
+                <div class="all-bid-record">
+                  <ul class="all-header row">
+                    <li class="item col col-xs-4">手机号码</li>
+                    <li class="item col col-xs-4">昵称</li>
+                    <li class="item col col-xs-4">是否查看</li>
+                  </ul>
+                  <ul class="all-body row" ng-class="{preview: bidRecord.has_preview}" ng-repeat="bidRecord in tenderConfig.detail.allRecord">
+                    <li class="item col col-xs-4">{{bidRecord.bidder.username}}</li>
+                    <li class="item col col-xs-4">{{bidRecord.bidder.wechat_profile.nickname}}</li>
+                    <li class="item col col-xs-4">{{bidRecord.has_preview ? '是':'否'}}</li>
+                  </ul>
+                </div>
+
+                <div class="info">
+                  <p class="tip-text">以下是报价最低的前{{tenderConfig.detail.topRecord.length < tenderConfig.detail.limitRecordCount ? tenderConfig.detail.topRecord.length : tenderConfig.detail.limitRecordCount}}位，您可以选择一位完成招标：</p>
+
+                  <div class="top-bidders">
+                    <div class="row bidder-item"
+                         ng-class="{selected: bidRecord.bidder._id === tenderConfig.detail.bidderId}"
+                         ng-click="tenderConfig.detail.chooseBidder(bidRecord.bidder._id)"
+                         ng-repeat="bidRecord in tenderConfig.detail.topRecord | limitTo: tenderConfig.detail.currentLimitRecordCount">
+                      <p class="index">{{$index + 1}}</p>
+
+                      <p class="choice">√</p>
+
+                      <p class="col col-xs-3 username">{{bidRecord.bidder.username}}</p>
+
+                      <p class="col col-xs-7 time">于{{tenderConfig.detail.formatTime(bidRecord.updated, 'yy/MM/dd hh:mm')}}投标，报价</p>
+
+                      <p class="col col-xs-2 price">￥{{bidRecord.current_price | number:0}}</p>
+                    </div>
+                    <div class="clear-button" ng-class="{all: tenderConfig.detail.isShowAllRecord}" ng-show="tenderConfig.detail.topRecord.length > tenderConfig.detail.limitRecordCount">
+                      <p class="text" ng-click="tenderConfig.detail.showAllRecord()">{{tenderConfig.detail.isShowAllRecord ? '收起' : '展开'}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="operation">
+                  <p class="button-item left"
+                     ng-click="tenderConfig.detail.applyToBidder()"
+                     ng-class="{highlight: tenderConfig.detail.bidderId}">确认选择</p>
+
+                  <p class="button-item unhighlight right"
+                     ng-click="tenderConfig.detail.close($event);">取消</p>
+                </div>
+              </div>
+            </div>
+            <div class="view completed" ng-show="tenderConfig.detail.currentTender.status==='completed'">
+              <div class="header">
+                <div class="left">
+                  <p class="time">
+                    <span class="tip">招标时间：</span>
+                    <span class="text">
+                      {{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.start_time, 'yy/MM/dd hh:mm', '未填')}}
+                      ~
+                      {{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.end_time, 'yy/MM/dd hh:mm', '未填')}}
+                    </span>
+                  </p>
+                </div>
+                <div class="right">
+                  <p class="status">
+                    <span class="text">已完成</span>
+                  </p>
+                </div>
+              </div>
+              <div class="content">
+                <div class="info">
+                  <p class="tip-text">以下是您的招标人信息</p>
+
+                  <div class="top-bidders">
+                    <div class="row bidder-item selected">
+                      <p class="choice">√</p>
+
+                      <p class="col col-xs-3 username">{{tenderConfig.detail.winBidRecord.bidder.username}}</p>
+
+                      <p class="col col-xs-7 time">于
+                        {{tenderConfig.detail.formatTime(tenderConfig.detail.winBidRecord.updated, 'yy/MM/dd hh:mm')}}
+                        中标，报价</p>
+
+                      <p class="col col-xs-2 price">￥{{tenderConfig.detail.winBidRecord.current_price | number:0}}</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row detail-container" ng-show="tenderConfig.detail.currentTab == 'assign'">
+          <div class="col-xs-4 detail">
+            <div class="item" ng-class="{'unassigned': tenderConfig.detail.currentOrder.status === 'unAssigned',
+          'assigning': tenderConfig.detail.currentOrder.status === 'assigning',
+          'unpickup': (tenderConfig.detail.currentOrder.status === 'unPickuped' || tenderConfig.detail.currentOrder.status === 'unPickupSigned'),
+          'undelivery': (tenderConfig.detail.currentOrder.status === 'unDeliveried' || tenderConfig.detail.currentOrder.status === 'unDeliverySigned'),
+          'completed': tenderConfig.detail.currentOrder.status === 'completed',
+          'qrcode-completed': (tenderConfig.detail.currentOrder.delivery_by_qrcode === true || tenderConfig.detail.currentOrder.delivery_by_qrcode === 'true')
+          }">
+              <span class="name">运单状态:</span>
+              <span class="value"></span>
+            </div>
+
+            <div class="item">
+              <span class="name">运单号:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.order_details.order_number}}</span>
+            </div>
+            <div class="item">
+              <span class="name">参考单号:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.order_details.refer_order_number ? tenderConfig.detail.currentOrder.order_details.refer_order_number:'未填'}}</span>
+            </div>
+            <div class="item">
+              <span class="name">发货方:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.sender_name ?tenderConfig.detail.currentOrder.sender_name:'未填'}}</span>
+            </div>
+            <div class="item">
+              <span class="name">收货方:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.receiver_name ?tenderConfig.detail.currentOrder.receiver_name:'未填'}}</span>
+            </div>
+
+            <div class="item goods" ng-repeat="goodsItem in tenderConfig.detail.currentOrder.goodsInfo">
+              <span class="name">{{goodsItem.title}}</span>
+
+              <p class="value">
+                <span>{{goodsItem.name}}</span>
+                <span class="unit">{{goodsItem.value}}</span>
+                <span>{{goodsItem.sum}}元</span>
+              </p>
+            </div>
+            <div class="item">
+              <span class="name">运费:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.freight_charge ? tenderConfig.detail.currentOrder.freight_charge: '未填'}}</span>
+            </div>
+            <div class="item">
+              <span class="name">货损信息:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.damaged ? '有货损' : '无货损'}}</span>
+            </div>
+            <div class="item">
+              <span class="name">备注:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.description?tenderConfig.detail.currentOrder.description:'无'}}</span>
+            </div>
+
+            <div class="halving-line"></div>
+
+            <div class="item">
+              <span class="name">提货地址:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.pickup_contacts.address ? tenderConfig.detail.currentOrder.pickup_contacts.address: '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">提货时间:</span>
+            <span class="value">{{formatTime(tenderConfig.detail.currentOrder.pickup_start_time, 'yy/MM/dd hh:mm', '未填')
+              + ' ~ '
+              + formatTime(tenderConfig.detail.currentOrder.pickup_end_time, 'yy/MM/dd hh:mm', '未填')}}
+            </span>
+            </div>
+
+            <div class="item">
+              <span class="name">提货联系人:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.pickup_contacts.name ? tenderConfig.detail.currentOrder.pickup_contacts.name : '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">联系人手机:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.pickup_contacts.mobile_phone ? tenderConfig.detail.currentOrder.pickup_contacts.mobile_phone : '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">联系人固话:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.pickup_contacts.phone ? tenderConfig.detail.currentOrder.pickup_contacts.phone : '未填'}}</span>
+            </div>
+
+            <div class="halving-line"></div>
+
+            <div class="item">
+              <span class="name">交货地址:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.delivery_contacts.address ? tenderConfig.detail.currentOrder.delivery_contacts.address: '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">交货时间:</span>
+            <span class="value">{{formatTime(tenderConfig.detail.currentOrder.delivery_start_time, 'yy/MM/dd hh:mm', '未填')
+              + ' ~ '
+              + formatTime(tenderConfig.detail.currentOrder.delivery_end_time, 'yy/MM/dd hh:mm', '未填')}}
+            </span>
+            </div>
+
+            <div class="item">
+              <span class="name">交货联系人:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.delivery_contacts.name ? tenderConfig.detail.currentOrder.delivery_contacts.name : '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">联系人手机:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.delivery_contacts.mobile_phone ? tenderConfig.detail.currentOrder.delivery_contacts.mobile_phone : '未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">联系人固话:</span>
+              <span class="value">{{tenderConfig.detail.currentOrder.delivery_contacts.phone ? tenderConfig.detail.currentOrder.delivery_contacts.phone : '未填'}}</span>
+            </div>
+          </div>
+
+          <div class="vertical-halving-border-one"></div>
+          <div class="vertical-halving-border-two"></div>
+          <div class="col-xs-8 children-orders" ng-show="tenderConfig.detail.currentOrder.status != 'unAssigned'">
+            <div class="assign_order_info"
+                 ng-repeat="assignedComapnyOrder in tenderConfig.detail.currentOrder.assignedCompanyOrders">
+              <div ng-if="$index == 0" class="company">
+                <div class="info">
+                  <span>[{{assignedComapnyOrder.create_company.name}}] 于 {{assignedComapnyOrder.create_time | date: 'yyyy-MM-dd HH:mm:ss'}} {{assignedComapnyOrder.create_company.name == assignedComapnyOrder.execute_company.name ? '创建订单' : '分配订单给'}}</span>
+                  <strong>{{assignedComapnyOrder.create_company.name ==
+                    assignedComapnyOrder.execute_company.name ? '' :
+                    assignedComapnyOrder.execute_company.name}}</strong>
+                </div>
+              </div>
+              <div ng-if="$index > 0" class="company">
+                <div class="info">
+                  <span>[{{assignedComapnyOrder.create_company.name}}] 于 {{assignedComapnyOrder.create_time | date: 'yyyy-MM-dd HH:mm:ss'}} 分配订单给</span>
+                  <strong>{{assignedComapnyOrder.execute_company.name}}</strong>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="drivers">
+                <div class="driver" ng-repeat="driverOrder in assignedComapnyOrder.drivers">
+                  <div class="point"><span>●</span></div>
+                  <div class="info">
+                    <span>[{{driverOrder.create_company.name}}] 于 {{driverOrder.create_time | date: 'yyyy-MM-dd HH:mm:ss'}} 分配订单给</span>
+                    <strong ng-if="driverOrder.execute_driver.nickname">{{driverOrder.execute_driver.nickname}}({{driverOrder.execute_driver.username}})</strong>
+                    <strong
+                      ng-if="!driverOrder.execute_driver.nickname">{{driverOrder.execute_driver.username}}</strong>
+                  </div>
+                  <div class="transport_info">
+                    <div class="pickup">
+                      <strong>{{driverOrder.pickup_contact.address?driverOrder.pickup_contact.address:'未知地址'}}</strong>
+                      <span>{{driverOrder.pickup_start_time_format?driverOrder.pickup_start_time_format:'未知提货开始时间'}}{{driverOrder.pickup_end_time_format?(' ~ '+driverOrder.pickup_end_time_format):' ~ 未知提货结束时间'}}</span>
+                    </div>
+                    <div class="split">⌵</div>
+                    <div class="delivery">
+                      <strong>{{driverOrder.delivery_contact.address?driverOrder.delivery_contact.address:'未知地址'}}</strong>
+                      <span>{{driverOrder.delivery_start_time_format?driverOrder.delivery_start_time_format: '未知交货开始时间'}}{{driverOrder.delivery_end_time_format? (' ~ ' + driverOrder.delivery_end_time_format) : ' ~ 未知交货开始时间'}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline" ng-show="tenderConfig.detail.currentTab == 'timeline'">
+          <div class="line"></div>
+          <div class="traces">
+            <div class="trace"
+                 ng-repeat="event in tenderConfig.detail.currentOrder.eventInfo | orderBy:'created':true">
+              <div class="trace-type"><span ng-class="event.type"></span></div>
+              <div class="detail" ng-class="{'qrcode-delivery': event.delivery_by_qrcode}">
+                <div class="event-name">{{generateEventTypeDescription(event)}}</div>
+                <div class="description">
+                  <span class="username">{{event.driver.nickname? event.driver.nickname : event.driver.username}}{{event.driver.phone?'('+event.driver.phone+'':''}}</span>于
+                  <span class="time">{{event.created | date: 'yyyy-MM-dd HH:mm:ss'}}</span>在
+                  <span class="address">{{event.address? event.address: ('坐标为('+ event.location[0]+','+event.location[1] +')')}}</span>
+                  完成 {{generateEventTypeDescription(event)}}
+                </div>
+
+                <div class="item actual-goods" ng-repeat="goodItem in orderDetailInfo.currentOrderDetail.orderDetail.goodsInfo" ng-show="(event.type === 'delivery' || event.type === 'pickup') && event.actualShowing">
+                  <strong>{{goodItem.title}}: </strong>
+                  <span>{{goodItem.name}}  {{goodItem.value}}  {{goodItem.sum}}元</span>
+                </div>
+
+                <div class="item actual-goods" ng-repeat="goodItem in event.actualGoods" ng-show="(event.type === 'delivery' || event.type === 'pickup') && event.actualShowing">
+                  <strong>{{goodItem.title}}: </strong>
+                  <span>{{goodItem.name}}  {{goodItem.count}}{{goodItem.unit}}</span>
+                </div>
+
+                <div class="item damaged"><strong>货损: </strong><span>{{(event.damaged == true || event.damaged == 'true')?'有': '无'}}</span>
+                </div>
+                <div class="item remark">
+                  <strong>备注: </strong>
+                          <span class="voice_file" ng-class="{'playing': event.voice_file ? event.audioPlayer.status === 'playing' : false,
+                                  'loaded': event.voice_file ? (event.audioPlayer.status === 'loaded' || event.audioPlayer.status ==='stoped') : false,
+                                  'error': event.voice_file ? event.audioPlayer.status === 'error': false
+                                  }"
+                                ng-click="tenderConfig.detail.clickVoice(event)"
+                                ng-show="event.voice_file !== '' && event.audioPlayer.status !== 'error'">
+                            <span class="loading"
+                                  ng-show="event.voice_file !== '' && event.audioPlayer.status === 'unknown'">音频加载中...</span>
+                            <span class="voice_length"
+                                  ng-show="event.voice_file !== '' ? event.audioPlayer.duration > 0 : false">
+                              {{event.voice_file !== '' ? event.audioPlayer.duration : 0}}"
+                            </span>
+                          </span>
+
+                  <span ng-show="event.voice_file === '' || event.audioPlayer.status === 'error'">{{event.description?event.description: '无'}}</span>
+                </div>
+                <div class="item barcode" ng-show="event.barcodes !== ''">
+                  <strong>扫码: </strong>
+                  <span>{{event.barcodes}}</span>
+                </div>
+
+                <div class="photos"
+                     ng-show="event.goods_photos||event.halfway_photos||event.credential_photos">
+                  <div class="photo goods" ng-repeat="photo in event.goods_photos">
+                    <div class="tag"><img src="images/icon/order_follow/tag_goods.png"/></div>
+                    <img
+                      ng-src='{{generatePhoto(photo)}}'
+                      ng-click="showPhotos(photo)"
+                      onerror="this.src='images/icon/order_follow/error.jpg'"/>
+                  </div>
+                  <div class="photo" ng-repeat="photo in event.halfway_photos">
+                    <img ng-src='{{generatePhoto(photo)}}'
+                         ng-click="showPhotos(photo)"
+                         onerror="this.src='images/icon/order_follow/error.jpg'">
+                  </div>
+                  <div class="photo credential" ng-repeat="photo in event.credential_photos">
+                    <div class="tag"><img src="images/icon/order_follow/tag_credential.png"/></div>
+                    <img
+                      ng-src='{{generatePhoto(photo)}}'
+                      ng-click="showPhotos(photo)"
+                      onerror="this.src='images/icon/order_follow/error.jpg'"/>
+                  </div>
+
+                  <div class="photo photos" ng-repeat="photo in event.photos">
+                    <div class="tag"><span class="name">{{photo.name}}</span></div>
+                    <img
+                      ng-src='{{generatePhoto(photo.url)}}'
+                      ng-click="showPhotos(photo.url)"
+                      onerror="this.src='images/icon/order_follow/error.jpg'"/>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="trace">
+              <div class="trace-type"><span class="create"></span></div>
+              <div class="detail">
+                <div class="event-name">创建运单</div>
+                <div class="description">
+                            <span class="username">{{tenderConfig.detail.currentOrder.create_user.nickname?tenderConfig.detail.currentOrder.create_user.nickname:tenderConfig.detail.currentOrder.create_user.username}}
+                                    {{tenderConfig.detail.currentOrder.create_user.phone?'('+tenderConfig.detail.currentOrder.create_user.phone+')':''}}
+                            </span>于
+                  <span class="time">{{tenderConfig.detail.currentOrder.created | date: 'yyyy-MM-dd HH:mm:ss'}} 创建</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row map" ng-show="tenderConfig.detail.currentTab == 'map'">
+          <div class="show-gps-btn" ng-click="changeTab('map',true)">只显示
+            GPS
+          </div>
+          <div class="col-sm-12 map-layout" id="orderTraceMap"></div>
+        </div>
+        <div class="photo-container" ng-show="orderDetailInfo.currentTab=='photos'">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div zz-photo-scan
+     photos="tenderConfig.detail.curPhotoList"
+     show="tenderConfig.detail.showPhotoScan"
+     start-index="tenderConfig.detail.imgIndex">
+</div>

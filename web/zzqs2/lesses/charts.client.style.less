@@ -1,0 +1,90 @@
+.zz-charts-container {
+  padding-bottom: 40px;
+  padding-top: 40px;
+  position: relative;
+  .zz-charts-container-row {
+    margin: auto;
+    max-width: 1200px;
+    width: 100%;
+
+    .left-area {
+      background-color: white;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.26);
+      margin-right: 20px;
+      min-height: 680px;
+      padding: 0;
+      .nav {
+        margin-top: 30px;
+        margin-right: 20px;
+        background-color: white;
+        > li > a:focus, > li > a:hover {
+          background-color: #ecf5fc;
+        }
+        .selected {
+          background-color: #ecf5fc;
+        }
+      }
+      .group-add-area {
+        background-color: #fafafa;
+        border-bottom: 1px solid #ececec;
+        padding: 20px;
+        position: relative;
+        .group-input {
+          border: 0 none;
+          box-shadow: none;
+          color: #bdbdbd;
+          height: 40px;
+          line-height: 40px;
+          outline: medium none;
+          padding: 0 10px;
+          width: 100%;
+        }
+      }
+    }
+
+    .right-area {
+      background-color: #fff;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.26);
+      height: 680px;
+      padding: 0;
+      .zz-chart-container {
+        height: 100%;
+        .group-title-area {
+          background-color: #fafafa;
+          border-bottom: 1px solid #ececec;
+          padding: 30px 40px;
+        }
+        .zz-search-container {
+          padding-top: 25px;
+          display: table;
+          margin: auto;
+          .required.control-label:after{
+            content:"*";
+            color:red;
+          }
+          .date-picker {
+            width: 90px;
+          }
+          .zz-select {
+            display: inline-block;
+            width: auto;
+            vertical-align: middle;
+          }
+          .form-group {
+            margin-right : 10px;
+          }
+        }
+        .zz-echarts-container{
+          padding-top : 25px;
+        }
+        .order-salesmen-body{
+          max-height: 500px;
+          margin-top: 10px;
+          overflow-x: scroll;
+          overflow-y: scroll;
+          th { white-space: nowrap; }
+        }
+      }
+    }
+  }
+}

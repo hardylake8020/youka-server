@@ -1,0 +1,574 @@
+.zz-insurance-buy {
+
+  .mask-no-auth, .mask-buy, .mask-buy-detail {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    .wrap {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      margin-left: -300px;
+      background-color: #fff;
+      width: 600px;
+      padding: 0 30px 30px 30px;
+      border-top: 3px solid #397bc2;
+    }
+  }
+
+  .mask-no-auth {
+    .wrap {
+      top: 20%;
+      .header {
+        position: relative;
+        height: 70px;
+        line-height: 70px;
+
+        .text {
+          position: absolute;
+          left: 0;
+          color: #4186c9;
+        }
+        .close {
+          position: absolute;
+          margin-top: 28px;
+          width: 14px;
+          height: 14px;
+          right: 0;
+          background: url("../../images/icon/order_follow/delete.png") no-repeat center center;
+          &:hover {
+            background: url("../../images/icon/order_follow/delete_hover.png") no-repeat center center;
+          }
+        }
+      }
+
+      .center {
+        text-align: center;
+        margin-top: 10px;
+        .icon {
+          width: 80px;
+          height: 80px;
+          margin: 0 auto;
+          background: url("../../images/icon/company_edit/go_auth.png") no-repeat center center;
+        }
+        .text {
+          text-align: center;
+          font-size: 12px;
+          color: #333;
+          margin: 30px 0;
+        }
+      }
+
+      .footer {
+        position: relative;
+        height: 40px;
+        .auth {
+          position: absolute;
+          right: 0;
+          width: 85px;
+          height: 40px;
+          line-height: 40px;
+          border: 1px solid #bdbdbd;
+          background-color: #fff;
+          color:#666;
+          font-size: 14px;
+          text-align: center;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+  .mask-buy, .mask-buy-detail {
+    .wrap {
+      .header {
+        position: relative;
+        height: 70px;
+        line-height: 70px;
+
+        .text {
+          position: absolute;
+          left: 0;
+          color: #4186c9;
+        }
+        .close {
+          position: absolute;
+          margin-top: 28px;
+          width: 14px;
+          height: 14px;
+          right: 0;
+          background: url("../../images/icon/order_follow/delete.png") no-repeat center center;
+          &:hover {
+            background: url("../../images/icon/order_follow/delete_hover.png") no-repeat center center;
+          }
+        }
+      }
+    }
+
+    .center {
+      margin: 0 auto;
+      width: 470px;
+      position: relative;
+      .key-value {
+        width: 100%;
+        height: 35px;
+        line-height: 35px;
+        margin-bottom: 20px;
+        &.buy-tip{
+          text-align: center;
+          background-color: #efefef;
+          color:#bdbdbd;
+        }
+        .key {
+          position: absolute;
+          left: 0;
+          font-size: 13px;
+          color: #333;
+          width: 80px;
+        }
+        .value {
+          position: absolute;
+          width: 370px;
+          right: 0;
+          border: 1px solid #bdbdbd;
+          padding-left: 15px;
+          color: #999;
+          font-size: 14px;
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      .agreement {
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        .checkbox {
+          position: absolute;
+          left: 0;
+          margin-top: 8px;
+          width: 15px;
+          height: 15px;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        .text {
+          position: absolute;
+          left: 25px;
+          font-size: 12px;
+          color: #666;
+          .content {
+            color: #4186c9;
+            &:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      .order-detail {
+        .container {
+          .item {
+            position: absolute;
+            .size-input {
+              width: 50px;
+              border: 1px solid #bdbdbd;
+              color: #666;
+              font-size: 14px;
+              outline: none;
+              box-shadow: none;
+              text-align: center;
+            }
+            .options {
+              border: none;
+              background: none;
+              box-shadow: none;
+              outline: none;
+            }
+
+            &.count {
+              left: 100px;
+            }
+            &.weight {
+              left: 228px;
+            }
+            &.volume {
+              right: 0;
+            }
+          }
+
+        }
+      }
+
+      .buy-detail {
+        .container {
+          .buy-count {
+            position: absolute;
+            width: 75px;
+            height: 35px;
+            left: 80px;
+            .size-input {
+              height: 35px;
+              line-height: 35px;
+              position: absolute;
+              padding: 0 5px;
+              width: 50px;
+              border: 1px solid #bdbdbd;
+              color: #666;
+              font-size: 14px;
+              text-align: left;
+              outline: none;
+              box-shadow: none;
+            }
+            .arrow {
+              position: absolute;
+              right: 0;
+              top: 0;
+
+              .up, .down{
+                width: 20px;
+                height: 15px;
+                display: block;
+                border: 1px solid #ccc;
+                cursor: pointer;
+                background: url("../../images/global/arrow_up.png") no-repeat center center;
+                &:active {
+                  background-color: #efefef;
+                }
+              }
+              .down {
+                margin-top: 5px;
+                background-image: url("../../images/global/arrow_down.png");
+              }
+            }
+
+          }
+          .unit {
+            position: absolute;
+            left: 160px;
+          }
+          .amount {
+            position: absolute;
+            right: 0;
+            .text {
+              font-size: 13px;
+              color: #333;
+              display: inline-block;
+              .count {
+                color: red;
+              }
+              &.right {
+                margin-left: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .footer {
+      position: relative;
+      height: 40px;
+
+      .cancel, .sure {
+        position: absolute;
+        width: 85px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+        text-align: center;
+        border-radius: 2px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .cancel {
+        right: 105px;
+        background-color: #fff;
+        border: 1px solid #bdbdbd;
+        color: #333;
+      }
+      .sure {
+        right: 0;
+        background-color: #4186c9;
+        color: #fff;
+      }
+
+    }
+  }
+
+  .mask-buy-detail {
+    .center {
+      .key-value {
+        .value {
+          border: none;
+          padding: 0;
+        }
+      }
+    }
+  }
+
+  .center-area {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .insurance-header {
+    position: relative;
+    height: 100px;
+    line-height: 100px;
+
+    .title {
+      position: absolute;
+      left: 0;
+      font-size: 18px;
+      color: #333;
+    }
+    .count {
+      position: absolute;
+      right: 130px;
+      font-size: 14px;
+      color: #333;
+
+      .amount {
+        color: #fb9600;
+        &.big {
+          font-size: 18px;
+        }
+      }
+    }
+    .settlement {
+      position: absolute;
+      top: 27px;
+      right: 0;
+      width: 95px;
+      height: 40px;
+      line-height: 40px;
+      background-color: #fb9600;
+      color: #fff;
+      text-align: center;
+      border-radius: 2px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .insurance-body {
+    .zz-list {
+      margin: 0;
+
+      .zz-list-row {
+        .zz-list-column {
+          &.self-column-class {
+            color: #72a6d5;
+          }
+
+          .zz-list-action-self-button.self-button {
+            margin-top: 15px;
+            width: 80px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+
+  .label-page {
+    padding: 0;
+    margin: 0;
+    height: 41px;
+    border-bottom: 1px solid #e0e0e0;
+    .unpay, .payed {
+      display: inline-block;
+      margin: 0 10px 0 0;
+      width: 120px;
+      height: 40px;
+      line-height: 40px;
+      border-top: 1px solid #e0e0e0;
+      border-right: 1px solid #e0e0e0;
+      border-left: 1px solid #e0e0e0;
+      text-align: center;
+      font-size: 14px;
+      color: #bdbdbd;
+      background-color: #fff;
+      &.current {
+        background-color: #4186c9;
+        color: #fff;
+        &:hover {
+          color: #fff;
+        }
+      }
+      &:hover {
+        color: #757575;
+        cursor: pointer;
+      }
+      &:active {
+        color: #757575;
+      }
+    }
+  }
+
+  .actual-option {
+    @edge-width-left: 15px;
+    @input-font-size: 14px;
+
+    border-top: 1px solid #e0e0e0;
+    padding: 30px 0 40px 0;
+
+    .high-search {
+      padding-top: 40px;
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .search-element {
+        height: 40px;
+        line-height: 40px;
+        margin-bottom: 20px;
+
+        &.second-row {
+          margin-bottom: 0;
+        }
+
+        .second-item, .third-item {
+          .title-text {
+            position: relative;
+            display: inline-block;
+            float: left;
+            color: #757575;
+          }
+          input {
+            padding-left: @edge-width-left;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid #ebebeb;
+            color: #bdbdbd;
+            font-size: @input-font-size;
+            background-color: #fff;
+            outline: none;
+            box-shadow: none;
+
+            &.not-empty {
+              border-color: #ebebeb;
+              color: #212121;
+            }
+            &:hover {
+              border-color: #d6d6d6;
+            }
+            &:focus {
+              border-color: #4186c9;
+              color: #212121;
+            }
+          }
+        }
+
+        .second-item {
+          .front {
+            padding-left: 100px;
+            .title-text {
+              margin-left: -100px;
+            }
+          }
+        }
+
+        .third-item {
+          padding-left: 30px;
+          .front {
+            padding-left: 55px;
+            .title-text {
+              margin-left: -55px;
+            }
+          }
+
+          .back {
+            padding-left: 100px;
+            .title-text {
+              margin-left: -70px;
+            }
+          }
+        }
+
+      }
+    }
+
+    .quick-option {
+      .quick {
+        .search {
+          * {
+            padding: 0;
+            margin: 0;
+            height: 40px;
+            line-height: 40px;
+          }
+          .form {
+            display: inline-block;
+          }
+          input {
+            width: 330px;
+            padding-left: @edge-width-left;
+            font-size: @input-font-size;
+            margin-right: 5px;
+            border: 1px solid #ebebeb;
+            color: #bdbdbd;
+            outline: none;
+            box-shadow: none;
+
+            &.not-empty {
+              border-color: #ebebeb;
+              color: #212121;
+            }
+            &:hover {
+              border-color: #d6d6d6;
+            }
+            &:focus {
+              border-color: #4186c9;
+              color: #212121;
+            }
+          }
+          .submit {
+            display: inline-block;
+            width: 110px;
+            text-align: center;
+            background-color: #4186c9;
+            color: #fff;
+            margin-right: 15px;
+            padding-left: 0;
+            &:hover {
+              cursor: pointer;
+              background-color: #679ed4;
+            }
+            &:focus {
+              background-color: #346ba1;
+            }
+          }
+          span {
+            display: inline-block;
+            width: 105px;
+            color: #757575;
+            background: url('../../directive/zz_list/images/filter_default.png') right center no-repeat;
+            &:hover {
+              cursor: pointer;
+              background-image: url('../../directive/zz_list/images/filter_hover.png');
+            }
+          }
+        }
+      }
+    }
+  }
+}

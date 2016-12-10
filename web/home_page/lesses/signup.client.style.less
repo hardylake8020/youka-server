@@ -1,0 +1,362 @@
+@import 'variables.client.style.less';
+body {
+  .wrap {
+    background: url(../images/bg_operation.png) no-repeat left top;
+    height: 680px;
+    background-position: center 0;
+    background-size: cover;
+    .zz-home-header {
+      position: static;
+      background: none;
+      box-shadow: none;
+      .navigation {
+        .logo {
+          .photo {
+            background: url("../../home_page/images/logo.png") no-repeat center;
+          }
+        }
+
+        .user-operation .login {
+          display: inline-block;
+          color: #fff;
+          border: 1px solid #fff;
+          border-radius: 4px;
+          background: none;
+          &:hover {
+            -webkit-box-shadow: 0 0 0 2px #ffffff;
+            -moz-box-shadow: 0 0 0 2px #ffffff;
+            box-shadow: 0 0 0 2px #ffffff;
+
+          }
+        }
+
+        .user-operation .signup {
+          display: none;
+        }
+
+        .link .item {
+          color: #fff;
+        }
+      }
+    }
+
+    .signup-body {
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      margin: 50px auto;
+      padding: 0 50px 50px 50px;
+      width: 430px;
+      background-color: #fff;
+      border-radius: 4px;
+
+      .register-container, .result-container {
+        &.hide {
+          display: none;
+        }
+      }
+
+      .register-container {
+        .title {
+          padding: 30px 0 10px;
+          .text {
+            text-align: center;
+            font-size: 24px;
+            color: #000;
+            font-weight: bolder;
+          }
+          .underline {
+            width: 30px;
+            border: 1px solid #bdbdbd;
+            margin: 10px auto;
+          }
+        }
+
+        .form {
+          .username, .password, .password-sure {
+            .tip {
+              font-size: 12px;
+              margin-bottom: 5px;
+            }
+            .border {
+              width: 330px;
+              height: 40px;
+              line-height: 40px;
+              background-color: #fafafa;
+              border: 1px solid #efefef;
+              border-radius: 4px;
+              overflow: hidden;
+              .icon {
+                display: inline-block;
+                width: 40px;
+                height: 40px;
+                background: url('../images/signin/user.png') no-repeat center center;
+                float: left;
+              }
+              .text {
+                background-color: #fafafa;
+                border: none;
+                outline: none;
+                box-shadow: none;
+                width: 280px;
+                float: left;
+                height: 40px;
+                line-height: 40px;
+              }
+            }
+          }
+          .password, .password-sure {
+            margin-top: 15px;
+            .tip {
+              a {
+                text-decoration: none;
+                cursor: pointer;
+                color: #0067bc;
+              }
+            }
+            .border {
+              .icon {
+                background-image: url('../images/signin/password.png');
+              }
+            }
+          }
+
+          .operation {
+            margin-top: 40px;
+            height: 40px;
+            .left {
+              display: inline-block;
+              width: 200px;
+              height: 40px;
+              float: left;
+              .error {
+                font-size: 12px;
+                color: #ee7361;
+                visibility: visible;
+                margin-bottom: 10px;
+                &.zz-hidden {
+                  visibility: collapse;
+                }
+              }
+              .register {
+                font-size: 12px;
+                color: #979797;
+
+                a {
+                  text-decoration: none;
+                  cursor: pointer;
+                  color: #0078c6;
+                }
+              }
+            }
+
+            .right {
+              display: inline-block;
+              float: right;
+              width: 80px;
+
+              height: 40px;
+
+              .button {
+                width: 80px;
+                height: 40px;
+                line-height: 40px;
+                border: 1px solid #efefef;
+                color: #dddddd;
+                text-align: center;
+                background-color: #fff;
+                border-radius: 4px;
+
+                &.able {
+                  background-color: #0078c6;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .result-container {
+        padding: 20px 0px 0px;
+        .result-title {
+          color: #333;
+          font-size: 22px;
+          text-align: left;
+        }
+
+        .result-body {
+          .result-tip {
+            color: #666666;
+            text-align: left;
+            font-size: 13px;
+            margin-top: 15px;
+          }
+
+          .resultUsername, .sendAgain {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 30px;
+          }
+
+          .resultUsername {
+            display: block;
+            font-size: 22px;
+            color: #0078c6;
+            text-align: center;
+          }
+
+          .sendAgain {
+            color: #ffffff;
+            background-color: #0078c6;
+          }
+
+        }
+      }
+
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    .wrap{
+      .zz-home-header {
+        .navigation {
+          .user-operation {
+            .login {
+              display: none;
+            }
+            .menu {
+              background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+            }
+          }
+        }
+      }
+
+      .signup-body {
+        padding: 0 0px 40px;
+        width: 85%;
+        .register-container {
+          .form {
+            width: 80%;
+            margin: 0 auto;
+            .username,.password,.password-sure {
+              .border {
+                width: 100%;
+                padding-left: 10px;
+                .text {
+                  width: 85%;
+                }
+                .icon {
+                  display: none;
+                }
+              }
+            }
+            .operation {
+              .left {
+                width: auto;
+              }
+            }
+          }
+        }
+      }
+
+    }
+
+  }
+
+}
+
+@media (max-width: @screen-xs-max){
+  body {
+    .wrap{
+      .zz-home-header {
+        .navigation {
+          .user-operation {
+            .login {
+              display: none;
+            }
+            .menu {
+              background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+            }
+          }
+        }
+      }
+
+      .signup-body {
+        padding: 0 0px 40px;
+        width: 85%;
+        .register-container {
+          .form {
+            width: 80%;
+            margin: 0 auto;
+            .username,.password,.password-sure {
+              .border {
+                width: 100%;
+                .text {
+                  width: 85%;
+                }
+              }
+            }
+            .operation {
+              .left {
+                width: auto;
+              }
+            }
+          }
+        }
+      }
+
+    }
+
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  body {
+    .wrap{
+      .zz-home-header {
+        .navigation {
+          .user-operation {
+            .login {
+              display: none;
+            }
+            .menu {
+              background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+            }
+          }
+        }
+      }
+
+      .signup-body {
+        padding: 0 0px 40px;
+        .register-container {
+          .form {
+            width: 80%;
+            margin: 0 auto;
+            .username,.password,.password-sure {
+              .border {
+                width: 100%;
+                .text {
+                  width: 85%;
+                }
+              }
+            }
+            .operation {
+              .left {
+                width: auto;
+              }
+            }
+          }
+        }
+      }
+
+    }
+
+  }
+}

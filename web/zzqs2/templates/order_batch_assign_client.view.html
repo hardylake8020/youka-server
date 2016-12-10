@@ -1,0 +1,124 @@
+<div class="top-header">
+  <div class="center-area">
+    <div class="title">
+      <p class="text">运单分配</p>
+    </div>
+    <div class="actual-option">
+
+      <div class="quick-option">
+        <div class="row quick">
+          <div class="col col-sm-12 col-lg-6 search">
+            <input ng-class="{'not-empty': searchModule.order_number !== ''}"
+                   ng-model="searchModule.order_number" placeholder="输入运单号/参考单号"/>
+
+            <p ng-click="searchModule.searchHandle()">搜索</p>
+            <span ng-show="!searchModule.isShowHighSearch" ng-click="searchModule.showHighSearchHandle()">更多筛选条件</span>
+            <span ng-show="searchModule.isShowHighSearch" ng-click="searchModule.hideHighSearchHandle()">精简筛选条件</span>
+          </div>
+
+          <div class="col col-sm-12 col-lg-6 button-option">
+            <div class="toggle-warehouse"
+                 ng-class="patchAssignInfo.isWarehouse ? 'selected':''">
+              <label ng-click="changePartnerType();">仓储</label>
+            </div>
+            <div class="toggle-warehouse"
+                 ng-class="patchAssignInfo.isRoadOrder ? 'selected':''">
+              <label ng-click="changeRoadOrder();">路单</label>
+            </div>
+            <div class="partner-select" ng-class="{'disabled': !orders.isShowBatchAssign}">
+              <zz_select config="patchAssignInfo" ng-show="patchAssignInfo.isWarehouse==true"></zz_select>
+              <zz_select config="patchAssignInfo" ng-show="patchAssignInfo.isWarehouse==false"></zz_select>
+            </div>
+
+            <p class="button-item" ng-disabled="!orders.isShowBatchDelete"
+               ng-class="{'disabled': !orders.isShowBatchDelete}" ng-click="orderBatchDelete();">批量删除</p>
+
+            <p class="button-item" ng-disabled="!orders.isShowBatchAssign"
+               ng-class="{'disabled': !orders.isShowBatchAssign}" ng-click="orderPatchAssign()">批量分配</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="high-search" ng-show="searchModule.isShowHighSearch">
+
+        <div class="row search-element">
+
+          <div class="col col-xs-5 second-item">
+            <div class="front">
+              <span class="title-text">计划收货时间</span>
+              <input ng-class="{'not-empty': searchModule.deliveryTimeRange !== ''}"
+                     class="date-picker" readonly date-range-picker
+                     ng-model="searchModule.deliveryTimeRange"
+                     options="searchModule.dateOptions"
+                     placeholder="不限"/>
+              <!--<span class="close" ng-click="searchModule.cleanDeliveryTime($event)"></span>-->
+            </div>
+          </div>
+
+          <div class="col col-xs-7 third-item">
+            <div class="row">
+              <div class="col col-xs-5 front">
+                <span class="title-text">收货方</span>
+                <input ng-class="{'not-empty': searchModule.receiver !== ''}"
+                       ng-model="searchModule.receiver" placeholder="请输入收货方"/>
+              </div>
+              <div class="col col-xs-7 back">
+                <span class="title-text">货物名称</span>
+                <input ng-class="{'not-empty': searchModule.goods_name !== ''}"
+                       ng-model="searchModule.goods_name" placeholder="请输入货物名称"/>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="row search-element">
+
+          <div class="col col-xs-5 second-item">
+            <div class="front">
+              <span class="title-text">计划发货时间</span>
+              <input ng-class="{'not-empty': searchModule.pickUpTimeRange !== ''}"
+                     class="date-picker" readonly date-range-picker
+                     ng-model="searchModule.pickUpTimeRange"
+                     options="searchModule.dateOptions"
+                     placeholder="不限"/>
+              <!--<span class="close" ng-click="searchModule.cleanPickupTime($event)" ></span>-->
+            </div>
+          </div>
+
+          <div class="col col-xs-7 third-item">
+            <div class="row">
+              <div class="col col-xs-5 front">
+                <span class="title-text">发货方</span>
+                <input ng-class="{'not-empty': searchModule.sender !== ''}"
+                       ng-model="searchModule.sender" placeholder="请输入发货方"/>
+              </div>
+              <div class="col col-xs-7 back">
+                <span class="title-text">备注信息</span>
+                <input ng-class="{'not-empty': searchModule.description !== ''}"
+                       ng-model="searchModule.description" placeholder="请输入备注信息"/>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="row search-element second-row">
+
+          <div class="col col-xs-5 second-item">
+            <div class="front">
+              <span class="title-text">运单创建时间</span>
+              <input ng-class="{'not-empty': searchModule.createTimeRange !== ''}"
+                     class="date-picker" readonly date-range-picker
+                     ng-model="searchModule.createTimeRange"
+                     options="searchModule.dateOptions"
+                     placeholder="不限"/>
+              <!--<span class="close" ng-click="searchModule.cleanDeliveryTime($event)"></span>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

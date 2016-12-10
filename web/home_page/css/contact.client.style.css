@@ -1,0 +1,85 @@
+body .body-content {
+  width: 100%;
+  overflow: hidden;
+  display: block;
+}
+body .body-content .description {
+  overflow: hidden;
+}
+body .body-content .description .title {
+  width: 100%;
+  background-image: url("../images/contact/contact_bg.png");
+  background-position: center 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 300px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 28px;
+}
+body .body-content .description .title img {
+  margin: 55px auto 25px;
+}
+body .body-content .description .title .title-container {
+  font-weight: bolder;
+  font-size: 36px;
+}
+body .body-content .description .title .text {
+  color: rgba(245, 245, 245, 0.7);
+  font-size: 16px;
+  margin-top: 35px;
+  padding: 0 30px;
+}
+body .body-content .description .content {
+  padding: 0 30px;
+  max-width: 1160px;
+  margin: 50px auto;
+}
+body .body-content .description .content .level .content-title {
+  font-size: 16px;
+  font-weight: bolder;
+}
+body .body-content .description .content .level .text {
+  font-size: 14px;
+  color: #666666;
+  line-height: 22px;
+  margin-top: 16px;
+}
+body .body-content .description .content .level .text p {
+  margin-bottom: 8px;
+}
+body .body-content .description .content .level .text .p-inline {
+  display: inline-block;
+}
+body .body-content .description .content .level .text .point {
+  background-color: #51c08b;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  display: inline-block;
+  margin-right: 10px;
+}
+body .body-content .description .content .level-two {
+  margin-top: 50px;
+}
+body .body-content .description .content .level-two .business,
+body .body-content .description .content .level-two .recruiting,
+body .body-content .description .content .level-two .interview {
+  display: inline-block;
+  margin-right: 120px;
+}
+body .body-content .description .content .level-two .business .contact-title,
+body .body-content .description .content .level-two .recruiting .contact-title,
+body .body-content .description .content .level-two .interview .contact-title {
+  font-size: 16px;
+  color: #333333;
+  margin-bottom: 16px;
+}
+body .body-content .description .content .level-two .business .contact-container,
+body .body-content .description .content .level-two .recruiting .contact-container,
+body .body-content .description .content .level-two .interview .contact-container {
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 8px;
+}

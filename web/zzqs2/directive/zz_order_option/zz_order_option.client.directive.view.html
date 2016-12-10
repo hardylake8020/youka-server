@@ -1,0 +1,62 @@
+<div class="zz-order-option">
+  <div class="option-header">{{config.title}}</div>
+  <div class="option-body">
+    <div class="item entrance">
+      <p class="name">{{config.entrance.title}}</p>
+      <div class="content">
+        <zz-switch config="config.entrance"></zz-switch>
+        <p class="description">{{config.entrance.description}}</p>
+      </div>
+    </div>
+    <div class="item entrance-photo">
+      <p class="name">{{config.entrance_photo.title}}</p>
+      <div class="content">
+        <zz-switch config="config.entrance_photo"></zz-switch>
+        <p class="description">{{config.entrance_photo.description}}</p>
+        <div class="photo-box" ng-class="{show: config.entrance_photo.isOpen}">
+          <div class="list">
+            <div class="photo-item" ng-class="{'is-plate': photoItem.isPlate}" ng-repeat="photoItem in config.entrance_photo_array">
+              <input class="photo-name" ng-readonly="photoItem.isPlate" placeholder="编辑文字" ng-model="photoItem.name">
+              <p class="remove-button" ng-click="config.removePhotoItem($index, config.entrance_photo_array, config.entrance_photo)"></p>
+            </div>
+          </div>
+          <div class="photo-item add" ng-click="config.addPhotoItem(config.entrance_photo_array)">
+            <p class="photo-name">添加步骤</p>
+          </div>
+          <div class="photo-item add plate" ng-click="config.addPlatePhotoItem(config.entrance_photo_array, config.entrance_photo)">
+            <p class="photo-name">对比车牌</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="item take-photo">
+      <p class="name">{{config.take_photo.title}}</p>
+      <div class="content">
+        <zz-switch config="config.take_photo"></zz-switch>
+        <p class="description">{{config.take_photo.description}}</p>
+        <div class="photo-box" ng-class="{show: config.take_photo.isOpen}">
+          <div class="list">
+            <div class="photo-item" ng-class="{'is-plate': photoItem.isPlate}" ng-repeat="photoItem in config.take_photo_array">
+              <input class="photo-name" ng-readonly="photoItem.isPlate" placeholder="编辑文字" ng-model="photoItem.name">
+              <p class="remove-button" ng-click="config.removePhotoItem($index, config.take_photo_array, config.take_photo)"></p>
+            </div>
+          </div>
+          <div class="photo-item add" ng-click="config.addPhotoItem(config.take_photo_array)">
+            <p class="photo-name">添加步骤</p>
+          </div>
+          <div class="photo-item add plate" ng-click="config.addPlatePhotoItem(config.take_photo_array, config.take_photo)">
+            <p class="photo-name">对比车牌</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="item confirm-detail">
+      <p class="name">{{config.confirm_detail.title}}</p>
+      <div class="content">
+        <zz-switch config="config.confirm_detail"></zz-switch>
+        <p class="description">{{config.confirm_detail.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>

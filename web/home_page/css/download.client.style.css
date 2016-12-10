@@ -1,0 +1,116 @@
+body .body-content {
+  width: 100%;
+  overflow: hidden;
+  display: block;
+  min-height: 680px;
+}
+body .body-content .description {
+  overflow: hidden;
+}
+body .body-content .description * {
+  margin: 0;
+  padding: 0;
+}
+body .body-content .description .title {
+  width: 100%;
+  background-image: url("../images/download/download_bg.png");
+  background-position: center 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 300px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 28px;
+}
+body .body-content .description .title img {
+  margin: 55px auto 25px;
+}
+body .body-content .description .title .title-container {
+  font-weight: bolder;
+  font-size: 36px;
+}
+body .body-content .description .title .text {
+  color: rgba(245, 245, 245, 0.7);
+  font-size: 16px;
+  margin-top: 35px;
+}
+body .body-content .description .title .download-button {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  margin-top: 30px;
+}
+body .body-content .description .title .download-button .download-ios,
+body .body-content .description .title .download-button .download-android {
+  display: inline-block;
+  width: 150px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+}
+body .body-content .description .title .download-button .download-ios:hover,
+body .body-content .description .title .download-button .download-android:hover {
+  -webkit-box-shadow: 0 0 0 3px #ffffff;
+  -moz-box-shadow: 0 0 0 3px #ffffff;
+  box-shadow: 0 0 0 3px #ffffff;
+}
+body .body-content .description .title .download-button .download-ios {
+  margin-right: 15px;
+  background: url("../images/index/icon-ios.png") no-repeat 10px;
+}
+body .body-content .description .title .download-button .download-android {
+  background: url("../images/index/icon-android.png") no-repeat 10px;
+}
+body .body-content .description .content {
+  padding: 0;
+  max-width: 1160px;
+  margin: 50px auto 60px;
+}
+body .body-content .description .content .level .content-title {
+  font-size: 16px;
+  font-weight: bolder;
+  color: #333333;
+  margin-bottom: 16px;
+}
+body .body-content .description .content .level .text {
+  font-size: 14px;
+  color: #666666;
+  line-height: 22px;
+}
+body .body-content .description .content .level .text .qr-code {
+  width: 105px;
+  height: auto;
+}
+body .body-content .description .content .level .text .p-inline {
+  display: inline-block;
+  background: url("../../home_page/images/about/point.png") no-repeat left 5px;
+  padding-left: 15px;
+  margin-bottom: 8px;
+}
+body .body-content .description .content .level-one {
+  text-align: center;
+  border-right: 1px solid #f7f7f7;
+  padding-right: 60px;
+  margin-right: 60px;
+  float: left;
+}
+body .body-content .description .content .level-one,
+body .body-content .description .content .level-two {
+  display: inline-block;
+}
+@media screen and (max-width: 480px) {
+  body .body-content .description .title .download-button .download-ios {
+    margin-right: 0;
+  }
+  body .body-content .description .content {
+    margin: 50px 30px 60px;
+  }
+  body .body-content .description .content .level-one {
+    display: none;
+  }
+}

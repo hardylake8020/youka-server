@@ -1,0 +1,120 @@
+<!doctype html>
+<html ng-app="zhuzhuqs" lang="en">
+<head>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+  <script id="error3" type="text/html" data-value='<%=  test %>'></script>
+  <script id="error4" type="text/html" data-value='<%=  pushAddress %>'></script>
+
+  <!--地图-->
+  <script src="http://api.map.baidu.com/api?v=2.0&ak=C31306a16db1e14257abded320d9d2f5"></script>
+  <script src="../libraries/jquery/dist/jquery.js"></script>
+  <script src="../libraries/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="../libraries/moment/min/moment.min.js"></script>
+  <script src="../libraries/moment/locale/zh-cn.js"></script>
+  <script src="../libraries/bootstrap-daterangepicker/daterangepicker.js"></script>
+  <script src="../libraries/angular/angular.min.js"></script>
+  <script src="../libraries/angular-daterangepicker/js/angular-daterangepicker.min.js"></script>
+  <script src="../libraries/angular-animate/angular-animate.min.js"></script>
+  <script src="../libraries/angular-aria/angular-aria.min.js"></script>
+  <script src="../libraries/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="../libraries/angular-messages/angular-messages.min.js"></script>
+  <script src="../libraries/angular-bindonce/bindonce.min.js"></script>
+  <script src="../libraries/angularytics/dist/angularytics.min.js"></script>
+
+  <script src="../libraries/echarts/dist/echarts.js"></script>
+  <!-- highcharts支持
+  <script src="../libraries/highcharts/highcharts.src.js"></script>
+  <script src="../libraries/highcharts-ng/dist/highcharts-ng.min.js"></script>
+  -->
+
+  <script src="../libraries/angular-local-storage/dist/angular-local-storage.min.js"></script>
+
+  <link rel="stylesheet" href="../libraries/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../libraries/bootstrap-daterangepicker/daterangepicker-bs3.css">
+  <link rel="stylesheet" href="../libraries/pure/pure-min.css">
+
+  <!-- angular-bootstrap-datetimepicker -->
+  <script type="text/javascript" src="../libraries/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+  <link rel="stylesheet" href="../libraries/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+
+  <!--xls 读写支持-->
+  <script lang="javascript" src="../libraries/js-xlsx/shim.js"></script>
+  <script lang="javascript" src="../libraries/js-xlsx/jszip.js"></script>
+  <script lang="javascript" src="../libraries/js-xlsx/xlsx.js"></script>
+  <script lang="javascript" src="../libraries/js-xlsx/ods.js"></script>
+  <script lang="javascript" src="../zz_libraries/js-xlsx/Blob.js"></script>
+  <script lang="javascript" src="../zz_libraries/js-xlsx/FileSaver.js"></script>
+  <script lang="javascript" src="../zz_libraries/js-xlsx/Export2Excel.js"></script>
+
+  <script src="../libraries/plupload/js/plupload.full.min.js"></script>
+  <script src="../zz_libraries/qiniu/qiniu.js"></script>
+  <script type="text/javascript" src="../zz_supports/js/global.client.support.js"></script>
+
+  <!--custom-->
+  <script src="dist/js/zhuzhuqs.js"></script>
+
+  <script src="../libraries/socket.io-client/socket.io.js"></script>
+  <link rel="stylesheet" href="dist/css/zhuzhuqs.css">
+  <title>柱柱签收控制台</title>
+</head>
+<body ng-controller="IndexController" ng-click="clickBody()">
+<div class="zz-wrap">
+  <div class="row main-header" ng-controller="HeaderController">
+    <div class="col col-xs-6 col-sm-5 col-md-4 col-lg-4 left">
+      <div class="logo" ui-sref="home">
+        <img ng-src="images/global/logo.png" ng-class="{'half':headerNav.currentnav}"/>
+      </div>
+      <div ng-if="headerNav.currentnav" class="header-nav">
+        <span ui-sref="home"> 首页 </span>
+        <section ng-repeat="nav in headerNav.subList">
+          <span> <img ng-src="images/icon/arrow.png"/> </span>
+          <span ui-sref="{{nav.state}}"
+                ng-class="{'active':!headerNav.subnav && nav.url==headerNav.currentnav.url}">
+            {{nav.label}}
+          </span>
+        </section>
+        <span><img ng-src="images/icon/arrow.png" ng-if="headerNav.subnav"/></span>
+        <span ng-if="headerNav.subnav" class="active"> {{headerNav.subnav.label}} </span>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-7 col-md-8 col-lg-8 right">
+      <div class="row right-wrap">
+        <div class="col-xs-3 help">
+          <span>免费客服热线400 886 9256 </span>
+        </div>
+        <div class="col-xs-2 notification-btn">
+          <div class="number" ng-class="{single: (informConfig.pushInfo.length +initNotificationList.length)< 10}"
+               ng-show="(informConfig.pushInfo.length +initNotificationList.length)!==0">
+            {{(informConfig.pushInfo.length + initNotificationList.length)>100?'99+':(informConfig.pushInfo.length
+            +initNotificationList.length)}}
+          </div>
+        </div>
+        <div class="col-xs-3 account-select">
+          <span></span><img src="images/icon/company_management/company_authed.png"
+                            ng-show="curUser.company.auth_status==='authed'">
+          {{curUser.company.name}}:{{curUser.nickname}}</span>
+        </div>
+        <div class="col-xs-2 signout" ng-click="signout()">
+          <span>退出</span>
+        </div>
+        <div class="col-xs-2 my-avatar">
+          <img ng-src="images/global/avatar.png"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div zz-loading></div>
+  <div zz-masking></div>
+  <div zz-alert-dialog></div>
+  <div zz-alert-confirm-dialog></div>
+  <div zz-alert-confirm-style-dialog></div>
+  <div zz-alert-prompt-dialog></div>
+  <div zz-customize-dialog page-config="pageShow.dialogConfig"></div>
+
+  <div zz-export-dialog></div>
+  <div ui-view class="view"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <script type="text/javascript" src="platform/static/js/global/jquery-1.11.1.js"></script>
+
+    <script type="text/javascript" src="platform/static/js/global/global.client.controller.js"></script>
+    <script type="text/javascript" src="platform/static/js/global/platform.client.controller.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="platform/static/css/views/register.client.style.css" />
+    <title>注册</title>
+
+    <script>
+        $(function(){
+            $('#register').click(function(){
+                window.location.href='register.html';
+            });
+        });
+    </script>
+</head>
+<body>
+<!--为了放置背景图片-->
+<div class="bg">
+
+    <div class="header">
+        <div class="wrapper">
+            <div class="left">
+                <div class="logo">
+                    <img src="platform/static/img/_logo/logo-green.png"/>
+                </div>
+            </div>
+            <div class="right">
+                <a class="login" href="login.client.view.html">登录</a>
+                <a class="register" href="register.client.view.html">注册</a>
+            </div>
+        </div>
+    </div>
+    <div  id="bodyContainer" class="content">
+        <div class="wrapper">
+            <div class="result-container">
+                <div class="title">
+                    <div class="left"><span id="resultContent">您的账号激活失败!</span></div>
+                </div>
+                <div class="body">
+                    <p>请重新注册</p>
+                    <input id="register" type="button" value="重新注册" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="wrapper"><span>网站备案／许可证号：沪ICP备14051177号－1 &nbsp;&nbsp;&nbsp; 版权所有：上海柱柱网络科技有限公司</span></div>
+    </div>
+</div>
+
+
+</body>
+</html>

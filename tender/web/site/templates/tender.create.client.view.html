@@ -1,0 +1,488 @@
+<div class="zz-tender-create-view">
+  <div class="row center-area">
+    <div class="col-sm-9 left-area">
+      <div class="order-info bottom">
+        <div class="info-header">{{basicInfo.title}}</div>
+        <div class="info-input-container">
+          <span class="info-title">{{basicInfo.orderNumber.title}}</span>
+          <input class="info-input" type="text" ng-model="basicInfo.orderNumber.text" required>
+          <span class="info-tip">必填项</span>
+        </div>
+        <div class="info-input-container">
+          <span class="info-title">{{basicInfo.referOrderNumber.title}}</span>
+          <input class="info-input" type="text" ng-model="basicInfo.referOrderNumber.text" placeholder="单号之间用逗号分隔" required>
+          <span class="info-tip">必填项</span>
+        </div>
+
+        <div class="info-input-container">
+          <span class="info-title">{{basicInfo.senderCompany.title}}</span>
+          <input class="info-input" type="text" ng-model="basicInfo.senderCompany.text" placeholder="单号之间用逗号分隔" required>
+          <span class="info-tip">必填项</span>
+        </div>
+
+        <div class="info-input-container">
+          <span class="info-title">{{basicInfo.payApprover.title}}</span>
+          <input class="info-input" type="text" ng-model="basicInfo.payApprover.text" placeholder="单号之间用逗号分隔"
+                 zz-validation
+                 zz-validation-type="mobile"
+                 required>
+          <span class="info-tip">必填项</span>
+        </div>
+
+        <div class="info-input-container">
+          <span class="info-title">{{basicInfo.financeOfficer.title}}</span>
+          <input class="info-input" type="text" ng-model="basicInfo.financeOfficer.text" placeholder="单号之间用逗号分隔"
+                 zz-validation
+                 zz-validation-type="mobile"
+                 required>
+          <span class="info-tip">必填项</span>
+        </div>
+
+        <div class="info-input-container">
+          <span class="info-title">{{basicInfo.timeRange.title}}</span>
+
+          <div class="row-content time-range">
+            <div class="dropdown time start-time">
+              <p class="content-input dropdown-toggle dropdown-start" data-toggle="dropdown">
+                  {{basicInfo.timeRange.start | date:'yyyy-MM-dd HH:mm'}}
+                <span class="tip" ng-show="!basicInfo.timeRange.start">开始时间</span>
+              </p>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <datetimepicker
+                  data-ng-model="basicInfo.timeRange.start"
+                  data-on-set-time="datetimepickerConfig.setStartTime(newDate, oldDate)"
+                  data-before-render="datetimepickerConfig.startBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"
+                  data-datetimepicker-config="datetimepickerConfig.startDataConfig">
+                </datetimepicker>
+              </ul>
+            </div>
+
+            <span class="content-text">至</span>
+
+            <div class="dropdown time end-time">
+              <p class="content-input dropdown-toggle dropdown-end" data-toggle="dropdown">
+                {{basicInfo.timeRange.end | date:'yyyy-MM-dd HH:mm'}}
+                <span class="tip" ng-show="!basicInfo.timeRange.end">截止时间</span>
+              </p>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <datetimepicker
+                  data-ng-model="basicInfo.timeRange.end"
+                  data-on-set-time="datetimepickerConfig.setEndTime(newDate, oldDate)"
+                  data-before-render="datetimepickerConfig.endBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"
+                  data-datetimepicker-config="datetimepickerConfig.endDataConfig">
+                </datetimepicker>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="info-input-container more-option">
+          <span class="info-title">关注人</span>
+
+          <div class="info-input-keyword" ng-repeat="item in salesInfo.boxInfo">
+            <zz-select config="item"></zz-select>
+            <p class="remove" ng-show="item.canDelete" ng-click="salesInfo.removeBox($index)"></p>
+          </div>
+
+          <p class="add" ng-class="{able: salesInfo.canAdd}" ng-click="salesInfo.addPageBox()">添加更多</p>
+
+        </div>
+
+        <div class="info-input-container more-option goods truck">
+          <span class="info-title">{{basicInfo.truck.title}}</span>
+
+          <div class="info-input-keyword">
+            <div class="dropdown-box">
+              <input class="info-input" type="text" readonly
+                     ng-click="basicInfo.truck.showOptions($event)"
+                     ng-model="basicInfo.truck.text" placeholder="选择您需要的车型">
+              <div class="select-box" ng-show="basicInfo.truck.isShowOption">
+                <p class="select-item"
+                   ng-click="basicInfo.truck.clickSelectItem(item)"
+                   ng-class="{selected: item === basicInfo.truck.text}"
+                   ng-repeat="item in basicInfo.truck.options">{{item}}</p>
+              </div>
+            </div>
+
+            <!--<input class="size-input count"-->
+                   <!--name="good-count"-->
+                   <!--ng-model="basicInfo.truck.count"-->
+                   <!--ng-change="basicInfo.truck.changeCount()"-->
+                   <!--type="text"-->
+                   <!--zz-validation-->
+                   <!--zz-validation-type="number">-->
+
+            <!--<p class="change-count">-->
+              <!--<span class="up" ng-click="basicInfo.truck.increaseCount()"></span>-->
+              <!--<span class="down" ng-click="basicInfo.truck.decreaseCount()"></span>-->
+            <!--</p>-->
+
+            <!--<p class="unit">辆</p>-->
+          </div>
+
+        </div>
+
+        <p class="half-line"></p>
+
+        <div class="info-input-container more-option goods">
+          <span class="info-title">货物信息</span>
+
+          <div class="info-input-keyword" ng-repeat="goodItem in goodsInfo.goods">
+            <input class="info-input goods" placeholder="输入货物名称" type="text" ng-model="goodItem.name"
+                   ng-change="goodItem.changeText()">
+
+            <input class="size-input price"
+                   name="good-price"
+                   ng-model="goodItem.price"
+                   type="text"
+                   placeholder="输入单价"
+                   zz-validation
+                   zz-validation-type="number">
+
+            <p class="price-unit">元</p>
+            <input class="size-input count"
+                   name="good-count"
+                   ng-model="goodItem.count"
+                   type="text"
+                   zz-validation
+                   zz-validation-type="number">
+
+            <p class="change-count">
+              <span class="up" ng-click="goodItem.increaseCount1()"></span>
+              <span class="down" ng-click="goodItem.decreaseCount1()"></span>
+            </p>
+
+            <p class="unit" ng-click="goodItem.clickUnit1($event)">{{goodItem.unit}}</p>
+
+            <div class="unit-select" ng-show="goodItem.isShowOption">
+              <div class="outside" ng-repeat="outOption in goodsInfo.unitOptions">
+                <p class="item" ng-click="goodItem.clickUnit($event)">{{outOption.name}}</p>
+
+                <div class="inside">
+                  <div class="wrapper">
+                    <p class="sub-item"
+                       ng-repeat="inOption in outOption.value"
+                       ng-click="goodItem.unit = inOption">{{inOption}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <input class="size-input count two"
+                   name="good-count"
+                   ng-model="goodItem.count2"
+                   type="text"
+                   zz-validation
+                   zz-validation-type="number">
+
+            <p class="change-count two">
+              <span class="up" ng-click="goodItem.increaseCount2()"></span>
+              <span class="down" ng-click="goodItem.decreaseCount2()"></span>
+            </p>
+
+            <p class="unit two" ng-click="goodItem.clickUnit2($event)">{{goodItem.unit2}}</p>
+
+            <div class="unit-select two" ng-show="goodItem.isShowOption2">
+              <div class="outside" ng-repeat="outOption in goodsInfo.unitOptions">
+                <p class="item" ng-click="goodItem.clickUnit($event)">{{outOption.name}}</p>
+
+                <div class="inside">
+                  <div class="wrapper">
+                    <p class="sub-item"
+                       ng-repeat="inOption in outOption.value"
+                       ng-click="goodItem.unit2 = inOption">{{inOption}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <input class="size-input count three"
+                   name="good-count"
+                   ng-model="goodItem.count3"
+                   type="text"
+                   zz-validation
+                   zz-validation-type="number">
+
+            <p class="change-count three">
+              <span class="up" ng-click="goodItem.increaseCount3()"></span>
+              <span class="down" ng-click="goodItem.decreaseCount3()"></span>
+            </p>
+
+            <p class="unit three" ng-click="goodItem.clickUnit3($event)">{{goodItem.unit3}}</p>
+
+            <div class="unit-select three" ng-show="goodItem.isShowOption3">
+              <div class="outside" ng-repeat="outOption in goodsInfo.unitOptions">
+                <p class="item" ng-click="goodItem.clickUnit($event)">{{outOption.name}}</p>
+
+                <div class="inside">
+                  <div class="wrapper">
+                    <p class="sub-item"
+                       ng-repeat="inOption in outOption.value"
+                       ng-click="goodItem.unit3 = inOption">{{inOption}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="remove" ng-show="goodItem.canDelete" ng-click="goodsInfo.removeGoodsItem($index)"></p>
+          </div>
+
+          <p class="add" ng-class="{able: goodsInfo.canAdd}" ng-click="goodsInfo.addPageGoodsItem()">添加更多</p>
+        </div>
+
+        <p class="half-line"></p>
+
+        <div class="info-input-container bottom remark">
+          <span class="info-title">{{basicInfo.remark.title}}</span>
+          <input class="info-input" type="text" ng-model="basicInfo.remark.text" placeholder="添加注意事项">
+        </div>
+
+
+        <div class="info-input-container more-option goods truck auto-close">
+          <span class="info-title">{{basicInfo.autoCloseTender.title}}</span>
+
+          <div class="info-input-keyword">
+
+            <input class="size-input count"
+                   name="good-count"
+                   ng-model="basicInfo.autoCloseTender.count"
+                   ng-change="basicInfo.autoCloseTender.changeCount()"
+                   type="text"
+                   zz-validation
+                   zz-validation-type="number">
+
+            <p class="change-count">
+              <span class="up" ng-click="basicInfo.autoCloseTender.increaseCount()"></span>
+              <span class="down" ng-click="basicInfo.autoCloseTender.decreaseCount()"></span>
+            </p>
+
+            <p class="unit">分钟</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="order-info bottom">
+        <div class="row info-row">
+          <div class="col-sm-6 info-container">
+            <div class="item-title">{{contactInfo.pickup.title}}</div>
+            <div class="item pickup-address">
+              <span class="info-title">{{contactInfo.pickup.address.title}}</span>
+
+              <div class="info-input-keyword">
+                <div class="area">
+                  <div class="province box-item">
+                    <input class="text" readonly placeholder="省"
+                           ng-model="contactInfo.pickup.address.province"
+                           ng-click="contactInfo.pickup.address.selectProvince($event)">
+                    <div class="select-box" ng-show="contactInfo.pickup.address.isShowProvince">
+                      <p class="select-item"
+                         ng-click="contactInfo.pickup.address.clickProvince(province, $event)"
+                         ng-repeat="province in contactInfo.provinceObject.provinces">{{province}}</p>
+                    </div>
+                  </div>
+                  <div class="city box-item">
+                    <input class="text" readonly placeholder="市"
+                           ng-model="contactInfo.pickup.address.city"
+                           ng-click="contactInfo.pickup.address.selectCity($event)">
+                    <div class="select-box" ng-show="contactInfo.pickup.address.isShowCity">
+                      <p class="select-item"
+                         ng-click="contactInfo.pickup.address.clickCity(city, $event)"
+                         ng-repeat="city in contactInfo.pickup.address.cities">{{city}}</p>
+                    </div>
+                  </div>
+                  <div class="region box-item">
+                    <input class="text" readonly placeholder="区"
+                           ng-model="contactInfo.pickup.address.region"
+                           ng-click="contactInfo.pickup.address.selectRegion($event)">
+                    <div class="select-box" ng-show="contactInfo.pickup.address.isShowRegion">
+                      <p class="select-item"
+                         ng-click="contactInfo.pickup.address.clickRegion(region, $event)"
+                         ng-repeat="region in contactInfo.pickup.address.regions">{{region}}</p>
+                    </div>
+                  </div>
+                </div>
+                <input class="info-input"
+                       placeholder="详细地址"
+                       ng-model="contactInfo.pickup.address.street" />
+              </div>
+            </div>
+            <div class="item">
+              <span class="info-title">提货时间</span>
+
+              <div>
+                <input type="text" date-range-picker class="info-input date-picker dropup"
+                       ng-model="contactInfo.pickup.timeRange"
+                       min="contactInfo.pickup.minTime"
+                       options="contactInfo.dateOptions"
+                       readonly
+                       placeholder="请点击输入提货时间"
+                  />
+              </div>
+            </div>
+            <div class="item">
+              <span class="info-title">联系人</span>
+              <input class="info-input" ng-model="contactInfo.pickup.linkMan">
+            </div>
+            <div class="item">
+              <span class="info-title">联系手机</span>
+              <input class="info-input" ng-model="contactInfo.pickup.mobilePhone"
+                     zz-validation
+                     zz-validation-type="mobile">
+            </div>
+            <div class="item">
+              <span class="info-title">联系电话</span>
+              <input class="info-input"
+                     ng-model="contactInfo.pickup.tel"
+                     zz-validation
+                     zz-validation-type="telephone"
+                >
+            </div>
+          </div>
+          <div class="col-sm-6 info-container" flex style="border-left: 1px solid #ececec">
+            <div class="item-title">{{contactInfo.delivery.title}}</div>
+            <div class="item delivery-address">
+              <span class="info-title">{{contactInfo.delivery.address.title}}</span>
+
+              <div class="info-input-keyword">
+                <div class="area">
+                  <div class="province box-item">
+                    <input class="text" readonly placeholder="省"
+                           ng-model="contactInfo.delivery.address.province"
+                           ng-click="contactInfo.delivery.address.selectProvince($event)">
+                    <div class="select-box" ng-show="contactInfo.delivery.address.isShowProvince">
+                      <p class="select-item"
+                         ng-click="contactInfo.delivery.address.clickProvince(province, $event)"
+                         ng-repeat="province in contactInfo.provinceObject.provinces">{{province}}</p>
+                    </div>
+                  </div>
+                  <div class="city box-item">
+                    <input class="text" readonly placeholder="市"
+                           ng-model="contactInfo.delivery.address.city"
+                           ng-click="contactInfo.delivery.address.selectCity($event)">
+                    <div class="select-box" ng-show="contactInfo.delivery.address.isShowCity">
+                      <p class="select-item"
+                         ng-click="contactInfo.delivery.address.clickCity(city, $event)"
+                         ng-repeat="city in contactInfo.delivery.address.cities">{{city}}</p>
+                    </div>
+                  </div>
+                  <div class="region box-item">
+                    <input class="text" readonly placeholder="区"
+                           ng-model="contactInfo.delivery.address.region"
+                           ng-click="contactInfo.delivery.address.selectRegion($event)">
+                    <div class="select-box" ng-show="contactInfo.delivery.address.isShowRegion">
+                      <p class="select-item"
+                         ng-click="contactInfo.delivery.address.clickRegion(region, $event)"
+                         ng-repeat="region in contactInfo.delivery.address.regions">{{region}}</p>
+                    </div>
+                  </div>
+                </div>
+                <input class="info-input"
+                       placeholder="详细地址"
+                       ng-model="contactInfo.delivery.address.street" />
+              </div>
+
+            </div>
+            <div class="item">
+              <span class="info-title">收货时间</span>
+
+              <div>
+                <input type="text" date-range-picker class="info-input date-picker pull-right dropup"
+                       ng-model="contactInfo.delivery.timeRange"
+                       min="contactInfo.delivery.minTime"
+                       options="contactInfo.dateOptions"
+                       readonly
+                       placeholder="请点击输入提货时间"
+                  />
+              </div>
+            </div>
+            <div class="item">
+              <span class="info-title">联系人</span>
+              <input class="info-input" ng-model="contactInfo.delivery.linkMan">
+            </div>
+            <div class="item">
+              <span class="info-title">联系手机</span>
+              <input class="info-input" ng-model="contactInfo.delivery.mobilePhone"
+                     zz-validation
+                     zz-validation-type="mobile">
+            </div>
+            <div class="item">
+              <span class="info-title">联系电话</span>
+              <input class="info-input"
+                     ng-model="contactInfo.delivery.tel"
+                     zz-validation
+                     zz-validation-type="telephone"
+                >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-info payment">
+        <div class="info-header">{{paymentInfo.title}}</div>
+
+        <div class="info-input-container more-option goods payment" ng-repeat="rateItem in paymentInfo.rate">
+          <span class="info-title">{{rateItem.title}}</span>
+          <div class="info-input-keyword">
+            <input class="size-input count"
+                   name="good-count"
+                   ng-model="rateItem.value"
+                   type="text"
+                   ng-change="rateItem.changeCount()"
+                   zz-validation
+                   zz-validation-type="number">
+            <p class="change-count">
+              <span class="up" ng-click="rateItem.increaseCount()"></span>
+              <span class="down" ng-click="rateItem.decreaseCount()"></span>
+            </p>
+            <p class="unit">%</p>
+
+            <div class="slider-box" ng-if="!rateItem.isHideSlide">
+              <p class="cash">现金</p>
+              <div class="options">
+                <span class="left">{{rateItem.cash}}%</span>
+                <slider floor="{{ paymentInfo.floor }}" ceiling="{{ paymentInfo.ceiling }}"
+                        step="{{ paymentInfo.step }}" precision="{{ paymentInfo.precision }}"
+                        translate-fn="translate"
+                        ng-model="rateItem.cash"
+                  ></slider>
+                <span class="right">{{100 - rateItem.cash}}%</span>
+              </div>
+              <p class="card">油卡</p>
+            </div>
+
+            <div class="slider-box fix" ng-if="rateItem.isHideSlide">
+              <p class="cash">现金支付</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="col-sm-3 right-area">
+
+      <div class="group-area">
+        <div class="group-header">发布信息</div>
+        <p class="group-assign-text">将这张标书发布给</p>
+
+        <div class="group-container">
+          <div class="group-item"
+               ng-class="{selected: assignItem.type===publishInfo.type}"
+               ng-click="publishInfo.assignClick(assignItem.type)"
+               ng-repeat="assignItem in publishInfo.assign">
+            {{assignItem.name}}
+          </div>
+        </div>
+
+        <div class="zz-btn-primary order-submit" ng-click="publishInfo.submit()">
+          发布这张标书
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

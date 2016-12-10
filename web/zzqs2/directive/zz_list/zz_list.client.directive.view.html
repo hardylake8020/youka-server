@@ -1,0 +1,90 @@
+<div class="zz-list">
+  <div class="zz-list-shadow-box">
+    <div class="zz-list-header">
+      <div class="zz-list-column zz-list-checkbox" ng-class="config.selectionOptionColumnWidthStyle"
+           ng-show="config.isOptional">
+                <span class="zz-list-checkbox-icon"
+                      ng-class="isSelectedAll?'selected':''"
+                      ng-click="toggleSelectAll();">
+                </span>
+      </div>
+      <div class="zz-list-column zz-list-header-field"
+           ng-repeat="field in config.fields"
+           ng-class="field.columnWidthStyle">
+        <div class="zz-list-header-field-info"><span>{{field.name}}</span>
+                    <span class="zz-list-header-field-action"
+                          ng-show="field.isSort || field.isSearch"
+                          ng-click="onHeaderFieldClick(field,$event)"
+                          ng-class="field.isExpanded ?'expand':''">
+                    </span>
+        </div>
+        <div class="zz-list-header-field-hidden" ng-show="field.isExpanded">
+          <input class="field-search" placeholder="搜索" ng-model="field.keyword" ng-click="$event.stopPropagation()"
+                 ng-show="field.isSearch"/>
+
+          <div class="field-search-submit" ng-click="onSearchItemSubmit(field)" ng-show="field.isSearch"></div>
+          <div class="zz-list-header-field-sort-item"
+               ng-click="onSortItemClick(field,item)"
+               ng-repeat="item in field.sortList">
+            {{item.text}}
+          </div>
+        </div>
+      </div>
+      <div class="zz-list-column zz-list-header-field-setting" ng-class="config.handleOptionColumnWidthStyle"
+           ng-show="config.isFieldSetting">
+        <span class="zz-list-header-field-setting-icon"
+              ng-show="config.selectOptions"
+              ng-click="onFieldOptionButtonClick($event)"></span>
+        <div class="drop-select" ng-show="isShowFieldOption" ng-click="onFieldSettingAreaClick($event)">
+          <p class="select-item"
+             ng-class="{'selected': field.isSelected}"
+             ng-repeat="field in config.selectOptions"
+             ng-click="onFiledOptionColumnClick(field, $event)">{{field.key}}</p>
+
+          <p class="tip">最多可选{{config.fields_length}}项</p>
+        </div>
+      </div>
+    </div>
+    <div class="zz-list-body">
+      <div class="zz-list-row" ng-class="{unEdited:row.rowConfig.unEdited==true, unHandled: row.rowConfig.isUnHandled}" ng-repeat="row in config.rows"
+           ng-init="index=$index">
+        <div class="zz-list-row-info" ng-show="!row.isExpand" ng-click="onRowClick(row);"
+             ng-class="row.selected && !row.rowConfig.notOptional ? 'selected':(row.rowConfig.notOptional ? 'disabled':'')">
+          <div class="zz-list-column zz-list-checkbox" ng-class="config.selectionOptionColumnWidthStyle"
+               ng-show="config.isOptional"><span
+            class="zz-list-checkbox-icon" ng-click="onRowSelected(row, $event)"></span></div>
+          <div class="zz-list-column" ng-repeat="field in config.fields"
+               ng-class="field.columnWidthStyle"><span
+            title="{{row.columns[field.value]}}">{{row.columns[field.value]}}</span>
+          </div>
+          <div class="zz-list-column zz-list-row-actions" ng-class="config.handleOptionColumnWidthStyle">
+            <button class="zz-list-action-button" ng-click="onRowExpand(row);"
+                    ng-show="row.rowExpand && row.rowExpand.enable !== 'undefined' ? row.rowExpand.enable : config.rowExpand.enable">
+              {{row.rowConfig.expandText ? row.rowConfig.expandText :config.rowExpand.expandText}}
+            </button>
+            <a class="zz-list-action-self-button"
+               ng-repeat="selfButton in row.rowConfig.selfButtons"
+               ng-click="selfButton.clickHandle(row, $event);"
+               ng-class="selfButton.className"
+               title="{{selfButton.title}}">{{selfButton.text}}</a>
+            <a class="zz-list-action-a zz-list-action-a-update" ng-show="row.rowConfig.isShowUpdateButton" ng-click="onRowInfoEdit(row);"></a>
+            <a class="zz-list-action-a zz-list-action-a-delete" ng-show="row.rowConfig.isShowDeleteButton" ng-click="onRowDelete(row);"></a>
+          </div>
+        </div>
+        <div class="zz-list-row-info-hidden" ng-show="row.isExpand" ng-class="row.isExpand ? 'expand':''">
+          <div ng-transclude></div>
+          <button
+            ng-show="row.rowConfig.selfCloseButton !== 'undefined' && row.rowConfig.selfCloseButton !== null ? row.rowConfig.selfCloseButton : !config.rowExpand.selfCloseButton"
+            class="zz-list-action-button zz-list-row-info-hidden-cancel"
+            ng-click="row.isExpand = !row.isExpand">{{row.rowExpand.cancelText ?
+            row.rowConfig.cancelText : config.rowExpand.cancelText}}
+          </button>
+        </div>
+        <p class="new"></p>
+      </div>
+    </div>
+  </div>
+  <div class="zz-list-footer" ng-show="config.isShowPagination">
+    <zz-pagination config="config.pagination"></zz-pagination>
+  </div>
+</div>

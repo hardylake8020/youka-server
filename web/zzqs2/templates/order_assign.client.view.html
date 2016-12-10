@@ -1,0 +1,129 @@
+<div class="zz-order-assign-container">
+
+<div class="zz-mask-layer" ng-if="orderInfo.showAssignDialog"></div>
+<div class="zz-assign-contact-dialog" ng-if="orderInfo.showAssignDialog">
+  <form name="orderAssign">
+    <div class="row contact-body">
+      <div class="col-sm-5 left-area">
+        <div class="title">提货信息</div>
+        <div class="content">
+          <div class="input-row">
+            <div class="input-title">时间</div>
+            <div>
+              <input type="text" date-range-picker class="input-content date-picker"
+                     ng-model="orderInfo.curPath.pickupTimeRange"
+                     min="orderInfo.PickUpMinTime"
+                     options="orderInfo.dateOptions"
+                  />
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-title">地址</div>
+            <input class="input-content "
+                   name="pickup_contact_address"
+                   ng-model="orderInfo.curPath.pickup_contact_address"/>
+
+          </div>
+          <div class="input-row">
+            <div class="input-title">联系人</div>
+            <input class="input-content" name="pickup_contact_name"
+                   ng-model="orderInfo.curPath.pickup_contact_name">
+          </div>
+          <div class="input-row">
+            <div class="input-title">手机</div>
+            <input class="input-content" name="pickup_contact_mobile_phone"
+                   ng-model="orderInfo.curPath.pickup_contact_mobile_phone">
+          </div>
+          <div class="input-row">
+            <div class="input-title">电话</div>
+            <input class="input-content" name="pickup_contact_phone"
+                   ng-model="orderInfo.curPath.pickup_contact_phone">
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-2 split">
+        <img ng-src="images/icon/order_assign/assign-arrow.png"/>
+      </div>
+      <div class="col-sm-5 right-area">
+        <div class="title">交货信息</div>
+        <div class="content">
+          <div class="input-row">
+            <div class="input-title">时间</div>
+            <div>
+              <input  type="text" date-range-picker  class="input-content date-picker"
+                     ng-model="orderInfo.curPath.deliveryTimeRange"
+                     min="orderInfo.deliveryMinTime"
+                     options="orderInfo.dateOptions"
+                  />
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-title">地址</div>
+            <input class="input-content" name="delivery_contact_address"
+                   ng-model="orderInfo.curPath.delivery_contact_address"/>
+          </div>
+          <div class="input-row">
+            <div class="input-title">联系人</div>
+            <input class="input-content" name="delivery_contact_name"
+                   ng-model="orderInfo.curPath.delivery_contact_name">
+          </div>
+          <div class="input-row">
+            <div class="input-title">手机</div>
+            <input class="input-content" name="delivery_contact_mobile_phone"
+                   ng-model="orderInfo.curPath.delivery_contact_mobile_phone">
+          </div>
+          <div class="input-row">
+            <div class="input-title">电话</div>
+            <input class="input-content" name="delivery_contact_phone"
+                   ng-model="orderInfo.curPath.delivery_contact_phone">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="contact-footer">
+      <div class="row center-area">
+        <div class="col-sm-6 select-Partner">
+          <select ng-model="orderInfo.selectedPartner"
+                  ng-change="clickPartner()">
+            <option value="" ng-selected="true">分配给司机或供应商</option>
+            <optgroup label="合作公司">
+              <option ng-repeat="partnerCompany in orderInfo.partnerCompanys"
+                      value="{{partnerCompany}}"
+                      ng-selected="orderInfo.curPath.partner_name && (orderInfo.curPath.partner_name==partnerCompany.company.name || orderInfo.curPath.partner_name==partnerCompany.partner.name)"
+                  >
+                {{partnerCompany.company.name?partnerCompany.company.name:partnerCompany.partner.name}}
+              </option>
+            </optgroup>
+            <optgroup label="合作司机">
+              <option
+                  value="{{partnerDriver}}"
+                  ng-selected="orderInfo.curPath.partner_name==partnerDriver.driver.username"
+                  ng-repeat="partnerDriver in orderInfo.partnerDrivers"
+                  >
+                {{partnerDriver.driver.username}} {{partnerDriver.driver.nickname}}
+              </option>
+            </optgroup>
+
+          </select>
+        </div>
+        <div class="col-sm-3 contact-btn">
+          <div class=" contact-submit" ng-click="hideAssignDialog(orderAssign.$valid)">确认分段信息</div>
+        </div>
+        <div class="col-sm-3 contact-btn">
+          <div class=" contact-submit" ng-click="cancelAssignDialog()">取消</div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div ng-include="'templates/order_batch_assign_client.view.html'"></div>
+<zz-range-date-picker></zz-range-date-picker>
+<div class="center-area">
+  <zz-list config="orders.config">
+    <zz-order-assign></zz-order-assign>
+  </zz-list>
+</div>
+</div>
+

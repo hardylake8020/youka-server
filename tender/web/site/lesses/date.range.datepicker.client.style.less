@@ -1,0 +1,74 @@
+body {
+
+  .daterangepicker.dropdown-menu.show-calendar.opensright {
+    width: 670px;
+    height: 305px;
+  }
+  .daterangepicker.dropdown-menu {
+    width: 670px;
+    height: 305px;
+
+    .calendar.left {
+      position: absolute;
+      left: 0;
+      width: 235px;
+      float: none;
+    }
+    .calendar.right {
+      position: absolute;
+      left: 245px;
+      width: 235px;
+      float: none;
+    }
+    .ranges {
+      position: absolute;
+      height: 100%;
+      width: 160px;
+      left: 495px;
+      float: none;
+    }
+  }
+
+  .daterangepicker.opensleft .ranges, .daterangepicker.opensleft .calendar {
+    margin: 6px;
+  }
+  .daterangepicker .ranges .range_inputs>div:nth-child(2) {
+    padding-left: 0;
+  }
+  .daterangepicker .ranges .range_inputs>div {
+    float: none;
+    padding-left: 0;
+  }
+
+  .daterangepicker .ranges .input-mini {
+    width: 100%;
+    font-size: 14px;
+    color: #666;
+  }
+  .daterangepicker_end_input {
+    padding-left: 0;
+  }
+
+  .daterangepicker .ranges .range_inputs button {
+    position: absolute;
+    bottom: 16px;
+    height: 30px;
+    width: 55px;
+    font-size: 14px;
+
+    &.btn-default {
+      background-color: #fff;
+      color: #666;
+    }
+    &.btn-success {
+      background: #357ebd;
+      color: #fff;
+      margin-left: 70px;
+      border-color: #357ebd;
+      &:hover {
+        opacity: 0.8;
+        border-color: #357ebd;
+      }
+    }
+  }
+}

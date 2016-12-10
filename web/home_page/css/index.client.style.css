@@ -1,0 +1,718 @@
+body {
+  background-color: #f2f2f2;
+  width: 100%;
+  transition: right 0.3s;
+  -moz-transition: right 0.3s;
+  -webkit-transition: right 0.3s;
+  -o-transition: right 0.3s;
+}
+body a {
+  text-decoration: none;
+  color: #ffffff;
+}
+body .wrap-background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -100;
+}
+body .wrap-background .p-background {
+  width: 100%;
+  height: 100%;
+  background: url("../../home_page/images/bg_operation.png") no-repeat top;
+  background-position: center 0;
+  background-size: cover;
+  min-height: 680px;
+}
+body .operation {
+  color: #ffffff;
+}
+body .operation .zz-home-header {
+  z-index: 100;
+  width: 100%;
+  margin: 0 auto;
+  background: none;
+  box-shadow: none;
+  position: static;
+  -webkit-transition-property: background;
+  -moz-transition-property: background;
+  -ms-transition-property: background;
+  -o-transition-property: background;
+  transition-property: background;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -ms-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+body .operation .zz-home-header .navigation .logo .photo {
+  background: url("../../home_page/images/logo.png") no-repeat center;
+}
+body .operation .zz-home-header .navigation .user-operation .signup {
+  display: inline-block;
+  background: none;
+}
+body .operation .zz-home-header .navigation .user-operation .signup:hover {
+  -webkit-box-shadow: 0 0 0 2px #ffffff;
+  -moz-box-shadow: 0 0 0 2px #ffffff;
+  box-shadow: 0 0 0 2px #ffffff;
+}
+body .operation .zz-home-header .navigation .user-operation .login {
+  display: none;
+}
+body .operation .zz-home-header .navigation .link .item {
+  color: #fff;
+}
+body .operation .zz-home-header.zz-home-header-two {
+  z-index: 100;
+  width: 100%;
+  margin: 0 auto;
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+body .operation .zz-home-header.zz-home-header-two .navigation {
+  background: transparent;
+}
+body .operation .zz-home-header.zz-home-header-two .navigation .user-operation .signup {
+  color: #ffffff;
+  background-color: #0078c6;
+  border: none;
+}
+body .operation .zz-home-header.zz-home-header-two .navigation .user-operation .signup:hover {
+  -webkit-box-shadow: 0 0 0 2px #8dcaf1;
+  -moz-box-shadow: 0 0 0 2px #8dcaf1;
+  box-shadow: 0 0 0 2px #8dcaf1;
+  background-color: #1b95e4;
+  border: 1px solid #1b95e4;
+}
+body .operation .zz-home-header.zz-home-header-two .navigation .logo .photo {
+  background: url("../../home_page/images/logo_black.png") no-repeat center;
+}
+body .operation .zz-home-header.zz-home-header-two .navigation .link .item {
+  color: #666666;
+}
+body .operation .operation-title-one {
+  font-size: 32px;
+  text-align: center;
+  margin: 100px auto 15px;
+}
+body .operation .operation-title-two {
+  font-size: 60px;
+  font-weight: bolder;
+  text-align: center;
+  margin: 15px 30px 120px 30px;
+}
+body .operation .operation-signin {
+  border-radius: 10px;
+  background-color: rgba(0, 46, 75, 0.5);
+  overflow: hidden;
+  margin: 0 auto 50px;
+  width: 65%;
+  max-width: 960px;
+}
+body .operation .operation-signin .signin-title {
+  padding: 0px 45px;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+}
+body .operation .operation-signin .signin-title span {
+  display: block;
+  text-align: left;
+  margin: 24px 0;
+  color: #a4b5c5;
+}
+body .operation .operation-signin .signin-content {
+  margin-left: 33px;
+  margin-right: 33px;
+  text-align: center;
+}
+body .operation .operation-signin .signin-content .username,
+body .operation .operation-signin .signin-content .password {
+  display: inline-block;
+  height: 40px;
+  outline: none;
+  padding: 0px 15px;
+  margin-bottom: 20px;
+  width: 100%;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: left;
+  color: #000;
+}
+body .operation .operation-signin .signin-content .signin {
+  color: #ffffff;
+  background-color: #52be8d;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: none;
+  text-align: center;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+  cursor: pointer;
+}
+body .operation .operation-signin .signin-content .signin:hover {
+  -webkit-box-shadow: 0 0 0 3px #b4efd4;
+  -moz-box-shadow: 0 0 0 3px #b4efd4;
+  box-shadow: 0 0 0 3px #b4efd4;
+  background-color: #69e0aa;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -ms-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+body .operation .operation-signin .error {
+  background: none;
+  color: #fa9600;
+  border: none;
+  display: block;
+  overflow: hidden;
+  margin: 0px 45px 15px 45px;
+  visibility: visible;
+  text-align: left;
+  font-size: 12px;
+}
+body .operation .operation-signin .error.zz-hidden {
+  visibility: collapse;
+}
+body .wrap-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 100%;
+}
+body .wrap-container .video-container {
+  background-color: #ffffff;
+  width: 100%;
+  padding-top: 100px;
+}
+body .wrap-container .video-container .video-container-title {
+  font-size: 36px;
+  font-weight: bolder;
+  text-align: center;
+  margin: 0px;
+  height: 36px;
+  line-height: 26px;
+}
+body .wrap-container .video-container .video-container-contents {
+  text-align: center;
+  margin: 30px auto 60px;
+  width: 60%;
+  font-size: 16px;
+  color: #666666;
+  line-height: 24px;
+}
+body .wrap-container .video-container .download-ppt {
+  width: 350px;
+  margin: 0px auto 60px auto;
+  height: 40px;
+}
+body .wrap-container .video-container .download-ppt .chinese-ppt,
+body .wrap-container .video-container .download-ppt .english-ppt {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+  line-height: 40px;
+  color: #0078c6;
+  border: 2px solid #0078c6;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+}
+body .wrap-container .video-container .download-ppt .chinese-ppt .icon,
+body .wrap-container .video-container .download-ppt .english-ppt .icon {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  background: url("../images/index/icon-download.png") no-repeat center;
+  float: right;
+  margin: 8px 13px 0 0;
+}
+body .wrap-container .video-container .download-ppt .chinese-ppt:hover,
+body .wrap-container .video-container .download-ppt .english-ppt:hover {
+  -webkit-box-shadow: 0 0 0 3px #8dcaf1;
+  -moz-box-shadow: 0 0 0 3px #8dcaf1;
+  box-shadow: 0 0 0 3px #8dcaf1;
+  color: #1b95e4;
+  border: 2px solid #8dcaf1;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -ms-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+body .wrap-container .video-container .download-ppt .chinese-ppt {
+  float: left;
+}
+body .wrap-container .video-container .download-ppt .english-ppt {
+  float: right;
+}
+body .wrap-container .video-container .device {
+  text-align: center;
+  margin: 0 auto;
+}
+body .wrap-container .description {
+  width: 100%;
+  overflow: hidden;
+  background-color: #e4f5ff;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+body .wrap-container .description .description-title {
+  font-size: 36px;
+  font-weight: bolder;
+  text-align: center;
+  margin: 0 auto;
+  height: 32px;
+  line-height: 32px;
+}
+body .wrap-container .description .level {
+  width: 100%;
+  max-width: 1160px;
+  height: 82px;
+  font-size: 12px;
+  margin: 65px auto 70px;
+  padding: 0 30px;
+}
+body .wrap-container .description .level .level-title {
+  font-size: 16px;
+  height: 16px;
+  line-height: 16px;
+  font-weight: bolder;
+  margin: 0px;
+  color: #333333;
+}
+body .wrap-container .description .level .level-container {
+  margin: 10px 0px 0px 0px;
+  color: #999999;
+  height: auto;
+  line-height: 22px;
+  font-size: 14px;
+}
+body .wrap-container .description .level .location,
+body .wrap-container .description .level .message,
+body .wrap-container .description .level .electronic,
+body .wrap-container .description .level .plate,
+body .wrap-container .description .level .delivery,
+body .wrap-container .description .level .insurance,
+body .wrap-container .description .level .credit,
+body .wrap-container .description .level .financial {
+  padding-left: 110px;
+  width: 90%;
+  height: 82px;
+  text-align: left;
+  margin-top: 40px;
+  min-height: 100px;
+  padding-top: 15px;
+}
+body .wrap-container .description .level .location {
+  background: url("../images/index/icon_dingwei.png") no-repeat left;
+}
+body .wrap-container .description .level .message {
+  float: right;
+  background: url("../images/index/icon_tuisong.png") no-repeat left;
+}
+body .wrap-container .description .level .electronic {
+  background: url("../images/index/icon_dianzi.png") no-repeat left;
+}
+body .wrap-container .description .level .plate {
+  float: right;
+  background: url("../images/index/icon_chepai.png") no-repeat left;
+}
+body .wrap-container .description .level .delivery {
+  background: url("../images/index/icon_saoma.png") no-repeat left;
+}
+body .wrap-container .description .level .insurance {
+  float: right;
+  background: url("../images/index/icon_baoxian.png") no-repeat left;
+}
+body .wrap-container .description .level .credit {
+  background: url("../images/index/icon_xinyong.png") no-repeat left;
+}
+body .wrap-container .description .level .financial {
+  float: right;
+  background: url("../images/index/icon_jingrong.png") no-repeat left;
+}
+body .wrap-container .partner {
+  background-color: #ffffff;
+  padding-top: 100px;
+  padding-bottom: 50px;
+  overflow: hidden;
+}
+body .wrap-container .partner .partner-title {
+  font-size: 36px;
+  font-weight: bolder;
+  text-align: center;
+  margin: 0px;
+  line-height: 36px;
+  padding-bottom: 40px;
+}
+body .wrap-container .partner .partner-container {
+  text-align: center;
+  padding-bottom: 75px;
+  font-size: 16px;
+  color: #666666;
+  line-height: 24px;
+}
+body .wrap-container .partner .company {
+  width: 100%;
+  max-width: 1160px;
+  height: 100%;
+  text-align: center;
+  margin: 0 auto 20px auto;
+  padding: 0 10px;
+}
+body .wrap-container .partner .company .industry {
+  color: #333333;
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  background-size: 135px 50px;
+}
+body .wrap-container .app-download {
+  width: 100%;
+  background: url("../images/index/download_bg.jpg") no-repeat;
+  padding-top: 100px;
+  padding-bottom: 40px;
+}
+body .wrap-container .app-download .app-download-title {
+  font-weight: bolder;
+  font-size: 36px;
+  color: #ffffff;
+  text-align: center;
+  height: 32px;
+  line-height: 32px;
+  margin: 0px 0px 40px 0px;
+}
+body .wrap-container .app-download .download-button {
+  margin: 0px auto;
+  width: 350px;
+  max-width: 1160px;
+  height: 40px;
+}
+body .wrap-container .app-download .download-button .download-ios {
+  float: left;
+  background: url("../images/index/icon-ios.png") no-repeat 10px;
+}
+body .wrap-container .app-download .download-button .download-android {
+  float: right;
+  background: url("../images/index/icon-android.png") no-repeat 10px;
+}
+body .wrap-container .app-download .download-button .download-ios,
+body .wrap-container .app-download .download-button .download-android {
+  width: 150px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  text-align: center;
+  color: #ffffff;
+  text-decoration: none;
+}
+body .wrap-container .app-download .download-button .download-ios:hover,
+body .wrap-container .app-download .download-button .download-android:hover {
+  -webkit-box-shadow: 0 0 0 3px #ffffff;
+  -moz-box-shadow: 0 0 0 3px #ffffff;
+  box-shadow: 0 0 0 3px #ffffff;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -ms-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+body .wrap-container .app-download .qr-code {
+  width: 180px;
+  height: 180px;
+  display: block;
+  margin: 40px auto;
+}
+body .wrap-container .app-download .download-register {
+  margin: 0 auto;
+  width: 65%;
+  max-width: 1160px;
+  text-align: center;
+  padding-top: 30px;
+}
+body .wrap-container .app-download .download-register .username,
+body .wrap-container .app-download .download-register .password {
+  display: inline-block;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 0px 10px 25px;
+  font-size: 14px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+body .wrap-container .app-download .download-register .register {
+  color: #ffffff;
+  background-color: #52be8d;
+  font-size: 14px;
+  border-radius: 4px;
+  padding: 10px 20px 10px 20px;
+  border: none;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+body .wrap-container .app-download .download-register .register:hover {
+  -webkit-box-shadow: 0 0 0 3px #b4efd4;
+  -moz-box-shadow: 0 0 0 3px #b4efd4;
+  box-shadow: 0 0 0 3px #b4efd4;
+  background-color: #69e0aa;
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -ms-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+body .wrap-container .app-download .download-register .error-tip {
+  background: none;
+  color: red;
+  border: none;
+  visibility: visible;
+  margin: 10px 33px 20px 33px;
+}
+body .wrap-container .app-download .download-register .error-tip.zz-hidden {
+  visibility: collapse;
+}
+body .wrap-container .player-container {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  display: none;
+  z-index: 1002;
+}
+body .wrap-container .player-container .player-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -240px;
+  margin-left: -320px;
+  width: 640px;
+  height: 480px;
+}
+@media (max-width: 767px) {
+  body .operation .zz-home-header .navigation .user-operation .signup {
+    display: none;
+  }
+  body .operation .zz-home-header .navigation .user-operation .menu {
+    background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+  }
+  body .operation .zz-home-header.zz-home-header-two .user-operation .menu {
+    background: url("../../home_page/images/header/header_menu_black.png") no-repeat center;
+  }
+  body .operation .operation-title-one {
+    font-size: 20px;
+    margin: 100px auto 20px;
+  }
+  body .operation .operation-title-two {
+    font-size: 36px;
+    margin: 0px 30px 100px 30px;
+  }
+  body .operation .operation-signin {
+    width: 70%;
+  }
+  body .operation .operation-signin .signin-title {
+    visibility: hidden;
+    margin: 0;
+    height: 30px;
+  }
+  body .operation .operation-signin .signin-title span {
+    margin: 0;
+  }
+  body .operation .operation-signin .signin-content {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  body .operation .operation-signin .error {
+    text-align: center;
+  }
+  body .wrap-container .video-container {
+    padding-top: 80px;
+  }
+  body .wrap-container .video-container .video-container-contents,
+  body .wrap-container .video-container .device {
+    width: 85%;
+  }
+  body .wrap-container .video-container .download-ppt {
+    margin: 0 auto 60px auto;
+    height: 100%;
+  }
+  body .wrap-container .video-container .download-ppt .chinese-ppt,
+  body .wrap-container .video-container .download-ppt .english-ppt {
+    float: none;
+    display: block;
+    margin: 20px auto 30px auto;
+  }
+  body .wrap-container .video-container .download-ppt .english-ppt {
+    margin-bottom: 0;
+  }
+  body .wrap-container .description {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  body .wrap-container .description .description-title {
+    margin: 0 auto 20px;
+  }
+  body .wrap-container .description .level {
+    padding: 0px 30px 0;
+    margin-top: 0px;
+  }
+  body .wrap-container .description .level .location,
+  body .wrap-container .description .level .message,
+  body .wrap-container .description .level .electronic,
+  body .wrap-container .description .level .plate,
+  body .wrap-container .description .level .delivery,
+  body .wrap-container .description .level .insurance,
+  body .wrap-container .description .level .credit,
+  body .wrap-container .description .level .financial {
+    height: 100%;
+    width: 100%;
+  }
+  body .wrap-container .partner {
+    padding-top: 80px;
+  }
+  body .wrap-container .partner .partner-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+  body .wrap-container .partner .company .company-first,
+  body .wrap-container .partner .company .company-second,
+  body .wrap-container .partner .company .company-third,
+  body .wrap-container .partner .company .company-fourth,
+  body .wrap-container .partner .company .company-fifth {
+    margin: 10px 30px;
+  }
+  body .wrap-container .app-download {
+    padding-top: 80px;
+  }
+  body .wrap-container .app-download .app-download-title {
+    margin: 0 0 40px 0;
+  }
+  body .wrap-container .app-download .download-button {
+    height: 100%;
+    padding-bottom: 10px;
+  }
+  body .wrap-container .app-download .download-button .download-ios,
+  body .wrap-container .app-download .download-button .download-android {
+    display: block;
+    margin: 30px auto;
+    float: none;
+  }
+  body .wrap-container .app-download .qr-code {
+    display: none;
+  }
+  body .wrap-container .zz-home-footer .center-area {
+    padding-top: 30px;
+  }
+  body .wrap-container .zz-home-footer .center-area .footer-left,
+  body .wrap-container .zz-home-footer .center-area .cut-line,
+  body .wrap-container .zz-home-footer .center-area .footer-right {
+    display: none;
+  }
+}
+/**769-992*/
+@media (min-width: 768px) and (max-width: 991px) {
+  body .operation {
+    height: 680px;
+  }
+  body .operation .zz-home-header .navigation .user-operation .signup {
+    display: none;
+  }
+  body .operation .zz-home-header .navigation .user-operation .menu {
+    background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+  }
+  body .operation .zz-home-header.zz-home-header-two .user-operation .menu {
+    background: url("../../home_page/images/header/header_menu_black.png") no-repeat center;
+  }
+  body .operation .operation-title-one {
+    font-size: 18px;
+    font-weight: 100;
+  }
+  body .operation .operation-title-two {
+    font-size: 40px;
+    margin-bottom: 90px;
+  }
+  body .operation .operation-signin {
+    width: 70%;
+  }
+  body .operation .operation-signin .signin-title {
+    visibility: hidden;
+    margin: 0;
+    height: 30px;
+  }
+  body .operation .operation-signin .signin-title span {
+    margin: 0;
+  }
+  body .operation .operation-signin .signin-content {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  body .operation .operation-signin .error {
+    text-align: center;
+  }
+  body .description {
+    padding-top: 35px;
+    padding-bottom: 35px;
+  }
+  body .description .level {
+    padding: 0px 30px 0;
+    margin-top: 0px;
+  }
+  body .zz-home-footer .center-area {
+    padding-top: 30px;
+  }
+  body .zz-home-footer .center-area .footer-left,
+  body .zz-home-footer .center-area .cut-line,
+  body .zz-home-footer .center-area .footer-right {
+    display: none;
+  }
+}
+/**993-1200*/
+@media (min-width: 992px) and (max-width: 1199px) {
+  body .description {
+    padding-top: 35px;
+    padding-bottom: 35px;
+  }
+  body .description .level {
+    padding: 0px 30px 0;
+    margin-top: 0px;
+  }
+}
+@media (max-width: 480px) {
+  body .wrap-container .video-container .download-ppt {
+    width: 100%;
+  }
+  body .wrap-container .video-container .download-ppt .chinese-ppt,
+  body .wrap-container .video-container .download-ppt .english-ppt {
+    float: none;
+    display: block;
+    margin: 20px auto;
+  }
+  body .wrap-container .video-container .device {
+    margin-top: 100px;
+  }
+  body .wrap-container .app-download .download-button {
+    width: 100%;
+  }
+}

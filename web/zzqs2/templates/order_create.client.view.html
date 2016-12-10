@@ -1,0 +1,384 @@
+<div class="zz-order-create-container" ng-click="clickPage()">
+  <form name="new_order" class="css-form" novalidate>
+    <div class="row center-area">
+      <div class="col-sm-9 left-area">
+
+        <div class="order-info bottom">
+          <div class="info-header">
+            发布标书
+          </div>
+          <div class="row">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="info-input-container">
+                  <span class="info-title">订单号</span>
+                  <input class="info-input" type="text" name="orderInfo.original_order_number" ng-model="orderInfo.original_order_number" placeholder="请输入订单号">
+                </div>
+              </div>
+              <div class="col-md-6">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">参考单号</span>
+                <input class="info-input" type="text" name="orderInfo.refer_order_number" ng-model="orderInfo.refer_order_number" placeholder="单号之间用逗号分隔">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">发标单位</span>
+                <input class="info-input" type="text" name="orderInfo.refer_order_number" ng-model="orderInfo.refer_order_number" placeholder="单号之间用逗号分隔">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">付款审核人</span>
+                <input class="info-input" type="text" name="orderInfo.refer_order_number" ng-model="orderInfo.refer_order_number" placeholder="单号之间用逗号分隔">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">财务负责人</span>
+                <input class="info-input" type="text" name="orderInfo.refer_order_number" ng-model="orderInfo.refer_order_number" placeholder="单号之间用逗号分隔">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">关注人</span>
+                <input class="info-input" type="text" name="orderInfo.refer_order_number" ng-model="orderInfo.refer_order_number" placeholder="单号之间用逗号分隔">
+              </div>
+            </div>
+          </div>
+          <hr/>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">提货时间</span>
+                <div>
+                  <input type="text" date-range-picker class="info-input date-picker"
+                         ng-model="pageShow.pickUpTimeRange" name="pageShow.pickUpTimeRange"
+                         minDate="pageShow.pickUpMinTime"
+                         options="pageShow.dateOptions"
+                         readonly required
+                         placeholder="请点击输入提货时间"
+                  />
+                  <div class="error" ng-show="submitted || new_order['pageShow.pickUpTimeRange'].$dirty">
+                    <div ng-show="new_order['pageShow.pickUpTimeRange'].$error.required">提货时间是必填项</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">收货时间</span>
+                <div>
+                  <input type="text" date-range-picker class="info-input date-picker"
+                         ng-model="pageShow.deliveryTimeRange" name="pageShow.deliveryTimeRange"
+                         minDate="pageShow.deliveryMinTime"
+                         options="pageShow.dateOptions"
+                         readonly required
+                         placeholder="请点击输入收货时间"
+                  />
+                  <div class="error" ng-show="submitted || new_order['pageShow.deliveryTimeRange'].$dirty">
+                    <div ng-show="new_order['pageShow.deliveryTimeRange'].$error.required">收货时间是必填项</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">提货地址</span>
+                <div class="info-input-keyword">
+                  <input class="info-input" ng-model="orderInfo.pickup_contact_address"
+                         placeholder="请设置提货地址" required name="orderInfo.pickup_contact_address"
+                         ng-keyup="getContractsByKeyword(true)">
+                  <div class="error" ng-show="submitted || new_order['orderInfo.pickup_contact_address'].$dirty">
+                    <div ng-show="new_order['orderInfo.pickup_contact_address'].$error.required">提货地址是必填项</div>
+                  </div>
+                  <div class="customer-panel" ng-show="pickupContactInfo.showPanel==true">
+                    <div class="panel-item" ng-repeat="contact in pickupContactInfo.contacts"
+                         ng-click="clickContactItem(contact,true)">{{contact.brief || contact.detail}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">收货地址</span>
+                <div class="info-input-keyword">
+                  <input class="info-input" ng-model="orderInfo.delivery_contact_address"
+                         placeholder="请设置收货地址" required name="orderInfo.delivery_contact_address"
+                         ng-keyup="getContractsByKeyword(false)">
+                  <div class="error" ng-show="submitted || new_order['orderInfo.delivery_contact_address'].$dirty">
+                    <div ng-show="new_order['orderInfo.delivery_contact_address'].$error.required">收货地址是必填项</div>
+                  </div>
+                  <div class="customer-panel" ng-show="deliveryContactInfo.showPanel==true">
+                    <div class="panel-item" ng-repeat="contact in pickupContactInfo.contacts"
+                         ng-click="clickContactItem(contact,false)">{{contact.brief || contact.detail}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">发货人</span>
+                <input class="info-input" ng-model="orderInfo.pickup_contact_name" name="orderInfo.pickup_contact_name"
+                       placeholder="请输入提货联系人姓名" required>
+                <div class="error" ng-show="submitted || new_order['orderInfo.pickup_contact_name'].$dirty">
+                  <div ng-show="new_order['orderInfo.pickup_contact_name'].$error.required">发货人是必填项</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">收货人</span>
+                <input class="info-input" ng-model="orderInfo.delivery_contact_name"
+                       name="orderInfo.delivery_contact_name" placeholder="请输入收货联系人姓名" required>
+                <div class="error" ng-show="submitted || new_order['orderInfo.delivery_contact_name'].$dirty">
+                  <div ng-show="new_order['orderInfo.delivery_contact_name'].$error.required">收货人是必填项</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">发货手机</span>
+                <input class="info-input" ng-model="orderInfo.pickup_contact_mobile_phone"
+                       zz-validation
+                       zz-validation-type="mobile" placeholder="请输入提货联系人手机">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-input-container">
+                <span class="info-title">收货手机</span>
+                <input class="info-input"
+                       ng-model="orderInfo.delivery_contact_mobile_phone"
+                       zz-validation
+                       zz-validation-type="mobile" placeholder="请输入收货联系人手机">
+              </div>
+            </div>
+          </div>
+          <p class="half-line"></p>
+
+          <div class="info-input-container more-option goods">
+            <span class="info-title">货物信息</span>
+
+            <div class="info-input-keyword" ng-repeat="goodItem in goodsInfo.goods">
+              <input class="info-input goods" placeholder="输入货物名称" type="text" ng-model="goodItem.name" ng-change="goodItem.changeText()">
+
+              <input class="size-input price"
+                     name="good-price"
+                     ng-model="goodItem.price"
+                     type="text"
+                     placeholder="输入单价"
+                     zz-validation
+                     zz-validation-type="number">
+              <p class="price-unit">元</p>
+              <input class="size-input count"
+                     name="good-count"
+                     ng-model="goodItem.count"
+                     type="text"
+                     zz-validation
+                     zz-validation-type="number">
+              <p class="change-count">
+                <span class="up" ng-click="goodItem.increaseCount1()"></span>
+                <span class="down" ng-click="goodItem.decreaseCount1()"></span>
+              </p>
+              <p class="unit" ng-click="goodItem.clickUnit1($event)">{{goodItem.unit}}</p>
+              <div class="unit-select" ng-show="goodItem.isShowOption">
+                <div class="outside" ng-repeat="outOption in goodsInfo.unitOptions">
+                  <p class="item" ng-click="goodItem.clickUnit($event)">{{outOption.name}}</p>
+
+                  <div class="inside">
+                    <div class="wrapper">
+                      <p class="sub-item"
+                         ng-repeat="inOption in outOption.value"
+                         ng-click="goodItem.unit = inOption">{{inOption}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <input class="size-input count two"
+                     name="good-count"
+                     ng-model="goodItem.count2"
+                     type="text"
+                     zz-validation
+                     zz-validation-type="number">
+              <p class="change-count two">
+                <span class="up" ng-click="goodItem.increaseCount2()"></span>
+                <span class="down" ng-click="goodItem.decreaseCount2()"></span>
+              </p>
+              <p class="unit two" ng-click="goodItem.clickUnit2($event)">{{goodItem.unit2}}</p>
+              <div class="unit-select two" ng-show="goodItem.isShowOption2">
+                <div class="outside" ng-repeat="outOption in goodsInfo.unitOptions">
+                  <p class="item" ng-click="goodItem.clickUnit($event)">{{outOption.name}}</p>
+
+                  <div class="inside">
+                    <div class="wrapper">
+                      <p class="sub-item"
+                         ng-repeat="inOption in outOption.value"
+                         ng-click="goodItem.unit2 = inOption">{{inOption}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <input class="size-input count three"
+                     name="good-count"
+                     ng-model="goodItem.count3"
+                     type="text"
+                     zz-validation
+                     zz-validation-type="number">
+              <p class="change-count three">
+                <span class="up" ng-click="goodItem.increaseCount3()"></span>
+                <span class="down" ng-click="goodItem.decreaseCount3()"></span>
+              </p>
+              <p class="unit three" ng-click="goodItem.clickUnit3($event)">{{goodItem.unit3}}</p>
+              <div class="unit-select three" ng-show="goodItem.isShowOption3">
+                <div class="outside" ng-repeat="outOption in goodsInfo.unitOptions">
+                  <p class="item" ng-click="goodItem.clickUnit($event)">{{outOption.name}}</p>
+
+                  <div class="inside">
+                    <div class="wrapper">
+                      <p class="sub-item"
+                         ng-repeat="inOption in outOption.value"
+                         ng-click="goodItem.unit3 = inOption">{{inOption}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="remove" ng-show="goodItem.canDelete" ng-click="goodsInfo.removeGoodsItem($index)"></p>
+            </div>
+
+            <p class="add" ng-class="{able: goodsInfo.canAdd}" ng-click="goodsInfo.addPageGoodsItem()">添加更多</p>
+          </div>
+
+          <p class="half-line"></p>
+
+          <div class="info-input-container">
+            <span class="info-title">运费</span>
+            <input class="info-input" type="text"
+                   ng-model="orderInfo.freight_charge"
+                   zz-validation
+                   zz-validation-type="number">
+          </div>
+
+          <div class="info-input-container bottom">
+            <span class="info-title">备注</span>
+            <input class="info-input" type="text" ng-model="orderInfo.description"
+                   style="width:100%;max-width: none;">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3 right-area">
+        <div class="group-area">
+          <div class="group-header">提交信息</div>
+          <!--<div class="user-profile">-->
+            <!--<div class="setting-item row">-->
+              <!--<span class="col col-xs-6 text">提货时强制执行:</span>-->
+
+              <!--<div class="col col-xs-6 operate row">-->
+                <!--<label class="col col-xs-6 label-item" ng-class="{'selected': orderInfo.pickup_entrance_force}"-->
+                       <!--ng-click="pickupEntranceHandle()">进场</label>-->
+                <!--<label class="col col-xs-6 label-item" ng-class="{'selected': orderInfo.pickup_photo_force}"-->
+                       <!--ng-click="pickupPhotoHandle()">拍照</label>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="setting-item row">-->
+              <!--<span class="text col col-xs-6">交货时强制执行:</span>-->
+
+              <!--<div class="col col-xs-6 operate row">-->
+                <!--<label class="col col-xs-6 label-item" ng-class="{'selected': orderInfo.delivery_entrance_force}"-->
+                       <!--ng-click="deliveryEntranceHandle()">进场</label>-->
+                <!--<label class="col col-xs-6 label-item" ng-class="{'selected': orderInfo.delivery_photo_force}"-->
+                       <!--ng-click="deliveryPhotoHandle()">拍照</label>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+
+          <p class="group-assign-text">分配到</p>
+
+          <div class="group-container">
+            <div class="group-item"
+                 ng-repeat="groupItem in executeGroups"
+                 ng-class="{selected:newInfo.currentGroup.name==groupItem.name}"
+                 ng-click="clickGroup(groupItem)">
+              {{groupItem.name=='default_group'?'全体组':groupItem.name}}
+            </div>
+          </div>
+
+          <p class="group-assign-text">推送配置</p>
+          <div class="push-profile">
+
+            <div class="push-item abnormal-push row">
+              <p class="text col col-xs-6">类型</p>
+              <div>
+                <input type="radio" name="order-type" ng-click="pushConfig.order_transport_type = 'ltl'" ng-checked="pushConfig.order_transport_type === 'ltl'"/>
+                <span>零担</span>
+                <input type="radio" name="order-type" ng-click="pushConfig.order_transport_type = 'tl'" ng-checked="pushConfig.order_transport_type === 'tl'"/>
+                <span>整车</span>
+              </div>
+            </div>
+
+
+            <div class="push-item abnormal-push row">
+              <p class="text col col-xs-6">问题运单推送</p>
+              <zz-switch class="col col-xs-6" config="pushConfig.abnormal_push"></zz-switch>
+            </div>
+
+            <div class="push-item create-push row">
+              <p class="text col col-xs-6">创建运单通知</p>
+              <zz-switch class="col col-xs-6" config="pushConfig.create_push"></zz-switch>
+            </div>
+
+            <div class="push-item pickup-push row">
+              <p class="text col col-xs-6">发货通知</p>
+              <zz-switch class="col col-xs-6" config="pushConfig.pickup_push"></zz-switch>
+            </div>
+
+            <div class="push-item delivery-sign-push row">
+              <p class="text col col-xs-6">到货通知</p>
+              <zz-switch class="col col-xs-6" config="pushConfig.delivery_sign_push"></zz-switch>
+            </div>
+
+            <div class="push-item abnormal-push row">
+              <p class="text col col-xs-6">送达通知</p>
+              <zz-switch class="col col-xs-6" config="pushConfig.delivery_push"></zz-switch>
+            </div>
+
+            <div class="push-item pickup-time row">
+              <p class="text col col-xs-6">提货滞留时间</p>
+              <input class="input-text col col-xs-4"
+                     ng-model="orderInfo.pickup_deferred_duration"
+                     type="text"
+                     zz-validation
+                     zz-validation-type="number">
+              <p class="unit col col-xs-2">小时</p>
+            </div>
+            <div class="push-item delivery-time row">
+              <p class="text col col-xs-6">到货提前时间</p>
+              <input class="input-text col col-xs-4"
+                     ng-model="orderInfo.delivery_early_duration"
+                     type="text"
+                     zz-validation
+                     zz-validation-type="number">
+              <p class="unit col col-xs-2">小时</p>
+            </div>
+          </div>
+
+          <div ng-disabled="new_order.$invalid" class="zz-btn-primary order-submit" ng-click="submitOrder(new_order)">{{order.submit_name}}</div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<link href="favicon.ico" rel="icon"/>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="keywords" content="柱柱签收，物流管理系统，车队系统，第三方物流系统，物流签收， 签收单, 回单，车队管理，车辆管理，TMS，运输管理系统，OTMS，签收"/>
+	<meta content="柱柱签收是国际领先的移动互联网时代的物流，向货主、物流公司、专线公司、车队、司机、收货人
+提供运输全程可视化的物流管理系统，解决传统物流时代回单、签收、物流管理难等问题，
+一封Emai,一个APP，极速链接各类合作伙伴和司机。" name="description"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<link rel="icon" type="image/x-icon" href="../../home_page/images/favicon.ico">
+
+	<script type="text/javascript" src="../../libraries/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="../../libraries/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../zz_supports/js/jquery.tmpl.min.js"></script>
+	<script type="text/javascript" src="http://7xjfim.com2.z0.glb.qiniucdn.com/Iva.js"></script>
+	<script type="text/javascript" src="../../zz_supports/js/global.client.support.js"></script>
+
+	<script type="text/javascript" src="../../home_page/controllers/import.client.controller.js"></script>
+	<script type="text/javascript" src="../../home_page/controllers/tutorial.client.controller.js"></script>
+	<script type="text/javascript" src="../../home_page/controllers/sliding_menu.client.controller.js"></script>
+	<script type="text/javascript" src="../../home_page/controllers/header.client.controller.js"></script>
+
+
+	<link rel="stylesheet" type="text/css" href="../../libraries/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/header.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/footer.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/global.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/tutorial.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/sliding_menu.client.style.css">
+
+	<title>柱柱签收－使用教程</title>
+</head>
+<body>
+<div class="zz-home-header"></div>
+
+<div class="body-content">
+
+	<div class="description">
+		<div class="title">
+			<img src="../../home_page/images/tutorial/icon_tutorial.png">
+
+			<p class="title-container">使用教程</p>
+
+			<p class="text">还在苦恼如何使用？柱子君开放全新教学平台为您答疑解惑</p>
+		</div>
+
+		<div class="content">
+			<ul class="list-video row"></ul>
+		</div>
+
+	</div>
+</div>
+
+<div class="zz-home-footer"></div>
+
+<div id="template" class="template" style="display: none">
+			<li class="wrap col col-lg-3 col-md-3 col-sm-4 col-xs-12" data-url="${video_url}" data-title="${video_title}" >
+				<div class="video-container">
+					<img class="video" src="${video_cover}">
+					<p class="time-length">${time_length}</p>
+					<!--<img class="mask" src="${video_mask}">-->
+					<p class="mask"></p>
+					<p class="video-title">${video_title}</p>
+				</div>
+			</li>
+</div>
+
+<div class="player-container">
+	<div class="player-wrapper" id="player-wrapper"></div>
+</div>
+</body>
+</html>

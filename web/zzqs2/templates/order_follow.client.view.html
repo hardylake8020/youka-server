@@ -1,0 +1,783 @@
+<div class="zz-order-follow-container">
+  <div class="zz-mask-layer" ng-show="orderDetailInfo.showDialog == true"></div>
+  <div class="mask-container" ng-show="orderDetailInfo.showOrderDetail == true">
+    <div class="row header">
+      <div class="col-xs-10 tabs">
+        <div class="row header-wrap">
+          <div class="col-xs-2 tab" ng-class="orderDetailInfo.currentTab == 'detail'? 'selected': ''"
+               ng-click="changeTab('detail')">运单详情
+          </div>
+          <div class="col-xs-2 tab"
+               ng-class="orderDetailInfo.currentTab == 'assign'? 'selected': ''"
+               ng-click="changeTab('assign')">运单分配
+          </div>
+          <div class="col-xs-2 tab" ng-class="orderDetailInfo.currentTab == 'timeline'? 'selected': ''"
+               ng-click="changeTab('timeline')">时间轴
+          </div>
+          <div class="col-xs-4 tab" ng-class="orderDetailInfo.currentTab == 'map'? 'selected': ''"
+               ng-click="changeTab('map')">
+            地图(GPS点数：{{orderDetailInfo.gpsCount}}，非GPS点数:{{orderDetailInfo.ungpsCount}})
+          </div>
+          <div class="col-xs-2 tab inner-btn" ng-click="exportOrderPdf()"
+               ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status==='completed'">
+            <span class="order-pdf-btn">导出PDF</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-2 close"><span ng-click="close($event);"></span></div>
+    </div>
+    <div class="content">
+
+      <div class="row detail-container evaluation" ng-show="orderDetailInfo.currentTab == 'detail'">
+        <div class="col-xs-4 detail">
+          <div class="item" ng-class="{'unassigned': orderDetailInfo.currentOrderDetail.orderDetail.status === 'unAssigned',
+          'assigning': orderDetailInfo.currentOrderDetail.orderDetail.status === 'assigning',
+          'unpickup': (orderDetailInfo.currentOrderDetail.orderDetail.status === 'unPickuped' || orderDetailInfo.currentOrderDetail.orderDetail.status === 'unPickupSigned'),
+          'undelivery': (orderDetailInfo.currentOrderDetail.orderDetail.status === 'unDeliveried' || orderDetailInfo.currentOrderDetail.orderDetail.status === 'unDeliverySigned'),
+          'completed': orderDetailInfo.currentOrderDetail.orderDetail.status === 'completed',
+          'qrcode-completed': (orderDetailInfo.currentOrderDetail.orderDetail.delivery_by_qrcode === true || orderDetailInfo.currentOrderDetail.orderDetail.delivery_by_qrcode === 'true')
+          }">
+            <span class="name">运单状态:</span>
+            <span class="value"></span>
+          </div>
+
+          <div class="item">
+            <span class="name">运单号:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.number}}</span>
+          </div>
+          <div class="item">
+            <span class="name">参考单号:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.refer_numbers ?orderDetailInfo.currentOrderDetail.orderDetail.refer_numbers:'无'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">订单号:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.original_order_number ?orderDetailInfo.currentOrderDetail.orderDetail.original_order_number:'无'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">发货方:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.sender_name ?orderDetailInfo.currentOrderDetail.orderDetail.sender_name:'未填'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">收货方:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.receiver_name ?orderDetailInfo.currentOrderDetail.orderDetail.receiver_name:'未填'}}</span>
+          </div>
+
+          <div class="item" ng-repeat="goodsItem in orderDetailInfo.currentOrderDetail.orderDetail.goodsInfo">
+            <span class="name">{{goodsItem.title}}</span>
+            <p class="value">
+              <span>{{goodsItem.name}}</span>
+              <span class="unit">{{goodsItem.value}}</span>
+              <span>{{goodsItem.sum}}元</span>
+            </p>
+          </div>
+          <div class="item">
+            <span class="name">运费:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.freight_charge ? orderDetailInfo.currentOrderDetail.orderDetail.freight_charge: '未填'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">货损信息:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.damaged ? '有货损' : '无货损'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">备注:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.description?orderDetailInfo.currentOrderDetail.orderDetail.description:'无'}}</span>
+          </div>
+
+          <div class="halving-line"></div>
+
+          <div class="item">
+            <span class="name">提货地址:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.address ? orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.address: '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">提货时间:</span>
+            <span class="value">{{formatTime(orderDetailInfo.currentOrderDetail.orderDetail.pickup_end_time, 'yy/MM/dd hh:mm', '未填')}}
+            </span>
+          </div>
+
+          <div class="item">
+            <span class="name">提货联系人:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.name ? orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.name : '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">联系人手机:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.mobile_phone ? orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.mobile_phone : '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">联系人固话:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.phone ? orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.phone : '未填'}}</span>
+          </div>
+
+          <div class="halving-line"></div>
+
+          <div class="item">
+            <span class="name">交货地址:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.address ? orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.address: '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">交货时间:</span>
+            <span class="value">{{formatTime(orderDetailInfo.currentOrderDetail.orderDetail.delivery_end_time, 'yy/MM/dd hh:mm', '未填')}}
+            </span>
+          </div>
+
+          <div class="item">
+            <span class="name">交货联系人:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.name ? orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.name : '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">联系人手机:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.mobile_phone ? orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.mobile_phone : '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">联系人固话:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.phone ? orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.phone : '未填'}}</span>
+          </div>
+          <div class="halving-line"></div>
+          <div class="item" ng-repeat="salesman in orderDetailInfo.currentOrderDetail.orderDetail._salesmen">
+            <span class="name">{{$first ? '关注人' : ''}}</span>
+            <p class="value">
+              {{ salesman }}
+            </p>
+          </div>
+          <!--<div class="halving-line"></div>-->
+
+          <!--<div class="item">-->
+          <!--<span class="name">投保状态:</span>-->
+          <!--<span class="value">已购买保险</span>-->
+          <!--</div>-->
+          <!--<div class="item">-->
+          <!--<span class="name">投保时间:</span>-->
+          <!--<span class="value">2015-10-25 14:20</span>-->
+          <!--</div>-->
+          <!--<div class="item">-->
+          <!--<span class="name">保额:</span>-->
+          <!--<span class="value">￥100000</span>-->
+          <!--</div>-->
+          <!--<div class="item">-->
+          <!--<span class="name">保费:</span>-->
+          <!--<span class="value">￥25</span>-->
+          <!--</div>-->
+        </div>
+        <p class="vertical-halving-border-one"></p>
+        <div class="col-xs-8 driver-orders">
+          <div class="assign_order_info" ng-repeat="companyOrder in orderDetailInfo.currentOrderDetail.companyOrdersWithAssignDriver">
+            <div class="order-info" ng-repeat="driverOrder in companyOrder.drivers">
+              <div class="left">
+                <div class="one">
+                  <span class="number">{{driverOrder.number}}</span>
+                  <div class="box">
+                    <p class="vertical-line"></p>
+                    <p class="assign">[ {{driverOrder.create_company.name}} ]<span class="time"> 于{{companyOrder.assign_time_format}}分配给 </span>[ {{driverOrder.execute_driver.nickname || driverOrder.execute_driver.username}} ]</p>
+                  </div>
+                </div>
+                <div class="two" ng-class="{actual: driverOrder.pickup_event_format.isActual}">
+                  <span class="icon"></span>
+                  <div class="box">
+                    <p class="vertical-line"></p>
+                    <p class="content">
+                      <span class="address">{{driverOrder.pickup_event_format.address}}</span>
+                      <span class="time">{{driverOrder.pickup_event_format.time}} {{driverOrder.pickup_event_format.isActual ? '完成提货': '计划完成提货'}}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="three" ng-class="{actual: driverOrder.delivery_event_format.isActual}">
+                  <span class="icon"></span>
+                  <p class="content">
+                    <span class="address">{{driverOrder.delivery_event_format.address}}</span>
+                    <span class="time">{{driverOrder.delivery_event_format.time}} {{driverOrder.delivery_event_format.isActual ? '完成交货' : '计划完成交货'}}</span>
+                  </p>
+                </div>
+              </div>
+              <div class="right" ng-show="driverOrder.status === 'completed'">
+                <p class="value" ng-show="driverOrder.current_evaluation">{{getEvaluationLevel(driverOrder.current_evaluation.level)}}</p>
+                <p class="button" ng-click="evaluateDriver(driverOrder)">{{(!driverOrder.current_evaluation) ? '评价司机' : '修改评价'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row detail-container" ng-show="orderDetailInfo.currentTab == 'assign'">
+        <div class="col-xs-4 detail">
+          <div class="item" ng-class="{'unassigned': orderDetailInfo.currentOrderDetail.orderDetail.status === 'unAssigned',
+          'assigning': orderDetailInfo.currentOrderDetail.orderDetail.status === 'assigning',
+          'unpickup': (orderDetailInfo.currentOrderDetail.orderDetail.status === 'unPickuped' || orderDetailInfo.currentOrderDetail.orderDetail.status === 'unPickupSigned'),
+          'undelivery': (orderDetailInfo.currentOrderDetail.orderDetail.status === 'unDeliveried' || orderDetailInfo.currentOrderDetail.orderDetail.status === 'unDeliverySigned'),
+          'completed': orderDetailInfo.currentOrderDetail.orderDetail.status === 'completed',
+          'qrcode-completed': (orderDetailInfo.currentOrderDetail.orderDetail.delivery_by_qrcode === true || orderDetailInfo.currentOrderDetail.orderDetail.delivery_by_qrcode === 'true')
+          }">
+            <span class="name">运单状态:</span>
+            <span class="value"></span>
+          </div>
+
+          <div class="item">
+            <span class="name">运单号:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.number}}</span>
+          </div>
+          <div class="item">
+            <span class="name">参考单号:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.refer_numbers ?orderDetailInfo.currentOrderDetail.orderDetail.refer_numbers:'无'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">订单号:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.original_order_number ?orderDetailInfo.currentOrderDetail.orderDetail.original_order_number:'无'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">发货方:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.sender_name ?orderDetailInfo.currentOrderDetail.orderDetail.sender_name:'未填'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">收货方:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.receiver_name ?orderDetailInfo.currentOrderDetail.orderDetail.receiver_name:'未填'}}</span>
+          </div>
+
+          <div class="item goods" ng-repeat="goodsItem in orderDetailInfo.currentOrderDetail.orderDetail.goodsInfo">
+            <span class="name">{{goodsItem.title}}</span>
+            <p class="value">
+              <span>{{goodsItem.name}}</span>
+              <span class="unit">{{goodsItem.value}}</span>
+              <span>{{goodsItem.sum}}元</span>
+            </p>
+          </div>
+          <div class="item">
+            <span class="name">运费:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.freight_charge ? orderDetailInfo.currentOrderDetail.orderDetail.freight_charge: '未填'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">货损信息:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.damaged ? '有货损' : '无货损'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">备注:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.description?orderDetailInfo.currentOrderDetail.orderDetail.description:'无'}}</span>
+          </div>
+
+          <div class="halving-line"></div>
+
+          <div class="item">
+            <span class="name">提货地址:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.address ? orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.address: '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">提货时间:</span>
+            <span class="value">{{formatTime(orderDetailInfo.currentOrderDetail.orderDetail.pickup_end_time, 'yy/MM/dd hh:mm', '未填')}}
+            </span>
+          </div>
+
+          <div class="item">
+            <span class="name">提货联系人:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.name ? orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.name : '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">联系人手机:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.mobile_phone ? orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.mobile_phone : '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">联系人固话:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.phone ? orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.phone : '未填'}}</span>
+          </div>
+
+          <div class="halving-line"></div>
+
+          <div class="item">
+            <span class="name">交货地址:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.address ? orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.address: '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">交货时间:</span>
+            <span class="value">{{formatTime(orderDetailInfo.currentOrderDetail.orderDetail.delivery_end_time, 'yy/MM/dd hh:mm', '未填')}}
+            </span>
+          </div>
+
+          <div class="item">
+            <span class="name">交货联系人:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.name ? orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.name : '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">联系人手机:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.mobile_phone ? orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.mobile_phone : '未填'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">联系人固话:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.phone ? orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.phone : '未填'}}</span>
+          </div>
+
+          <!--<div class="halving-line"></div>-->
+
+          <!--<div class="item">-->
+          <!--<span class="name">投保状态:</span>-->
+          <!--<span class="value">已购买保险</span>-->
+          <!--</div>-->
+          <!--<div class="item">-->
+          <!--<span class="name">投保时间:</span>-->
+          <!--<span class="value">2015-10-25 14:20</span>-->
+          <!--</div>-->
+          <!--<div class="item">-->
+          <!--<span class="name">保额:</span>-->
+          <!--<span class="value">￥100000</span>-->
+          <!--</div>-->
+          <!--<div class="item">-->
+          <!--<span class="name">保费:</span>-->
+          <!--<span class="value">￥25</span>-->
+          <!--</div>-->
+        </div>
+
+        <div class="vertical-halving-border-one"></div>
+        <div class="vertical-halving-border-two"></div>
+        <div class="col-xs-8 children-orders" ng-show="orderDetailInfo.currentOrderDetail.status != 'unAssigned'">
+          <div class="assign_order_info"
+               ng-repeat="assignedComapnyOrder in orderDetailInfo.currentOrderDetail.assignedCompanyOrders">
+            <div ng-if="$index == 0" class="company">
+              <div class="info">
+                <span>[{{assignedComapnyOrder.create_company.name}}] 于 {{assignedComapnyOrder.create_time | date: 'yyyy-MM-dd HH:mm:ss'}} {{assignedComapnyOrder.create_company.name == assignedComapnyOrder.execute_company.name ? '创建订单' : '分配订单给'}}</span>
+                <strong>{{assignedComapnyOrder.create_company.name ==
+                  assignedComapnyOrder.execute_company.name ? '' :
+                  assignedComapnyOrder.execute_company.name}}</strong>
+              </div>
+            </div>
+            <div ng-if="$index > 0" class="company">
+              <div class="info">
+                <span>[{{assignedComapnyOrder.create_company.name}}] 于 {{assignedComapnyOrder.create_time | date: 'yyyy-MM-dd HH:mm:ss'}} 分配订单给</span>
+                <strong>{{assignedComapnyOrder.execute_company.name}}</strong>
+              </div>
+            </div>
+            <div class="line"></div>
+            <div class="drivers">
+              <div class="driver" ng-repeat="driverOrder in assignedComapnyOrder.drivers">
+                <div class="point"><span>●</span></div>
+                <div class="info">
+                  <span>[{{driverOrder.create_company.name}}] 于 {{driverOrder.create_time | date: 'yyyy-MM-dd HH:mm:ss'}} 分配订单给</span>
+                  <strong ng-if="driverOrder.execute_driver.nickname">{{driverOrder.execute_driver.nickname}}({{driverOrder.execute_driver.username}})</strong>
+                  <strong ng-if="!driverOrder.execute_driver.nickname">{{driverOrder.execute_driver.username}}</strong>
+                </div>
+                <div class="transport_info">
+                  <div class="pickup">
+                    <strong>{{driverOrder.pickup_contact.address?driverOrder.pickup_contact.address:'未知地址'}}</strong>
+                    <span>{{driverOrder.pickup_start_time_format?driverOrder.pickup_start_time_format:'未知提货开始时间'}}{{driverOrder.pickup_end_time_format?(' ~ '+driverOrder.pickup_end_time_format):' ~ 未知提货结束时间'}}</span>
+                  </div>
+                  <div class="split">⌵</div>
+                  <div class="delivery">
+                    <strong>{{driverOrder.delivery_contact.address?driverOrder.delivery_contact.address:'未知地址'}}</strong>
+                    <span>{{driverOrder.delivery_start_time_format?driverOrder.delivery_start_time_format: '未知交货开始时间'}}{{driverOrder.delivery_end_time_format? (' ~ ' + driverOrder.delivery_end_time_format) : ' ~ 未知交货开始时间'}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline" ng-show="orderDetailInfo.currentTab == 'timeline'">
+        <div class="line"></div>
+        <div class="traces">
+          <div class="trace"
+               ng-repeat="event in orderDetailInfo.currentOrderEventInfo.events | orderBy:'created':true">
+            <div class="trace-type"><span ng-class="event.type"></span></div>
+            <div class="detail" ng-class="{'qrcode-delivery': event.delivery_by_qrcode}">
+              <div class="event-name">{{generateEventTypeDescription(event)}}</div>
+              <div class="description">
+                <span class="username">{{event.driver.nickname? event.driver.nickname : event.driver.username}}{{event.driver.phone?'('+event.driver.phone+'':''}}</span>于
+                <span class="time">{{event.created | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+                <span ng-show="event.type !=='confirm'">在</span>
+                <span class="address" ng-show="event.type !=='confirm'">{{event.address? event.address: ('坐标为('+ event.location[0]+','+event.location[1] +')')}}</span>
+                完成 {{generateEventTypeDescription(event)}}
+              </div>
+
+              <table class="pure-table pure-table-bordered" ng-show="event.type == 'pickup' || event.type == 'delivery'">
+                <thead>
+                <tr><th>货物名</th><th>计划货物数量</th>
+                  <th ng-show="event.type == 'pickup'">实际提货数量</th>
+                  <th ng-show="event.type == 'delivery'">实际交货数量</th><th>备注</th></tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="a in event.compare_goods">
+                  <td><span>{{a.name}}</span></td>
+                  <td><span>{{a.planned}}</span></td>
+                  <td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.actual}}</span></td>
+                  <td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.compare}}</span></td>
+                </tr>
+                </tbody>
+              </table>
+
+              <div class="item damaged"><strong>货损: </strong><span>{{(event.damaged == true || event.damaged == 'true')?'有': '无'}}</span>
+              </div>
+              <div class="item remark">
+                <strong>备注: </strong>
+                          <span class="voice_file" ng-class="{'playing': event.voice_file ? event.audioPlayer.status === 'playing' : false,
+                                  'loaded': event.voice_file ? (event.audioPlayer.status === 'loaded' || event.audioPlayer.status ==='stoped') : false,
+                                  'error': event.voice_file ? event.audioPlayer.status === 'error': false
+                                  }"
+                                ng-click="orders.transportEvent.clickVoice(event)"
+                                ng-show="event.voice_file !== '' && event.audioPlayer.status !== 'error'">
+                            <span class="loading"
+                                  ng-show="event.voice_file !== '' && event.audioPlayer.status === 'unknown'">音频加载中...</span>
+                            <span class="voice_length"
+                                  ng-show="event.voice_file !== '' ? event.audioPlayer.duration > 0 : false">
+                              {{event.voice_file !== '' ? event.audioPlayer.duration : 0}}"
+                            </span>
+                          </span>
+
+                <span ng-show="event.voice_file === '' || event.audioPlayer.status === 'error'">{{event.description?event.description: '无'}}</span>
+              </div>
+              <div class="item barcode" ng-show="event.barcodes !== ''">
+                <strong>扫码: </strong>
+                <span>{{event.barcodes}}</span>
+              </div>
+
+              <div class="photos"
+                   ng-show="event.goods_photos||event.halfway_photos||event.credential_photos">
+                <div class="photo goods" ng-repeat="photo in event.goods_photos">
+                  <div class="tag"><img src="images/icon/order_follow/tag_goods.png"/></div>
+                  <img
+                    ng-src='{{generatePhoto(photo)}}'
+                    ng-click="showPhotos(photo)"
+                    onerror="this.src='images/icon/order_follow/error.jpg'"/>
+                </div>
+                <div class="photo" ng-repeat="photo in event.halfway_photos">
+                  <img ng-src='{{generatePhoto(photo)}}'
+                       ng-click="showPhotos(photo)"
+                       onerror="this.src='images/icon/order_follow/error.jpg'">
+                </div>
+                <div class="photo credential" ng-repeat="photo in event.credential_photos">
+                  <div class="tag"><img src="images/icon/order_follow/tag_credential.png"/></div>
+                  <img
+                    ng-src='{{generatePhoto(photo)}}'
+                    ng-click="showPhotos(photo)"
+                    onerror="this.src='images/icon/order_follow/error.jpg'"/>
+                </div>
+
+                <div class="photo photos" ng-repeat="photo in event.photos">
+                  <!--<div class="tag"><img src="images/icon/order_follow/tag_credential.png"/></div>-->
+                  <div class="tag"><span class="name">{{photo.name}}</span></div>
+                  <img
+                    ng-src='{{generatePhoto(photo.url)}}'
+                    ng-click="showPhotos(photo.url)"
+                    onerror="this.src='images/icon/order_follow/error.jpg'"/>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="trace">
+            <div class="trace-type"><span class="create"></span></div>
+            <div class="detail">
+              <div class="event-name">创建运单</div>
+              <div class="description">
+                            <span class="username">{{orderDetailInfo.currentOrderEventInfo.order.createUserNickname?orderDetailInfo.currentOrderEventInfo.order.createUserNickname:orderDetailInfo.currentOrderEventInfo.order.createUsername}}
+                                    {{orderDetailInfo.currentOrderEventInfo.order.createUserPhone?'('+orderDetailInfo.currentOrderEventInfo.order.createUserPhone+')':''}}
+                            </span>于
+                <span class="time">{{orderDetailInfo.currentOrderEventInfo.order.create_time | date: 'yyyy-MM-dd HH:mm:ss'}} 创建</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row map" ng-show="orderDetailInfo.currentTab == 'map'">
+        <div class="show-gps-btn" ng-click="changeTab('map',true)">只显示
+          GPS
+        </div>
+        <div class="col-sm-12 map-layout" id="orderTraceMap"></div>
+      </div>
+      <div class="photo-container" ng-show="orderDetailInfo.currentTab=='photos'">
+      </div>
+    </div>
+  </div>
+
+  <div class="mask-share-order" ng-show="orderShare.mainShareShow == true">
+    <div class="share-order-edit" ng-show="orderShare.editShareShow == true">
+      <div class="row header">
+        <div class="col-xs-2 title">
+          <span class="text">分享运单</span>
+        </div>
+        <div class="col-xs-2 delete">
+          <span class="close" ng-click="orderShare.closeSharePage()"></span>
+        </div>
+      </div>
+
+      <div class="row orders-checked">
+        <div class="col-xs-12 orders-brief">
+          <span class="order-details text-overflow">{{orderShare.order_number_text}}</span>
+          <span class="order-quantity">共{{orderShare.count}}张运单</span>
+        </div>
+      </div>
+
+      <div class="row view-choice">
+        <div class="col-xs-6 view-staff view-item"
+             ng-class="{'selected':orderShare.staffShareShow == true}" ng-click="orderShare.shareWithStaff()">
+          <span class="text">分享</span>
+        </div>
+        <div class="col-xs-6 view-email view-item"
+             ng-class="{'selected':orderShare.staffShareShow == false}" ng-click="orderShare.shareWithEmail()">
+          <span class="text">分享并邀请</span>
+        </div>
+      </div>
+
+      <div class="edit-container">
+        <div class="edit-with-staff" ng-show="orderShare.staffShareShow == true">
+          <div class="row content">
+            <div class="col-xs-6 company content-item">
+              <ul class="list-group">
+                <li
+                  ng-repeat="company in orderShare.cooperateCompany.allCompany"
+                  ng-class="{selected: orderShare.cooperateCompany.currentCompanyName === company.name}"
+                  ng-click="orderShare.cooperateCompany.clickSingleCompany(company)">{{company.name}}
+                </li>
+              </ul>
+            </div>
+            <div class="col-xs-6 staff content-item">
+              <ul class="list-group ">
+                <li
+                  ng-repeat="staff in orderShare.cooperateCompany.selectedCompanyStaffs">
+                  <input type="checkbox" class="checkbox-inline"
+                         ng-model="staff.isSelected"
+                         ng-click="orderShare.cooperateCompany.clickSingleStaff()"/>
+                  <span>{{staff.nickname}}<{{staff.username}}></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <div class="edit-with-email" ng-show="orderShare.staffShareShow == false">
+          <div class="row email">
+            <div class="col-xs-1 recipients">
+              <span class="text">收信人：</span>
+            </div>
+            <div class="col-xs-11 address">
+              <input class="text" ng-model="orderShare.emailRecipients" placeholder="请输入收件人邮箱"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row bottom">
+        <div class="col-xs-2 share-commit" ng-click="orderShare.clickShare()">
+          <span class="text">分享</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="share-order-finish" ng-show="orderShare.editShareShow == false">
+      <div class="row header">
+        <div class="col-xs-2 title">
+          <span class="text">分享成功</span>
+        </div>
+        <div class="col-xs-2 delete">
+          <span class="close" ng-click="orderShare.closeSharePage()"></span>
+        </div>
+      </div>
+
+      <div class="center-content">
+        <div class="photo">
+          <span class="text"></span>
+        </div>
+        <div class="finish-tip">
+          <span class="text">恭喜您，您已经成功分享{{orderShare.orders.length}}张订单给了</span>
+          <span class="recipients">{{orderShare.allRecipients}}</span>
+          <span class="suffix">{{orderShare.suffix_customer}}</span>
+        </div>
+      </div>
+
+      <div class="row bottom">
+        <div class="col-xs-2 confirm" ng-click="orderShare.closeSharePage()">
+          <span class="text">确定</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="top-header">
+    <div class="center-area">
+      <div class="title">
+        <p class="text">{{orderDetailInfo.currentTitle}}</p>
+      </div>
+      <div class="label">
+        <p class="assign" ng-class="{'current': searchModule.currentLabel === 'assign'}"
+           ng-click="searchModule.changeLabel('assign')">我是创建/分配方</p>
+
+        <p class="receiver" ng-class="{'current': searchModule.currentLabel === 'receiver' }"
+           ng-click="searchModule.changeLabel('receiver')">我是收货方</p>
+
+        <p class="sender" ng-class="{'current': searchModule.currentLabel === 'sender'}"
+           ng-click="searchModule.changeLabel('sender')">我是发货方</p>
+      </div>
+      <div class="actual-option">
+
+        <div class="quick-option">
+          <div class="row quick">
+            <div class="col col-xs-8 search">
+
+              <div class="order-status">
+                <span class="title-text" ng-click="searchModule.showStatusSelect($event)">运单状态</span>
+
+                <div class="drop-select" ng-show="searchModule.isShowStatusSelect">
+                  <p ng-repeat="statusOption in searchModule.statusOptions" class="select-item"
+                     ng-class="{'selected': statusOption.isSelected}"
+                     ng-click="searchModule.statusItemClickHandle(statusOption, $event)">{{statusOption.name}}</p>
+                </div>
+              </div>
+
+              <input ng-class="{'not-empty': searchModule.order_number !== ''}" ng-model="searchModule.order_number"
+                     placeholder="输入运单号/参考单号"/>
+
+              <p class="search-button" ng-click="searchModule.searchHandle()">搜索</p>
+              <span class="more-condition" ng-show="!searchModule.isShowHighSearch"
+                    ng-click="searchModule.showHighSearchHandle()">更多筛选条件</span>
+              <span class="more-condition" ng-show="searchModule.isShowHighSearch"
+                    ng-click="searchModule.hideHighSearchHandle()">精简筛选条件</span>
+            </div>
+
+            <div class="col col-xs-4 button-option">
+              <p ng-disabled="!orders.isShowBatchDelete"
+                 ng-show="searchModule.currentLabel === 'assign'"
+                 class="batch-delete"
+                 ng-class="{'disabled': !orders.isShowBatchDelete}"
+                 ng-click="batchDeleteOrders();">批量删除</p>
+
+              <p ng-disabled="!orders.isShowBatchShare"
+                 ng-class="{'disabled': !orders.isShowBatchShare}"
+                 ng-click="batchWechatShareOrders();">微信分享</p>
+
+              <p ng-disabled="!orders.isShowBatchShare"
+                 ng-class="{'disabled': !orders.isShowBatchShare}"
+                 ng-click="batchEmailShareOrders();">邮件分享</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="high-search" ng-show="searchModule.isShowHighSearch">
+
+          <div class="row search-element">
+
+            <div class="col col-xs-4 second-item">
+              <div class="front">
+                <span class="title-text">实际收货时间</span>
+                <input ng-class="{'not-empty': searchModule.deliveryTimeRange !== ''}"
+                       class="date-picker" readonly date-range-picker
+                       ng-model="searchModule.deliveryTimeRange"
+                       options="searchModule.dateOptions"
+                       placeholder="不限"/>
+                <!--<span class="close" ng-click="searchModule.cleanDeliveryTime($event)"></span>-->
+              </div>
+            </div>
+
+            <div class="col col-xs-3 first-item">
+              <span class="title-text">承运商/司机</span>
+              <input ng-class="{'not-empty': searchModule.executeCompanyorDriver !== ''}"
+                     ng-model="searchModule.executeCompanyorDriver" placeholder="请输入承运商/司机"/>
+            </div>
+
+            <div class="col col-xs-5 third-item">
+              <div class="row">
+                <div class="col col-xs-5 front">
+                  <span class="title-text">收货方</span>
+                  <input ng-class="{'not-empty': searchModule.receiver !== ''}"
+                         ng-model="searchModule.receiver" placeholder="请输入收货方"/>
+                </div>
+                <div class="col col-xs-7 back">
+                  <span class="title-text">货物名称</span>
+                  <input ng-class="{'not-empty': searchModule.goods_name !== ''}" ng-model="searchModule.goods_name"
+                         placeholder="请输入货物名称"/>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row search-element">
+
+            <div class="col col-xs-4 second-item">
+              <div class="front">
+                <span class="title-text">实际发货时间</span>
+                <input ng-class="{'not-empty': searchModule.pickUpTimeRange !== ''}"
+                       class="date-picker" readonly date-range-picker
+                       ng-model="searchModule.pickUpTimeRange"
+                       options="searchModule.dateOptions"
+                       placeholder="不限"/>
+                <!--<span class="close" ng-click="searchModule.cleanPickupTime($event)" ></span>-->
+              </div>
+            </div>
+
+            <div class="col col-xs-3 first-item">
+              <span class="title-text">货损情况</span>
+
+              <div class="right-side">
+
+                <p class="first-content" ng-class="{'not-empty':searchModule.damaged !== '不限'}"
+                   ng-click="searchModule.showDamageSelect($event)">{{searchModule.damaged}}</p>
+
+                <div class="drop-select" ng-show="searchModule.isShowDamageSelect">
+                  <p class="select-item" ng-click="searchModule.damageItemClickHandle('不限')">不限</p>
+
+                  <p class="select-item" ng-click="searchModule.damageItemClickHandle('无')">无
+
+                  <p>
+
+                  <p class="select-item" ng-click="searchModule.damageItemClickHandle('有')">有
+
+                  <p>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col col-xs-5 third-item">
+              <div class="row">
+                <div class="col col-xs-5 front">
+                  <span class="title-text">发货方</span>
+                  <input ng-class="{'not-empty': searchModule.sender !== ''}"
+                         ng-model="searchModule.sender" placeholder="请输入发货方"/>
+                </div>
+                <div class="col col-xs-7 back">
+                  <span class="title-text">备注信息</span>
+                  <input ng-class="{'not-empty': searchModule.description !== ''}"
+                         ng-model="searchModule.description" placeholder="请输入备注信息"/>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row search-element second-row">
+            <div class="col col-xs-4 second-item">
+              <div class="front">
+                <span class="title-text">运单创建时间</span>
+                <input ng-class="{'not-empty': searchModule.createTimeRange !== ''}"
+                       class="date-picker" readonly date-range-picker
+                       ng-model="searchModule.createTimeRange"
+                       options="searchModule.dateOptions"
+                       placeholder="不限"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="center-area">
+    <zz-list config="orders.orderList"></zz-list>
+  </div>
+</div>
+
+<div zz-photo-scan
+     photos="orderDetailInfo.curPhotoList"
+     show="orderDetailInfo.showPhotoScan"
+     start-index="orderDetailInfo.imgIndex">
+</div>

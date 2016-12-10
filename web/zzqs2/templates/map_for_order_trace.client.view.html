@@ -1,0 +1,17 @@
+<div class="zz-map-for-order-trace">
+    <div class="select-layout">
+        <span>当前显示司机最大数量:</span>
+        <select ng-change="filterDriverNumber()"
+                ng-model="mapInit.showDriverNumber">
+            <option selected value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+        </select>
+    </div>
+    <div class="map-layout" id="mapForOrderTrace"></div>
+</div>
+<div zz-photo-scan
+     photos="mapInit.currentPhotos"
+     show="mapInit.showPhotoScan"
+     start-index="mapInit.imgIndex">
+</div>

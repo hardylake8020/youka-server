@@ -1,0 +1,169 @@
+<div class="zz-order-batch-create-container zz-order-create-container" ng-click="clickPage()">
+  <form name="new_order">
+    <div class="row center-area">
+      <div class="col-sm-9 left-area">
+        <div class="order-info">
+          <div class="header">批量创建</div>
+          <div class="content">
+            <div class="reminder">
+              <span class="tip">Excel文件必须符合柱柱格式，否则无法导入！</span>
+            </div>
+            <div class="operation-area">
+              <div class="row">
+                <div class="col col-xs-4 column">
+                  <div class="display-area main allow {{importOrder.main.resultType}}">
+                    <p class="tip-text">{{importOrder.main.message}}</p>
+
+                    <div class="upload-button">
+                      <p class="text">{{importOrder.main.buttonText}}</p>
+                      <input id="main-file-name" class="filename" type="file"
+                             onchange="angular.element(this).scope().importOrder.main.handleFile(this)">
+                    </div>
+                  </div>
+                  <a class="excel-download" ng-href="resources/orderTemplate.xls">模版下载</a>
+                </div>
+
+                <div class="col col-xs-4 column">
+                  <div class="display-area detail {{importOrder.detail.resultType}}"
+                       ng-class="{forbid: importOrder.main.data.length === 0, allow: importOrder.main.data.length > 0}">
+
+                    <p class="tip-text">{{importOrder.detail.message}}</p>
+
+                    <div class="upload-button">
+                      <p class="text">{{importOrder.detail.buttonText}}</p>
+                      <input id="detail-file-name" class="filename" type="file"
+                             ng-disabled="importOrder.main.data.length === 0"
+                             onchange="angular.element(this).scope().importOrder.detail.handleFile(this)">
+                    </div>
+                  </div>
+                  <a class="excel-download" ng-href="resources/orderTemplate-goods.xls">模版下载</a>
+                </div>
+
+                <div class="col col-xs-4 column">
+                  <div class="display-area salesman {{importOrder.salesman.resultType}}"
+                       ng-class="{forbid: importOrder.main.data.length === 0, allow: importOrder.main.data.length > 0}">
+
+                  <p class="tip-text">{{importOrder.salesman.message}}</p>
+
+                    <div class="upload-button">
+                      <p class="text">{{importOrder.salesman.buttonText}}</p>
+                      <input id="salesman-file-name" class="filename" type="file"
+                             ng-disabled="importOrder.main.data.length === 0"
+                             onchange="angular.element(this).scope().importOrder.salesman.handleFile(this)">
+                    </div>
+                  </div>
+                  <a class="excel-download" ng-href="resources/orderTemplate-salesman.xls">模版下载</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3 right-area">
+        <div class="group-area">
+          <div class="group-header">提交信息</div>
+          <!--<div class="user-profile">-->
+            <!--<div class="setting-item row">-->
+              <!--<span class="col col-xs-6 text">提货时强制执行:</span>-->
+
+              <!--<div class="col col-xs-6 operate row">-->
+                <!--<label class="col col-xs-6 label-item" ng-class="{'selected': data.pickup_entrance_force}"-->
+                       <!--ng-click="pickupEntranceHandle()">进场</label>-->
+                <!--<label class="col col-xs-6 label-item" ng-class="{'selected': data.pickup_photo_force}"-->
+                       <!--ng-click="pickupPhotoHandle()">拍照</label>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="setting-item row">-->
+              <!--<span class="text col col-xs-6">交货时强制执行:</span>-->
+
+              <!--<div class="col col-xs-6 operate row">-->
+                <!--<label class="col col-xs-6 label-item" ng-class="{'selected': data.delivery_entrance_force}"-->
+                       <!--ng-click="deliveryEntranceHandle()">进场</label>-->
+                <!--<label class="col col-xs-6 label-item" ng-class="{'selected': data.delivery_photo_force}"-->
+                       <!--ng-click="deliveryPhotoHandle()">拍照</label>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <div class="user-profile order-profile">
+            <div class="setting-item">
+              <div class="operate">
+                <label class="label-item" ng-class="{'selected': data.isOrderMultiAssign}"
+                       ng-click="multiAssignHandle()">运单号相同作多段处理</label>
+              </div>
+            </div>
+          </div>
+
+          <p class="group-assign-text">分配到</p>
+
+          <div class="group-container">
+            <div class="group-item"
+                 ng-repeat="groupItem in data.executeGroups"
+                 ng-class="{selected:data.currentGroup.name === groupItem.name}"
+                 ng-click="clickGroup(groupItem)">
+              {{groupItem.name=='default_group'?'全体组':groupItem.name}}
+            </div>
+          </div>
+
+          <p class="group-assign-text">推送配置</p>
+          <div class="push-profile">
+            <div class="push-item abnormal-push row">
+              <p class="text col col-xs-6">问题运单推送</p>
+              <zz-switch class="col col-xs-6" config="data.abnormal_push"></zz-switch>
+            </div>
+
+
+            <div class="push-item create-push row">
+              <p class="text col col-xs-6">创建运单通知</p>
+              <zz-switch class="col col-xs-6" config="data.create_push"></zz-switch>
+            </div>
+
+            <div class="push-item pickup-push row">
+              <p class="text col col-xs-6">发货通知</p>
+              <zz-switch class="col col-xs-6" config="data.pickup_push"></zz-switch>
+            </div>
+
+            <div class="push-item delivery-sign-push row">
+              <p class="text col col-xs-6">到货通知</p>
+              <zz-switch class="col col-xs-6" config="data.delivery_sign_push"></zz-switch>
+            </div>
+
+            <div class="push-item abnormal-push row">
+              <p class="text col col-xs-6">送达通知</p>
+              <zz-switch class="col col-xs-6" config="data.delivery_push"></zz-switch>
+            </div>
+
+            <div class="push-item pickup-time row">
+              <p class="text col col-xs-6">提货滞留时间</p>
+              <input class="input-text col col-xs-4"
+                     ng-model="data.pickup_deferred_duration"
+                     type="text"
+                     zz-validation
+                     zz-validation-type="number">
+              <p class="unit col col-xs-2">小时</p>
+            </div>
+            <div class="push-item delivery-time row">
+              <p class="text col col-xs-6">到货提前时间</p>
+              <input class="input-text col col-xs-4"
+                     ng-model="data.delivery_early_duration"
+                     type="text"
+                     zz-validation
+                     zz-validation-type="number">
+              <p class="unit col col-xs-2">小时</p>
+            </div>
+          </div>
+
+          <div class="zz-btn-primary order-submit" ng-click="uploadOrders()">批量上传</div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <progressbar class="progress-striped active"
+               ng-show="progressBar.max > 0"
+               max="progressBar.max"
+               value="progressBar.dynamic">
+    <span class="text">{{progressBar.dynamic}} / {{progressBar.max}}</span>
+  </progressbar>
+</div>

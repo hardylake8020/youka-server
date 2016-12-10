@@ -1,0 +1,116 @@
+.zz-order-option {
+  font-size: 12px;
+  color: #333;
+  * {
+    margin: 0;
+  }
+  @left-edge: 180px;
+  @text-height: 25px;
+  .option-header {
+    height: 40px;
+    line-height: 30px;
+    font-size: 13px;
+    color: #000;
+  }
+  .option-body {
+    .item {
+      position: relative;
+      padding-left: @left-edge;
+      margin-bottom: 20px;
+      .name {
+        position: absolute;
+        left: 0;
+        height: @text-height;
+        line-height: @text-height;
+      }
+      .content {
+        position: relative;
+        .zz-switch {
+          display: inline-block;
+          float: left;
+        }
+        .description {
+          display: inline-block;
+          margin-left: 10px;
+          height: @text-height;
+          line-height: @text-height;
+          font-size: 10px;
+          color: #cdcdcd;
+        }
+        .photo-box {
+          @padding-edge: 10px;
+          display: none;
+          margin-top: 10px;
+          padding: @padding-edge @padding-edge 1px @padding-edge;
+          background-color: #f5f5f5;
+          overflow: hidden;
+          .zz-transition(height, 0.5s);
+
+          &.show {
+            display: block;
+          }
+
+          .list {
+
+          }
+          .photo-item {
+            float: left;
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #eee;
+            margin: 0 @padding-edge @padding-edge 0;
+            background-position: center 20px;
+            background-repeat: no-repeat;
+            background-image: url(../../directive/zz_order_option/images/photo.png);
+            .photo-name {
+              display: block;
+              width: 80%;
+              margin: 60px auto 0 auto;
+              border: none;
+              box-shadow: none;
+              outline: none;
+              text-align: center;
+              background-color: #fbfbfb;
+              height: 25px;
+              line-height: 25px;
+              &:focus {
+                background-color: #fff;
+              }
+            }
+            .remove-button {
+              position: absolute;
+              right: -8px;
+              top: -8px;
+              width: 16px;
+              height: 16px;
+              display: none;
+              cursor: pointer;
+              background: url(../../directive/zz_order_option/images/delete.png) no-repeat center center;
+              &:hover {
+                background-image: url(../../directive/zz_order_option/images/delete_hover.png);
+              }
+            }
+
+            &:hover {
+              .remove-button {
+                display: block;
+              }
+            }
+            &.add {
+              cursor: pointer;
+              background-image: url(../../directive/zz_order_option/images/add_photo.png);
+              .photo-name {
+                background-color: inherit;
+              }
+            }
+
+            &.is-plate {
+              background-image: url(../../directive/zz_order_option/images/plate.png);
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "tender",
+  "version": "0.0.1",
+  "authors": [
+    "wayne"
+  ],
+  "description": "柱柱签收招标子系统",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.14",
+    "angular-animate": "~1.3.14",
+    "angular-aria": "~1.3.14",
+    "angularytics": "~0.3.0",
+    "angular-ui-router": "~0.2.13",
+    "angular-messages": "~1.3.14",
+    "highstock": "~3.0.1",
+    "angular-bindonce": "~0.3.3",
+    "angular-local-storage": "~0.1.5",
+    "moment": "^2.10.6",
+    "jquery": "~2.1.3",
+    "bootstrap": "~3.3.4",
+    "angular-bootstrap-datetimepicker": "0.3.15",
+    "angular-daterangepicker": "~0.1.12",
+    "bootstrap-datepicker": "~1.5.1",
+    "react": "~0.14.7",
+    "venturocket-angular-slider": "~0.3.2"
+  },
+  "devDependencies": {},
+  "resolutions": {
+    "angular": "1.3.20",
+    "moment": "^2.10.6"
+  }
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<link href="favicon.ico" rel="icon"/>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="keywords" content="<%= article.html_keywords %>">
+  <meta name="description" content="<%= article.html_description %>">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<link rel="icon" type="image/x-icon" href="../../home_page/images/favicon.ico">
+
+	<script src="../../libraries/jquery/dist/jquery.min.js"></script>
+  <script src="../../zz_supports/js/jquery.tmpl.min.js"></script>
+  <script src="../../libraries/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../zz_supports/js/global.client.support.js"></script>
+	<script src="../../home_page/controllers/import.client.controller.js"></script>
+	<script src="../../home_page/controllers/article.client.controller.js"></script>
+	<script type="text/javascript" src="../../home_page/controllers/sliding_menu.client.controller.js"></script>
+	<script type="text/javascript" src="../../home_page/controllers/header.client.controller.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../../libraries/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/header.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/footer.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/article.client.style.css">
+  <link rel="stylesheet" type="text/css" href="../../home_page/css/global.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/sliding_menu.client.style.css">
+
+
+	<script id="error3" type="text/html" data-value='<%= article.paragraphs %>'></script>
+
+	<title><%= article.html_title %></title>
+</head>
+<body>
+<div class="zz-home-header"></div>
+
+<div class="body-content">
+
+	<div class="description">
+
+    <div class="title">
+			<img src="../../home_page/images/news/icon_news.png">
+
+			<p class="title-container">柱柱资讯</p>
+
+			<p class="text">最新、最热的行业资讯，了解柱柱最新动态</p>
+    </div>
+
+		<div class="description-container">
+			<div class="wrap">
+				<div class="left">
+					<div class="left-container">
+						<p class="article-title"><%= article.article_title %></p>
+						<div class="article-nav">
+							<span>分类：</span>
+							<a class="article-info" href="/home/news">柱柱资讯</a>
+							－
+							<a class="article-info" href="<%= article.currentTabLink %>"><%= article.currentTab %></a>
+							<span class="create-time">发表时间：</span>
+							<span class="show-time"><%= article.create_time %></span>
+
+						</div>
+						<div class="article-container"></div>
+					</div>
+				</div>
+				<div class="right">
+					<div class="classification">
+
+						<div>
+							<p class="total">文章分类</p>
+						</div>
+
+						<div class="type company-news">
+							<p class="type-title">柱柱动态</p>
+
+							<p class="count"></p>
+						</div>
+						<div class="type industry-news">
+							<p class="type-title">行业资讯</p>
+
+							<p class="count"></p>
+						</div>
+						<div class="type media-report">
+							<p class="type-title">媒体报道</p>
+
+							<p class="count"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="zz-home-footer"></div>
+
+
+<div id="template" style="display: none">
+  <p class="p-content">${text}</p>
+  {{if photos}}
+    {{each photos}}
+    <img class="p-photo" src="${$value}">
+  {{/each}}
+  {{/if}}
+</div>
+
+</body>
+</html>

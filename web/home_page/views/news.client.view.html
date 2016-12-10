@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<link href="favicon.ico" rel="icon"/>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="keywords" content="柱柱签收，物流管理系统，车队系统，第三方物流系统，物流签收， 签收单, 回单，车队管理，车辆管理，TMS，运输管理系统，OTMS，签收"/>
+	<meta content="柱柱签收是国际领先的移动互联网时代的物流，向货主、物流公司、专线公司、车队、司机、收货人
+提供运输全程可视化的物流管理系统，解决传统物流时代回单、签收、物流管理难等问题，
+一封Emai,一个APP，极速链接各类合作伙伴和司机。" name="description"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<link rel="icon" type="image/x-icon" href="../../home_page/images/favicon.ico">
+
+	<script src="../../libraries/jquery/dist/jquery.min.js"></script>
+	<script src="../../libraries/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<script src="../../zz_supports/js/global.client.support.js"></script>
+	<script src="../../zz_supports/js/jquery.tmpl.min.js"></script>
+	<script src="../../zz_supports/js/jquery.pagination-beta.js"></script>
+
+	<script src="../../home_page/controllers/import.client.controller.js"></script>
+	<script src="../../home_page/controllers/news.client.controller.js"></script>
+	<script type="text/javascript" src="../../home_page/controllers/sliding_menu.client.controller.js"></script>
+	<script type="text/javascript" src="../../home_page/controllers/header.client.controller.js"></script>
+
+
+	<link rel="stylesheet" type="text/css" href="../../libraries/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../../zz_supports/css/jquery.pagination.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/header.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/footer.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/global.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/news.client.style.css">
+	<link rel="stylesheet" type="text/css" href="../../home_page/css/sliding_menu.client.style.css">
+
+
+	<title>柱柱签收－资讯</title>
+</head>
+<body>
+<div class="zz-home-header"></div>
+
+<div class="body-content">
+
+	<div class="description">
+
+		<div class="title">
+			<img src="../../home_page/images/news/icon_news.png">
+
+			<p class="title-container">柱柱资讯</p>
+
+			<p class="text">最新、最热的行业资讯，了解柱柱最新动态</p>
+		</div>
+
+		<div class="description-container">
+			<div class="wrap">
+				<div class="left">
+					<div class="link">
+						<a class="item all" data-value="">所有分类</a>
+						<a class="item dynamic" data-value="company_news">柱柱动态</a>
+						<a class="item information" data-value="industry_news">行业资讯</a>
+						<a class="item report" data-value="media_report">媒体报道</a>
+					</div>
+
+					<div class="left-container">
+						<ul class="list-container"></ul>
+					</div>
+
+					<div id="page" class="m-pagination"></div>
+				</div>
+				<div class="right">
+
+					<form class="search">
+						<input class="text" type="text" placeholder="搜索标题">
+						<input type="submit" style="display: none">
+					</form>
+
+					<div class="classification">
+
+						<div>
+							<p class="total">文章分类</p>
+						</div>
+
+						<div class="type company-news">
+							<p class="type-title">柱柱动态</p>
+
+							<p class="count"></p>
+						</div>
+						<div class="type industry-news">
+							<p class="type-title">行业资讯</p>
+
+							<p class="count"></p>
+						</div>
+						<div class="type media-report">
+							<p class="type-title">媒体报道</p>
+
+							<p class="count"></p>
+						</div>
+					</div>
+				</div>
+
+				<p class="result-tip">暂时没有文章列表</p>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="zz-home-footer"></div>
+
+<div id="template" style="display: none">
+	<li>
+		<div class="template">
+			<img src="${cover}">
+
+			<div class="template-container">
+				<div class="title-header">
+					<a class="template-title" href="/news/article/page?article_id=${_id}&current_type=${current_type}">${article_title}</a>
+
+					<p class="time">${created}</p>
+				</div>
+				<p class="article-container">${article_brief}</p>
+			</div>
+		</div>
+	</li>
+</div>
+
+
+</body>
+</html>

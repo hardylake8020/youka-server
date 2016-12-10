@@ -1,0 +1,881 @@
+@header-height: 75px;
+@btn-border: 1px;
+@btn-border-radius: 4px;
+@btn-font-size: 14px;
+@font-color-dark: #333333;
+@font-color-normal: #666666;
+@font-color-light: #999999;
+
+@import 'variables.client.style.less';
+
+body {
+  background-color: #f2f2f2;
+  width: 100%;
+  transition: right 0.3s;
+  -moz-transition: right 0.3s;
+  -webkit-transition: right 0.3s;
+  -o-transition: right 0.3s;
+
+  a {
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  .wrap-background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -100;
+    .p-background {
+      width: 100%;
+      height: 100%;
+      background: url("../../home_page/images/bg_operation.png") no-repeat top;
+      background-position: center 0;
+      background-size: cover;
+      min-height: 680px;
+    }
+  }
+
+  .operation {
+    color: #ffffff;
+    .zz-home-header {
+      z-index: 100;
+      width: 100%;
+      margin: 0 auto;
+      background: none;
+      box-shadow: none;
+      position: static;
+      -webkit-transition-property: background;
+      -moz-transition-property: background;
+      -ms-transition-property: background;
+      -o-transition-property: background;
+      transition-property: background;
+
+      -webkit-transition-duration: 0.5s;
+      -moz-transition-duration: 0.5s;
+      -ms-transition-duration: 0.5s;
+      -o-transition-duration: 0.5s;
+      transition-duration: 0.5s;
+      .navigation {
+        .logo {
+          .photo {
+            background: url("../../home_page/images/logo.png") no-repeat center;
+          }
+        }
+
+        .user-operation {
+          .signup {
+            display: inline-block;
+            background: none;
+            &:hover {
+              -webkit-box-shadow: 0 0 0 2px #ffffff;
+              -moz-box-shadow: 0 0 0 2px #ffffff;
+              box-shadow: 0 0 0 2px #ffffff;
+
+            }
+          }
+          .login {
+            display: none;
+          }
+        }
+
+        .link .item {
+          color: #fff;
+        }
+      }
+
+      &.zz-home-header-two {
+        z-index: 100;
+        width: 100%;
+        margin: 0 auto;
+        position: fixed;
+        background-color: rgba(255, 255, 255, 0.98);
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+        .navigation {
+          background: transparent;
+          .user-operation .signup {
+            color: #ffffff;
+            background-color: #0078c6;
+            border: none;
+            &:hover {
+              -webkit-box-shadow: 0 0 0 2px #8dcaf1;
+              -moz-box-shadow: 0 0 0 2px #8dcaf1;
+              box-shadow: 0 0 0 2px #8dcaf1;
+              background-color: #1b95e4;
+              border: 1px solid #1b95e4
+            }
+          }
+
+          .logo {
+            .photo {
+              background: url("../../home_page/images/logo_black.png") no-repeat center;
+            }
+          }
+
+          .link .item {
+            color: #666666;
+          }
+        }
+      }
+    }
+
+    .operation-title-one {
+      font-size: 32px;
+      text-align: center;
+      margin: 100px auto 15px;
+    }
+
+    .operation-title-two {
+      font-size: 60px;
+      font-weight: bolder;
+      text-align: center;
+      margin: 15px 30px 120px 30px;
+
+    }
+
+    .operation-signin {
+      border-radius: 10px;
+      background-color: rgba(0, 46, 75, 0.5);
+      overflow: hidden;
+      margin: 0 auto 50px;
+      width: 65%;
+      max-width: 960px;
+
+      .signin-title {
+        padding: 0px 45px;
+        display: block;
+        overflow: hidden;
+        width: 100%;
+        text-align: center;
+        span {
+          display: block;
+          text-align: left;
+          margin: 24px 0;
+          color: #a4b5c5;
+        }
+      }
+
+      .signin-content {
+        margin-left: 33px;
+        margin-right: 33px;
+        text-align: center;
+        .username, .password {
+          display: inline-block;
+          height: 40px;
+          outline: none;
+          padding: 0px 15px;
+          margin-bottom: 20px;
+          width: 100%;
+          border: 1px solid #f0f0f0;
+          border-radius: @btn-border-radius;
+          font-size: @btn-font-size;
+          text-align: left;
+          color: #000;
+        }
+
+        .signin {
+          color: #ffffff;
+          background-color: #52be8d;
+          font-size: 16px;
+          border-radius: @btn-border-radius;
+          margin-bottom: 15px;
+          border: none;
+          text-align: center;
+          width: 100%;
+          height: 40px;
+          line-height: 40px;
+          display: inline-block;
+          cursor: pointer;
+          &:hover {
+            -webkit-box-shadow: 0 0 0 3px #b4efd4;
+            -moz-box-shadow: 0 0 0 3px #b4efd4;
+            box-shadow: 0 0 0 3px #b4efd4;
+            background-color: #69e0aa;
+
+            -webkit-transition-duration: 0.5s;
+            -moz-transition-duration: 0.5s;
+            -ms-transition-duration: 0.5s;
+            -o-transition-duration: 0.5s;
+            transition-duration: 0.5s;
+          }
+        }
+
+      }
+      .error {
+        background: none;
+        color: #fa9600;
+        border: none;
+        display: block;
+        overflow: hidden;
+        margin: 0px 45px 15px 45px;
+        visibility: visible;
+        text-align: left;
+        font-size: 12px;
+        &.zz-hidden {
+          visibility: collapse;
+        }
+      }
+    }
+  }
+
+  .wrap-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+
+    .video-container {
+      background-color: #ffffff;
+      width: 100%;
+      padding-top: 100px;
+
+      .video-container-title {
+        font-size: 36px;
+        font-weight: bolder;
+        text-align: center;
+        margin: 0px;
+        height: 36px;
+        line-height: 26px;
+      }
+
+      .video-container-contents {
+        text-align: center;
+        margin: 30px auto 60px;
+        width: 60%;
+        font-size: 16px;
+        color: #666666;
+        line-height: 24px;
+      }
+
+      .download-ppt {
+        width: 350px;
+        margin: 0px auto 60px auto;
+        height: 40px;
+
+        .chinese-ppt, .english-ppt {
+          display: inline-block;
+          margin: 0;
+          padding: 0;
+          cursor: pointer;
+          width: 150px;
+          height: 40px;
+          line-height: 40px;
+          color: #0078c6;
+          border: 2px solid #0078c6;
+          text-align: center;
+          border-radius: 4px;
+          text-decoration: none;
+
+          .icon {
+            width: 22px;
+            height: 22px;
+            display: inline-block;
+            background: url("../images/index/icon-download.png") no-repeat center;
+            float: right;
+            margin: 8px 13px 0 0;
+          }
+
+          &:hover {
+            -webkit-box-shadow: 0 0 0 3px #8dcaf1;
+            -moz-box-shadow: 0 0 0 3px #8dcaf1;
+            box-shadow: 0 0 0 3px #8dcaf1;
+            color: #1b95e4;
+            border: 2px solid #8dcaf1;
+
+            -webkit-transition-duration: 0.5s;
+            -moz-transition-duration: 0.5s;
+            -ms-transition-duration: 0.5s;
+            -o-transition-duration: 0.5s;
+            transition-duration: 0.5s;
+          }
+        }
+
+        .chinese-ppt {
+          float: left;
+        }
+        .english-ppt {
+          float: right;
+        }
+      }
+
+      .device {
+        text-align: center;
+        margin: 0 auto;
+      }
+
+    }
+
+    .description {
+      width: 100%;
+      overflow: hidden;
+      background-color: #e4f5ff;
+      padding-top: 100px;
+      padding-bottom: 100px;
+
+      .description-title {
+        font-size: 36px;
+        font-weight: bolder;
+        text-align: center;
+        margin: 0 auto;
+        height: 32px;
+        line-height: 32px;
+      }
+
+      .level {
+        width: 100%;
+        max-width: 1160px;
+        height: 82px;
+        font-size: 12px;
+        margin: 65px auto 70px;
+        padding: 0 30px;
+        .level-title {
+          font-size: 16px;
+          height: 16px;
+          line-height: 16px;
+          font-weight: bolder;
+          margin: 0px;
+          color: #333333;
+        }
+
+        .level-container {
+          margin: 10px 0px 0px 0px;
+          color: #999999;
+          height: auto;
+          line-height: 22px;
+          font-size: 14px;
+        }
+
+        .location, .message, .electronic, .plate, .delivery, .insurance, .credit, .financial {
+          padding-left: 110px;
+          width: 90%;
+          height: 82px;
+          text-align: left;
+          margin-top: 40px;
+          min-height: 100px;
+          padding-top: 15px;
+        }
+
+        .location {
+          //          float: left;
+          background: url("../images/index/icon_dingwei.png") no-repeat left;
+
+        }
+
+        .message {
+          float: right;
+          background: url("../images/index/icon_tuisong.png") no-repeat left;
+        }
+
+        .electronic {
+          //          float: left;
+          background: url("../images/index/icon_dianzi.png") no-repeat left;
+        }
+
+        .plate {
+          float: right;
+          background: url("../images/index/icon_chepai.png") no-repeat left;
+        }
+
+        .delivery {
+          background: url("../images/index/icon_saoma.png") no-repeat left;
+        }
+
+        .insurance {
+          float: right;
+          background: url("../images/index/icon_baoxian.png") no-repeat left;
+        }
+
+        .credit {
+          background: url("../images/index/icon_xinyong.png") no-repeat left;
+        }
+        .financial {
+          float: right;
+          background: url("../images/index/icon_jingrong.png") no-repeat left;
+        }
+      }
+
+    }
+
+    .partner {
+      background-color: #ffffff;
+      padding-top: 100px;
+      padding-bottom: 50px;
+      overflow: hidden;
+
+      .partner-title {
+        font-size: 36px;
+        font-weight: bolder;
+        text-align: center;
+        margin: 0px;
+        line-height: 36px;
+        padding-bottom: 40px;
+      }
+
+      .partner-container {
+        text-align: center;
+        padding-bottom: 75px;
+        font-size: 16px;
+        color: #666666;
+        line-height: 24px;
+
+      }
+
+      .company {
+        width: 100%;
+        max-width: 1160px;
+        height: 100%;
+        text-align: center;
+        margin: 0 auto 20px auto;
+        padding: 0 10px;
+        .industry{
+          color: #333333;
+//          width: 150px;
+          height: 50px;
+          line-height: 50px;
+          font-size: 16px;
+          margin-top: 20px;
+          border-radius: 10px;
+          background-color: #f2f2f2;
+          background-size: 135px 50px;
+        }
+
+      }
+    }
+
+    .app-download {
+      width: 100%;
+      background: url("../images/index/download_bg.jpg") no-repeat;
+      padding-top: 100px;
+      padding-bottom: 40px;
+
+      .app-download-title {
+        font-weight: bolder;
+        font-size: 36px;
+        color: #ffffff;
+        text-align: center;
+        height: 32px;
+        line-height: 32px;
+        margin: 0px 0px 40px 0px;
+      }
+
+      .download-button {
+        margin: 0px auto;
+        width: 350px;
+        max-width: 1160px;
+        height: 40px;
+        .download-ios {
+          float: left;
+          background: url("../images/index/icon-ios.png") no-repeat 10px;
+        }
+        .download-android {
+          float: right;
+          background: url("../images/index/icon-android.png") no-repeat 10px;
+        }
+
+        .download-ios, .download-android {
+          width: 150px;
+          height: 40px;
+          line-height: 40px;
+          border-radius: @btn-border-radius;
+          cursor: pointer;
+          border: 2px solid #ffffff;
+          text-align: center;
+          color: #ffffff;
+          text-decoration: none;
+          &:hover {
+            -webkit-box-shadow: 0 0 0 3px #ffffff;
+            -moz-box-shadow: 0 0 0 3px #ffffff;
+            box-shadow: 0 0 0 3px #ffffff;
+
+            -webkit-transition-duration: 0.5s;
+            -moz-transition-duration: 0.5s;
+            -ms-transition-duration: 0.5s;
+            -o-transition-duration: 0.5s;
+            transition-duration: 0.5s;
+          }
+        }
+
+      }
+
+      .qr-code {
+        width: 180px;
+        height: 180px;
+        display: block;
+        margin: 40px auto;
+      }
+
+      .download-register {
+        margin: 0 auto;
+        width: 65%;
+        max-width: 1160px;
+        text-align: center;
+        padding-top: 30px;
+
+        .username, .password {
+          display: inline-block;
+          width: 100%;
+          outline: none;
+          border: none;
+          border-radius: @btn-border-radius;
+          padding: 10px 0px 10px 25px;
+          font-size: @btn-font-size;
+          text-align: left;
+          margin-bottom: 20px;
+        }
+
+        .register {
+          color: #ffffff;
+          background-color: #52be8d;
+          font-size: @btn-font-size;
+          border-radius: @btn-border-radius;
+          padding: 10px 20px 10px 20px;
+          border: none;
+          text-align: center;
+          width: 100%;
+          margin-bottom: 20px;
+          cursor: pointer;
+          &:hover {
+            -webkit-box-shadow: 0 0 0 3px #b4efd4;
+            -moz-box-shadow: 0 0 0 3px #b4efd4;
+            box-shadow: 0 0 0 3px #b4efd4;
+            background-color: #69e0aa;
+
+            -webkit-transition-duration: 0.5s;
+            -moz-transition-duration: 0.5s;
+            -ms-transition-duration: 0.5s;
+            -o-transition-duration: 0.5s;
+            transition-duration: 0.5s;
+          }
+        }
+
+        .error-tip {
+          background: none;
+          color: red;
+          border: none;
+          visibility: visible;
+          margin: 10px 33px 20px 33px;
+          &.zz-hidden {
+            visibility: collapse;
+          }
+        }
+
+      }
+
+    }
+
+    .player-container {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      display: none;
+      z-index: 1002;
+      .player-wrapper {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-top: -240px;
+        margin-left: -320px;
+        width: 640px;
+        height: 480px;
+      }
+    }
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  body {
+    .operation {
+      .zz-home-header {
+        .navigation {
+          .user-operation {
+            .signup {
+              display: none;
+            }
+            .menu {
+              background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+            }
+          }
+        }
+        &.zz-home-header-two {
+          .user-operation {
+            .menu {
+              background: url("../../home_page/images/header/header_menu_black.png") no-repeat center;
+            }
+          }
+        }
+      }
+      .operation-title-one {
+        font-size: 20px;
+        margin: 100px auto 20px;
+
+      }
+      .operation-title-two {
+        font-size: 36px;
+        margin: 0px 30px 100px 30px;
+      }
+      .operation-signin {
+        width: 70%;
+        .signin-title {
+          visibility: hidden;
+          margin: 0;
+          height: 30px;
+
+          span {
+            margin: 0;
+          }
+        }
+        .signin-content {
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+
+        .error {
+          text-align: center;
+        }
+      }
+    }
+    .wrap-container {
+      .video-container {
+        padding-top: 80px;
+
+        .video-container-contents, .device {
+          width: 85%;
+        }
+
+        .download-ppt {
+          margin: 0 auto 60px auto;
+          height: 100%;
+          .chinese-ppt, .english-ppt {
+            float: none;
+            display: block;
+            margin: 20px auto 30px auto;
+          }
+          .english-ppt {
+            margin-bottom: 0;
+          }
+        }
+
+      }
+
+      .description {
+        padding-top: 80px;
+        padding-bottom: 80px;
+        .description-title {
+          margin: 0 auto 20px;
+        }
+        .level {
+          padding: 0px 30px 0;
+          margin-top: 0px;
+          .location, .message, .electronic, .plate, .delivery, .insurance, .credit, .financial {
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+
+      .partner {
+        padding-top: 80px;
+        .partner-container {
+          width: 90%;
+          margin: 0 auto;
+        }
+
+        .company {
+          .company-first, .company-second, .company-third, .company-fourth, .company-fifth {
+            margin: 10px 30px;
+          }
+        }
+      }
+
+      .app-download {
+        padding-top: 80px;
+        .app-download-title {
+          margin: 0 0 40px 0;
+        }
+
+        .download-button {
+          height: 100%;
+          padding-bottom: 10px;
+          .download-ios, .download-android {
+            display: block;
+            margin: 30px auto;
+            float: none;
+          }
+        }
+
+        .qr-code {
+          display: none;
+        }
+      }
+
+      .zz-home-footer {
+        .center-area {
+          padding-top: 30px;
+          .footer-left, .cut-line, .footer-right {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**769-992*/
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  body {
+    .operation {
+      height: 680px;
+      .zz-home-header {
+        .navigation {
+          .user-operation {
+            .signup {
+              display: none;
+            }
+            .menu {
+              background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+            }
+          }
+        }
+
+        &.zz-home-header-two {
+          .user-operation{
+            .menu {
+              background: url("../../home_page/images/header/header_menu_black.png") no-repeat center;
+            }
+          }
+
+        }
+      }
+
+      .operation-title-one {
+        font-size: 18px;
+        font-weight: 100;
+      }
+      .operation-title-two {
+        font-size: 40px;
+        margin-bottom: 90px;
+      }
+      .operation-signin {
+        width: 70%;
+        .signin-title {
+          visibility: hidden;
+          margin: 0;
+          height: 30px;
+
+          span {
+            margin: 0;
+          }
+        }
+        .signin-content {
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+
+        .error {
+          text-align: center;
+        }
+      }
+
+    }
+
+    .description {
+      padding-top: 35px;
+      padding-bottom: 35px;
+      .level {
+        padding: 0px 30px 0;
+        margin-top: 0px;
+      }
+    }
+
+    .zz-home-footer {
+      .center-area {
+        padding-top: 30px;
+        .footer-left, .cut-line, .footer-right {
+          display: none;
+        }
+      }
+    }
+  }
+
+}
+
+/**993-1200*/
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+  body {
+    //    .operation {
+    //      height: 680px;
+    //
+    //      .operation-title-one {
+    //        font-size: 18px;
+    //        font-weight: 100;
+    //      }
+    //      .operation-title-two {
+    //        font-size: 40px;
+    //      }
+    //      .operation-signin {
+    //        width: 85%;
+    //        .signin-title {
+    //          visibility: hidden;
+    //          margin: 0;
+    //          height: 30px;
+    //
+    //          span {
+    //            margin: 0;
+    //          }
+    //        }
+    //        .signin-content {
+    //          margin-left: 10px;
+    //          margin-right: 10px;
+    //        }
+    //
+    //        .error {
+    //          text-align: center;
+    //        }
+    //      }
+    //
+    //    }
+
+    .description {
+      padding-top: 35px;
+      padding-bottom: 35px;
+      .level {
+        padding: 0px 30px 0;
+        margin-top: 0px;
+      }
+    }
+  }
+
+}
+
+@media (max-width: 480px) {
+  body {
+    .wrap-container {
+      .video-container {
+        .download-ppt {
+          width: 100%;
+          .chinese-ppt, .english-ppt {
+            float: none;
+            display: block;
+            margin: 20px auto;
+          }
+        }
+        .device {
+          margin-top: 100px;
+        }
+      }
+
+      .app-download {
+        .download-button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: @screen-lg-min) {
+
+}

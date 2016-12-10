@@ -1,0 +1,251 @@
+.ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.zz-online-report-container {
+  @content-size: 13px;
+  position: relative;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  .center-area {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    .left-area {
+      background-color: white;
+      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.26);
+      min-height: 690px;
+      padding: 0;
+      margin-right: 20px;
+
+      .group-add-area {
+        padding: 20px 20px;
+        position: relative;
+        background-color: #fafafa;
+        border-bottom: 1px solid #ececec;
+        .group-input {
+          border: 0px;
+          height: 40px;
+          padding: 0px 10px;
+          line-height: 40px;
+          width: 100%;
+          color: #bdbdbd;
+          outline: none;
+          box-shadow: none;
+
+          &.not-empty {
+            border-color: #ebebeb;
+            color: #212121;
+          }
+          &:hover {
+            border-color: #d6d6d6;
+          }
+          &:focus {
+            border-color: #4186c9;
+            color: #4186c9;
+          }
+
+        }
+        .group-add {
+          height: 20px;
+          width: 20px;
+          line-height: 40px;
+          position: absolute;
+          top: 20px;
+          right: 30px;
+          font-size: 30px;
+          text-align: center;
+          color: #999;
+          cursor: pointer;
+          &:hover {
+            color: #4186c9;
+          }
+        }
+      }
+      .group-search-area {
+        padding: 20px 20px;
+        position: relative;
+        border-bottom: 1px solid #ececec;
+        position: relative;
+        input.group-input {
+          height: 40px;
+          line-height: 40px;
+          width: 100%;
+          padding: 0px 40px 0 10px;
+          border: 1px solid #ebebeb;
+          color: #bdbdbd;
+          outline: none;
+          box-shadow: none;
+
+          &.not-empty {
+            border-color: #ebebeb;
+            color: #212121;
+          }
+          &:hover {
+            border-color: #d6d6d6;
+          }
+          &:focus {
+            border-color: #4186c9;
+            color: #4186c9;
+          }
+        }
+        .clean{
+          position: absolute;
+          right:30px;
+          top:30px;
+          background: none;
+          border: none;
+          outline: none;
+          width:20px;
+          height:20px;
+          overflow: hidden;
+          background: url("../../images/icon/company_management/clean.png");
+          &:hover {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            background: url("../../images/icon/company_management/clean_hover.png");
+          }
+          &:focus {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            background: url("../../images/icon/company_management/clean_down.png");
+          }
+        }
+      }
+
+      .group-area {
+        padding: 20px;
+        overflow: hidden;
+        border-bottom: 1px solid #ececec;
+        cursor: pointer;
+        &.admin {
+          &:hover {
+            .number {
+              display: none;
+            }
+            .delete {
+              display: block;
+            }
+          }
+          &.default-group {
+            &:hover {
+              .number {
+                display: block;
+              }
+              .delete {
+                display: none;
+              }
+            }
+          }
+        }
+
+        &:hover {
+          border-left: 5px solid #ecf5fc;
+          background-color: #ecf5fc;
+          padding-left: 15px;
+        }
+        &.selected {
+          border-left: 5px solid #4186c9;
+          background-color: #ecf5fc;
+          padding-left: 15px;
+        }
+        .title {
+          padding-left: 10px;
+          float: left;
+        }
+        .number {
+          float: right;
+          color: #bfbfbf;
+          padding-right: 10px;
+        }
+        .delete {
+          margin-right: 10px;
+          float: right;
+          background: url("../../images/icon/company_management/clean_down.png");
+          width:20px;
+          height:20px;
+          display: none;
+        }
+      }
+    }
+    .right-area {
+      height:690px;
+      padding: 0;
+      box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.26);
+      background-color: #fff;
+
+      .right-wraper{
+        background-color: #fff;
+        min-height:100%;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.26);
+      }
+      .header {
+        .group-title-area {
+          padding: 30px 40px 30px 40px;
+          border-bottom: 1px solid #ececec;
+          background-color: #fafafa;
+          .group-title {
+
+          }
+          .operation {
+            position: absolute;
+            right: 30px;
+            top: 20px;
+
+          }
+        }
+      }
+
+      .body {
+        height:550px;
+        overflow-y: auto;
+
+        .info-input-container {
+          //line-height: 30px;
+          height: 30px;
+          margin-top: 20px;
+          position: relative;
+          padding-left: 160px;
+          margin-right: 60px;
+          .info-title {
+            font-size: @content-size;
+            color: #999;
+            position: absolute;
+            left: 60px;
+            line-height: 30px;
+          }
+          .info-input {
+            height: 30px;
+            width: 100%;
+            border: 1px solid #ececec;
+            max-width: 330px;
+            padding:0px 10px;
+            font-size: @content-size;
+            &:hover {
+
+            }
+            &:focus {
+
+            }
+          }
+          .width-100 {
+            width: 100px;
+            text-align: center;
+          }
+          .config-submit {
+            line-height: 35px;
+            width: 100px;
+          }
+
+        }
+
+      }
+    }
+  }
+
+
+
+}

@@ -1,0 +1,81 @@
+.zz-transition(@attr, @value) {
+  transition: @attr @value;
+  -webkit-transition: @attr @value;
+  -o-transition: @attr @value;
+  -moz-transition: @attr @value;
+}
+
+.zz-switch {
+  position: relative;
+  width: 55px;
+  height: 25px;
+  line-height: 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  * {
+    margin: 0;
+  }
+  @left-edge: 4px;
+  @animate-time: 0.5s;
+  .background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    .zz-transition(left, @animate-time);
+    &.false {
+      background-color: #e0e0e0;
+      left: -100%;
+    }
+    &.true {
+      background-color: #0078c6;
+      left: 100%;
+    }
+  }
+  .text {
+    position: absolute;
+    font-size: 12px;
+    &.false {
+      left: 10px;
+      color: #666;
+    }
+    &.true {
+      right: 10px;
+      color: #fff;
+    }
+  }
+  .slide-block {
+    position: absolute;
+    left: @left-edge;
+    top: @left-edge;
+    width: 17px;
+    height: 17px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.26);
+    .zz-transition(left, @animate-time);
+  }
+
+  &.true {
+    .background.false {
+      left: -100%;
+    }
+    .background.true {
+      left: 0;
+    }
+    .slide-block {
+      left: @left-edge;
+    }
+  }
+  &.false {
+    .background.false {
+      left: 0;
+    }
+    .background.true {
+      left: 100%;
+    }
+    .slide-block {
+      left: 34px;
+    }
+  }
+}

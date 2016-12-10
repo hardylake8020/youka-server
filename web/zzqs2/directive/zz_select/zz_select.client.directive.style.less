@@ -1,0 +1,148 @@
+.zz-select{
+  @color-gray-lighter: #f4f4f4;
+  @color-gray-light: #cccccc;
+  @color-darker: #333333;
+  @color-gray: #b9b9b9;
+  @color-blue: #4186c9;
+  @color-blue-light: #edf6fd;
+  @color-background: #fff;
+
+  @font-large: 14px;
+  @font-default: 13px;
+  @font-family-default: '微软雅黑';
+
+  @height: 40px;
+  display: block;
+
+  width: 100%;
+  height: @height;
+
+  position: relative;
+
+  background: #fff;
+
+  &.disabled {
+    color: #bdbdbd;
+    background-color: #f5f5f5;
+
+    div.zz-select-current{
+      .zz-select-current-text{
+        background-color: #f5f5f5;
+        &::-ms-clear{display: none;}
+        &::-ms-reveal{display: none;}
+      }
+    }
+    &:hover {
+      cursor: default;
+      div.zz-select-current {
+        .zz-select-current-icon{
+          background: url('../../directive/zz_select/images/arrow_default.png') center center no-repeat;
+        }
+      }
+    }
+  }
+
+  .zz-select-current{
+    width: 100%;
+    height: @height;
+  }
+
+  div.zz-select-current{
+    display: block;
+    overflow: hidden;
+    padding: 0 0 0 10px;
+    border: 1px solid @color-gray-light;
+
+    .zz-select-current-text{
+      display: inline-block;
+      overflow: hidden;
+      float: left;
+
+      width: 80%;
+      height: 100%;
+      line-height: @height;
+      border: none;
+      box-shadow: none;
+      outline: none;
+      &::-ms-clear{display: none;}
+      &::-ms-reveal{display: none;}
+    }
+    .zz-select-current-icon{
+      cursor: pointer;
+      display: inline-block;
+      overflow: hidden;
+      float: left;
+
+      width: 20%;
+      height: 100%;
+      background: url('../../directive/zz_select/images/arrow_default.png') center center no-repeat;
+
+      &:hover,&.expand{
+        background: url('../../directive/zz_select/images/arrow_hover.png') center center no-repeat;
+      }
+    }
+  }
+  .zz-select-options{
+    position: absolute;
+    z-index: 300;
+    left: 0;
+    top: @height - 1;
+
+    width: 100%;
+    cursor: pointer;
+
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    border: 1px solid @color-gray-light;
+
+    .zz-select-option{
+      padding:0px 10px;
+      background: #fff;
+      color: #808080;
+      border-bottom: 1px solid @color-gray-light;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      &:nth-last-child(1){
+        border-bottom: none;
+      }
+      .text{
+        display: inline-block;
+        height: @height;
+        line-height: @height;
+        padding-left: 20px;
+        &.authed {
+          background: url('../../images/icon/company_management/company_authed.png') left center no-repeat;
+        }
+        &.gold {
+          background: url('../../images/icon/company_management/gold.gif') left center no-repeat;
+        }
+        &.silver {
+          background: url('../../images/icon/company_management/silver.png') left center no-repeat;
+        }
+        &.bronze {
+          background: url('../../images/icon/company_management/bronze.png') left center no-repeat;
+        }
+        &.wechat {
+          background: url('../../images/icon/company_management/wechat.png') left center no-repeat;
+          background-size: 15px 16px;
+        }
+      }
+      &:hover, &.selected{
+        background: #e6e6e6;
+        //color: #fff;
+      }
+      &.option-tag{
+        border-top: none;
+        border-bottom: none;
+        color: @color-darker;
+        background-color: #fafafa;
+        &:hover {
+          background-color: #fafafa;
+        }
+      }
+    }
+  }
+}

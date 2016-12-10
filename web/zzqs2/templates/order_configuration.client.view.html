@@ -1,0 +1,130 @@
+<div class="zz-order-configuration zz-business-manage-container">
+  <div class="center-area row">
+    <div class="left-area col-sm-3">
+      <div class="group-add-area">
+        <div class="group-input">配置中心</div>
+      </div>
+      <div class="group-area" ng-class="{selected:partnersInfo.curSelect === selectItem.en}"
+           ng-repeat="selectItem in rightHeader.all"
+           ng-click="partnersInfo.showDetailPanel(selectItem.en)">
+        <span class="title">{{selectItem.name}}</span>
+      </div>
+    </div>
+
+    <div class="right-area col-sm-8">
+      <div class="right-wrapper">
+        <div class="header">
+          <div class="group-title-area">
+            <span class="group-title">{{rightHeader.current.name}}</span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="push-config order-config" ng-show="partnersInfo.curSelect=='pushConfig'">
+
+            <div class="zz-order-option">
+              <div class="option-body">
+                <div class="item">
+                  <p class="name">问题运单推送</p>
+                  <div class="content">
+                    <zz-switch config="orderConfig.options[2].abnormal_push"></zz-switch>
+                    <p class="description">选择“是”时，所有问题运单会推送给相关人员</p>
+                  </div>
+                </div>
+
+                <div class="item">
+                  <p class="name">创建运单通知</p>
+                  <div class="content">
+                    <zz-switch config="orderConfig.options[2].create_push"></zz-switch>
+                    <p class="description">选择“是”时，新创建的运单会推送给相关人员</p>
+                  </div>
+                </div>
+
+                <div class="item">
+                  <p class="name">发货通知</p>
+                  <div class="content">
+                    <zz-switch config="orderConfig.options[2].pickup_push"></zz-switch>
+                    <p class="description">选择“是”时，司机提货完成时时会推送给相关人员</p>
+                  </div>
+                </div>
+                <div class="item">
+                  <p class="name">到货通知</p>
+                  <div class="content">
+                    <zz-switch config="orderConfig.options[2].delivery_sign_push"></zz-switch>
+                    <p class="description">选择“是”时，司机到达目的地时会推送给相关人员</p>
+                  </div>
+                </div>
+
+                <div class="item">
+                  <p class="name">送达通知</p>
+                  <div class="content">
+                    <zz-switch config="orderConfig.options[2].delivery_push"></zz-switch>
+                    <p class="description">选择“是”时，货物签收后会推送给相关人员</p>
+                  </div>
+                </div>
+
+
+                <div class="item">
+                  <p class="name">设置提货滞留报警时间</p>
+                  <div class="content">
+                    <div class="zz-switch" ng-class="{true: orderConfig.options[2].pickup_deferred_duration_switch, false: !orderConfig.options[2].pickup_deferred_duration_switch}"
+                         ng-click="orderConfig.options[2].pickup_deferred_duration_switch ? orderConfig.options[2].pickup_deferred_duration_switch = false : orderConfig.options[2].pickup_deferred_duration_switch = true" >
+                      <p class="false background"></p>
+                      <p class="true background"></p>
+                      <p class="false text">否</p>
+                      <p class="true text">是</p>
+                      <p class="slide-block"></p>
+                    </div>
+                    <input class="input-text"  ng-disabled="!(orderConfig.options[2].pickup_deferred_duration_switch)"
+                           ng-model="orderConfig.options[2].pickup_deferred_duration"
+                           type="text"
+                           zz-validation
+                           zz-validation-type="number">
+                    <p class="input-description description">小时</p>
+                  </div>
+                </div>
+                <div class="item">
+                  <p class="name">设置到货推送提前时间</p>
+                  <div class="content">
+                    <div class="zz-switch" ng-class="{true: orderConfig.options[2].delivery_early_duration_switch, false: !orderConfig.options[2].delivery_early_duration_switch}"
+                         ng-click="orderConfig.options[2].delivery_early_duration_switch ? orderConfig.options[2].delivery_early_duration_switch = false : orderConfig.options[2].delivery_early_duration_switch = true" >
+                      <p class="false background"></p>
+                      <p class="true background"></p>
+                      <p class="false text">否</p>
+                      <p class="true text">是</p>
+                      <p class="slide-block"></p>
+                    </div>
+                    <input class="input-text" ng-disabled="!(orderConfig.options[2].delivery_early_duration_switch)"
+                           ng-model="orderConfig.options[2].delivery_early_duration"
+                           type="text">
+                    <p class="input-description description">小时</p>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+
+            <div class="footer">
+              <!--<p class="cancel">取消</p>-->
+              <p class="sure" ng-click="orderConfig.submitPushConfig()">保存设置</p>
+            </div>
+
+          </div>
+
+          <div class="order-config" ng-show="partnersInfo.curSelect=='orderConfig'">
+            <div class="pickup">
+              <zz-order-option config="orderConfig.options[0]"></zz-order-option>
+            </div>
+            <div class="delivery">
+              <zz-order-option config="orderConfig.options[1]"></zz-order-option>
+            </div>
+            <div class="footer">
+              <!--<p class="cancel">取消</p>-->
+              <p class="sure" ng-click="orderConfig.submitOrderConfig()">保存设置</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

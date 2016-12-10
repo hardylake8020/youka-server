@@ -1,0 +1,82 @@
+@font-color-dark: #333333;
+@font-color-normal: #666666;
+@font-color-light: #999999;
+@import 'variables.client.style.less';
+.footer {
+  background-color: #f7f7f7;
+
+  .center-area {
+    padding-top: 50px;
+    padding-bottom: 30px;
+    margin: 0px auto;
+    width: 100%;
+    max-width: 1160px;
+    position: relative;
+
+    .footer-left, .footer-right {
+      display: inline-block;
+      margin: 0;
+    }
+
+    .footer-left {
+      margin: 0;
+      .help, .map, .contact {
+        display: inline-block;
+        margin-right: 100px;
+        text-align: left;
+        .title {
+          color: @font-color-normal;
+          padding-bottom: 26px;
+          margin: 0;
+        }
+
+        .content {
+          font-size: 12px;
+          color: @font-color-light;
+          display: block;
+          text-decoration: none;
+          margin-bottom: 8px;
+          line-height: 0;
+        }
+      }
+      .contact {
+        margin: 0;
+      }
+    }
+
+    .footer-right {
+      position: absolute;
+      right: 0;
+      text-align: center;
+      font-size: 12px;
+      display: inline-block;
+      width: 150px;
+      height: 108px;
+      line-height: 165px;
+      padding-top: 45px;
+      background: url("../images/index/public_qrcode1.png") no-repeat top;
+    }
+    .cut-line {
+      border-bottom: 1px solid #e5e5e5;
+      width: 100%;
+      margin: 30px auto;
+    }
+    .remark {
+      text-align: center;
+      color: @font-color-light;
+      font-size: 12px;
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .footer {
+    .center-area {
+      text-align: center;
+      .footer-right {
+        display: none;
+      }
+    }
+  }
+}

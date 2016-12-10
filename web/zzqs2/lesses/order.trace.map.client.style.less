@@ -1,0 +1,138 @@
+.zz-map-for-order-trace {
+  @color-gray: #212121;
+  @font-default: 14px;
+  @color-gray-light: #757575;
+  @color_blue: #4186c9;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  .select-layout {
+    background-color: #fff;
+    width: 100%;
+    text-align: right;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    select {
+      line-height: 30px;
+      background: none;
+      border: solid 1px #E8E9EA;
+      outline: none;
+    }
+  }
+  .map-layout {
+    padding: 0;
+    overflow: hidden;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    .driver-info {
+      padding-top: 15px;
+      border-bottom: solid 1px #E8EAEA;
+      background-color: #FEFFFF;
+      padding-bottom: 15px;
+      float: left;
+      //margin-left: 10px;
+      width: 290px;
+      overflow: hidden;
+      .content {
+        width: 100%;
+        float: left;
+        .avatar {
+          background: url('../../images/icon/map/default_avatar.png') center center no-repeat;
+          float: left;
+          width: 40px;
+          height: 40px;
+          overflow: hidden;
+        }
+        .info {
+          float: left;
+          margin-left: 25px;
+          .top {
+            font-size: 14px;
+            color: #58595A;
+            span {
+              margin-right: 5px;
+            }
+          }
+          .bottom {
+            font-size: 12px;
+            color: #A3A5A6;
+            margin-top: 5px;
+          }
+        }
+
+      }
+    }
+    .event-tip {
+      overflow: hidden;
+      width: 290px;
+      float: left;
+      margin-top: 10px;
+      color: #999;
+      .content {
+        width: 100%;
+        float: left;
+        .item {
+          width: 100%;
+          font-size: 12px;
+          .left {
+            width: 65px;
+            line-height: 23px;
+            float: left;
+          }
+          .right {
+            float: left;
+            line-height: 23px;
+            width: 225px;
+          }
+        }
+      }
+      //      .event_type {
+      //        color: @color-gray;
+      //        font-size: @font-default;
+      //      }
+      //      .time, .info, .description, .driver, .address {
+      //        width: 265px;
+      //        strong, span {
+      //          line-height: 20px;
+      //          font-size: 12px;
+      //          font-weight: normal;
+      //          margin-right: 2px;
+      //          color: @color-gray-light;
+      //        }
+      //      }
+
+    }
+    .photos {
+      display: block;
+      overflow: hidden;
+      width: 290px;
+      float:left;
+      margin-top: 3px;
+      .photo,.photo-right {
+        display: inline-block;
+        float: left;
+        overflow: hidden;
+        margin: 5px 5px 0 0;
+
+        width: 141px;
+        height: 90px;
+        cursor: pointer;
+        &:nth-child(2) {
+          margin-right: 0;
+        }
+      }
+      .photo-right{
+        margin-left: 3px;
+      }
+      img {
+        display: block;
+
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

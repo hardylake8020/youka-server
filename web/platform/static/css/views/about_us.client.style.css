@@ -1,0 +1,184 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: "微软雅黑,华文细黑";
+}
+section {
+  margin: 0px;
+}
+section .icon {
+  margin: 10px;
+}
+span,
+strong {
+  margin: 0px;
+}
+ul {
+  margin: 0px;
+  padding: 0px;
+}
+a {
+  text-decoration: none;
+}
+.wrapper {
+  display: block;
+  overflow: hidden;
+  width: 90%;
+  margin: 0 auto;
+}
+header {
+  min-height: 76px;
+  border-bottom: 2px solid #c8f6f4;
+  background: transparent url('../../img/global/write-transparent-bg.png') top left repeat;
+}
+header .left {
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+}
+header .left .logo {
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+  height: 76px;
+}
+header .left .logo img {
+  display: block;
+  margin-top: 24.5px;
+  height: 27px;
+}
+header .right {
+  display: inline-block;
+  float: right;
+  overflow: hidden;
+}
+header .right a {
+  margin-left: 10px;
+  cursor: pointer;
+  line-height: 76px;
+  color: #45d7d7;
+}
+header .right a:hover {
+  color: #2fc6c6;
+}
+.header {
+  min-height: 76px;
+  border-bottom: 2px solid #c8f6f4;
+  background: transparent url('../../img/global/write-transparent-bg.png') top left repeat;
+}
+.header .left {
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+}
+.header .left .logo {
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+  height: 76px;
+}
+.header .left .logo img {
+  display: block;
+  margin-top: 24.5px;
+  height: 27px;
+}
+.header .right {
+  display: inline-block;
+  float: right;
+  overflow: hidden;
+}
+.header .right a {
+  margin-left: 10px;
+  cursor: pointer;
+  line-height: 76px;
+  color: #45d7d7;
+}
+.header .right a:hover {
+  color: #2fc6c6;
+}
+footer {
+  margin: 0px;
+  min-height: 40px;
+  background: transparent url('../../img/global/transparent-bg.png') top left repeat;
+  text-align: center;
+  font-size: 12px;
+  line-height: 40px;
+}
+footer span {
+  margin-right: 10px;
+  color: #45d7d7;
+}
+.footer {
+  margin: 0px;
+  min-height: 40px;
+  background: transparent url('../../img/global/transparent-bg.png') top left repeat;
+  text-align: center;
+  font-size: 12px;
+  line-height: 40px;
+}
+.footer span {
+  margin-right: 10px;
+  color: #45d7d7;
+}
+body {
+  background: #d8f9f9;
+  background: -moz-linear-gradient(top, #d8f9f9, #f2fffd);
+  /*Mozilla*/
+  background: -webkit-linear-gradient(top, #d8f9f9, #f2fffd);
+  /*Webkit*/
+  background: -o-linear-gradient(top, #d8f9f9, #f2fffd);
+  /*Opera11*/
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d8f9f9, endColorstr=#f2fffd);
+  /*IE<9>*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#d8f9f9, endColorstr=#f2fffd)";
+  /*IE8+*/
+}
+.bg {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../img/login/bg.png');
+  background-position-x: center;
+  background-position-y: bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.content .wrapper {
+  width: 60%;
+  max-width: 716px;
+  padding-top: 75px;
+  padding-bottom: 75px;
+}
+.content .wrapper .item .title {
+  font-size: 22px;
+  color: #45d9d9;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.content .wrapper .item .description {
+  color: #6be2e0;
+  font-size: 12px;
+  padding-left: 30px;
+}
+.content .wrapper .item .description p {
+  margin-bottom: 15px;
+}
+.content .wrapper .line {
+  height: 2px;
+  background: url('../../img/about_us/halving-line.png') top left repeat-x;
+  opacity: 0.8;
+  margin: 35px 0px;
+}
+.content .wrapper .contact .left {
+  display: inline-block;
+  width: 70%;
+  float: left;
+}
+.content .wrapper .contact .right {
+  display: inline-block;
+  float: right;
+  width: 112px;
+  height: 112px;
+}

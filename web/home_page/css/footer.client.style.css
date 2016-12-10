@@ -1,0 +1,77 @@
+.footer {
+  background-color: #f7f7f7;
+}
+.footer .center-area {
+  padding-top: 50px;
+  padding-bottom: 30px;
+  margin: 0px auto;
+  width: 100%;
+  max-width: 1160px;
+  position: relative;
+}
+.footer .center-area .footer-left,
+.footer .center-area .footer-right {
+  display: inline-block;
+  margin: 0;
+}
+.footer .center-area .footer-left {
+  margin: 0;
+}
+.footer .center-area .footer-left .help,
+.footer .center-area .footer-left .map,
+.footer .center-area .footer-left .contact {
+  display: inline-block;
+  margin-right: 100px;
+  text-align: left;
+}
+.footer .center-area .footer-left .help .title,
+.footer .center-area .footer-left .map .title,
+.footer .center-area .footer-left .contact .title {
+  color: #666666;
+  padding-bottom: 26px;
+  margin: 0;
+}
+.footer .center-area .footer-left .help .content,
+.footer .center-area .footer-left .map .content,
+.footer .center-area .footer-left .contact .content {
+  font-size: 12px;
+  color: #999999;
+  display: block;
+  text-decoration: none;
+  margin-bottom: 8px;
+  line-height: 0;
+}
+.footer .center-area .footer-left .contact {
+  margin: 0;
+}
+.footer .center-area .footer-right {
+  position: absolute;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
+  display: inline-block;
+  width: 150px;
+  height: 108px;
+  line-height: 165px;
+  padding-top: 45px;
+  background: url("../images/index/public_qrcode1.png") no-repeat top;
+}
+.footer .center-area .cut-line {
+  border-bottom: 1px solid #e5e5e5;
+  width: 100%;
+  margin: 30px auto;
+}
+.footer .center-area .remark {
+  text-align: center;
+  color: #999999;
+  font-size: 12px;
+  margin: 0;
+}
+@media (max-width: 767px) {
+  .footer .center-area {
+    text-align: center;
+  }
+  .footer .center-area .footer-right {
+    display: none;
+  }
+}

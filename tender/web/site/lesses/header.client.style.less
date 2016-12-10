@@ -1,0 +1,137 @@
+@header-height: 60px;
+
+.main-header {
+  position: fixed;
+  width: 100%;
+  background-color: #0078c6;
+  line-height: @header-height;
+  margin: 0;
+  z-index: 2;
+  .left {
+    padding: 0;
+    position: relative;
+    padding-left: 10px;
+    margin: 0;
+    .half {
+      filter: alpha(opacity=80);
+      -moz-opacity: 0.8;
+      -khtml-opacity: 0.8;
+      opacity: 0.8;
+    }
+    .logo, .header-nav {
+      cursor: pointer;
+      display: inline;
+      height: 18px;
+      overflow: hidden;
+      font-size: 18px;
+      font-weight: 800;
+      color: #A9C3E1;
+      margin-left: 30px;
+      section {
+        display: inline;
+      }
+      img {
+        vertical-align: middle;
+      }
+      span {
+        vertical-align: middle;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+    }
+    .active {
+      color: #fff;
+    }
+
+  }
+  .right {
+    position: relative;
+    padding: 0;
+    .right-wrap {
+      //margin: 15px 0 0 0;
+    }
+    .mail, .search, .menu, .signout {
+      cursor: pointer;
+      padding: 0;
+      text-align: center;
+      //line-height: 34px;
+      &:hover {
+
+      }
+    }
+    .help {
+      color: white;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: right;
+    }
+    .signout {
+      color: white;
+      text-align: right;
+    }
+    .notification-btn {
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: visible;
+      cursor: pointer;
+      height: 62px;
+      .number {
+        background-color: #ef4426;
+        color: white;
+        text-align: center;
+        border-radius: 45px;
+        height: 20px;
+        position: absolute;
+        width: 33px;
+        top: 10px;
+        line-height: 22px;
+        left: 50%;
+        margin-left: 25px;
+        font-size: 12px;
+        &.single {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+        }
+      }
+      .email {
+        margin-bottom: 3px;
+        margin-right: 5px;
+      }
+      .text {
+        display: inherit;
+        .ellipsis();
+      }
+      &:hover {
+        background-color: #387dc8;
+        .zz-notification-panel {
+          display: block;
+        }
+      }
+    }
+    .account-select {
+      // line-height: 34px;
+      color: #fff;
+      cursor: pointer;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: right;
+      span {
+        //text-overflow: ellipsis;
+      }
+
+    }
+    .my-avatar {
+      overflow: hidden;
+      text-align: right;
+      padding-right: 20px;
+      img {
+        width: 34px;
+        height: 34px;
+      }
+    }
+  }
+}

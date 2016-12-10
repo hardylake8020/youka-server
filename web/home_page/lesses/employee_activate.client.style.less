@@ -1,0 +1,214 @@
+.wrap {
+  background: url(../images/bg_operation.png) no-repeat left top;
+  height: 100%;
+
+  .zz-home-header {
+    position: static;
+    background: none;
+    box-shadow: none;
+    .navigation {
+      .logo {
+        .photo {
+          background: url("../../home_page/images/logo.png") no-repeat center;
+        }
+      }
+
+      .user-operation .login {
+        display: inline-block;
+        color: #fff;
+        border: 1px solid #fff;
+        border-radius: 4px;
+      }
+
+      .user-operation .signup {
+        display: none;
+      }
+
+      .link .item {
+        color: #fff;
+      }
+    }
+  }
+
+  .signup-body {
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    margin: 100px auto;
+    padding: 0 50px 65px 50px;
+    width: 430px;
+    background-color: #fff;
+    border-radius: 4px;
+
+    .register-container,.result-container {
+      &.hide{
+        display: none;
+      }
+    }
+
+    .register-container {
+      .title {
+        padding: 20px 0;
+        .text {
+          text-align: center;
+          font-size: 24px;
+          color: #000;
+        }
+        .underline {
+          width: 30px;
+          border: 1px solid #bdbdbd;
+          margin: 10px auto;
+        }
+      }
+
+      .form {
+        .username, .password, .password-sure {
+          .tip {
+            font-size: 12px;
+            margin-bottom: 5px;
+          }
+          .border {
+            width: 330px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #fafafa;
+            border: 1px solid #efefef;
+            border-radius: 4px;
+            overflow: hidden;
+            .icon {
+              display: inline-block;
+              width: 40px;
+              height: 40px;
+              background: url('../images/signin/user.png') no-repeat center center;
+              float: left;
+            }
+            .text {
+              background-color: #fafafa;
+              border: none;
+              outline: none;
+              box-shadow: none;
+              width: 280px;
+              float: left;
+              height: 40px;
+              line-height: 40px;
+            }
+          }
+        }
+        .password, .password-sure {
+          margin-top: 15px;
+          .tip {
+            a {
+              text-decoration: none;
+              cursor: pointer;
+              color: #0067bc;
+            }
+          }
+          .border {
+            .icon {
+              background-image: url('../images/signin/password.png');
+            }
+          }
+        }
+
+        .operation {
+          margin-top: 0;
+          height: 40px;
+          .left {
+            display: inline-block;
+            width: 100%;
+            height: 40px;
+            float: left;
+            .error {
+              font-size: 12px;
+              color: #ee7361;
+              visibility: visible;
+              margin-bottom: 10px;
+              line-height: 40px;
+              &.zz-hidden {
+                visibility: collapse;
+              }
+            }
+            .register {
+              font-size: 12px;
+              color: #979797;
+
+              a {
+                text-decoration: none;
+                cursor: pointer;
+                color: #0078c6;
+              }
+            }
+          }
+
+          .right {
+            display: inline-block;
+            float: right;
+            width: 100%;
+            clear: both;
+            height: 40px;
+
+            .button {
+              width: 100%;
+              height: 40px;
+              line-height: 40px;
+              border: 1px solid #eee;
+              color: #eee;
+              text-align: center;
+              background-color: #fff;
+              border-radius: 4px;
+              outline: none;
+              box-shadow: none;
+
+              &.able {
+                background-color: #0078c6;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .result-container {
+      padding: 20px 0px 0px;
+      .result-title {
+        color: #333;
+        font-size: 22px;
+        text-align: left;
+      }
+
+      .result-body {
+        .result-tip {
+          color: #666666;
+          text-align: left;
+          font-size: 13px;
+          margin-top: 15px;
+        }
+
+        .resultUsername,.sendAgain {
+          width: 100%;
+          height: 40px;
+          border: none;
+          border-radius: 4px;
+          margin-top: 30px;
+        }
+
+        .resultUsername {
+          display: block;
+          font-size: 22px;
+          color: #0078c6;
+          text-align: center;
+        }
+
+        .sendAgain {
+          color: #ffffff;
+          background-color: #0078c6;
+        }
+
+      }
+    }
+
+  }
+}

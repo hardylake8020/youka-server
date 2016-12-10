@@ -1,0 +1,1648 @@
+@import "../global.client.style.less";
+
+//framework start
+
+@header-height: 76px;
+@header-border: 3px;
+@foot-height: 70px;
+@content-min-height: 630px;
+
+body
+{
+  margin: 0;
+  padding: 0;
+  .header
+  {
+    display: block;
+    overflow: hidden;
+
+    min-height: @header-height;
+    border-bottom: @header-border solid;
+
+    .left
+    {
+      display: inline-block;
+      float: left;
+      overflow: hidden;
+      height: @header-height;
+
+      .logo
+      {
+        @logo-img-height: 27px;
+
+        display: inline-block;
+        float: left;
+        overflow: hidden;
+
+        width: 150px;
+        height: 26px;
+
+        margin-top: 25px;
+
+        img
+        {
+          display: block;
+          @margin-gap: @header-height - @logo-img-height;
+          margin-top: @margin-gap / 2;
+
+          height: @logo-img-height;
+        }
+      }
+    }
+
+    .right
+    {
+      display: inline-block;
+      float: right;
+
+      .about, .login,.register,.download
+      {
+        display: inline-block;
+        overflow: hidden;
+        float:left;
+
+        margin-right: 10px;
+        :nth-last-child(1)
+        {
+          margin-right: 0px;
+        }
+
+        a
+        {
+          display: block;
+          cursor: pointer;
+
+          width: auto;
+          height: @header-height;
+          line-height: @header-height;
+
+          text-decoration: none;
+        }
+
+        &:hover a
+        {
+          color: #fda688;
+        }
+
+        &.selected .qr-code
+        {
+          visibility:  visible;
+        }
+
+        .qr-code
+        {
+          visibility: hidden;
+          position: absolute;
+          z-index: 5000;
+
+          width: 160px;
+          height: 150px;
+
+          margin-top: 10px;
+          margin-left: -45px;
+
+          background: url('../../img/index/qr-code/qr-code-default.png') top left no-repeat;
+          background-size: contain;
+        }
+      }
+
+      .download {
+        &.selected {
+          .popup {
+            visibility: visible;
+          }
+        }
+        .popup {
+          visibility: hidden;
+          position: absolute;
+          margin-top: -25px;
+          margin-left: -40px;
+          z-index: 3000;
+          width: 150px;
+          height: 219px;
+          background: url('../../img/index/download_app/backgroud.png') top left no-repeat;
+          text-align: center;
+
+          .code {
+            width: 129px;
+            height: 129px;
+            margin-top: 20px;
+          }
+          .line {
+            height: 10px;
+            line-height: 10px;
+            background: url('../../img/index/download_app/line.png') center center no-repeat;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 10px;
+            color: #bbb4ad;
+          }
+          .button {
+            margin: 0px;
+            height: 29px;
+            line-height: 29px;
+            color: #333;
+            background: url('../../img/index/download_app/button_default.png') center center no-repeat;
+
+            &:hover {
+              background-image: url('../../img/index/download_app/button_hover.png');
+              cursor: pointer;
+            }
+
+            &:active {
+              background-image: url('../../img/index/download_app/button_focus.png');
+            }
+          }
+        }
+      }
+    }
+  }
+  .footer
+  {
+    display: block;
+    overflow: hidden;
+
+    margin-top: -@foot-height;
+
+    min-height: @foot-height;
+
+    filter:alpha(opacity=50);
+    -moz-opacity:0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+
+
+    text-align: center;
+    font-size: 15px;
+    line-height: @foot-height;
+
+    span
+    {
+      margin-right: 10px;
+    }
+  }
+
+  .content
+  {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    min-height: @content-min-height;
+
+    ul.view-port
+    {
+      display: block;
+      overflow: hidden;
+
+      min-height: @content-min-height;
+
+      li
+      {
+        display: block;
+        float: left;
+        overflow: hidden;
+
+        width: 100%;
+        min-height: @content-min-height;
+
+
+        &.selected
+        {
+          visibility: visible;
+        }
+
+        h1,h2,h3
+        {
+          text-align: center;
+          font-family: "微软雅黑"!important;
+          -webkit-font-smoothing: antialiased;
+        }
+        h1
+        {
+          margin: 75px auto 5px;
+          font-size: 40px;
+          line-height: 40px;
+        }
+        h2
+        {
+          margin: 0px;
+          font-size: 18px;
+          line-height: 18px;
+        }
+        h3
+        {
+          margin-top: 20px;
+          margin-bottom: 90px;
+          font-size: 15px;
+          line-height: 15px;
+          font-weight: lighter;
+        }
+
+      }
+
+    }
+
+    .page-nav
+    {
+      @arrow-size: 66px;
+
+      position: absolute;
+      overflow: hidden;
+      top: 120px;
+      z-index: 1000;
+
+      width: 100%;
+      height: @arrow-size;
+      .prev,.next
+      {
+        display: inline-block;
+        float: left;
+        overflow: hidden;
+
+        width: @arrow-size;
+        height: @arrow-size;
+
+        cursor: pointer;
+        img
+        {
+          display: block;
+
+          width: @arrow-size;
+          height: @arrow-size;
+          margin-top: 0px;
+
+        }
+        &:hover
+        {
+          cursor: pointer;
+          display: block;
+
+          img
+          {
+            display: none;
+            margin-top: 0px;
+          }
+
+          img.hover
+          {
+            display: block;
+            //margin-top: @arrow-size * (-1);
+          }
+        }
+
+        &.next
+        {
+          float: right;
+        }
+      }
+
+    }
+
+    .pagination
+    {
+      position: absolute;
+      overflow: hidden;
+      top: 220px;
+
+      margin-top: 20px;
+
+      z-index: 1000;
+      width: 100%;
+
+
+      ul
+      {
+        display: block;
+        overflow: hidden;
+        width: 120px;
+        margin: 0 auto;
+
+        li
+        {
+          display: inline-block;
+          overflow: hidden;
+          float: left;
+
+          width: 20px;
+          height: 20px;
+          margin-left: 10px;
+
+          cursor: pointer;
+          a{
+            display: block;
+            height: 20px;
+            line-height: 20px;
+
+            text-decoration: none;
+
+            margin-left: 0px;
+          }
+
+          &:hover,&.selected
+          {
+            a.hover
+            {
+              margin-top: -20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//framework end
+
+.player-container{
+  width:100%;
+  height:100%;
+  background-color: rgba(0,0,0,0.8);
+  position: absolute;
+  top:0px;
+  left: 0px;
+  display: none;
+  z-index: 1002;
+  .player-wrapper{
+    position: absolute;
+    left: 50%;
+    top:50%;
+    margin-top: -240px;
+    margin-left: -320px;
+    width:640px;
+    height:480px;
+  }
+}
+
+//page1 start
+.content .view-port li.one
+{
+  .wrapper{
+    .video-container{
+      left: 50%;
+      margin-top: 20px;
+      margin-left: -180px;
+      position: absolute;
+      width: 380px;
+      height:40px;
+      z-index: 1001;
+      .web-video{
+        width:180px;
+        height:40px;
+        float: left;
+        background: url('../../img/index/video_icon/web-video.png') right center no-repeat;
+        &:hover{
+          cursor: pointer;
+          background: url('../../img/index/video_icon/web-video-hover.png') right center no-repeat;
+        }
+      }
+      .app-video{
+        width:180px;
+        height:40px;
+        float: right;
+        background: url('../../img/index/video_icon/app-video.png') left center no-repeat;
+        &:hover{
+          cursor: pointer;
+          background: url('../../img/index/video_icon/app-video-hover.png') left center no-repeat;
+        }
+      }
+    }
+  }
+
+  .views
+  {
+    display: block;
+    min-height: 410px;
+    overflow: hidden;
+
+
+    .map-layout
+    {
+      position: absolute;
+      width: 100%;
+      height: 395px;
+
+      display: block;
+      overflow: hidden;
+
+      .map
+      {
+
+        display: block;
+        overflow: hidden;
+
+        position: absolute;
+        left: 50%;
+        margin-left: -960px;
+
+        width: 1920px;
+        height: 415px;
+
+        background: url('../../img/index/page1/map.png') left bottom no-repeat;
+
+        .icon
+        {
+          position: absolute;
+
+          display: block;
+          overflow: hidden;
+
+          &.three-pl
+          {
+            top: 80px;
+            left: 720px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/3pl.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/3pl.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.driver
+          {
+            top: 110px;
+            left: 980px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/driver.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/driver.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.recevier
+          {
+            top: 120px;
+            left: 1360px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/recevier.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/recevier.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.owner
+          {
+            top: 190px;
+            left: 480px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/owner.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/owner.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.shuttle
+          {
+            top: 250px;
+            left: 1240px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/shuttle.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/shuttle.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.air-transport
+          {
+            top: 280px;
+            left: 600px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/air-transport.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/air-transport.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.maritime-transport
+          {
+            top: 235px;
+            left: 700px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/maritime-transport.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/maritime-transport.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.yellow-cattle
+          {
+            top: 260px;
+            left: 980px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/yellow-cattle.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/yellow-cattle.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.warehouse
+          {
+            top: 270px;
+            left: 1470px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/warehouse.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/warehouse.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.green-company
+          {
+            top: 280px;
+            left: 870px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/green-company.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/green-company.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+          &.branch-company
+          {
+            top: 150px;
+            left: 1235px;
+            &.small
+            {
+              background: url('../../img/index/page1/smallicons/branch-company.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+            &.big,&:hover
+            {
+              background: url('../../img/index/page1/bigicons/branch-company.png') center center no-repeat;
+              background-size: contain;
+              -webkit-background-size: cover;/* 兼容Webkit内核浏览器如Chrome和Safari */
+              -o-background-size: cover;/* 兼容Opera */
+            }
+          }
+
+
+        }
+        .big
+        {
+          width: 64px;
+          height: 64px;
+        }
+        .small
+        {
+          width: 32px;
+          height: 32px;
+
+          transition:All 0.2s ease-in-out;
+          -webkit-transition:All 0.2s ease-in-out;
+          -moz-transition:All 0.2s ease-in-out;
+          -o-transition:All 0.2s ease-in-out;
+          &:hover {
+            transform:scale(2);
+            -webkit-transform:scale(2);
+            -moz-transform:scale(2);
+            -o-transform:scale(2);
+            -ms-transform:scale(2);
+          }
+        }
+
+      }
+
+    }
+  }
+}
+
+body.skin-orange
+{
+  @header-background-color: #feefea;
+  @header-border-color: #fdd1c4;
+  @footer-background-color: @header-border-color;
+  @section-background-from-color: #fee0d8;
+  @section-background-to-color: #fff4f0;
+  @font-color-main: #f95e1f;
+  @font-color-hover: #f95e1f;
+  @font-color-a: #fb8b69;
+  @font-color-h2: #fca07d;
+  @font-color-h3: #f95e1f;
+
+
+  background:  @section-background-to-color;
+  background:-moz-linear-gradient(top,@section-background-from-color,@section-background-to-color);  /*Mozilla*/
+  background:-webkit-linear-gradient(top,@section-background-from-color,@section-background-to-color);/*Webkit*/
+  background:-o-linear-gradient(top,@section-background-from-color,@section-background-to-color);    /*Opera11*/
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=@section-background-from-color, endColorstr=@section-background-to-color);/*IE<9>*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#fee0d8, endColorstr=#fff4f0)";/*IE8+*/
+
+  color: @font-color-main;
+
+  .header{
+    background-color: @header-background-color;
+    border-bottom-color: @header-border-color;
+
+    .left .logo
+    {
+      background: url('../../img/index/page1/logo.png');
+      background-size: contain;
+    }
+
+    .right
+    {
+      a
+      {
+        color: @font-color-a;
+
+        &:hover
+        {
+          color: @font-color-hover;
+        }
+      }
+
+    }
+  }
+
+  .footer
+  {
+    background-color: @footer-background-color;
+
+    span
+    {
+      color: @font-color-h3;
+    }
+  }
+
+  .content h2
+  {
+    color: @font-color-h2;
+  }
+  .content h1
+  {
+    color: @font-color-h3;
+  }
+
+  .page-nav
+  {
+    .two,.three,.four
+    {
+      display: none;
+    }
+  }
+
+  .pagination ul li a
+  {
+    color: @font-color-main;
+  }
+
+  .content .view-port
+  {
+    li.two,li.three,li.four
+    {
+      display: none;
+    }
+  }
+
+}
+//page1 end
+
+//page2 start
+
+.skin-green .example-data
+{
+  @dotted-width: 710px;
+  @ruler-width: 662px;
+  @long-dashed-width: 560px;
+  @solid-width: 539px;
+  @gray-tape-width: 515px;
+  @dashed-width: 461px;
+  @earth-width: 402px;
+
+
+  display: block;
+  overflow: hidden;
+  margin: 0px auto;
+  min-height: 410px;
+
+  img
+  {
+    display: none;
+  }
+
+  >div
+  {
+    position: absolute;
+    width: 100%;
+    >div
+    {
+      position: absolute;
+    }
+  }
+
+  //----------> 光圈 开始
+  .dotted
+  {
+    z-index: － 1000;
+    >div
+    {
+      width: 90%;
+      margin-left: -90%/2;
+      width: @dotted-width;
+      height: @dotted-width;
+      margin-top: 0;
+
+      left: 50%;
+      margin-left: -@dotted-width/2;
+      background: url("../../img/index/page2/dotted.png") center bottom no-repeat;
+      background-size: contain;
+    }
+  }
+
+  .ruler
+  {
+    position: absolute;
+    width: 100%;
+
+    z-index: － 900;
+
+    @size: @dotted-width - @ruler-width;
+
+    >div
+    {
+      left: 50%;
+      margin-left: -@ruler-width/2;
+      margin-top: @size/2;
+
+      width: @ruler-width;
+      height: @ruler-width;
+      background: url("../../img/index/page2/ruler.png") center bottom no-repeat;
+      background-size: contain;
+    }
+
+  }
+  .long-dashed
+  {
+    z-index: － 800;
+    @size: @dotted-width - @long-dashed-width;
+
+    >div
+    {
+      left: 50%;
+      margin-left: -@long-dashed-width/2;
+      margin-top: @size/2;
+
+      width: @long-dashed-width;
+      height: @long-dashed-width;
+      background: url("../../img/index/page2/long-dashed.png") center bottom no-repeat;
+      background-size: contain;
+    }
+  }
+  .solid
+  {
+
+    z-index: － 700;
+    @size: @dotted-width - @solid-width;
+
+    >div
+    {
+      left: 50%;
+      margin-left: -@solid-width/2;
+      margin-top: @size/2;
+
+      width: @solid-width;
+      height: @solid-width;
+      background: url("../../img/index/page2/solid.png") center bottom no-repeat;
+      background-size: contain;
+    }
+  }
+  .gray-tape
+  {
+    z-index: － 600;
+    @size: @dotted-width - @gray-tape-width;
+
+    >div
+    {
+      left: 50%;
+      margin-left: -@gray-tape-width/2;
+      margin-top: @size/2;
+
+      width: @gray-tape-width;
+      height: @gray-tape-width;
+      background: url("../../img/index/page2/gray-tape.png") center bottom no-repeat;
+      background-size: contain;
+    }
+
+  }
+  .dashed
+  {
+
+    z-index: － 500;
+    @size: @dotted-width - @dashed-width;
+
+    >div
+    {
+      left: 50%;
+      margin-left: -@dashed-width/2;
+      margin-top: @size/2;
+
+      width: @dashed-width;
+      height: @dashed-width;
+      background: url("../../img/index/page2/dashed.png") center bottom no-repeat;
+      background-size: contain;
+    }
+  }
+  .earth
+  {
+    z-index: － 400;
+
+    @size: @dotted-width - @earth-width;
+
+    >div
+    {
+      left: 50%;
+      margin-left: -@earth-width/2;
+      margin-top: @size/2;
+
+      width: @earth-width;
+      height: @earth-width;
+      background: url("../../img/index/page2/earth.png") center bottom no-repeat;
+      background-size: contain;
+    }
+  }
+  .map
+  {
+    z-index: - 300;
+
+    @map-width: 378px;
+    @map-height: 170px;
+    @size: @dotted-width - @earth-width;
+    @maginsize: @size / 2;
+
+    >div
+    {
+      left: 50%;
+      margin-left: -@map-width/2;
+      margin-top: @size/2;
+
+      width: @map-width + 60;
+      height: @map-height;
+
+      overflow: visible;
+      background: url("../../img/index/page2/map.png") 30px center no-repeat;
+      background-size: contain;
+
+      >*
+      {
+        display: inline-block;
+        float: left;
+      }
+
+
+      .time
+      {
+        width: 125px;
+        height: 125px;
+
+        margin-left: -120px;
+        margin-top: -60px;
+
+        background: url("../../img/index/page2/time.png") top left no-repeat;
+        background-size: contain;
+
+        &:hover
+        {
+
+        }
+      }
+
+      .weight
+      {
+        width: 75px;
+        height: 75px;
+
+        margin-left: 500px;
+        margin-top: -50px;
+        background: url("../../img/index/page2/weight.png") top left no-repeat;
+        background-size: contain;
+      }
+
+      .location
+      {
+        width: 43px;
+        height: 43px;
+
+        margin-left: 150px;
+        margin-top: -25px;
+        background: url("../../img/index/page2/location.png") top left no-repeat;
+        background-size: contain;
+      }
+
+      .volume
+      {
+        width: 75px;
+        height: 75px;
+
+        margin-left: 420px;
+        margin-top: -50px;
+        background: url("../../img/index/page2/volume.png") top left no-repeat;
+        background-size: contain;
+      }
+
+
+    }
+
+  }
+  //---------> 光圈 结束
+}
+body.skin-green
+{
+
+  @header-background-color: #e7faf4;
+  @header-border-color: #bdecda;
+  @footer-background-color: @header-border-color;
+  @section-background-from-color: #cff3e5;
+  @section-background-to-color: #eefff9;
+  @font-color-main: #20af74;
+  @font-color-hover: #20af74;
+  @font-color-a: #68c39a;
+  @font-color-h2: #79d2ae;
+  @font-color-h3: #20af74;
+
+  color: @font-color-main;
+
+  background: @section-background-to-color;
+  background:-moz-linear-gradient(top,@section-background-from-color,@section-background-to-color);  /*Mozilla*/
+  background:-webkit-linear-gradient(top,@section-background-from-color,@section-background-to-color);/*Webkit*/
+  background:-o-linear-gradient(top,@section-background-from-color,@section-background-to-color);    /*Opera11*/
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=@section-background-from-color, endColorstr=@section-background-to-color);/*IE<9>*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#cff3e5, endColorstr=#eefff9)";/*IE8+*/
+
+  .header{
+    background-color: @header-background-color;
+    border-bottom-color: @header-border-color;
+
+    .left .logo
+    {
+      background: url('../../img/index/page2/logo_small.png');
+      background-size: contain;
+    }
+
+    .right
+    {
+      a
+      {
+        color: @font-color-a;
+
+        &:hover
+        {
+          color: @font-color-hover;
+        }
+      }
+    }
+  }
+
+  footer
+  {
+    background-color: @footer-background-color;
+
+    span
+    {
+      color: @font-color-h3;
+    }
+  }
+  .footer
+  {
+    background-color: @footer-background-color;
+
+    span
+    {
+      color: @font-color-h3;
+    }
+  }
+
+  .content h2
+  {
+    color: @font-color-h2;
+  }
+  .content h1
+  {
+    color: @font-color-h3;
+  }
+
+  .page-nav
+  {
+    .one,.three,.four
+    {
+      display: none;
+    }
+  }
+
+  .pagination ul li a
+  {
+    color: @font-color-main;
+  }
+
+  .content .view-port
+  {
+    li.one,li.three,li.four
+    {
+      display: none;
+    }
+  }
+}
+
+//page2 end
+
+
+//page 3 start
+.skin-blue .content .view-port .example-data
+{
+  @example-data-height: 410px;
+
+  display: block;
+  overflow: hidden;
+
+  width: 100%;
+  min-heigh: @example-data-height;
+
+  background: url("../../img/index/page3/bg_small.png") no-repeat left bottom;
+  background-size: contain;
+
+  .examples
+  {
+    @item-width: 180px;
+    @padding-size: 50px;
+    padding-bottom: 50px;
+    min-width: @item-width;
+    max-width: @item-width * 3;
+    min-height: @example-data-height - @padding-size;
+
+    margin: 0 auto;
+
+    .item
+    {
+      display: inline-block;
+      float: left;
+      overflow: hidden;
+
+      margin: 0 auto;
+      width: @item-width;
+      height: @example-data-height - @padding-size;
+
+      strong.percent
+      {
+        display: block;
+        overflow: hidden;
+        width: 100%;
+        height: 40px;
+
+        text-align: center;
+        line-height: 40px;
+        font-size: 40px;
+        font-weight: bolder;
+
+        &:after
+        {
+          content: "%";
+          font-size: 15px;
+          line-height: 45px;
+          font-weight: bold;
+        }
+      }
+
+      span
+      {
+        display: block;
+        margin: 5px auto;
+
+        font-size: 12px;
+        line-height: 12px;
+        text-align: center;
+      }
+
+      .bar
+      {
+        margin: 10px auto;
+        width: @item-width;
+
+        >img
+        {
+          display: block;
+          overflow: hidden;
+          margin: 0 auto;
+        }
+
+        .circle
+        {
+          width: 15px;
+          height: 15px;
+
+          background: url('../../img/index/page3/circle.png') no-repeat center center;
+          background-size: contain;
+        }
+
+        .line
+        {
+          width: 1px;
+          height: 159px;
+          background: url('../../img/index/page3/line.png') no-repeat top center;
+          background-size: contain;
+        }
+
+      }
+
+      &.big
+      {
+        strong
+        {
+          margin-top: 40px;
+        }
+
+        .ripple
+        {
+          width: 80px;
+          height: 20px;
+
+          background: url('../../img/index/page3/ripple-big.png') no-repeat center center;
+          background-size: contain;
+        }
+      }
+
+      &.middle
+      {
+        strong
+        {
+          margin-top: 20px;
+        }
+
+        .ripple
+        {
+          width: 62px;
+          height: 16px;
+
+          background: url('../../img/index/page3/ripple-middle.png') no-repeat center center;
+          background-size: contain;
+        }
+      }
+
+      &.small
+      {
+        .ripple
+        {
+          width: 46px;
+          height: 12px;
+
+          background: url('../../img/index/page3/ripple-small.png') no-repeat center center;
+          background-size: contain;
+        }
+      }
+
+
+    }
+
+
+    @media screen and (max-width: 480px){
+
+
+      .item
+      {
+        &.big,&.middle,&.small {
+          display: block;
+          float: none;
+          margin: 0 auto;
+        }
+      }
+
+    }
+
+  }
+}
+
+body.skin-blue
+{
+  @header-background-color: #e5f3fe;
+  @header-border-color: #b9ddfd;
+  @footer-background-color: @header-border-color;
+  @section-background-from-color: #cbe7fd;
+  @section-background-to-color: #e5f6fe;
+  @font-color-main: #2b96e8;
+  @font-color-hover: #2b96e8;
+  @font-color-a: #62adee;
+  @font-color-h2: #8ac1f3;
+  @font-color-h3: #2b96e8;
+
+  color: @font-color-main;
+
+  background: @section-background-to-color;
+  background:-moz-linear-gradient(top,@section-background-from-color,@section-background-to-color);  /*Mozilla*/
+  background:-webkit-linear-gradient(top,@section-background-from-color,@section-background-to-color);/*Webkit*/
+  background:-o-linear-gradient(top,@section-background-from-color,@section-background-to-color);    /*Opera11*/
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=@section-background-from-color, endColorstr=@section-background-to-color);/*IE<9>*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#cbe7fd, endColorstr=#e5f6fe)";/*IE8+*/
+
+  .header{
+    background-color: @header-background-color;
+    border-bottom-color: @header-border-color;
+    .left .logo
+    {
+      background: url('../../img/index/page3/logo_small.png');
+      background-size: contain;
+    }
+    .right
+    {
+      a
+      {
+        color: @font-color-a;
+
+        &:hover
+        {
+          color: @font-color-hover;
+        }
+      }
+    }
+  }
+
+  .footer
+  {
+    background-color: @footer-background-color;
+
+    span
+    {
+      color: @font-color-h3;
+    }
+  }
+
+
+
+  .content h2
+  {
+    color: @font-color-h2;
+  }
+  .content h1
+  {
+    color: @font-color-h3;
+  }
+
+
+  .page-nav
+  {
+    .two,.one,.four
+    {
+      display: none;
+    }
+  }
+  .pagination ul li a
+  {
+    color: @font-color-main;
+  }
+  .content .view-port
+  {
+    li.one,li.two,li.four
+    {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h3 {
+    width: 60%;
+    margin: auto;
+  }
+}
+//page 3 end
+
+
+//page 4 start
+
+body .content .view-port li
+{
+  &.four
+  {
+    background: url("../../img/index/page4/bg.png") center bottom no-repeat;
+    background-size: contain;
+  }
+}
+
+@item-width: 150px;
+.skin-pink .content .view-port .example-data
+{
+
+
+  display: block;
+
+  margin: 0 auto;
+
+  width: 100%;
+
+  min-height: 410px;
+
+  .item-container
+  {
+    display: block;
+    overflow: hidden;
+
+    margin: 0 auto;
+
+    width: @item-width * 5;
+
+    .item
+    {
+      display: inline-block;
+      float: left;
+
+      margin-top : 0px;
+
+      width: @item-width;
+
+      background: url('../../img/index/page4/line.png') 100% 10% no-repeat;
+      background-size: contain;
+
+      >*
+      {
+        display: block;
+        margin: 0 auto;
+
+        text-align: center;
+
+      }
+
+      img
+      {
+        height: 35px;
+
+        margin-bottom: 20px;
+      }
+
+
+      strong
+      {
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+      .info
+      {
+        font-size: 14px;
+
+        filter:alpha(opacity=50);
+        -moz-opacity:0.5;
+        -khtml-opacity: 0.5;
+        opacity: 0.5;
+      }
+
+      &:nth-last-child(1)
+      {
+        background-image: none;
+      }
+    }
+
+  }
+
+
+
+}
+
+
+
+
+body.skin-pink
+{
+  @header-background-color: #fcecec;
+  @header-border-color: #f7c6c9;
+  @footer-background-color: @header-border-color;
+  @section-background-from-color: #f8d8d9;
+  @section-background-to-color: #fff1f4;
+  @font-color-main: #e92c4b;
+  @font-color-hover: #e92c4b;
+  @font-color-a: #ed6879;
+  @font-color-h2: #f1939d;
+  @font-color-h3: #e92c4b;
+
+  color: @font-color-main;
+
+  background: @section-background-to-color;
+  background:-moz-linear-gradient(top,@section-background-from-color,@section-background-to-color);  /*Mozilla*/
+  background:-webkit-linear-gradient(top,@section-background-from-color,@section-background-to-color);/*Webkit*/
+  background:-o-linear-gradient(top,@section-background-from-color,@section-background-to-color);    /*Opera11*/
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=@section-background-from-color, endColorstr=@section-background-to-color);/*IE<9>*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#f8d8d9, endColorstr=#fff1f4)";/*IE8+*/
+
+  .header{
+    background-color: @header-background-color;
+    border-bottom-color: @header-border-color;
+    .left .logo
+    {
+      background: url('../../img/index/page4/logo_small.png');
+      background-size: contain;
+    }
+    .right
+    {
+      a
+      {
+        color: @font-color-a;
+
+        &:hover
+        {
+          color: @font-color-hover;
+        }
+      }
+
+    }
+
+  }
+
+
+  .footer
+  {
+    background-color: @footer-background-color;
+
+    span
+    {
+      color: @font-color-h3;
+    }
+  }
+
+  .right
+  {
+    a
+    {
+      color: @font-color-main;
+      &:hover
+      {
+        color: @font-color-hover;
+      }
+    }
+    .qr-code
+    {
+
+      background: url('../../img/index/qr-code/qr-code-default.png') top left no-repeat;
+      background-size: contain;
+    }
+  }
+
+  .content h2
+  {
+    color: @font-color-h2;
+  }
+  .content h3
+  {
+    color: @font-color-h3;
+  }
+
+  .page-nav
+  {
+    .two,.three,.one
+    {
+      display: none;
+    }
+  }
+  .pagination ul li a
+  {
+    color: @font-color-main;
+  }
+  .content .view-port
+  {
+    li.one,li.three,li.two
+    {
+      display: none;
+    }
+  }
+
+}
+
+@media screen and (max-width: 480px){
+  .skin-pink .content .view-port .example-data
+  {
+    margin-bottom: 100px;
+
+    .item-container
+    {
+      display: block;
+      width: 100%;
+
+      .item
+      {
+        display: block ;
+        float: none;
+        margin: 20px auto;
+        background:none;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: @item-width * 5){
+  .skin-pink .content .view-port .example-data
+  {
+    margin-bottom: 100px;
+
+    .item-container
+    {
+      display: block;
+      width: @item-width * 5;
+
+      .item
+      {
+        display: block ;
+        float: none;
+        margin: 20px auto;
+        background:none;
+      }
+    }
+
+  }
+
+}
+
+//page 4 end
+
+
+
+@media screen and (max-width: 679px){
+  body footer
+  {
+    line-height: 35px;
+  }
+  body .page-nav
+  {
+    display: none;
+  }
+
+  body header .right .download
+  {
+    display: none;
+  }
+}

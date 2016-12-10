@@ -1,0 +1,103 @@
+/**
+ * Created by zenghong on 15/12/3.
+ */
+.sm-auth-header {
+  background-color: #fafafa;
+  text-align: center;
+  height: 60px;
+  .title {
+    height:26px;
+    margin-top: 17px;
+    color: black;
+    font-size: 20px;
+  }
+}
+
+.sm-auth-body {
+  padding: 20px;
+  .tip {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    &.warnning {
+      color: #ff6666;
+    }
+  }
+  .input-container {
+    position: relative;
+    .item-container {
+      display: none;
+      position: absolute;
+      left: 0px;
+      width: 100%;
+      top: 40px;
+      border: 1px solid #d7d7d7;
+      background-color: white;
+      border-top: 0px;
+      .item {
+        border-bottom: 1px solid #efefef;
+        line-height: 30px;
+        padding: 5px;
+        &.last {
+          border-bottom: 0px;
+        }
+      }
+    }
+    .verify-btn {
+      position: absolute;
+      right: 0px;
+      top: 5px;
+      line-height: 30px;
+      background-color: #ffcc33;
+      color: #fff;
+      padding: 0px 10px;
+      text-align: center;
+      border-radius: 3px;
+      &.zz-disable {
+        background-color: #f2f2f2;
+        color: #999;
+      }
+    }
+  }
+  .input {
+    margin-bottom: 20px;
+    height: 40px;
+    width: 100%;
+    border: 0px;
+    font-size: 16px;
+    border-radius: 0px;
+    border-bottom: 1px solid #d7d7d7;
+    padding: 5px;
+    &:focus {
+      outline: none;
+      border-bottom: 1px solid #999;
+    }
+
+    &::-webkit-input-placeholder { /* WebKit browsers */
+      color: #cdcdcd;
+    }
+    &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      color: #cdcdcd;
+    }
+    &::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color: #cdcdcd;
+    }
+    &:-ms-input-placeholder { /* Internet Explorer 10+ */
+      color: #cdcdcd;
+    }
+  }
+  .submit {
+    margin-top: 30px;
+    line-height: 50px;
+    background-color: #ffcc33;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 3px;
+    &:active {
+      background-color: #EEBE2E;
+    }
+  }
+}
+

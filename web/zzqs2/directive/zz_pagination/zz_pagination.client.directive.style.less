@@ -1,0 +1,103 @@
+.zz-pagination{
+  @color-gray: #333333;
+  @color-blue: #4186c9;
+  @radius-size: 2px;
+
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 10%;
+  margin: 20px 0;
+
+  .page_list{
+    display: inline-block;
+    overflow: hidden;
+    float: left;
+    width: 50%;
+    heigth: 100%;
+
+    ul{
+      display: inline-block;
+      overflow: hidden;
+      float: right;
+      padding: 5px;
+      height: 100%;
+
+      li{
+
+        @height: 25px;
+        display: inline-block;
+        float: left;
+        min-width: @height;
+        height: @height;
+        background: #fff;
+        border: 1px solid #e6e6e6;
+        border-radius: @radius-size;
+        margin: 0 5px;
+        padding: 0 2px;
+
+        a{
+          display: block;
+          height: 100%;
+          width: 100%;
+          font-size: 12px;
+          text-align: center;
+          text-decoration: none;
+          color: @color-gray;
+          line-height: @height;
+        }
+
+        &:hover,&.current{
+          background: @color-blue;
+          cursor: pointer;
+
+          a{
+            color: #fff;
+          }
+        }
+
+
+      }
+    }
+  }
+
+  .pagination_info{
+    display: inline-block;
+    float: left;
+    overflow: hidden;
+    width: 50%;
+    height: 100%;
+    padding: 5px;
+    .base_info,.limit_set,.currentPage_set{
+      display: inline-block;
+      overflow: hidden;
+      float: left;
+      margin-right: 20px;
+
+      color: @color-gray;
+    }
+
+    .limit_set{
+      select{
+        color: @color-gray;
+        border: 1px solid #e7e7e7;
+        border-radius: @radius-size;
+        background: #fff;
+      }
+    }
+
+    .currentPage_set{
+      input{
+        color: @color-gray;
+        border: 1px solid #e7e7e7;
+        width: 50px;
+        height: 19px;
+        line-height: 19px;
+        margin: 0 10px;
+        padding: 0px;
+        text-align: center;
+        border-radius:@radius-size;
+      }
+    }
+  }
+}

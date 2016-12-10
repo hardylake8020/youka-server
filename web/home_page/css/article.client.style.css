@@ -1,0 +1,148 @@
+body .body-content .description .title {
+  width: 100%;
+  background-image: url("../images/news/news_bg.png");
+  background-position: center 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 300px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 28px;
+}
+body .body-content .description .title img {
+  margin: 55px auto 25px;
+}
+body .body-content .description .title .title-container {
+  font-weight: bolder;
+  font-size: 36px;
+}
+body .body-content .description .title .text {
+  color: rgba(245, 245, 245, 0.7);
+  font-size: 16px;
+  margin-top: 35px;
+}
+body .body-content .description .description-container {
+  width: 100%;
+  height: 100%;
+  margin: 50px auto 0;
+}
+body .body-content .description .description-container .wrap {
+  min-height: 400px;
+  position: relative;
+  max-width: 1160px;
+  padding-right: 300px;
+  margin: 0 auto;
+}
+body .body-content .description .description-container .wrap .left {
+  width: 100%;
+}
+body .body-content .description .description-container .wrap .left .left-container .article-title {
+  font-size: 18px;
+  height: 100%;
+  width: 100%;
+  line-height: 25px;
+}
+body .body-content .description .description-container .wrap .left .left-container .article-nav {
+  color: #999999;
+  font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+}
+body .body-content .description .description-container .wrap .left .left-container .article-nav .article-info {
+  text-decoration: none;
+  color: #52be8d;
+  cursor: pointer;
+}
+body .body-content .description .description-container .wrap .left .left-container .article-nav .create-time {
+  margin-left: 30px;
+}
+body .body-content .description .description-container .wrap .left .left-container .article-container {
+  padding: 20px 0;
+  border-top: 1px solid #dbdbdb;
+  word-wrap: break-word;
+}
+body .body-content .description .description-container .wrap .left .left-container .article-container .p-content {
+  margin-bottom: 20px;
+  width: 100%;
+  line-height: 23px;
+  font-size: 14px;
+  color: #333;
+}
+body .body-content .description .description-container .wrap .left .left-container .article-container .p-photo {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  display: block;
+}
+body .body-content .description .description-container .wrap .right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+}
+body .body-content .description .description-container .wrap .right .classification {
+  width: 100%;
+  margin-top: 55px;
+  border-top: 1px solid #dbdbdb;
+  padding-top: 30px;
+}
+body .body-content .description .description-container .wrap .right .classification .total {
+  color: #c4c4c4;
+  margin: 0px;
+}
+body .body-content .description .description-container .wrap .right .classification .type {
+  margin: 15px 0;
+  position: relative;
+}
+body .body-content .description .description-container .wrap .right .classification .type .count {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 20px;
+  border-radius: 45%;
+  background-color: #52be8d;
+  display: inline-block;
+  color: #ffffff;
+  text-align: center;
+}
+@media screen and (max-width: 480px) {
+  body .body-content .description .description-container {
+    padding: 0 30px;
+  }
+  body .body-content .description .description-container .wrap {
+    padding-right: 0;
+  }
+  body .body-content .description .description-container .wrap .right {
+    display: none;
+  }
+  body .body-content .description .description-container .wrap .left {
+    font-size: 12px;
+  }
+  body .body-content .description .description-container .wrap .left .link {
+    padding-left: 30px;
+  }
+  body .body-content .description .description-container .wrap .left .link .item {
+    margin: 0;
+    font-size: 14px;
+  }
+  body .body-content .description .description-container .wrap .left .left-container .article-nav .create-time,
+  body .body-content .description .description-container .wrap .left .left-container .article-nav .show-time {
+    display: none;
+  }
+  body .body-content .description .description-container .wrap .left .left-container .list-container {
+    margin: 30px;
+  }
+  body .body-content .description .description-container .wrap .left .left-container .list-container .template {
+    margin-top: 15px;
+  }
+  body .body-content .description .description-container .wrap .left .left-container .list-container .template .template-container .title-header .time {
+    display: none;
+  }
+  body .body-content .description .description-container .wrap .result-tip {
+    text-align: center;
+    margin: 0 auto;
+    position: static;
+  }
+}

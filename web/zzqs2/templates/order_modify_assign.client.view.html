@@ -1,0 +1,92 @@
+<div class="zz-order-assign-detail-box">
+    <div class="zz-order-assign-detail-header">
+        <div class="zz-order-assign-detail-header-name"><span>{{order.order_details.order_number}}</span></div>
+    </div>
+    <div class="zz-order-assign-detail-body">
+        <div class="zz-order-assign-item" ng-repeat="assignInfo in assign_infos">
+            <div class="zz-order-assign-item-index"><span>{{$index+1}}</span></div>
+            <div class="zz-order-assign-item-info">
+                <div class="zz-order-assign-item-info-pickup">
+                    <label type="text" ng-click="openPickupRangeDatePicker(assignInfo);">{{assignInfo.pickupTimeRange.startDate
+                        ? ((dateTransport(assignInfo.pickupTimeRange.startDate) | date: 'yy/MM/dd HH:mm')+ " ~ " +
+                        (dateTransport(assignInfo.pickupTimeRange.endDate) | date: 'yy/MM/dd HH:mm')):
+                        "点击输入提货时间"}}</label>
+                    <input class="zz-order-assign-item-info-pickup-address"
+                           placeholder="点击输入提货地址" ng-model="assignInfo.pickup_contact_address"/>
+                </div>
+                <div class="zz-order-assign-item-info-split"><span></span></div>
+                <div class="zz-order-assign-item-info-delivery">
+                    <label type="text" ng-click="openDeliveryRangeDatePicker(assignInfo);">{{assignInfo.deliveryTimeRange.startDate?
+                        ((dateTransport(assignInfo.deliveryTimeRange.startDate) | date: "yy/MM/dd HH:mm")+ " ~ " +
+                        (dateTransport(assignInfo.deliveryTimeRange.endDate) | date: "yy/MM/dd HH:mm")):
+                        "点击输入交货时间"}}</label>
+                    <input class="zz-order-assign-item-info-delivery-address"
+                           placeholder="点击输入交货地址" ng-model="assignInfo.delivery_contact_address"/>
+                </div>
+                <div class="zz-order-assign-item-info-carrier">
+                    <div class="zz-order-assign-item-info-order-type" ng-click="changeType(assignInfo);"
+                         ng-class="assignInfo.type == 'warehouse' ? 'selected':''">
+                        <label>仓储订单</label>
+                    </div>
+                    <zz_select config="assignInfo" ng-show="(assignInfo.type == 'warehouse')"></zz_select>
+                    <zz_select config="assignInfo" ng-show="!(assignInfo.type == 'warehouse')"></zz_select>
+                </div>
+                <div class="zz-order-assign-item-info-others-edit">
+                    <span class="zz-order-assign-item-info-others-edit-icon"
+                          ng-click="editAssignDetailInfo(assignInfo);"></span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="zz-order-assign-detail-footer">
+        <div class="zz-order-assign-detail-actions">
+            <div class="zz-order-assign-detail-action-layout">
+                <button class="zz-order-assign-detail-action-cancel" ng-click="cancelAndBack();">取消分配</button>
+                <button class="zz-order-assign-detail-action-submit" ng-click="submitOrderAssignInfos()">确认分配</button>
+            </div>
+        </div>
+    </div>
+    <div class="zz-assign-contact-edit-layout" ng-show="contactEdit.isOpen">
+        <div class="zz-order-assign-detail-contact-edit">
+            <div class="zz-order-assign-detail-contact-header"><span>更多信息编辑</span></div>
+            <div class="zz-order-assign-detail-contact-body">
+                <div class="zz-order-assign-detail-contact-body-left">
+                    <div class="zz-order-assign-detail-contact-body-title">提货信息</div>
+                    <div class="zz-order-assign-detail-contact-body-content">
+                        <div class="zz-order-assign-detail-contact-item"><label>联系人</label><input
+                                ng-model="contactEdit.current.pickupName" placeholder="输入提货联系人"/></div>
+                        <div class="zz-order-assign-detail-contact-item"><label>手机</label><input
+                                ng-model="contactEdit.current.pickupMobilePhone" placeholder="输入提货手机"/></div>
+                        <div class="zz-order-assign-detail-contact-item"><label>电话</label><input
+                                ng-model="contactEdit.current.pickupPhone" placeholder="输入提货电话"/></div>
+                    </div>
+                </div>
+                <div class="zz-order-assign-detail-contact-body-middle">
+                    <div class="zz-order-assign-detail-contact-body-title"></div>
+                    <div class="zz-order-assign-detail-contact-body-split">
+                        <div class="zz-order-assign-detail-contact-body-split-icon"></div>
+                    </div>
+                </div>
+                <div class="zz-order-assign-detail-contact-body-right">
+                    <div class="zz-order-assign-detail-contact-body-title">交货信息</div>
+                    <div class="zz-order-assign-detail-contact-body-content">
+                        <div class="zz-order-assign-detail-contact-item"><label>联系人</label><input
+                                ng-model="contactEdit.current.deliveryName" placeholder="输入交货联系人"/></div>
+                        <div class="zz-order-assign-detail-contact-item"><label>手机</label><input
+                                ng-model="contactEdit.current.deliveryMobilePhone" placeholder="输入交货手机"/></div>
+                        <div class="zz-order-assign-detail-contact-item"><label>电话</label><input
+                                ng-model="contactEdit.current.deliveryPhone" placeholder="输入交货电话"/></div>
+                    </div>
+                </div>
+            </div>
+            <div class="zz-order-assign-detail-contact-footer">
+                <div class="zz-order-assign-detail-contact-actions">
+                    <a class="zz-order-assign-detail-contact-action-cancel" ng-click="closeAssignDetailInfo();">取消</a>
+                    <a class="zz-order-assign-detail-contact-action-save" ng-click="saveAssignDetailInfo();">保存信息</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<zz-range-date-picker></zz-range-date-picker>

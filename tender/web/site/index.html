@@ -1,0 +1,58 @@
+<!doctype html>
+<html ng-app="tender" lang="en">
+<head>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+	<meta charset="UTF-8">
+
+  <script id="error3" type="text/html" data-value="<%= test %>"></script>
+
+  <script src="http://api.map.baidu.com/api?v=2.0&ak=C31306a16db1e14257abded320d9d2f5"></script>
+
+
+  <script src="../libraries/jquery/dist/jquery.js"></script>
+	<script src="../libraries/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="../libraries/moment/min/moment.min.js"></script>
+	<script src="../libraries/moment/locale/zh-cn.js"></script>
+  <script src="../global/daterangepicker/daterangepicker.js"></script>
+  <script src="../libraries/angular/angular.min.js"></script>
+  <script src="../libraries/angular-daterangepicker/js/angular-daterangepicker.min.js"></script>
+	<script src="../libraries/angular-animate/angular-animate.min.js"></script>
+	<script src="../libraries/angular-aria/angular-aria.min.js"></script>
+	<script src="../libraries/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="../libraries/angular-messages/angular-messages.min.js"></script>
+	<script src="../libraries/angular-bindonce/bindonce.min.js"></script>
+	<script src="../libraries/angularytics/dist/angularytics.min.js"></script>
+	<script src="../libraries/angular-local-storage/dist/angular-local-storage.min.js"></script>
+  <script src="../libraries/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+  <script src="../libraries/angular-touch/angular-touch.min.js"></script>
+  <script src="../libraries/venturocket-angular-slider/build/angular-slider.min.js"></script>
+
+  <script src="../global/global.client.support.js"></script>
+  <script src="dist/js/tender.js"></script>
+
+  <link rel="stylesheet" href="../libraries/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../libraries/bootstrap-daterangepicker/daterangepicker-bs3.css">
+
+  <link rel="stylesheet" href="../libraries/angular-bootstrap-datetimepicker/src/css/datetimepicker.css">
+  <link rel="stylesheet" href="../global/css/index.client.style.css">
+  <link rel="stylesheet" href="dist/css/tender.css">
+
+	<title>柱柱招标</title>
+</head>
+<body ng-controller="IndexController" ng-click="mainConfig.clickBody()">
+<div class="row main-header" ng-controller="HeaderController">
+  <div class="col col-xs-6 col-sm-5 col-md-4 col-lg-4 left">
+    <div class="logo" ng-click="goZzqs()">
+      <img ng-src="images/global/logo.png" ng-class="{'half':headerNav.currentnav}"/>
+    </div>
+  </div>
+</div>
+
+  <div ui-view class="view"></div>
+  <div zz-loading></div>
+  <div zz-alert-dialog></div>
+  <div zz-alert-confirm-dialog></div>
+  <div zz-alert-confirm-style-dialog></div>
+  <div zz-alert-prompt-dialog></div>
+</body>
+</html>

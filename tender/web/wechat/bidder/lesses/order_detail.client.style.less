@@ -1,0 +1,118 @@
+.zz-order-detail {
+  position: fixed;
+  left: 100%;
+  top: 0px;
+  padding-top: 60px;
+  width: 100%;
+  height: 100%;
+  background-color: #f2f2f2;
+  -webkit-transition: -webkit-transform .3s ease;
+  -webkit-transform: translate3d(0, 0, 0);
+  z-index: 3;
+  &.show {
+    -webkit-transform: translate3d(-100%, 0, 0);
+  }
+
+  .info-tip {
+    padding: 20px 20px 20px 30px;
+    background-color: #ffcc66;
+    position: relative;
+    &.abnormal {
+      background-color: #ff6666;
+    }
+    .cur-status {
+      line-height: 30px;
+      font-size: 16px;
+    }
+
+    .nav-go {
+      position: absolute;
+      width: 24px;
+      right: 12px;
+      top: 50%;
+      margin-top: -12px;
+    }
+
+    .damaged-reason {
+      font-size: 14px;
+      color: black;
+      opacity:0.5;
+      width: 100%;
+      padding-right: 120px;
+    }
+
+    .car-icon {
+      position: absolute;
+      right: 60px;
+      width: 80px;
+      top: 50%;
+      margin-top: -40px;
+    }
+
+    .icon-small {
+
+    }
+  }
+  .info-container {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 100px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    .title {
+      border-top: 1px solid #cdcdcd;
+      border-bottom: 1px solid #cdcdcd;
+      line-height: 50px;
+      background-color: white;
+      padding-left: 15px;
+      overflow: hidden;
+      .key {
+        width: 30%;
+        font-size: 14px;
+        float: left;
+        color: #999;
+      }
+      .value {
+        width: 60%;
+        float: left;
+        font-size: 18px;
+        color: #cdcdcd;
+        &.hasvalue {
+          color: black;
+        }
+      }
+    }
+    .item-container{
+      padding:20px 0px;
+      .item {
+        padding-left: 30px;
+        line-height:30px;
+        overflow: hidden;
+        font-size: 14px;
+        .key {
+          width: 30%;
+          float: left;
+          color: #999;
+        }
+        .value {
+          float: left;
+          width: 60%;
+          color: #cdcdcd;
+          &.hasvalue {
+            color: black;
+          }
+          &.abnormal {
+            color: #ff6666;
+          }
+
+          &.phone {
+            text-decoration: none;
+            &.highlight {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

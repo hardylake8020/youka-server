@@ -1,0 +1,131 @@
+.zz-data-collection-visit-container {
+  .header-info {
+    padding-left: 15px;
+    height: 41px;
+    line-height: 41px;
+    border-bottom: 1px solid #999;
+    .date {
+      .text {
+        width: 40px;
+        display: inline-block;
+      }
+      .info-input {
+        display: inline-block;
+        width: 300px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+      }
+    }
+    .member {
+      padding: 0px;
+      height: 40px;
+      .condition {
+        height: 40px;
+        float: right;
+        .content {
+          height: 40px;
+          line-height: 40px;
+          width: 300px;
+          font-size: 16px;
+          display: block;
+          border: 1px solid #009998;
+        }
+      }
+    }
+    .operation {
+      .update {
+        width: 80px;
+        height: 40px;
+        line-height: 40px;
+        background-color: #229922;
+        color: #ffffff;
+        text-align: center;
+        cursor: pointer;
+        &.disabled {
+          background-color: #999;
+          color: #333;
+          cursor: default;
+        }
+        &:hover {
+          color: #333;
+        }
+      }
+    }
+  }
+  .user-log {
+    margin-top: 20px;
+    display: none;
+    width: 100%;
+    &.visible {
+      display: block;
+    }
+    .logs {
+      display: block;
+      width: 100%;
+      .meta-item {
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+    .page-list {
+      width: 500px;
+      height: 40px;
+      margin: auto;
+      .pagination {
+        width: 100%;
+        margin: auto;
+        text-align: center;
+        span {
+          cursor: pointer;
+        }
+        .separate {
+          span {
+            cursor: default;
+            border-top:none;
+            border-bottom: none;
+            &:hover {
+              background: none;
+            }
+          }
+        }
+        .disabled {
+          span {
+            background-color: #999;
+            cursor: default;
+          }
+        }
+      }
+      .page-total {
+        display: none; //手动控制页数显示， 暂时禁用，有需要时启用。
+        width: 100%;
+        margin: auto;
+        text-align: center;
+        input, select {
+          height: 26px;
+          border: 1px solid #ddd;
+        }
+        input {
+          width: 20px;
+          padding-left: 3px;
+          text-align: center;
+        }
+        select {
+          width: 50px;
+        }
+      }
+    }
+  }
+
+  .tip {
+    width: 100%;
+    margin-top: 50px;
+    text-align: center;
+    display: none;
+    font-size: 18px;
+    color: #ed6879;
+    &.visible {
+      display: block;
+    }
+  }
+}

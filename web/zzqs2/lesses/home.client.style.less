@@ -1,0 +1,75 @@
+.zz-home {
+  //background-color: #ececec;
+  overflow: hidden;
+  padding-top:40px;
+  .ceter-area {
+    max-width: 1600px;
+    margin: auto;
+    .item-wrapper {
+      padding: 20px;
+      display: none;
+      &.visible {
+        display: inline-block;
+      }
+      .panel-item {
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.26);
+        .header {
+          background-color: #fafafa;
+          position: relative;
+          border-bottom: 1px solid #f2f2f2;
+          .left {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            top: 15px;
+            left: 20px;
+          }
+          .right {
+            padding: 20px 0px 20px 80px;
+            height: 80px;
+            line-height: 20px;
+            .title {
+            }
+            .describe {
+              font-size: 12px;
+              color: #999;
+            }
+          }
+        }
+        .body {
+          background-color: white;
+          width: 100%;
+          height: 215px;
+          .cell{
+            vertical-align: center;
+            text-align: center;
+            border-right: 1px solid #C2C2C2;
+            border-bottom: 1px solid #C2C2C2;
+          }
+          .zz-home-btn {
+            color : #999;
+            &:hover{
+              text-decoration : underline;
+              cursor : pointer;
+            };
+          }
+          .top-tip {
+            background-color: #ef4426;
+            color: white;
+            border-radius: 45px;
+            height: 20px;
+            width: 33px;
+            line-height: 22px;
+            font-size: 12px;
+            display: inline-block;
+            &.single {
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,343 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: "微软雅黑,华文细黑";
+}
+section {
+  margin: 0px;
+}
+section .icon {
+  margin: 10px;
+}
+span,
+strong {
+  margin: 0px;
+}
+ul {
+  margin: 0px;
+  padding: 0px;
+}
+a {
+  text-decoration: none;
+}
+.wrapper {
+  display: block;
+  overflow: hidden;
+  width: 90%;
+  margin: 0 auto;
+}
+header {
+  min-height: 76px;
+  border-bottom: 2px solid #c8f6f4;
+  background: transparent url('../../img/global/write-transparent-bg.png') top left repeat;
+}
+header .left {
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+}
+header .left .logo {
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+  height: 76px;
+}
+header .left .logo img {
+  display: block;
+  margin-top: 24.5px;
+  height: 27px;
+}
+header .right {
+  display: inline-block;
+  float: right;
+  overflow: hidden;
+}
+header .right a {
+  margin-left: 10px;
+  cursor: pointer;
+  line-height: 76px;
+  color: #45d7d7;
+}
+header .right a:hover {
+  color: #2fc6c6;
+}
+.header {
+  min-height: 76px;
+  border-bottom: 2px solid #c8f6f4;
+  background: transparent url('../../img/global/write-transparent-bg.png') top left repeat;
+}
+.header .left {
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+}
+.header .left .logo {
+  display: inline-block;
+  float: left;
+  overflow: hidden;
+  height: 76px;
+}
+.header .left .logo img {
+  display: block;
+  margin-top: 24.5px;
+  height: 27px;
+}
+.header .right {
+  display: inline-block;
+  float: right;
+  overflow: hidden;
+}
+.header .right a {
+  margin-left: 10px;
+  cursor: pointer;
+  line-height: 76px;
+  color: #45d7d7;
+}
+.header .right a:hover {
+  color: #2fc6c6;
+}
+footer {
+  margin: 0px;
+  min-height: 40px;
+  background: transparent url('../../img/global/transparent-bg.png') top left repeat;
+  text-align: center;
+  font-size: 12px;
+  line-height: 40px;
+}
+footer span {
+  margin-right: 10px;
+  color: #45d7d7;
+}
+.footer {
+  margin: 0px;
+  min-height: 40px;
+  background: transparent url('../../img/global/transparent-bg.png') top left repeat;
+  text-align: center;
+  font-size: 12px;
+  line-height: 40px;
+}
+.footer span {
+  margin-right: 10px;
+  color: #45d7d7;
+}
+body {
+  background: #f2fffd;
+  background: -moz-linear-gradient(top, #d8f9f9, #f2fffd);
+  /*Mozilla*/
+  background: -webkit-linear-gradient(top, #d8f9f9, #f2fffd);
+  /*Webkit*/
+  background: -o-linear-gradient(top, #d8f9f9, #f2fffd);
+  /*Opera11*/
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#d8f9f9, endColorstr=#f2fffd);
+  /*IE<9>*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#d8f9f9, endColorstr=#f2fffd)";
+  /*IE8+*/
+}
+.bg {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../img/login/bg.png');
+  background-position-x: center;
+  background-position-y: bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.content {
+  min-height: 530px;
+}
+.content .register-container {
+  border: 1px solid #c8f6f6;
+  border-radius: 2px;
+  margin: 40px auto 50px;
+  padding: 40px 50px 50px;
+  background: transparent url('../../img/global/write-transparent-bg.png') top left repeat;
+  width: 378px;
+  /* for the future */
+}
+.content .register-container.hide {
+  display: none;
+}
+.content .register-container .title,
+.content .register-container .foot {
+  height: 20px;
+  font-size: 20px;
+  line-height: 20px;
+  color: #212121;
+}
+.content .register-container .title .left {
+  display: inline-block;
+  float: left;
+}
+.content .register-container .title .right {
+  display: inline-block;
+  float: right;
+}
+.content .register-container .title .right a {
+  color: #45d7d7;
+}
+.content .register-container .title .right a:hover {
+  color: #2fc6c6;
+}
+.content .register-container input {
+  display: block;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid #c8f6f6;
+  border-radius: 6px;
+  outline: none;
+  width: 358px;
+  height: 25px;
+  font-size: 14px;
+  color: #45d7d7;
+}
+.content .register-container input:focus {
+  background: #fff;
+  border-color: #45d7d7;
+  color: #45d7d7;
+}
+.content .register-container input[type=button] {
+  margin-top: 20px;
+  width: 378px;
+  height: 45px;
+  border: none;
+  background: #45d7d7;
+  cursor: pointer;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
+.content .register-container .email.error,
+.content .register-container .password.error,
+.content .register-container .envite-code.error {
+  /* for the future */
+}
+.content .register-container .email.error input,
+.content .register-container .password.error input,
+.content .register-container .envite-code.error input {
+  border-color: #f0584a;
+}
+.content .register-container .email.error .tip,
+.content .register-container .password.error .tip,
+.content .register-container .envite-code.error .tip {
+  visibility: visible;
+}
+.content .register-container .email.error ::-webkit-input-placeholder,
+.content .register-container .password.error ::-webkit-input-placeholder,
+.content .register-container .envite-code.error ::-webkit-input-placeholder {
+  color: #f0584a;
+  text-overflow: ellipsis;
+}
+.content .register-container .email.error :-moz-placeholder,
+.content .register-container .password.error :-moz-placeholder,
+.content .register-container .envite-code.error :-moz-placeholder {
+  color: #f0584a !important;
+  text-overflow: ellipsis;
+}
+.content .register-container .email.error ::-moz-placeholder,
+.content .register-container .password.error ::-moz-placeholder,
+.content .register-container .envite-code.error ::-moz-placeholder {
+  color: #f0584a !important;
+  text-overflow: ellipsis;
+}
+.content .register-container .email.error :-ms-input-placeholder,
+.content .register-container .password.error :-ms-input-placeholder,
+.content .register-container .envite-code.error :-ms-input-placeholder {
+  color: #f0584a !important;
+  text-overflow: ellipsis;
+}
+.content .register-container .email {
+  height: 75px;
+  margin-top: 30px;
+}
+.content .register-container .password {
+  height: 75px;
+}
+.content .register-container .envite-code {
+  height: 75px;
+}
+.content .register-container .read-me {
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+}
+.content .register-container .read-me.error label {
+  color: #f0584a;
+}
+.content .register-container .read-me > * {
+  display: inline-block;
+  float: left;
+  font-size: 14px;
+}
+.content .register-container .read-me .icon {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  background: url('../../img/global/unselected.png') center center no-repeat;
+  background-size: contain;
+}
+.content .register-container .read-me .icon.selected {
+  background: url('../../img/global/selected.png') center center no-repeat;
+  background-size: contain;
+}
+.content .register-container .read-me label {
+  margin-left: 10px;
+}
+.content .register-container ::-webkit-input-placeholder {
+  color: #58d8d9;
+  text-overflow: ellipsis;
+}
+.content .register-container :-moz-placeholder {
+  color: #58d8d9 !important;
+  text-overflow: ellipsis;
+}
+.content .register-container ::-moz-placeholder {
+  color: #58d8d9 !important;
+  text-overflow: ellipsis;
+}
+.content .register-container :-ms-input-placeholder {
+  color: #58d8d9 !important;
+  text-overflow: ellipsis;
+}
+.content .register-container .tip {
+  visibility: hidden;
+  display: inline-block;
+  width: 100%;
+  margin-top: 8px;
+  text-align: right;
+  color: red;
+  font-size: 12px;
+}
+@media screen and (max-width: 480px) {
+  .bg .content .register-container,
+  .result-container {
+    margin: 40px auto 50px;
+    padding: 40px 5% 50px;
+    width: 88%;
+  }
+  .bg .content .register-container form,
+  .result-container form {
+    width: 100%;
+  }
+  .bg .content .register-container form .email,
+  .result-container form .email,
+  .bg .content .register-container form .password,
+  .result-container form .password,
+  .bg .content .register-container form .envite-code,
+  .result-container form .envite-code {
+    width: 100%;
+  }
+  .bg .content .register-container form input,
+  .result-container form input {
+    padding: 10px 5%;
+    width: 90%;
+  }
+  .bg .content .register-container form input[type=button],
+  .result-container form input[type=button] {
+    padding: 10px 5%;
+    width: 100%;
+  }
+}

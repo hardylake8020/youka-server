@@ -1,0 +1,31 @@
+.sliding-menu {
+  position: fixed;
+  right: -40%;
+  top: 0;
+  width: 40%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #0a2538;
+  z-index: 9999;
+  padding-top: 20px;
+  transition: right 0.3s;
+  -moz-transition: right 0.3s;
+  -webkit-transition: right 0.3s;
+  -o-transition: right 0.3s;
+}
+.sliding-menu.show {
+  right: 0;
+}
+.sliding-menu .item {
+  display: block;
+  text-decoration: none;
+  font-size: 14px;
+  text-align: left;
+  height: 50px;
+  line-height: 50px;
+  padding-left: 40px;
+  color: #7090a5;
+}
+.sliding-menu .item.current {
+  color: #ffffff;
+}

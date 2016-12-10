@@ -1,0 +1,29 @@
+<div class="zz-home">
+  <div class="ceter-area row">
+
+    <div class="item-wrapper col col-lg-4 col-md-6 col-xs-12" ng-repeat="item in items" ng-class="{'visible': item.visible}">
+      <div class="panel-item">
+        <div class="header">
+          <img ng-src="{{item.logo}}" class="left">
+
+          <div class="right">
+            <div class="title">{{item.title}}</div>
+            <div class="describe">{{item.subtitle}}</div>
+          </div>
+        </div>
+        <table class="body">
+          <tbody>
+          <tr ng-repeat="handles in item.handle">
+            <td class="cell" ng-repeat="handle in handles">
+              <span class="zz-home-btn"  ng-click="onMenu(handle)">
+                {{handle.label}}
+              </span>
+              <div class="top-tip" ng-show="handle.topTip && handle.topTip > 0"
+                    ng-class="{single: handle.topTip && handle.topTip < 10}">{{handle.topTip >= 100 ? '99+' : handle.topTip}}</div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>

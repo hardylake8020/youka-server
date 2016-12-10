@@ -1,0 +1,99 @@
+.zz-dashboard {
+  width: 90%;
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+
+  .option-header {
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .title {
+      height: 70px;
+      line-height: 70px;
+      font-size: 18px;
+      color: #212121;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .content {
+      padding:20px 0;
+      margin-bottom: 10px;
+
+      .viewer, .time-bucket {
+        .text, .option {
+          display: inline-block;
+        }
+        .text {
+          width: 100px;
+          height: 40px;
+          line-height: 40px;
+          color: #b1b1b1;
+        }
+        .option {
+          width: 60px;
+          height: 30px;
+          line-height: 30px;
+          margin: 5px 10px 0 0;
+          border-radius: 4px;
+          border: 1px solid #e9e9e9;
+          background-color: #ebebeb;
+          text-align: center;
+          color: #666;
+          cursor: pointer;
+          &.selected {
+            border-color: #0079c6;
+            background-color: #0079c6;
+            color: #fff;
+          }
+        }
+      }
+      .search {
+        max-width: 300px;
+        .zz-select .zz-select-options .zz-select-option .text {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  .header{
+    padding-top:20px;
+    padding-bottom:20px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+    .title{
+      font-size: 18px;
+      line-height: 40px;
+    }
+    
+    .time-tip{
+      color:#999;
+      line-height: 30px;
+    }
+    .time-container{
+      .time-btn{
+        border-radius: 5px;
+        cursor: pointer;
+        height: 30px;
+        line-height: 30px;
+        width:70px;
+        text-align: center;
+        background-color: #e0e0e0;
+        &:hover{
+          color:white;
+          background-color: #4186c9;
+        }
+        &.selected{
+          color:white;
+          background-color: #4186c9;
+        }
+      }
+    }
+  }
+
+  .dashboard-test {
+    height: 500px;
+    margin-bottom: 30px;
+  }
+}

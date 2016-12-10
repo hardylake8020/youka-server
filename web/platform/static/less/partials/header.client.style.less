@@ -1,0 +1,119 @@
+@font-green: #45d7d7;
+@font-green-hover: #2fc6c6;
+
+header
+{
+  @header-height: 76px;
+  @header-border: 2px;
+  min-height: @header-height;
+  border-bottom: @header-border solid #c8f6f4;
+
+  background: transparent url('../../img/global/write-transparent-bg.png') top left repeat;
+
+  .left
+  {
+    display: inline-block;
+    float: left;
+    overflow: hidden;
+
+    .logo
+    {
+      @logo-img-height: 27px;
+
+      display: inline-block;
+      float: left;
+      overflow: hidden;
+
+      height: @header-height;
+
+      img
+      {
+        display: block;
+        @margin-gap: @header-height - @logo-img-height;
+        margin-top: @margin-gap / 2;
+
+        height: @logo-img-height;
+      }
+    }
+  }
+
+  .right
+  {
+    display: inline-block;
+    float: right;
+    overflow: hidden;
+
+    a
+    {
+      margin-left: 10px;
+      cursor: pointer;
+
+      line-height: @header-height;
+      color: @font-green;
+
+      &:hover
+      {
+        color: @font-green-hover;
+      }
+    }
+
+  }
+}
+.header
+{
+  @header-height: 76px;
+  @header-border: 2px;
+  min-height: @header-height;
+  border-bottom: @header-border solid #c8f6f4;
+
+  background: transparent url('../../img/global/write-transparent-bg.png') top left repeat;
+
+  .left
+  {
+    display: inline-block;
+    float: left;
+    overflow: hidden;
+
+    .logo
+    {
+      @logo-img-height: 27px;
+
+      display: inline-block;
+      float: left;
+      overflow: hidden;
+
+      height: @header-height;
+
+      img
+      {
+        display: block;
+        @margin-gap: @header-height - @logo-img-height;
+        margin-top: @margin-gap / 2;
+
+        height: @logo-img-height;
+      }
+    }
+  }
+
+  .right
+  {
+    display: inline-block;
+    float: right;
+    overflow: hidden;
+
+    a
+    {
+      margin-left: 10px;
+      cursor: pointer;
+
+      line-height: @header-height;
+      color: @font-green;
+
+      &:hover
+      {
+        color: @font-green-hover;
+      }
+    }
+
+  }
+}

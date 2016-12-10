@@ -1,0 +1,233 @@
+body .wrap {
+  background: url(../images/bg_operation.png) no-repeat left top;
+  height: 680px;
+  background-position: center 0;
+  background-size: cover;
+}
+body .wrap .zz-home-header {
+  position: static;
+  background: none;
+  box-shadow: none;
+}
+body .wrap .zz-home-header .navigation .logo .photo {
+  background: url("../../home_page/images/logo.png") no-repeat center;
+}
+body .wrap .zz-home-header .navigation .user-operation .signup {
+  display: inline-block;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  background: none;
+}
+body .wrap .zz-home-header .navigation .user-operation .signup:hover {
+  -webkit-box-shadow: 0 0 0 2px #ffffff;
+  -moz-box-shadow: 0 0 0 2px #ffffff;
+  box-shadow: 0 0 0 2px #ffffff;
+}
+body .wrap .zz-home-header .navigation .user-operation .login {
+  display: none;
+}
+body .wrap .zz-home-header .navigation .link .item {
+  color: #fff;
+}
+body .wrap .login-body {
+  margin: 100px auto;
+  padding: 0 50px 50px 50px;
+  width: 430px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+body .wrap .login-body * {
+  margin: 0;
+  padding: 0;
+}
+body .wrap .login-body .title {
+  padding: 30px 0 20px;
+}
+body .wrap .login-body .title .text {
+  text-align: center;
+  font-size: 24px;
+  color: #000;
+  font-weight: bolder;
+}
+body .wrap .login-body .title .underline {
+  width: 30px;
+  border: 1px solid #bdbdbd;
+  margin: 10px auto;
+}
+body .wrap .login-body .form .username .tip,
+body .wrap .login-body .form .password .tip {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+body .wrap .login-body .form .username .border,
+body .wrap .login-body .form .password .border {
+  width: 330px;
+  height: 40px;
+  line-height: 40px;
+  background-color: #fafafa;
+  border: 1px solid #efefef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+body .wrap .login-body .form .username .border .icon,
+body .wrap .login-body .form .password .border .icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: url('../images/signin/user.png') no-repeat center center;
+  float: left;
+}
+body .wrap .login-body .form .username .border .text,
+body .wrap .login-body .form .password .border .text {
+  background-color: #fafafa;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  width: 280px;
+  float: left;
+  height: 40px;
+  line-height: 40px;
+}
+body .wrap .login-body .form .password {
+  margin-top: 15px;
+}
+body .wrap .login-body .form .password .tip .forgetPassword {
+  text-decoration: none;
+  cursor: pointer;
+  color: #0078c6;
+}
+body .wrap .login-body .form .password .border .icon {
+  background-image: url('../images/signin/password.png');
+}
+body .wrap .login-body .form .operation {
+  margin-top: 40px;
+  height: 40px;
+}
+body .wrap .login-body .form .operation .left {
+  display: inline-block;
+  width: 200px;
+  height: 40px;
+  float: left;
+}
+body .wrap .login-body .form .operation .left .error {
+  font-size: 12px;
+  color: #ee7361;
+  visibility: visible;
+  margin-bottom: 10px;
+}
+body .wrap .login-body .form .operation .left .error.zz-hidden {
+  visibility: collapse;
+}
+body .wrap .login-body .form .operation .left .register {
+  font-size: 12px;
+  color: #979797;
+}
+body .wrap .login-body .form .operation .left .register a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #0078c6;
+}
+body .wrap .login-body .form .operation .right {
+  display: inline-block;
+  float: right;
+  width: 80px;
+  height: 40px;
+}
+body .wrap .login-body .form .operation .right .button {
+  width: 80px;
+  height: 40px;
+  line-height: 40px;
+  border: 1px solid #eee;
+  color: #eee;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 4px;
+}
+body .wrap .login-body .form .operation .right .button.able {
+  background-color: #0078c6;
+}
+@media screen and (max-width: 480px) {
+  body .wrap .zz-home-header .navigation .user-operation .signup {
+    display: none;
+  }
+  body .wrap .zz-home-header .navigation .user-operation .menu {
+    background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+  }
+  body .wrap .login-body {
+    padding: 0 0px 40px;
+    width: 85%;
+  }
+  body .wrap .login-body .form {
+    width: 80%;
+    margin: 0 auto;
+  }
+  body .wrap .login-body .form .username .border,
+  body .wrap .login-body .form .password .border {
+    width: 100%;
+    padding-left: 10px;
+  }
+  body .wrap .login-body .form .username .border .text,
+  body .wrap .login-body .form .password .border .text {
+    width: 85%;
+  }
+  body .wrap .login-body .form .username .border .icon,
+  body .wrap .login-body .form .password .border .icon {
+    display: none;
+  }
+  body .wrap .login-body .form .operation .left {
+    width: auto;
+  }
+}
+@media (max-width: 767px) {
+  body .wrap .zz-home-header .navigation .user-operation .signup {
+    display: none;
+  }
+  body .wrap .zz-home-header .navigation .user-operation .menu {
+    background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+  }
+  body .wrap .login-body {
+    padding: 0 0px 40px;
+  }
+  body .wrap .login-body .form {
+    width: 80%;
+    margin: 0 auto;
+  }
+  body .wrap .login-body .form .username .border,
+  body .wrap .login-body .form .password .border {
+    width: 100%;
+  }
+  body .wrap .login-body .form .username .border .text,
+  body .wrap .login-body .form .password .border .text {
+    width: 85%;
+  }
+  body .wrap .login-body .form .operation .left {
+    width: auto;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  body .wrap .zz-home-header .navigation .user-operation .signup {
+    display: none;
+  }
+  body .wrap .zz-home-header .navigation .user-operation .menu {
+    background: url("../../home_page/images/header/header_menu.png") no-repeat center;
+  }
+  body .wrap .login-body {
+    padding: 0 0px 40px;
+  }
+  body .wrap .login-body .form {
+    width: 80%;
+    margin: 0 auto;
+  }
+  body .wrap .login-body .form .username .border,
+  body .wrap .login-body .form .password .border {
+    width: 100%;
+  }
+  body .wrap .login-body .form .username .border .text,
+  body .wrap .login-body .form .password .border .text {
+    width: 85%;
+  }
+  body .wrap .login-body .form .operation .left {
+    width: auto;
+  }
+}

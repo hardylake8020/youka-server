@@ -1,0 +1,116 @@
+<div class="zz-export-order-dialog-container" ng-show="exportInfo.isShow===true">
+    <div class="export-dialog container">
+        <div class="row">
+            <div class="title">导出运单</div>
+            <div class="close" ng-click="hideDialog()">x</div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#tab1" data-toggle="tab">搜索</a></li>
+            <li role="presentation"><a href="#tab2" data-toggle="tab">导出项</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                <div class="row"></div>
+                <div class="row">
+                    <div class="key col-xs-2">
+                        时间段
+                    </div>
+                    <input class="value col-xs-10" type="text" date-range-picker class="info-input"
+                           ng-model="time.queryLogTimeRange"
+                           max="time.queryLogMaxTime"
+                           options="time.dateOptions" style="z-index: 1000000"/>
+                </div>
+                <div class="row">
+                    <div class="key col-xs-2">
+                        客户
+                    </div>
+                    <select class="value col-xs-10"
+                            ng-options="customer.customer_name as customer.customer_name for customer in exportInfo.customerOptions"
+                            ng-model="exportInfo.customer">
+                        <option value="">-- 全部 --</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="key col-xs-2">
+                        承运商
+                    </div>
+                    <select class="value col-xs-10"
+                            ng-options="companyPartner.company._id || companyPartner.partner._id as companyPartner.company.name || companyPartner.partner.name for companyPartner in exportInfo.companyPartnerOptions"
+                            ng-model="exportInfo.partner">
+                        <option value="">-- 全部 --</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="key col-xs-2">
+                        是否准时
+                    </div>
+                    <div class="value col-xs-10">
+                        <div class="row">
+                            <div class="item col-xs-4" ng-click="selectOnTime('')"
+                                 ng-class="{selected:exportInfo.isOnTime===''}">所有
+                            </div>
+                            <div class="item col-xs-4" ng-click="selectOnTime(true)"
+                                 ng-class="{selected:exportInfo.isOnTime===true}">准时
+                            </div>
+                            <div class="item col-xs-4" ng-click="selectOnTime(false)"
+                                 ng-class="{selected:exportInfo.isOnTime===false}">未能准点到达
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key col-xs-2">
+                        运单类型
+                    </div>
+                    <div class="value col-xs-10">
+                        <div class="row">
+                            <div class="item col-xs-4" ng-click="exportInfo.order_transport_type = ''"
+                                 ng-class="{selected: exportInfo.order_transport_type===''}">所有
+                            </div>
+                            <div class="item col-xs-4" ng-click="exportInfo.order_transport_type = 'ltl'"
+                                 ng-class="{selected: exportInfo.order_transport_type==='ltl'}">零担
+                            </div>
+                            <div class="item col-xs-4" ng-click="exportInfo.order_transport_type = 'tl'"
+                                 ng-class="{selected: exportInfo.order_transport_type==='tl'}">整车
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="key col-xs-2">
+                        有无货损
+                    </div>
+                    <div class="value col-xs-10">
+                        <div class="row">
+                            <div class="item col-xs-4" ng-click="selectDamage('')"
+                                 ng-class="{selected: exportInfo.damaged===''}">所有
+                            </div>
+                            <div class="item col-xs-4" ng-click="selectDamage(false)"
+                                 ng-class="{selected: exportInfo.damaged===false}">货物完好
+                            </div>
+                            <div class="item col-xs-4" ng-click="selectDamage(true)"
+                                 ng-class="{selected: exportInfo.damaged===true}">有货损
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="export" ng-click="exportOrders()">导出运单</div>
+                    <div class="cancel" ng-click="hideDialog()">取消</div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab2">
+                <p class="text-muted">导出的excel中的出现的内容</p>
+                <div class="row">
+                    <div class="col-xs-12 order-columns-config">
+                        <div class="row" style="padding-bottom: 0px;">
+                            <label class="col-md-2" ng-repeat="field in exportInfo.fields">
+                                <input type="checkbox" name="order_fields" value="{{field}}">{{field}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
