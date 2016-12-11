@@ -89,49 +89,49 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         title: '备注',
         text: ''
       },
-      // autoCloseTender: {
-      //   title: '自动截标',
-      //   count: 10,
-      //   increaseCount: function () {
-      //     this.count = this.increase(this.count);
-      //     if (this.count > 60) {
-      //       this.count = 60;
-      //     }
-      //   },
-      //   decreaseCount: function () {
-      //     this.count = this.decrease(this.count);
-      //   },
-      //   changeCount: function () {
-      //     this.count = this.increase(this.count) - 1;
-      //     if (this.count < 1) {
-      //       this.count = 1;
-      //     }
-      //     if (this.count > 60) {
-      //       this.count = 60;
-      //     }
-      //   },
-      //   increase: function (data) {
-      //     data = parseFloat(data) || 0;
-      //     data++;
-      //     return data;
-      //   },
-      //   decrease: function (data) {
-      //     data = parseFloat(data) || 0;
-      //     data--;
-      //     if (data < 1) {
-      //       data = 1;
-      //     }
-      //     return data;
-      //   },
-      //   checkCount: function () {
-      //     var count = parseFloat(this.count) || 0;
-      //     if (count < 1 || count > 60) {
-      //       return false;
-      //     }
-      //
-      //     return true;
-      //   }
-      // }
+      autoCloseTender: {
+        title: '自动截标',
+        count: 10,
+        increaseCount: function () {
+          this.count = this.increase(this.count);
+          if (this.count > 60) {
+            this.count = 60;
+          }
+        },
+        decreaseCount: function () {
+          this.count = this.decrease(this.count);
+        },
+        changeCount: function () {
+          this.count = this.increase(this.count) - 1;
+          if (this.count < 1) {
+            this.count = 1;
+          }
+          if (this.count > 60) {
+            this.count = 60;
+          }
+        },
+        increase: function (data) {
+          data = parseFloat(data) || 0;
+          data++;
+          return data;
+        },
+        decrease: function (data) {
+          data = parseFloat(data) || 0;
+          data--;
+          if (data < 1) {
+            data = 1;
+          }
+          return data;
+        },
+        checkCount: function () {
+          var count = parseFloat(this.count) || 0;
+          if (count < 1 || count > 60) {
+            return false;
+          }
+
+          return true;
+        }
+      }
 
     };
     $scope.basicInfo = basicInfo;
@@ -439,6 +439,57 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
     };
     $scope.paymentInfo = paymentInfo;
 
+    var typeInfo = {
+      tenderType: 'grab',//compare
+      title: '选择比价或抢单模式',
+      lowestProtectPrice: 0,
+      highestProtectPrice: 0,
+      deposit: 500,
+      lowestGrabPrice: 0,
+      highestGrabPrice: 0,
+      grabTimeDuration: 0,
+      grabIncrementPrice: 0,
+      currentGrabPrice: 0,
+      showGrab: true,
+      changeGrabDuration: function () {
+        this.grabTimeDuration = this.increase(this.grabTimeDuration) - 1;
+        if (this.grabTimeDuration < 1) {
+          this.grabTimeDuration = 1;
+        }
+        if (this.grabTimeDuration > 60) {
+          this.grabTimeDuration = 60;
+        }
+      },
+      increase: function (data) {
+        data = parseFloat(data) || 0;
+        data++;
+        return data;
+      },
+      decrease: function (data) {
+        data = parseFloat(data) || 0;
+        data--;
+        if (data < 1) {
+          data = 1;
+        }
+        return data;
+      },
+
+      increaseCount: function () {
+        this.grabTimeDuration = this.increase(this.grabTimeDuration);
+        if (this.grabTimeDuration > 60) {
+          this.grabTimeDuration = 60;
+        }
+      },
+      decreaseCount: function () {
+        this.grabTimeDuration = this.decrease(this.grabTimeDuration);
+      },
+
+      clickType: function () {
+        this.showGrab = !this.showGrab;
+      }
+    };
+    $scope.typeInfo = typeInfo;
+
     function ableOldSelectSalesman(selectInfo) {
       if (selectInfo.key) {
         if ($scope.salesInfo.hasSelected[selectInfo.key]) {
@@ -625,8 +676,8 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       },
       updateAddStatus: function () {
         this.canAdd = this.goods.filter(function (item) {
-          return !item.name;
-        }).length === 0;
+            return !item.name;
+          }).length === 0;
       },
       addGoodsItem: function (item) {
         item = item || deepCopy(this.itemTemplate);
@@ -833,7 +884,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       basicInfo.senderCompany.text = oldTender.senderCompany;
       basicInfo.payApprover.text = oldTender.payApprover;
       basicInfo.financeOfficer.text = oldTender.financeOfficer;
-      
+
       basicInfo.timeRange.start = new Date(oldTender.start_time);
       basicInfo.timeRange.end = new Date(oldTender.end_time);
       basicInfo.truck.text = oldTender.truck_type;
@@ -841,7 +892,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       basicInfo.remark.text = oldTender.remark;
       basicInfo.autoCloseTender.count = oldTender.auto_close_duration;
 
-        //pickup_contact_address: contactInfo.getAddress(contactInfo.pickup.address),
+      //pickup_contact_address: contactInfo.getAddress(contactInfo.pickup.address),
 
       contactInfo.pickup.address.clickProvince(oldTender.pickup_province);
       contactInfo.pickup.address.clickCity(oldTender.pickup_city);
@@ -888,6 +939,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
 
       publishInfo.type = oldTender.assign_target;
     }
+
     function getTenderInfo(callback) {
       if (!basicInfo.orderNumber.text) {
         return callback('运单号为空');
@@ -967,6 +1019,11 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         tender_id: $stateParams.tender_id,
         order_number: basicInfo.orderNumber.text,
         refer_order_number: basicInfo.referOrderNumber.text,
+
+        sender_company: basicInfo.senderCompany.text,
+        pay_approver: basicInfo.payApprover.text,
+        finance_officer: basicInfo.financeOfficer.text,
+
         start_time: basicInfo.timeRange.start.toISOString(),
         end_time: basicInfo.timeRange.end.toISOString(),
         salesmen: salesmen,
@@ -1007,7 +1064,18 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         last_cash_rate: paymentInfo.rate[2].cash,
         last_card_rate: 100 - paymentInfo.rate[2].cash,
 
-        assign_target: publishInfo.type || publishInfo.assign[1].type
+        assign_target: publishInfo.type || publishInfo.assign[1].type,
+
+
+        tender_type: typeInfo.tenderType,
+        lowest_protect_price: typeInfo.lowestProtectPrice,
+        highest_protect_price: typeInfo.highestProtectPrice,
+        deposit: typeInfo.deposit,
+        lowest_grab_price: typeInfo.lowestGrabPrice,
+        highest_grab_price: typeInfo.highestGrabPrice,
+        grab_time_duration: typeInfo.grabTimeDuration,
+        grab_increment_price: typeInfo.grabIncrementPrice,
+        current_grab_price: typeInfo.currentGrabPrice
       };
 
       return callback(null, info);

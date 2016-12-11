@@ -26,6 +26,18 @@ module.exports = function (appDb) {
     refer_order_number: {
       type: String
     },
+    //发标单位
+    sender_company: {
+      type: String
+    },
+    //付款审核人
+    pay_approver: {
+      type: String
+    },
+    //财务负责人
+    finance_officer: {
+      type: String
+    },
     status: {
       type: String,
       enum: ['unStarted', 'inProgress', 'stop', 'completed', 'obsolete', 'deleted'],//未开始，进行中，已截止， 已完成，已过时，已删除。
@@ -251,6 +263,50 @@ module.exports = function (appDb) {
     breach_deducted: {
       type: Boolean,
       default: false
+    },
+    //标书类型
+    tender_type: {
+      type: String,
+      enum: ['grab', 'compare']//抢单，竞价。
+
+    },
+    //最低保护价
+    lowest_protect_price: {
+      type: Number,
+      default: 0
+    },
+    //最高保护价
+    highest_protect_price: {
+      type: Number,
+      default: 0
+    },
+    //保证金
+    deposit: {
+      type: Number,
+      default: 0
+    },
+    //抢单最低价
+    lowest_grab_price: {
+      type: Number,
+      default: 0
+    },
+    //抢单最高价
+    highest_grab_price: {
+      type: Number,
+      default: 0
+    },
+    //抢单时间窗
+    grab_time_duration: {
+      type: Number,
+      default: 0
+    },
+    grab_increment_price: {
+      type: Number,
+      default: 0
+    },
+    current_grab_price: {
+      type: Number,
+      default: 0
     }
   });
 

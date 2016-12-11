@@ -20,10 +20,10 @@ module.exports = function (appDb) {
       required: true,
       trim: true
     },
-    // company: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'Company'
-    // },
+    company: {
+      type: Schema.Types.ObjectId,
+      ref: 'Company'
+    },
     // isInvited: {
     //   type: Boolean,
     //   default: false

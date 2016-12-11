@@ -675,6 +675,11 @@ exports.create = function (currentUser, tenderInfo, callback) {
 
         newTender.order_number = tenderInfo.order_number;
         newTender.refer_order_number = tenderInfo.refer_order_number || '';
+
+        newTender.sender_company = tenderInfo.sender_company || '';
+        newTender.pay_approver = tenderInfo.pay_approver || '';
+        newTender.finance_officer = tenderInfo.finance_officer || '';
+
         newTender.start_time = tenderInfo.start_time;
         newTender.end_time = tenderInfo.end_time;
         newTender.salesmen = tenderInfo.salesmen;
@@ -720,6 +725,17 @@ exports.create = function (currentUser, tenderInfo, callback) {
         newTender.create_user = currentUser._id;
         newTender.create_company = currentUser.company._id;
 
+        newTender.lowest_protect_price = tenderInfo.lowest_protect_price;
+        newTender.highest_protect_price = tenderInfo.highest_protect_price;
+        newTender.tender_type = tenderInfo.tender_type;
+
+        newTender.deposit = tenderInfo.deposit;
+        newTender.lowest_grab_price = tenderInfo.lowest_grab_price;
+        newTender.highest_grab_price = tenderInfo.highest_grab_price;
+        newTender.grab_time_duration = tenderInfo.grab_time_duration;
+        newTender.grab_increment_price = tenderInfo.grab_increment_price;
+        newTender.current_grab_price = tenderInfo.current_grab_price;
+
         newTender.save(function (err, tenderEntity) {
           if (err) {
             return saveCallback({err: error.system.db_error});
@@ -754,7 +770,6 @@ exports.create = function (currentUser, tenderInfo, callback) {
     });
   });
 };
-
 
 
 exports.checkTenderInfo = function (tenderInfo, callback) {
@@ -847,6 +862,17 @@ exports.checkTenderInfo = function (tenderInfo, callback) {
     return callback({err: error.business.tender_payment_invalid});
   }
 
+  tenderInfo.lowest_protect_price = parseInt(tenderInfo.lowest_protect_price) || 0;
+  tenderInfo.highest_protect_price = parseInt(tenderInfo.highest_protect_price) || 0;
+
+  tenderInfo.lowest_grab_price = parseInt(tenderInfo.lowest_grab_price) || 0;
+  tenderInfo.highest_grab_price = parseInt(tenderInfo.highest_grab_price) || 0;
+
+  tenderInfo.grab_time_duration = parseInt(tenderInfo.grab_time_duration) || 0;
+  tenderInfo.grab_increment_price = parseInt(tenderInfo.grab_increment_price) || 0;
+
+  tenderInfo.current_grab_price = parseInt(tenderInfo.current_grab_price) || 0;
+
   return callback();
 };
 
@@ -856,9 +882,9 @@ exports.getListByUser = function (currentUser, condition, callback) {
     $and: []
   };
 
-    if(condition.created){
-        query.$and.push({created:condition.created});
-    }
+  if (condition.created) {
+    query.$and.push({created: condition.created});
+  }
   generateQueryCondition(query, condition.searchArray, currentUser._id);
 
   if (query.$or.length === 0) {
@@ -897,7 +923,7 @@ exports.getListByUser = function (currentUser, condition, callback) {
     }]
   }, function (err, result) {
     if (err) {
-        console.log(err);
+      console.log(err);
       return callback(err);
     }
 
@@ -1212,8 +1238,8 @@ exports.applyDrivers = function (tenderItem, bidderItem, drivers, callback) {
 
 };
 
-exports.exportTenders = function(filter, columns){
-  return new Promise(function(fulfill, reject){
+exports.exportTenders = function (filter, columns) {
+  return new Promise(function (fulfill, reject) {
     Tender.find(filter).sort({
       'create_company': 1,
       'create_user': 1,
@@ -1269,9 +1295,9 @@ exports.exportTenders = function(filter, columns){
         }
         worksheet.commit();
         workbook.commit()
-        .then(function () {
-          fulfill({root: '.', filePath: filePath, filename: filePath});
-        });
+          .then(function () {
+            fulfill({root: '.', filePath: filePath, filename: filePath});
+          });
       });
     });
   });
@@ -1287,25 +1313,25 @@ function processTenderForXlsx(tender) {
       '截止时间': tender.end_time ? moment(tender.end_time).add(timezone, 'h').toDate() : null,
       '创建时间': tender.created ? moment(tender.created).add(timezone, 'h').toDate() : null,
       '车辆要求': tender.truck_type,
-      '提货地址' : tender.pickup_address,
-      '收货地址' : tender.delivery_address
+      '提货地址': tender.pickup_address,
+      '收货地址': tender.delivery_address
     };
 
   if (tender.goods && tender.goods.length > 0) {
     var goods = '';
-    for(var i=0, len=tender.goods.length; i<len; i++){
+    for (var i = 0, len = tender.goods.length; i < len; i++) {
       var g = tender.goods[i];
       var t = g.name + ': ';
-      if(g.count && g.unit){
+      if (g.count && g.unit) {
         t += g.count + g.unit;
       }
-      if(g.count2 && g.unit2){
+      if (g.count2 && g.unit2) {
         t += g.count2 + g.unit2;
       }
-      if(g.count3 && g.unit3){
+      if (g.count3 && g.unit3) {
         t += g.count3 + g.unit3;
       }
-      if(t != ''){
+      if (t != '') {
         goods += '; ' + t;
       }
     }
@@ -1327,14 +1353,14 @@ function processTenderForXlsx(tender) {
         '截止时间': tpl['截止时间'],
         '创建时间': tpl['创建时间'],
         '车辆要求': tpl['车辆要求'],
-        '提货地址' : tpl['提货地址'],
-        '收货地址' : tpl['收货地址'],
-        '商品明细' : tpl['商品明细'],
-        '投标人' : bidrecord.bidder ? bidrecord.bidder.username : null,
-        '当前报价' : bidrecord.current_price
+        '提货地址': tpl['提货地址'],
+        '收货地址': tpl['收货地址'],
+        '商品明细': tpl['商品明细'],
+        '投标人': bidrecord.bidder ? bidrecord.bidder.username : null,
+        '当前报价': bidrecord.current_price
       };
 
-      switch (bidrecord.status){
+      switch (bidrecord.status) {
         case 'quoted': // 已报价
         case 'failed' : // 未中标
         case 'obsolete' : // 已过时
@@ -1353,7 +1379,7 @@ function processTenderForXlsx(tender) {
       rows.push(row);
     }
 
-  }else{
+  } else {
     tpl['投标状态'] = '未查看';
     rows.push(tpl);
   }

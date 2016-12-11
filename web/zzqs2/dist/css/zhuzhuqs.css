@@ -3657,7 +3657,7 @@ input:-ms-input-placeholder {
   padding: 0px 10px;
 }
 .zz-order-create-container .center-area .left-area .order-info .info-input-container .info-input-keyword .customer-panel .panel-item:hover {
-  background: #ececec ;
+  background: #ececec;
 }
 .zz-order-create-container .center-area .left-area .order-info .info-input-container .info-input-keyword .zz-select {
   font-size: 13px;
@@ -3984,7 +3984,10 @@ input:-ms-input-placeholder {
   padding: 0px 10px;
 }
 .zz-order-create-container .center-area .left-area .order-info .info-row .info-container .item .info-input-keyword .customer-panel .panel-item:hover {
-  background: #ececec ;
+  background: #ececec;
+}
+.zz-order-create-container .center-area .left-area .order-info .info-row .info-container .item .info-radio {
+  margin: 0px 10px;
 }
 .zz-order-create-container .center-area .left-area .order-info .info-row .info-container .item .info-input {
   height: 30px;

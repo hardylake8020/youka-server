@@ -10,13 +10,15 @@
         </div>
         <div class="info-input-container">
           <span class="info-title">{{basicInfo.referOrderNumber.title}}</span>
-          <input class="info-input" type="text" ng-model="basicInfo.referOrderNumber.text" placeholder="单号之间用逗号分隔" required>
+          <input class="info-input" type="text" ng-model="basicInfo.referOrderNumber.text" placeholder="单号之间用逗号分隔"
+                 required>
           <span class="info-tip">必填项</span>
         </div>
 
         <div class="info-input-container">
           <span class="info-title">{{basicInfo.senderCompany.title}}</span>
-          <input class="info-input" type="text" ng-model="basicInfo.senderCompany.text" placeholder="单号之间用逗号分隔" required>
+          <input class="info-input" type="text" ng-model="basicInfo.senderCompany.text" placeholder="单号之间用逗号分隔"
+                 required>
           <span class="info-tip">必填项</span>
         </div>
 
@@ -36,45 +38,6 @@
                  zz-validation-type="mobile"
                  required>
           <span class="info-tip">必填项</span>
-        </div>
-
-        <div class="info-input-container">
-          <span class="info-title">{{basicInfo.timeRange.title}}</span>
-
-          <div class="row-content time-range">
-            <div class="dropdown time start-time">
-              <p class="content-input dropdown-toggle dropdown-start" data-toggle="dropdown">
-                  {{basicInfo.timeRange.start | date:'yyyy-MM-dd HH:mm'}}
-                <span class="tip" ng-show="!basicInfo.timeRange.start">开始时间</span>
-              </p>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <datetimepicker
-                  data-ng-model="basicInfo.timeRange.start"
-                  data-on-set-time="datetimepickerConfig.setStartTime(newDate, oldDate)"
-                  data-before-render="datetimepickerConfig.startBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"
-                  data-datetimepicker-config="datetimepickerConfig.startDataConfig">
-                </datetimepicker>
-              </ul>
-            </div>
-
-            <span class="content-text">至</span>
-
-            <div class="dropdown time end-time">
-              <p class="content-input dropdown-toggle dropdown-end" data-toggle="dropdown">
-                {{basicInfo.timeRange.end | date:'yyyy-MM-dd HH:mm'}}
-                <span class="tip" ng-show="!basicInfo.timeRange.end">截止时间</span>
-              </p>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <datetimepicker
-                  data-ng-model="basicInfo.timeRange.end"
-                  data-on-set-time="datetimepickerConfig.setEndTime(newDate, oldDate)"
-                  data-before-render="datetimepickerConfig.endBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"
-                  data-datetimepicker-config="datetimepickerConfig.endDataConfig">
-                </datetimepicker>
-              </ul>
-            </div>
-
-          </div>
         </div>
 
         <div class="info-input-container more-option">
@@ -106,22 +69,62 @@
             </div>
 
             <!--<input class="size-input count"-->
-                   <!--name="good-count"-->
-                   <!--ng-model="basicInfo.truck.count"-->
-                   <!--ng-change="basicInfo.truck.changeCount()"-->
-                   <!--type="text"-->
-                   <!--zz-validation-->
-                   <!--zz-validation-type="number">-->
+            <!--name="good-count"-->
+            <!--ng-model="basicInfo.truck.count"-->
+            <!--ng-change="basicInfo.truck.changeCount()"-->
+            <!--type="text"-->
+            <!--zz-validation-->
+            <!--zz-validation-type="number">-->
 
             <!--<p class="change-count">-->
-              <!--<span class="up" ng-click="basicInfo.truck.increaseCount()"></span>-->
-              <!--<span class="down" ng-click="basicInfo.truck.decreaseCount()"></span>-->
+            <!--<span class="up" ng-click="basicInfo.truck.increaseCount()"></span>-->
+            <!--<span class="down" ng-click="basicInfo.truck.decreaseCount()"></span>-->
             <!--</p>-->
 
             <!--<p class="unit">辆</p>-->
           </div>
 
         </div>
+
+        <div class="info-input-container">
+          <span class="info-title">{{basicInfo.timeRange.title}}</span>
+
+          <div class="row-content time-range">
+            <div class="dropdown time start-time">
+              <p class="content-input dropdown-toggle dropdown-start" data-toggle="dropdown">
+                {{basicInfo.timeRange.start | date:'yyyy-MM-dd HH:mm'}}
+                <span class="tip" ng-show="!basicInfo.timeRange.start">开始时间</span>
+              </p>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <datetimepicker
+                    data-ng-model="basicInfo.timeRange.start"
+                    data-on-set-time="datetimepickerConfig.setStartTime(newDate, oldDate)"
+                    data-before-render="datetimepickerConfig.startBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"
+                    data-datetimepicker-config="datetimepickerConfig.startDataConfig">
+                </datetimepicker>
+              </ul>
+            </div>
+
+            <span class="content-text">至</span>
+
+            <div class="dropdown time end-time">
+              <p class="content-input dropdown-toggle dropdown-end" data-toggle="dropdown">
+                {{basicInfo.timeRange.end | date:'yyyy-MM-dd HH:mm'}}
+                <span class="tip" ng-show="!basicInfo.timeRange.end">截止时间</span>
+              </p>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <datetimepicker
+                    data-ng-model="basicInfo.timeRange.end"
+                    data-on-set-time="datetimepickerConfig.setEndTime(newDate, oldDate)"
+                    data-before-render="datetimepickerConfig.endBeforeRender($view, $dates, $leftDate, $upDate, $rightDate)"
+                    data-datetimepicker-config="datetimepickerConfig.endDataConfig">
+                </datetimepicker>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
 
         <p class="half-line"></p>
 
@@ -237,31 +240,6 @@
           <span class="info-title">{{basicInfo.remark.title}}</span>
           <input class="info-input" type="text" ng-model="basicInfo.remark.text" placeholder="添加注意事项">
         </div>
-
-
-        <div class="info-input-container more-option goods truck auto-close">
-          <span class="info-title">{{basicInfo.autoCloseTender.title}}</span>
-
-          <div class="info-input-keyword">
-
-            <input class="size-input count"
-                   name="good-count"
-                   ng-model="basicInfo.autoCloseTender.count"
-                   ng-change="basicInfo.autoCloseTender.changeCount()"
-                   type="text"
-                   zz-validation
-                   zz-validation-type="number">
-
-            <p class="change-count">
-              <span class="up" ng-click="basicInfo.autoCloseTender.increaseCount()"></span>
-              <span class="down" ng-click="basicInfo.autoCloseTender.decreaseCount()"></span>
-            </p>
-
-            <p class="unit">分钟</p>
-          </div>
-
-        </div>
-
       </div>
 
       <div class="order-info bottom">
@@ -306,7 +284,7 @@
                 </div>
                 <input class="info-input"
                        placeholder="详细地址"
-                       ng-model="contactInfo.pickup.address.street" />
+                       ng-model="contactInfo.pickup.address.street"/>
               </div>
             </div>
             <div class="item">
@@ -319,7 +297,7 @@
                        options="contactInfo.dateOptions"
                        readonly
                        placeholder="请点击输入提货时间"
-                  />
+                />
               </div>
             </div>
             <div class="item">
@@ -338,7 +316,7 @@
                      ng-model="contactInfo.pickup.tel"
                      zz-validation
                      zz-validation-type="telephone"
-                >
+              >
             </div>
           </div>
           <div class="col-sm-6 info-container" flex style="border-left: 1px solid #ececec">
@@ -381,7 +359,7 @@
                 </div>
                 <input class="info-input"
                        placeholder="详细地址"
-                       ng-model="contactInfo.delivery.address.street" />
+                       ng-model="contactInfo.delivery.address.street"/>
               </div>
 
             </div>
@@ -395,7 +373,7 @@
                        options="contactInfo.dateOptions"
                        readonly
                        placeholder="请点击输入提货时间"
-                  />
+                />
               </div>
             </div>
             <div class="item">
@@ -414,13 +392,14 @@
                      ng-model="contactInfo.delivery.tel"
                      zz-validation
                      zz-validation-type="telephone"
-                >
+              >
             </div>
           </div>
         </div>
       </div>
 
       <div class="order-info payment">
+
         <div class="info-header">{{paymentInfo.title}}</div>
 
         <div class="info-input-container more-option goods payment" ng-repeat="rateItem in paymentInfo.rate">
@@ -447,7 +426,7 @@
                         step="{{ paymentInfo.step }}" precision="{{ paymentInfo.precision }}"
                         translate-fn="translate"
                         ng-model="rateItem.cash"
-                  ></slider>
+                ></slider>
                 <span class="right">{{100 - rateItem.cash}}%</span>
               </div>
               <p class="card">油卡</p>
@@ -461,10 +440,88 @@
         </div>
 
       </div>
+      <div class="order-info bottom">
+        <div class="info-header">{{typeInfo.title}}</div>
+        <div class="info-input-container">
+          <span class="info-title">选择模式</span>
+          <span>抢单</span>
+          <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="grab">
+          <span>竞价</span>
+          <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="compare">
+        </div>
+        <div class="info-input-container">
+          <span class="info-title">保证金额</span>
+          <input class="info-input" type="number" ng-model="typeInfo.deposit" required>
+          <span class="info-tip">必填项</span>
+        </div>
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='compare'">
+          <span class="info-title">最低保护价</span>
+          <input class="info-input" type="number" ng-model="typeInfo.lowestProtectPrice" required>
+          <span class="info-tip">必填项</span>
+        </div>
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='compare'">
+          <span class="info-title">最高保护价</span>
+          <input class="info-input" type="number" ng-model="typeInfo.highestProtectPrice" required>
+          <span class="info-tip">必填项</span>
+        </div>
+        <div class="info-input-container more-option goods truck auto-close" ng-show="typeInfo.tenderType=='compare'">
+          <span class="info-title">{{basicInfo.autoCloseTender.title}}</span>
+          <div class="info-input-keyword">
+            <input class="size-input count"
+                   name="good-count"
+                   ng-model="basicInfo.autoCloseTender.count"
+                   ng-change="basicInfo.autoCloseTender.changeCount()"
+                   type="text"
+                   zz-validation
+                   zz-validation-type="number">
+
+            <p class="change-count">
+              <span class="up" ng-click="basicInfo.autoCloseTender.increaseCount()"></span>
+              <span class="down" ng-click="basicInfo.autoCloseTender.decreaseCount()"></span>
+            </p>
+            <p class="unit">分钟</p>
+          </div>
+        </div>
+
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='grab'">
+          <span class="info-title">最低抢单价</span>
+          <input class="info-input" type="number" ng-model="typeInfo.lowestGrabPrice" required>
+          <span class="info-tip">必填项</span>
+        </div>
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='grab'">
+          <span class="info-title">最高抢单价</span>
+          <input class="info-input" type="number" ng-model="typeInfo.highestGrabPrice" required>
+          <span class="info-tip">必填项</span>
+        </div>
+
+        <div class="info-input-container more-option goods truck auto-close" ng-show="typeInfo.tenderType=='grab'">
+          <span class="info-title">抢单时间窗</span>
+          <div class="info-input-keyword">
+            <input class="size-input count"
+                   name="good-count"
+                   ng-model="typeInfo.grabTimeDuration"
+                   ng-change="typeInfo.changeGrabDuration()"
+                   type="number">
+
+            <p class="change-count">
+              <span class="up" ng-click="typeInfo.increaseCount()"></span>
+              <span class="down" ng-click="typeInfo.decreaseCount()"></span>
+            </p>
+            <p class="unit">分钟</p>
+          </div>
+        </div>
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='grab'">
+          <span class="info-title">运费递增值</span>
+          <input class="info-input" type="number" ng-model="typeInfo.grabIncrementPrice" required>
+          <span class="info-tip">元</span>
+        </div>
+
+
+
+      </div>
 
     </div>
     <div class="col-sm-3 right-area">
-
       <div class="group-area">
         <div class="group-header">发布信息</div>
         <p class="group-assign-text">将这张标书发布给</p>

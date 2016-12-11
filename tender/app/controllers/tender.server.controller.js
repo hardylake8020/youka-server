@@ -11,8 +11,6 @@ var tenderService = require('../../../libraries/services/new_tender'),
 exports.create = function (req, res, next) {
   var currentUser = req.user;
   var tenderInfo = req.body.tender_info;
-  console.log(JSON.stringify(tenderInfo));
-  return res.send('ok');
 
   tenderService.create(currentUser, tenderInfo, function (err) {
     if (err) {
