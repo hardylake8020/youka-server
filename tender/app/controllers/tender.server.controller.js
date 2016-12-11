@@ -16,8 +16,25 @@ exports.create = function (req, res, next) {
     if (err) {
       return res.send(err);
     }
-  
+
     return res.send({success: true});
+  });
+};
+
+exports.getListByDriver = function (req, res, next) {
+  var currentDriver = req.driver || {};
+  var currentPage = parseInt(req.query.currentPage || req.body.currentPage) || 1;
+  var limit = parseInt(req.query.limit || req.body.limit) || 10;
+
+  var condition = {
+    currentPage: currentPage,
+    limit: limit,
+    sort: {created: -1}
+  };
+
+  tenderService.getListByDriver(currentDriver, condition, function (err, result) {
+    console.log('condition ', condition);
+    return res.send(err || result);
   });
 };
 

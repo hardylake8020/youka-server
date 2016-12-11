@@ -18,6 +18,10 @@ module.exports = function (appDb) {
       type: Schema.Types.ObjectId,
       ref: 'Order'
     },
+    //标书号
+    tender_number: {
+      type: String,
+    },
     order_number: {
       type: String,
       required: true,
@@ -40,7 +44,7 @@ module.exports = function (appDb) {
     },
     status: {
       type: String,
-      enum: ['unStarted', 'inProgress', 'stop', 'completed', 'obsolete', 'deleted'],//未开始，进行中，已截止， 已完成，已过时，已删除。
+      enum: ['unStarted', 'unAssigned','inProgress','completed',],//未开始，进行中，已截止， 已完成，已过时，已删除。 'stop',  'obsolete', 'deleted'
       default: 'unStarted'
     },
     start_time: {
@@ -224,6 +228,10 @@ module.exports = function (appDb) {
       type: Schema.Types.ObjectId,
       ref: 'Bidder'
     },
+    driver_winner: {
+      type: Schema.Types.ObjectId,
+      ref: 'Driver'
+    },
     winner_price: {
       type: Number,
       default: 0
@@ -316,6 +324,7 @@ module.exports = function (appDb) {
   });
 
   TenderSchema.pre('save', function (next) {
+    this.tender_number = this.order_number;
     if (this.pickup_start_time) {
       this.pickup_start_time_format = moment(this.pickup_start_time).format('YYYY-MM-DD HH:mm:ss');
     }

@@ -13,7 +13,7 @@ module.exports = {
   user_admin_authentication_failed: {type: 'user_admin_authentication_failed', message: 'user admin authentication failed', zh_message: '需要管理员权限'},
   user_is_in_group: {type: 'user_is_in_group', message: 'user is in group', zh_message: '用户已经加入该组'},
 //<editor-fold>
-
+  driver_account_disconnected: {type: 'account_disconnected', message: 'account is disconnected because of sign in by another device'},
   driver_not_signup: {type: 'driver_not_signup', message: 'driver not signup', zh_message: '司机手机未注册'},
   driver_not_exist: {type: 'driver_not_exist', message: 'driver not exist', zh_message: '司机账号不存在'},
   driver_id_empty: {type: 'driver_id_empty', message: 'driver id empty', zh_message: '司机ID为空'},
@@ -74,6 +74,8 @@ module.exports = {
   tender_status_wrong: {type: 'tender_status_wrong', message: 'tender status wrong', zh_message: '标书状态不正确'},
   tender_not_end_when_apply_bidder: {type: 'tender_not_end_when_apply_bidder', message: 'tender not end when apply bidder', zh_message: '标书还未结束，不能指定竞标人'},
   tender_apply_driver_failed: {type: 'tender_apply_driver_failed', message: 'tender apply driver failed', zh_message: '指定标书承运司机失败'},
+
+  tender_grab_failed: {type: 'tender_grab_failed', message: 'tender grab failed', zh_message: '抢标失败'},
 
   bidder_company_exist: {type: 'bidder_company_exist', message: 'bidder has been partner with company', zh_message: '已经是合作关系'},
   bidder_username_invalid: {type: 'bidder_username_invalid', message: 'bidder username invalid', zh_message: '中介手机号码不合法'},
