@@ -877,46 +877,6 @@ exports.checkTenderInfo = function (tenderInfo, callback) {
   return callback();
 };
 
-exports.getListByDriver = function (currentDriver, condition, callback) {
-  async.auto({
-    getCount: function (countCallback) {
-      Tender.count({}).exec(function (err, totalCount) {
-        if (err) {
-          return countCallback({err: error.system.db_error});
-        }
-        return countCallback(null, totalCount);
-      });
-    },
-    getData: ['getCount', function (dataCallback, result) {
-      if (!result.getCount) {
-        return dataCallback(null, []);
-      }
-      Tender.find({})
-        .skip(condition.limit * (condition.currentPage - 1))
-        .limit(condition.limit)
-        .sort(condition.sort)
-        .exec(function (err, tenders) {
-          if (err) {
-            return dataCallback({err: error.system.db_error});
-          }
-          return dataCallback(null, tenders);
-        });
-    }]
-  }, function (err, result) {
-    if (err) {
-      console.log(err);
-      return callback(err);
-    }
-
-    return callback(null, {
-      totalCount: result.getCount,
-      currentPage: condition.currentPage,
-      limit: condition.limit,
-      tenders: result.getData
-    });
-  });
-};
-
 exports.getListByUser = function (currentUser, condition, callback) {
   var query = {
     $or: [],

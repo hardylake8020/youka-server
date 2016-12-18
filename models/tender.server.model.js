@@ -34,6 +34,18 @@ module.exports = function (appDb) {
     sender_company: {
       type: String
     },
+    //发标方联系人电话
+    sender_phone:{
+      type: String
+    },
+    //发标方联系人
+    sender_name:{
+      type:String
+    },
+    //报价
+    driver_price:{
+      type:Number
+    },
     //付款审核人
     pay_approver: {
       type: String
@@ -44,7 +56,7 @@ module.exports = function (appDb) {
     },
     status: {
       type: String,
-      enum: ['unStarted', 'unAssigned','inProgress','completed',],//未开始，进行中，已截止， 已完成，已过时，已删除。 'stop',  'obsolete', 'deleted'
+      enum: ['unStarted', 'unAssigned', 'inProgress', 'completed'],//未开始，进行中，已截止， 已完成，已过时，已删除。 'stop',  'obsolete', 'deleted'
       default: 'unStarted'
     },
     start_time: {
@@ -109,7 +121,7 @@ module.exports = function (appDb) {
     },
     pickup_start_time: {
       type: Date
-    },
+    }, 
     pickup_start_time_format: {
       type: String,
       default: ''
@@ -231,6 +243,9 @@ module.exports = function (appDb) {
     driver_winner: {
       type: Schema.Types.ObjectId,
       ref: 'Driver'
+    },
+    execute_driver: {
+      type: Schema.Types.Mixed
     },
     winner_price: {
       type: Number,

@@ -488,6 +488,11 @@ function updateParentExecutors(parentOrder, callback) {
     });
   });
 }
+
+exports.pushSingleAssignToDriver = function (driver, order) {
+  pushSingleAssignToDriver(driver, order)
+};
+
 function pushSingleAssignToDriver(driver, order) {
   var pushData = {
     type: 'new_order',
