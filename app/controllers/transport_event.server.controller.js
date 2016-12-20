@@ -676,14 +676,15 @@ function updateOrderInfo(order, transportEventEntity, callback) {
           return callback(null, result);
         }
 
+        return callback(null, result);
         //初始化transportEventEntity的distance
-        setTransportEventDistance(orderEntity, transportEventEntity);
-        updateParentOrderInfoToCompleted(orderEntity, 'completed', transportEventEntity, function (err, result) {
-          if (err)
-            return callback(err, null);
-
-          return callback(null, result);
-        });
+        // setTransportEventDistance(orderEntity, transportEventEntity);
+        // updateParentOrderInfoToCompleted(orderEntity, 'completed', transportEventEntity, function (err, result) {
+        //   if (err)
+        //     return callback(err, null);
+        //
+        //   return callback(null, result);
+        // });
       });
     });
   });
@@ -787,14 +788,14 @@ function singleUpload(currentDriver, transportEvent, callback) {
         return callback(err);
       }
 
-      if (transportEvent.type === 'pickup') {
-        notifyReceiverWhenBegin2Transport(result.order, currentDriver, function (err) {
-          if (err) { //通知失败不影响上传事件的返回结果
-            console.log('checkAndNotifyReceiverWhenBegin2Transport error!');
-          }
-          console.log('pickup sms notify');
-        });
-      }
+      // if (transportEvent.type === 'pickup') {
+      //   notifyReceiverWhenBegin2Transport(result.order, currentDriver, function (err) {
+      //     if (err) { //通知失败不影响上传事件的返回结果
+      //       console.log('checkAndNotifyReceiverWhenBegin2Transport error!');
+      //     }
+      //     console.log('pickup sms notify');
+      //   });
+      // }
 
       return callback(null, result);
     });

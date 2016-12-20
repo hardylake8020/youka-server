@@ -5,13 +5,13 @@
 'use strict';
 
 var tender = require('../controllers/tender'),
-  tenderDriver = require('../controllers/tender_driver'),
-  userFilter = require('../../../libraries/filters/user'),
-  tenderFileter = require('../../../libraries/filters/tender'),
+  truckContr = require('../controllers/truck'),
+  cardFilter = require('../../../libraries/filters/card'),
+  truckFileter = require('../../../libraries/filters/truck'),
   driverFilter = require('../../../libraries/filters/driver');
 
 
 module.exports = function (app) {
-  // app.route('/tender/create').post(userFilter.requireUser, tender.create);
-  // app.route('/tender/driver/getUnStartedListByDriver').post(driverFilter.requireDriver, tenderDriver.getUnStartedListByDriver);
+  app.route('/tender/driver/truck/create').post(driverFilter.requireDriver, truckContr.create);
+  app.route('/tender/driver/truck/getListByDriver').post(driverFilter.requireDriver, truckContr.getListByDriver);
 };

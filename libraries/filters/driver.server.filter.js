@@ -11,6 +11,7 @@ exports.requireDriver = function (req, res, next) {
   var token;
   var phone_id = req.body.phone_id || req.query.phone_id || '';
 
+  console.log(req.body);
   if (req.body.access_token) {
     token = req.body.access_token;
   } else {

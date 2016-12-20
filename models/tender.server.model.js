@@ -364,6 +364,8 @@ module.exports = function (appDb) {
       this.auto_close_time = new Date(this.end_time.getTime() + this.auto_close_duration * 60 * 1000);
     }
 
+    this.current_grab_price = this.lowest_grab_price;
+
     next();
   });
 

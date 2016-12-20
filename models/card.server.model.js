@@ -22,6 +22,10 @@ module.exports = function (appDb) {
       type: Schema.Types.ObjectId,
       ref: 'Driver'
     },
+    truck_number: {
+      type: String,
+      default: ''
+    },
     type: {
       type: String,
       enum: ['unEtc', 'etc'],
@@ -57,24 +61,29 @@ module.exports = function (appDb) {
       type: Schema.Types.ObjectId,
       ref: 'Card'
     },
+    card_number: {
+      type: String
+    },
     driver: {
       type: Schema.Types.ObjectId,
-      ref: 'Driver'
+      ref: 'Driver',
+      require: true
     },
     status: {
       type: String,
-      enum: ['usage', 'unUsage']
+      enum: ['usage', 'unUsage'],
+      default: 'unUsage'
     },
     location: {
       type: [Number]
     }
   });
 
-  CardSchema.plugin(timestamps, {
+  TruckSchema.plugin(timestamps, {
     createdAt: 'created',
     updatedAt: 'updated'
   });
 
 
-  appDb.model('Card', CardSchema);
+  appDb.model('Truck', TruckSchema);
 };

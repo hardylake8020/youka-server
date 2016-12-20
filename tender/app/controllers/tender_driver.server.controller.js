@@ -17,10 +17,10 @@ exports.grab = function (req, res, next) {
 
 exports.getUnStartedListByDriver = function (req, res, next) {
   var currentDriver = req.driver || {};
-  var currentPage = parseInt(req.query.currentPage || req.body.currentPage) || 1;
+  var currentCount = parseInt(req.query.currentCount || req.body.currentCount) || 0;
   var limit = parseInt(req.query.limit || req.body.limit) || 10;
   var condition = {
-    currentPage: currentPage,
+    currentCount: currentCount,
     limit: limit,
     sort: {created: -1}
   };
@@ -33,12 +33,12 @@ exports.getUnStartedListByDriver = function (req, res, next) {
 
 exports.getStartedListByDriver = function (req, res, next) {
   var currentDriver = req.driver || {};
-  var currentPage = parseInt(req.query.currentPage || req.body.currentPage) || 1;
+  var currentCount = parseInt(req.query.currentCount || req.body.currentCount) || 0;
   var limit = parseInt(req.query.limit || req.body.limit) || 10;
   var status = req.query.status || req.body.status || 'unAssigned';
 
   var condition = {
-    currentPage: currentPage,
+    currentCount: currentCount,
     limit: limit,
     sort: {created: -1},
     status: status

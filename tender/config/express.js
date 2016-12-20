@@ -59,6 +59,7 @@ module.exports = function () {
   app.use(bodyParser.urlencoded({
     extended: true
   }));
+  app.use(bodyParser.json({limit: "50mb"}));
   app.use(methodOverride());
 
   // Enable jsonp

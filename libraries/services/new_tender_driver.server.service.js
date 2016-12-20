@@ -65,7 +65,7 @@ exports.getStartedListByDriver = function (currentDriver, condition, callback) {
         return dataCallback(null, []);
       }
       Tender.find({status: condition.status, driver_winner: currentDriver._id})
-        .skip(condition.limit * (condition.currentPage - 1))
+        .skip(condition.currentCount || 0)
         .limit(condition.limit)
         .sort(condition.sort)
         .exec(function (err, tenders) {
@@ -107,7 +107,7 @@ exports.getUnStartedListByDriver = function (currentDriver, condition, callback)
         return dataCallback(null, []);
       }
       Tender.find({status: 'unStarted'})
-        .skip(condition.limit * (condition.currentPage - 1))
+        .skip(condition.currentCount || 0)
         .limit(condition.limit)
         .sort(condition.sort)
         .exec(function (err, tenders) {
