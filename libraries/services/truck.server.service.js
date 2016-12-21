@@ -24,29 +24,55 @@ var bidderService = require('./bidder'),
 
 var that = exports;
 
-exports.create = function (curDriver, truckInfo, callback) {
-  Truck.findOne({truck_number: truckInfo.truck_number, driver: curDriver._id}, function (err, truck) {
+exports.create = function (owner, truckInfo, callback) {
+  if (!truckInfo.driver_number) {
+    return callback({err: {type: 'driver_number_empty'}});
+  }
+
+  if (!truckInfo.truck_number) {
+    return callback({err: {type: 'truck_number_empty'}});
+  }
+
+  if (!truckInfo.truck_type) {
+    return callback({err: {type: 'truck_type_empty'}});
+  }
+
+  Driver.findOne({username: truckInfo.driver_number}, function (err, driver) {
     if (err) {
       return callback({err: error.system.db_error});
     }
-
-    if (truck) {
-      return callback({err: {type: 'truck_number_exist'}});
+    if (!driver) {
+      return callback({err: {type: 'driver_not_exist'}});
     }
 
-    truck = new Truck({
-      truck_number: truckInfo.truck_number,
-      truck_type: truckInfo.truck_type,
-      driver: curDriver._id
-    });
-
-    truck.save(function (err, newTruck) {
-      if (err || !newTruck) {
+    Truck.findOne({truck_number: truckInfo.truck_number, owner: owner._id}, function (err, truck) {
+      if (err) {
         return callback({err: error.system.db_error});
       }
-      return callback(err, newTruck);
+
+      if (truck) {
+        return callback({err: {type: 'truck_number_exist'}});
+      }
+
+      truck = new Truck({
+        truck_number: truckInfo.truck_number,
+        truck_type: truckInfo.truck_type,
+        owner: owner._id,
+        driver: driver._id,
+        driver_number: driver.username
+      });
+
+      truck.save(function (err, newTruck) {
+        if (err || !newTruck) {
+          return callback({err: error.system.db_error});
+        }
+        return callback(err, newTruck);
+      });
     });
+
+
   });
+
 };
 
 

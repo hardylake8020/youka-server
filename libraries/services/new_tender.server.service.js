@@ -673,6 +673,24 @@ exports.create = function (currentUser, tenderInfo, callback) {
           newTender = new Tender();
         }
 
+        newTender.mobile_goods = [];
+        if (tenderInfo.goods && Array.isArray(tenderInfo.goods) && tenderInfo.goods.length) {
+          for (var i = 0; i < tenderInfo.goods.length; i++) {
+            newTender.mobile_goods.push(
+              {
+                "name": tenderInfo.goods[i].name,
+                "count": isNaN(parseInt(tenderInfo.goods[i].count)) ? 0 : parseInt(tenderInfo.goods[i].count),
+                "unit": tenderInfo.goods[i].unit,
+                "count2": isNaN(parseInt(tenderInfo.goods[i].count2)) ? 0 : parseInt(tenderInfo.goods[i].count2),
+                "unit2": tenderInfo.goods[i].unit2,
+                "count3": isNaN(parseInt(tenderInfo.goods[i].count3)) ? 0 : parseInt(tenderInfo.goods[i].count3),
+                "unit3": tenderInfo.goods[i].unit3,
+                "price": isNaN(parseInt(tenderInfo.goods[i].price)) ? 0 : parseInt(tenderInfo.goods[i].price)
+              }
+            )
+          }
+        }
+
         newTender.order_number = tenderInfo.order_number;
         newTender.refer_order_number = tenderInfo.refer_order_number || '';
 

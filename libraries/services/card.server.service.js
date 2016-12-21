@@ -28,13 +28,13 @@ exports.getOneById = function (id, callback) {
   });
 };
 
-exports.create = function (driver, cardInfo, callback) {
+exports.create = function (owner, cardInfo, callback) {
   cardInfo = cardInfo || {};
   if (!cardInfo.number) {
     return callback({err: {type: 'empty_number'}});
   }
 
-  Card.findOne({number: cardInfo.number, driver: driver._id}, function (err, card) {
+  Card.findOne({number: cardInfo.number, owner: owner._id}, function (err, card) {
     if (err) {
       return callback({err: error.system.db_error});
     }
@@ -44,7 +44,7 @@ exports.create = function (driver, cardInfo, callback) {
 
     card = new Card({
       number: cardInfo.number,
-      driver: driver._id,
+      owner: owner._id,
       type: cardInfo.type || 'unEtc'
     });
 

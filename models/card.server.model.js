@@ -13,7 +13,7 @@ module.exports = function (appDb) {
       type: String,
       default: 'card'
     },
-    driver: {
+    owner: {
       type: Schema.Types.ObjectId,
       ref: 'Driver',
       require: true
@@ -66,8 +66,15 @@ module.exports = function (appDb) {
     },
     driver: {
       type: Schema.Types.ObjectId,
-      ref: 'Driver',
-      require: true
+      ref: 'Driver'
+    },
+    driver_number: {
+      type: String,
+      default: ''
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'Driver'
     },
     status: {
       type: String,

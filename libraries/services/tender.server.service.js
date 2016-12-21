@@ -672,6 +672,7 @@ exports.create = function (currentUser, tenderInfo, callback) {
         if (!newTender) {
           newTender = new Tender();
         }
+        
 
         newTender.order_number = tenderInfo.order_number;
         newTender.refer_order_number = tenderInfo.refer_order_number || '';
@@ -853,9 +854,9 @@ exports.getListByUser = function (currentUser, condition, callback) {
     $and: []
   };
 
-    if(condition.created){
-        query.$and.push({created:condition.created});
-    }
+  if (condition.created) {
+    query.$and.push({created: condition.created});
+  }
   generateQueryCondition(query, condition.searchArray, currentUser._id);
 
   if (query.$or.length === 0) {
@@ -894,7 +895,7 @@ exports.getListByUser = function (currentUser, condition, callback) {
     }]
   }, function (err, result) {
     if (err) {
-        console.log(err);
+      console.log(err);
       return callback(err);
     }
 
@@ -1209,8 +1210,8 @@ exports.applyDrivers = function (tenderItem, bidderItem, drivers, callback) {
 
 };
 
-exports.exportTenders = function(filter, columns){
-  return new Promise(function(fulfill, reject){
+exports.exportTenders = function (filter, columns) {
+  return new Promise(function (fulfill, reject) {
     Tender.find(filter).sort({
       'create_company': 1,
       'create_user': 1,
@@ -1266,9 +1267,9 @@ exports.exportTenders = function(filter, columns){
         }
         worksheet.commit();
         workbook.commit()
-        .then(function () {
-          fulfill({root: '.', filePath: filePath, filename: filePath});
-        });
+          .then(function () {
+            fulfill({root: '.', filePath: filePath, filename: filePath});
+          });
       });
     });
   });
@@ -1284,25 +1285,25 @@ function processTenderForXlsx(tender) {
       '截止时间': tender.end_time ? moment(tender.end_time).add(timezone, 'h').toDate() : null,
       '创建时间': tender.created ? moment(tender.created).add(timezone, 'h').toDate() : null,
       '车辆要求': tender.truck_type,
-      '提货地址' : tender.pickup_address,
-      '收货地址' : tender.delivery_address
+      '提货地址': tender.pickup_address,
+      '收货地址': tender.delivery_address
     };
 
   if (tender.goods && tender.goods.length > 0) {
     var goods = '';
-    for(var i=0, len=tender.goods.length; i<len; i++){
+    for (var i = 0, len = tender.goods.length; i < len; i++) {
       var g = tender.goods[i];
       var t = g.name + ': ';
-      if(g.count && g.unit){
+      if (g.count && g.unit) {
         t += g.count + g.unit;
       }
-      if(g.count2 && g.unit2){
+      if (g.count2 && g.unit2) {
         t += g.count2 + g.unit2;
       }
-      if(g.count3 && g.unit3){
+      if (g.count3 && g.unit3) {
         t += g.count3 + g.unit3;
       }
-      if(t != ''){
+      if (t != '') {
         goods += '; ' + t;
       }
     }
@@ -1324,14 +1325,14 @@ function processTenderForXlsx(tender) {
         '截止时间': tpl['截止时间'],
         '创建时间': tpl['创建时间'],
         '车辆要求': tpl['车辆要求'],
-        '提货地址' : tpl['提货地址'],
-        '收货地址' : tpl['收货地址'],
-        '商品明细' : tpl['商品明细'],
-        '投标人' : bidrecord.bidder ? bidrecord.bidder.username : null,
-        '当前报价' : bidrecord.current_price
+        '提货地址': tpl['提货地址'],
+        '收货地址': tpl['收货地址'],
+        '商品明细': tpl['商品明细'],
+        '投标人': bidrecord.bidder ? bidrecord.bidder.username : null,
+        '当前报价': bidrecord.current_price
       };
 
-      switch (bidrecord.status){
+      switch (bidrecord.status) {
         case 'quoted': // 已报价
         case 'failed' : // 未中标
         case 'obsolete' : // 已过时
@@ -1350,7 +1351,7 @@ function processTenderForXlsx(tender) {
       rows.push(row);
     }
 
-  }else{
+  } else {
     tpl['投标状态'] = '未查看';
     rows.push(tpl);
   }
