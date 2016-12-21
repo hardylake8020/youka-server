@@ -72,6 +72,10 @@ module.exports = function (appDb) {
       type: String,
       default: ''
     },
+    driver_name:{
+      type: String,
+      default: ''
+    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'Driver'

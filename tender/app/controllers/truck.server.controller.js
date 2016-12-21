@@ -3,8 +3,7 @@
  */
 'use strict';
 
-var truckService = require('../../../libraries/services/truck'),
-  fs = require('fs');
+var truckService = require('../../../libraries/services/truck');
 
 
 exports.create = function (req, res, next) {
@@ -16,7 +15,7 @@ exports.create = function (req, res, next) {
 
 exports.getListByDriver = function (req, res, next) {
   var curDriver = req.driver;
-  truckService.create(curDriver, function (err, result) {
+  truckService.getListByDriver(curDriver, function (err, result) {
     return res.send(err || result);
   });
 };

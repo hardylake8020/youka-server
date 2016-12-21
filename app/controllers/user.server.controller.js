@@ -212,6 +212,7 @@ exports.signUp = function (req, res, next) {
       var newUser = new User();
       newUser.password = newUser.hashPassword(password);
       newUser.username = username;
+      newUser.email_verified = true;
       newUser.save(function (err, user) {
         if (err) {
           return res.send({err: userError.internal_system_error});

@@ -43,7 +43,7 @@ exports.create = function (owner, truckInfo, callback) {
       return callback({err: error.system.db_error});
     }
     if (!driver) {
-      return callback({err: {type: 'driver_not_exist'}});
+      return callback({err: {type: 'truck_driver_not_exist'}});
     }
 
     Truck.findOne({truck_number: truckInfo.truck_number, owner: owner._id}, function (err, truck) {
@@ -60,7 +60,8 @@ exports.create = function (owner, truckInfo, callback) {
         truck_type: truckInfo.truck_type,
         owner: owner._id,
         driver: driver._id,
-        driver_number: driver.username
+        driver_number: driver.username,
+        driver_name:driver.nickname
       });
 
       truck.save(function (err, newTruck) {
@@ -75,7 +76,7 @@ exports.create = function (owner, truckInfo, callback) {
 
 
 exports.getListByDriver = function (curDriver, callback) {
-  Truck.find({driver: curDriver._id}, function (err, trucks) {
+  Truck.find({owner: curDriver._id}, function (err, trucks) {
     if (err || !trucks) {
       return callback({err: error.system.db_error});
     }
