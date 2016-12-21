@@ -1122,9 +1122,101 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           });
 
         });
-
       }
     };
+
+    $scope.quickSubmit = function () {
+      var date = new Date();
+      var number = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getTime();
+      var info = {
+        "tender_info": {
+          "tender_id": "",
+          "order_number": number,
+          "refer_order_number": "测试参考单号",
+          "sender_company": "测试发表单位",
+          "pay_approver": "13472423583",
+          "finance_officer": "13472423583",
+          "start_time": new Date(date.setDate(date.getDate() + 1)).toISOString(),
+          "end_time": new Date(date.setDate(date.getDate() + 2)).toISOString(),
+          "salesmen": ["13472423583"],
+          "truck_type": "金杯车",
+          "truck_count": "1",
+          "auto_close_duration": "10",
+          "goods": [{
+            "name": "苹果",
+            "count": "1",
+            "unit": "箱",
+            "count2": "",
+            "unit2": "吨",
+            "count3": "",
+            "unit3": "立方",
+            "price": ""
+          }, {
+            "name": "栗子",
+            "count": "1",
+            "unit": "箱",
+            "count2": "",
+            "unit2": "吨",
+            "count3": "",
+            "unit3": "立方",
+            "price": ""
+          }],
+          "remark": "测试备注",
+          "pickup_contact_province": "安徽",
+          "pickup_contact_city": "蚌埠市",
+          "pickup_contact_region": "蚌山区",
+          "pickup_contact_street": "测试地址1",
+          "pickup_contact_name": "13472423583",
+          "pickup_contact_phone": "",
+          "pickup_contact_mobile_phone": "13472423583",
+          "pickup_start_time": new Date(date.setDate(date.getDate() + 3)).toISOString(),
+          "pickup_end_time": new Date(date.setDate(date.getDate() + 3)).toISOString(),
+          "delivery_contact_province": "安徽",
+          "delivery_contact_city": "马鞍山市",
+          "delivery_contact_region": "花山区",
+          "delivery_contact_street": "测试地址2",
+          "delivery_contact_name": "13472423583",
+          "delivery_contact_phone": "",
+          "delivery_contact_mobile_phone": "13472423583",
+          "delivery_start_time": new Date(date.setDate(date.getDate() + 4)).toISOString(),
+          "delivery_end_time": new Date(date.setDate(date.getDate() + 4)).toISOString(),
+          "top_rate": "50",
+          "top_cash_rate": "60",
+          "top_card_rate": "40",
+          "tail_rate": "40",
+          "tail_cash_rate": "100",
+          "tail_card_rate": "0",
+          "last_rate": "10",
+          "last_cash_rate": "100",
+          "last_card_rate": "0",
+          "assign_target": "all",
+          "tender_type": "grab",
+          "lowest_protect_price": "0",
+          "highest_protect_price": "0",
+          "deposit": "500",
+          "lowest_grab_price": "1000",
+          "highest_grab_price": "20000",
+          "grab_time_duration": "10",
+          "grab_increment_price": "1",
+          "current_grab_price": "0"
+        }
+      };
+
+      HttpTender.createTender($scope, info, function (err, data) {
+        if (data.success) {
+          if ($stateParams.tender_id) {
+            return goTenderFollow();
+          }
+
+          $state.go('tender_create', {}, {reload: true});
+          $scope.$emit(GlobalEvent.onShowAlertConfirm, "标书发布成功", goTenderFollow, null, {
+            'sureLabel': '去查看',
+            'cancelLabel': '继续创建'
+          });
+        }
+      });
+    };
+
     $scope.publishInfo = publishInfo;
 
     $scope.$on(GlobalEvent.onBodyClick, function () {

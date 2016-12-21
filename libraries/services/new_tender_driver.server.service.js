@@ -132,7 +132,7 @@ exports.getUnStartedListByDriver = function (currentDriver, condition, callback)
   });
 };
 
-exports.assignDriver = function (currentTender, driverNumber, card, truck, callback) {
+exports.assignDriver = function (currentTender, card, truck, callback) {
   if (currentTender.status != 'unAssigned') {
     return callback({err: {type: '订单状态无效'}});
   }
@@ -149,7 +149,7 @@ exports.assignDriver = function (currentTender, driverNumber, card, truck, callb
     return callback({err: {type: 'card_is_in_use'}});
   }
 
-  assignDriver(currentTender, driverNumber, card, truck, function (err, result) {
+  assignDriver(currentTender, truck.driver_number, card, truck, function (err, result) {
     if (err) {
       return callback(err);
     }

@@ -13,6 +13,7 @@ var async = require('async'),
 
 var appDb = require('../mongoose').appDb,
   Tender = appDb.model('Tender'),
+  Driver = appDb.model('Driver'),
   Truck = appDb.model('Truck'),
   BidRecord = appDb.model('BidRecord');
 
@@ -69,10 +70,7 @@ exports.create = function (owner, truckInfo, callback) {
         return callback(err, newTruck);
       });
     });
-
-
   });
-
 };
 
 
@@ -81,7 +79,7 @@ exports.getListByDriver = function (curDriver, callback) {
     if (err || !trucks) {
       return callback({err: error.system.db_error});
     }
-    return callback(err, trucks);
+    return callback(err, {trucks: trucks});
   });
 };
 

@@ -56,7 +56,7 @@ exports.assginDriver = function (req, res, next) {
   var curTurck = req.truck;
   var tender = req.tender;
 
-  newTenderService.assignDriver(tender, req.body.driver_number, curCard, curTurck, function (err, result) {
+  newTenderService.assignDriver(tender, curCard, curTurck, function (err, result) {
     return res.send(err || result);
   })
 };

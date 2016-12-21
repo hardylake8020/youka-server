@@ -62,7 +62,7 @@ exports.getListByDriver = function (curDriver, callback) {
     if (err || !cards) {
       return callback({err: error.system.db_error});
     }
-    return callback(err, cards);
+    return callback(err, {cards:cards});
   });
 };
 
