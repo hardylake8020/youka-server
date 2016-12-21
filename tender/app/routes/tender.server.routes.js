@@ -8,16 +8,19 @@ var tender = require('../controllers/tender'),
   tenderDriver = require('../controllers/tender_driver'),
   userFilter = require('../../../libraries/filters/user'),
   tenderFileter = require('../../../libraries/filters/tender'),
+  cardFileter = require('../../../libraries/filters/card'),
+  truckFileter = require('../../../libraries/filters/truck'),
+
   driverFilter = require('../../../libraries/filters/driver');
 
 
 module.exports = function (app) {
   app.route('/tender/create').post(userFilter.requireUser, tender.create);
   app.route('/tender/driver/getUnStartedListByDriver').post(driverFilter.requireDriver, tenderDriver.getUnStartedListByDriver);
-  app.route('/tender/driver/grab').post(driverFilter.requireDriver,tenderFileter.requireById, tenderDriver.grab);
+  app.route('/tender/driver/grab').post(driverFilter.requireDriver, tenderFileter.requireById, tenderDriver.grab);
   app.route('/tender/driver/getStartedListByDriver').post(driverFilter.requireDriver, tenderDriver.getStartedListByDriver);
-  app.route('/tender/driver/assginDriver').post(driverFilter.requireDriver, tenderDriver.assginDriver);
-  
+  app.route('/tender/driver/assginDriver').post(driverFilter.requireDriver, cardFileter.requireById, truckFileter.requireById, tenderDriver.assginDriver);
+
   app.route('/tender/user/get/list').post(userFilter.requireUser, tender.getListByUser);
   app.route('/tender/user/get/one').get(userFilter.requireUser, tender.getOneByUser);
   app.route('/tender/user/delete').get(userFilter.requireUser, tender.deleteByUser);

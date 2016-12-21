@@ -3,14 +3,14 @@
  */
 'use strict';
 
-var grabService = require('../../../libraries/services/new_tender_driver'),
+var newTenderService = require('../../../libraries/services/new_tender_driver'),
   fs = require('fs');
 
 
 exports.grab = function (req, res, next) {
   var currentDriver = req.driver;
   var tender = req.tender;
-  grabService.grab(currentDriver, tender._id, function (err, result) {
+  newTenderService.grab(currentDriver, tender._id, function (err, result) {
     return res.send(err || result);
   })
 };
@@ -25,7 +25,7 @@ exports.getUnStartedListByDriver = function (req, res, next) {
     sort: {created: -1}
   };
 
-  grabService.getUnStartedListByDriver(currentDriver, condition, function (err, result) {
+  newTenderService.getUnStartedListByDriver(currentDriver, condition, function (err, result) {
     console.log('condition ', condition);
     return res.send(err || result);
   });
@@ -44,18 +44,19 @@ exports.getStartedListByDriver = function (req, res, next) {
     status: status
   };
 
-  grabService.getStartedListByDriver(currentDriver, condition, function (err, result) {
+  newTenderService.getStartedListByDriver(currentDriver, condition, function (err, result) {
     console.log('condition ', condition);
     return res.send(err || result);
   });
 };
 
-
 exports.assginDriver = function (req, res, next) {
   var currentDriver = req.driver;
+  var curCard = req.card;
+  var curTurck = req.truck;
   var tender = req.tender;
 
-  grabService.assignDriver(tender, req.body.driver_number, function (err, result) {
+  newTenderService.assignDriver(tender, req.body.driver_number, curCard, curTurck, function (err, result) {
     return res.send(err || result);
   })
 };

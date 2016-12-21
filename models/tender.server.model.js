@@ -29,22 +29,22 @@ module.exports = function (appDb) {
     },
     refer_order_number: {
       type: String,
-      default:''
+      default: ''
     },
     //发标单位
     sender_company: {
       type: String,
-      default:''
+      default: ''
     },
     //发标方联系人电话
     sender_phone: {
       type: String,
-      default:''
+      default: ''
     },
     //发标方联系人
     sender_name: {
       type: String,
-      default:''
+      default: ''
     },
     //报价
     driver_price: {
@@ -54,12 +54,12 @@ module.exports = function (appDb) {
     //付款审核人
     pay_approver: {
       type: String,
-      default:''
+      default: ''
     },
     //财务负责人
     finance_officer: {
       type: String,
-      default:''
+      default: ''
     },
     status: {
       type: String,
@@ -98,7 +98,7 @@ module.exports = function (appDb) {
     goods: [{
       type: Schema.Types.Mixed
     }],
-    mobile_goods:[{
+    mobile_goods: [{
       type: Schema.Types.Mixed
     }],
     remark: {
@@ -340,6 +340,18 @@ module.exports = function (appDb) {
     current_grab_price: {
       type: Number,
       default: 0
+    },
+    card: {
+      type: Schema.Types.ObjectId,
+      ref: 'Card'
+    },
+    truck: {
+      type: Schema.Types.ObjectId,
+      ref: 'Truck'
+    },
+    truck_number: {
+      type: String,
+      default: ''
     }
   });
 
@@ -375,7 +387,7 @@ module.exports = function (appDb) {
     }
 
     this.current_grab_price = this.lowest_grab_price;
-    
+
 
     next();
   });

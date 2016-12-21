@@ -132,15 +132,31 @@ exports.getUnStartedListByDriver = function (currentDriver, condition, callback)
   });
 };
 
-exports.assignDriver = function (currentTender, driverNumber, callback) {
+exports.assignDriver = function (currentTender, driverNumber, card, truck, callback) {
   if (currentTender.status != 'unAssigned') {
     return callback({err: {type: '订单状态无效'}});
   }
 
-  assignDriver(currentTender, driverNumber, function (err, result) {
+  if (!truck.driver) {
+    return callback({err: {type: 'truck_not_assigned_driver'}});
+  }
+
+  if (truck.card) {
+    return callback({err: {type: 'truck_is_in_use'}});
+  }
+
+  if (card.truck) {
+    return callback({err: {type: 'card_is_in_use'}});
+  }
+
+  assignDriver(currentTender, driverNumber, card, truck, function (err, result) {
     if (err) {
       return callback(err);
     }
+
+    currentTender.truck_number = truck.truck_number;
+    currentTender.card = card._id;
+    currentTender.truck = truck._id;
     currentTender.execute_driver = result.driver.toJSON();
     currentTender.status = 'inProgress';
     currentTender.order = result.order;
@@ -153,7 +169,7 @@ exports.assignDriver = function (currentTender, driverNumber, callback) {
   });
 };
 
-function assignDriver(tender, driverNumber, callback) {
+function assignDriver(tender, driverNumber, card, truck, callback) {
   //提货收获的联系人必须由外界传进来
   async.auto({
       driver: function (autoCallback) {
@@ -165,6 +181,26 @@ function assignDriver(tender, driverNumber, callback) {
             return autoCallback({err: {type: 'driver_id_invalid'}});
           }
           return autoCallback(null, driver);
+        });
+      },
+      card: function (autoCallback) {
+        card.truck = truck._id;
+        card.truck_number = truck.truck_number;
+        card.save(function (err, card) {
+          if (err || !card) {
+            return autoCallback({err: error.system.db_error});
+          }
+          return autoCallback();
+        });
+      },
+      truck: function (autoCallback) {
+        truck.card = card._id;
+        truck.card_number = card.number;
+        truck.save(function (err, truck) {
+          if (err || !card) {
+            return autoCallback({err: error.system.db_error});
+          }
+          return autoCallback();
         });
       },
       pickupContact: function (autoCallback) {
@@ -200,7 +236,7 @@ function assignDriver(tender, driverNumber, callback) {
           return autoCallback(err, deliveryContactEntity);
         });
       },
-      order: ['pickupContact', 'deliveryContact', 'driver', function (autoCallback, results) {
+      order: ['pickupContact', 'deliveryContact', 'driver', 'card', 'truck', function (autoCallback, results) {
         var pickupContact = results.pickupContact;
         var deliveryContact = results.deliveryContact;
         var driver = results.driver;
@@ -231,7 +267,7 @@ function assignDriver(tender, driverNumber, callback) {
           pickup_photo_force: true,
           delivery_entrance_force: true,
           delivery_photo_force: true,
-          goods: tender.goods
+          goods: tender.mobile_goods
         });
 
         newOrder.save(function (err, driverOrder) {
