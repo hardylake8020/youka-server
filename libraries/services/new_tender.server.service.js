@@ -741,7 +741,7 @@ exports.create = function (currentUser, tenderInfo, callback) {
 
         newTender.assign_target = tenderInfo.assign_target;
         newTender.create_user = currentUser._id;
-        newTender.create_company = currentUser.company._id;
+        // newTender.create_company = currentUser.company._id;
 
         newTender.lowest_protect_price = tenderInfo.lowest_protect_price;
         newTender.highest_protect_price = tenderInfo.highest_protect_price;
