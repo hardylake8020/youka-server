@@ -7,7 +7,7 @@ var cryptoLib = require('../crypto'),
 
 exports.requireById = function (req, res, next) {
   var cardId = req.query.card_id || req.body.card_id || '';
-
+  
   if (!cardId) {
     return res.send({err: {type: 'card_id_not_exist'}});
   }

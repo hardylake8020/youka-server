@@ -248,8 +248,7 @@ module.exports = function (appDb) {
     },
     order_detail: {
       type: Schema.Types.ObjectId,
-      ref: 'OrderDetail',
-      required: true
+      ref: 'OrderDetail'
     },
     order_details: {
       type: Schema.Types.Mixed
@@ -446,6 +445,9 @@ module.exports = function (appDb) {
     execute_driver: {
       type: Schema.Types.ObjectId,
       ref: 'Driver'
+    },
+    execute_driver_object: {
+      type: Schema.Types.Mixed,
     },
     execute_drivers: [{
       type: Schema.Types.Mixed

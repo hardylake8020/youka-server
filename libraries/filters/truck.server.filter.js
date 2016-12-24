@@ -6,10 +6,10 @@ var cryptoLib = require('../crypto'),
 
 
 exports.requireById = function (req, res, next) {
-  var truckId = req.query.truck_ic || req.body.truck_ic || '';
+  var truckId = req.query.truck_id || req.body.truck_id || '';
 
   if (!truckId) {
-    return res.send({err: {type: 'card_id_not_exist'}});
+    return res.send({err: {type: 'truck_id_not_exist'}});
   }
 
   truckService.getbyId(truckId, function (err, truck) {

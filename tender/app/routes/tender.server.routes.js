@@ -19,7 +19,7 @@ module.exports = function (app) {
   app.route('/tender/driver/getUnStartedListByDriver').post(driverFilter.requireDriver, tenderDriver.getUnStartedListByDriver);
   app.route('/tender/driver/grab').post(driverFilter.requireDriver, tenderFileter.requireById, tenderDriver.grab);
   app.route('/tender/driver/getStartedListByDriver').post(driverFilter.requireDriver, tenderDriver.getStartedListByDriver);
-  app.route('/tender/driver/assginDriver').post(driverFilter.requireDriver, cardFileter.requireById, truckFileter.requireById, tenderDriver.assginDriver);
+  app.route('/tender/driver/assginDriver').post(driverFilter.requireDriver, cardFileter.requireById, truckFileter.requireById, tenderFileter.requireById, tenderDriver.assginDriver);
 
   app.route('/tender/user/get/list').post(userFilter.requireUser, tender.getListByUser);
   app.route('/tender/user/get/one').get(userFilter.requireUser, tender.getOneByUser);

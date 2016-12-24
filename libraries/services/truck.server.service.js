@@ -61,7 +61,7 @@ exports.create = function (owner, truckInfo, callback) {
         owner: owner._id,
         driver: driver._id,
         driver_number: driver.username,
-        driver_name:driver.nickname
+        driver_name: driver.nickname
       });
 
       truck.save(function (err, newTruck) {
@@ -76,7 +76,7 @@ exports.create = function (owner, truckInfo, callback) {
 
 
 exports.getListByDriver = function (curDriver, callback) {
-  Truck.find({owner: curDriver._id}, function (err, trucks) {
+  Truck.find({owner: curDriver._id}).populate('card').exec(function (err, trucks) {
     if (err || !trucks) {
       return callback({err: error.system.db_error});
     }

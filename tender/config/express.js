@@ -116,14 +116,53 @@ module.exports = function () {
     require(path.resolve(routePath))(app);
   });
 
+  // app.use(function (err, req, res, next) {
+  //   res.status(500).json({
+  //     error: {
+  //       type: '500_error',
+  //       message: 'An internal error has occurred'
+  //     }
+  //   });
+  // });
+
   app.use(function (err, req, res, next) {
-    res.status(500).json({
-      error: {
-        type: '500_error',
-        message: 'An internal error has occurred'
+    async.auto({
+      RecordError: function (callback) {
+        if (req.err) {
+          return callback(req.err);
+        }
+        else {
+          return callback();
+        }
+      },
+      GetData: function (callback, results) {
+        if (req.data) {
+          return callback(null, req.data);
+        } else {
+          return callback();
+        }
       }
+    }, function (error, results) {
+      if (error)
+        return res.send(error);
+
+      if (results.GetData)
+        return res.send(results.GetData);
+
+      // If the error object doesn't exists
+      if (!err) return next();
+      // Log it
+      console.error(err.stack);
+      // Error
+      res.status(500).json({
+        error: {
+          type: 'api_error',
+          message: 'An internal error has occurred.'
+        }
+      });
     });
   });
+
 
   app.use(function (req, res, next) {
     res.status(400).json({
@@ -136,72 +175,6 @@ module.exports = function () {
   });
 
   //// Assume 'not found' in the error msgs is a 500. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
-  //app.use(function (err, req, res, next) {
-  //  async.auto({
-  //    RecordLogs: function (callback) {
-  //      if (req.logs && req.logs.length > 0) {
-  //        async.forEach(req.logs, function (log, itemCallback) {
-  //          logService.log(log.level, log.message, log, function (err) {
-  //            if (err) {
-  //              return itemCallback(err);
-  //            }
-  //            else {
-  //              return itemCallback();
-  //            }
-  //          });
-  //        }, function (err) {
-  //          if (err)
-  //            return callback({err: {type: 'log internal error!', message: 'log service internal error!', meta: err}});
-  //
-  //          return callback();
-  //        });
-  //      } else {
-  //        return callback();
-  //      }
-  //    },
-  //    RecordError: function (callback) {
-  //      if (req.err) {
-  //        return callback(req.err);
-  //      }
-  //      else {
-  //        return callback();
-  //      }
-  //    },
-  //    GetData: function (callback, results) {
-  //      if (req.data) {
-  //        return callback(null, req.data);
-  //      } else {
-  //        return callback();
-  //      }
-  //    }
-  //  }, function (error, results) {
-  //    if (error)
-  //      return res.send(error);
-  //
-  //    if (results.GetData)
-  //      return res.send(results.GetData);
-  //
-  //    // If the error object doesn't exists
-  //    if (!err) return next();
-  //    // Log it
-  //    console.error(err.stack);
-  //    logService.error('internal error!', {
-  //      username: req.user && req.user.username ? req.user.username : 'system',
-  //      time: new Date().toISOString(),
-  //      access_url: req.path || 'unknown access_url',
-  //      message: 'internal error!',
-  //      stack: err.stack
-  //    }, function (err) {
-  //      // Error
-  //      res.status(500).json({
-  //        error: {
-  //          type: 'api_error',
-  //          message: 'An internal error has occurred.'
-  //        }
-  //      });
-  //    });
-  //  });
-  //});
   //
   //// Assume 404 since no middleware responded
   //app.use(function (req, res, next) {

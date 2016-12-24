@@ -14,6 +14,8 @@ var async = require('async'),
 var appDb = require('../mongoose').appDb,
   Tender = appDb.model('Tender'),
   Driver = appDb.model('Driver'),
+  Contact = appDb.model('Contact'),
+  Order = appDb.model('Order'),
   BidRecord = appDb.model('BidRecord');
 
 var bidderService = require('./bidder'),
@@ -246,13 +248,15 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
         var execute_drivers = [];
         execute_drivers.push(driver.toJSON());
 
+
         var newOrder = new Order({
           order_number: tender.order_number,
           refer_order_number: tender.refer_order_number,
           parent_order: null,
           status: 'unPickupSigned', //分配给司机，则订单变为unPickupSigned
           create_company: tender.create_company,
-          execute_driver: tender.execute_driver,
+          execute_driver_object:driver.toJSON(),
+          execute_driver: driver._id,
           execute_drivers: execute_drivers,
           pickup_start_time: tender.pickup_start_time,
           pickup_end_time: tender.pickup_end_time,
@@ -271,6 +275,8 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
         });
 
         newOrder.save(function (err, driverOrder) {
+          console.log(JSON.stringify(err));
+          console.log(driverOrder);
           if (err || !driverOrder) {
             return callback({err: error.system.db_error});
           }
