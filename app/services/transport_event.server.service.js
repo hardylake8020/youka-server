@@ -140,78 +140,80 @@ function getActualGoodsRecord(order, uploadTransportEvent, callback) {
 }
 exports.create = function (order, driver, transportEvent, callback) {
 
-  getActualGoodsRecord(order, transportEvent, function (err, actualGoods) {
-    var newTransportEvent = new TransportEvent({
-      order: order,
-      driver: driver,
-      driver_name:driver.nickname,
-      driver_phone:driver.username,
-      driver_plate_numbers:driver.plate_numbers,
-      type: transportEvent.type,
-      location: [],
-      address: transportEvent.address,
-      damaged: transportEvent.damaged,
-      description: transportEvent.remark,
-      goods_photos: transportEvent.goods_photos,
-      credential_photos: transportEvent.credential_photos,
-      halfway_photos: transportEvent.halfway_photos,
-      voice_file: transportEvent.voice_file || '',
-      order_codes: transportEvent.order_codes,
-      time: transportEvent.time,
-      delivery_by_qrcode: transportEvent.delivery_by_qrcode || false,
-      actual_goods_record: actualGoods.actual_goods_record,
-      actual_more_goods_record: actualGoods.actual_more_goods_record,
-      is_wechat: transportEvent.is_wechat || false,
-      recognize_plates: transportEvent.recognize_plates,
-      driver_plate_difference: transportEvent.driver_plate_difference || false,
-      transport_plate_difference: transportEvent.transport_plate_difference || false
-    });
+  // getActualGoodsRecord(order, transportEvent, function (err, actualGoods) {
+  //
+  // });
 
-    if (transportEvent.event_id) {
-      newTransportEvent.event_id = transportEvent.event_id;
-    }
-    else {
-      newTransportEvent.event_id = new mongoose.Types.ObjectId();
-    }
-    if (transportEvent.longitude)
-      newTransportEvent.location.push(parseFloat(transportEvent.longitude));
-    if (transportEvent.latitude)
-      newTransportEvent.location.push(parseFloat(transportEvent.latitude));
+  var newTransportEvent = new TransportEvent({
+    order: order,
+    driver: driver,
+    driver_name: driver.nickname,
+    driver_phone: driver.username,
+    driver_plate_numbers: driver.plate_numbers,
+    type: transportEvent.type,
+    location: [],
+    address: transportEvent.address,
+    damaged: transportEvent.damaged,
+    description: transportEvent.remark,
+    goods_photos: transportEvent.goods_photos,
+    credential_photos: transportEvent.credential_photos,
+    halfway_photos: transportEvent.halfway_photos,
+    voice_file: transportEvent.voice_file || '',
+    order_codes: transportEvent.order_codes,
+    time: transportEvent.time,
+    delivery_by_qrcode: transportEvent.delivery_by_qrcode || false,
+    // actual_goods_record: actualGoods.actual_goods_record,
+    // actual_more_goods_record: actualGoods.actual_more_goods_record,
+    is_wechat: transportEvent.is_wechat || false,
+    recognize_plates: transportEvent.recognize_plates,
+    driver_plate_difference: transportEvent.driver_plate_difference || false,
+    transport_plate_difference: transportEvent.transport_plate_difference || false
+  });
 
-    if (transportEvent.address_difference_distance) {
-      newTransportEvent.address_difference_distance = transportEvent.address_difference_distance;
-    }
-    if (transportEvent.address_difference) {
-      newTransportEvent.address_difference = transportEvent.address_difference;
-    }
+  if (transportEvent.event_id) {
+    newTransportEvent.event_id = transportEvent.event_id;
+  }
+  else {
+    newTransportEvent.event_id = new mongoose.Types.ObjectId();
+  }
+  if (transportEvent.longitude)
+    newTransportEvent.location.push(parseFloat(transportEvent.longitude));
+  if (transportEvent.latitude)
+    newTransportEvent.location.push(parseFloat(transportEvent.latitude));
 
-    if (transportEvent.photos && transportEvent.photos.length > 0) {
-      var photoArray = [];
-      transportEvent.photos.forEach(function (photoItem) {
-        if (!photoItem.url) {
-          try {
-            photoItem = JSON.parse(photoItem);
-          }
-          catch(e) {
-          }
+  if (transportEvent.address_difference_distance) {
+    newTransportEvent.address_difference_distance = transportEvent.address_difference_distance;
+  }
+  if (transportEvent.address_difference) {
+    newTransportEvent.address_difference = transportEvent.address_difference;
+  }
+
+  if (transportEvent.photos && transportEvent.photos.length > 0) {
+    var photoArray = [];
+    transportEvent.photos.forEach(function (photoItem) {
+      if (!photoItem.url) {
+        try {
+          photoItem = JSON.parse(photoItem);
         }
-        if (photoItem.url) {
-          photoArray.push({
-            name: photoItem.name,
-            url: photoItem.url
-          });
+        catch (e) {
         }
-      });
-      newTransportEvent.photos = photoArray;
-    }
-
-      newTransportEvent.save(function (err, transportEvent) {
-      if (err || !transportEvent) {
-        return callback({err: transportEventError.internal_system_error}, null);
       }
-
-      return callback(null, transportEvent);
+      if (photoItem.url) {
+        photoArray.push({
+          name: photoItem.name,
+          url: photoItem.url
+        });
+      }
     });
+    newTransportEvent.photos = photoArray;
+  }
+
+  newTransportEvent.save(function (err, transportEvent) {
+    if (err || !transportEvent) {
+      return callback({err: transportEventError.internal_system_error}, null);
+    }
+
+    return callback(null, transportEvent);
   });
 };
 

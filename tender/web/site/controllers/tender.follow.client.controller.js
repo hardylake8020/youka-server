@@ -9,21 +9,21 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
   function ($rootScope, $scope, $state, $interval, config, HttpTender, CommonHelper, TenderHelper, GlobalEvent,
             BMapService, AudioPlayer, Auth) {
 
-      Date.prototype.Format = function (fmt) {
-          var o = {
-              "M+": this.getMonth() + 1, //月份
-              "d+": this.getDate(), //日
-              "h+": this.getHours(), //小时
-              "m+": this.getMinutes(), //分
-              "s+": this.getSeconds(), //秒
-              "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-              "S": this.getMilliseconds() //毫秒
-          };
-          if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-          for (var k in o)
-              if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-          return fmt;
+    Date.prototype.Format = function (fmt) {
+      var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
       };
+      if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+      for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+      return fmt;
+    };
     var topHeader = {
       title: '查看标书',
       label: {
@@ -40,7 +40,7 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
         },
         exec: function () {
         },
-        download : function(){
+        download: function () {
           var params = tenderView.getSearchCondition();
           params.access_token = Auth.getToken();
           $('body').append('<iframe src="/tender/export_tenders?' + $.param(params) + '" style="display: none;" ></iframe>');
@@ -52,12 +52,12 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
     };
     $scope.topHeader = topHeader;
 
-      $scope.timeRange = {
-          //说明：timeRange 必须直接在$scope下面
-          //不能取名叫startTime
-          start: new Date(new Date().getTime() - 1 * 24 * 60 * 60 *1000),
-          end: ''
-      };
+    $scope.timeRange = {
+      //说明：timeRange 必须直接在$scope下面
+      //不能取名叫startTime
+      start: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+      end: ''
+    };
 
     topHeader.label.change = function (name) {
       if (this.current === name) {
@@ -84,8 +84,8 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
           limit: tenderConfig.list.pagination.limit || 10,
           sortName: tenderConfig.list.pagination.sortName,
           sortValue: tenderConfig.list.pagination.sortValue || -1,
-          startTime: $scope.timeRange.start&&$scope.timeRange.start.Format('yyyy-MM-dd hh:mm:ss'),
-          endTime: $scope.timeRange.end&&$scope.timeRange.end.Format('yyyy-MM-dd hh:mm:ss')
+          startTime: $scope.timeRange.start && $scope.timeRange.start.Format('yyyy-MM-dd hh:mm:ss'),
+          endTime: $scope.timeRange.end && $scope.timeRange.end.Format('yyyy-MM-dd hh:mm:ss')
         };
 
         var searchArray = [];
@@ -104,6 +104,8 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
       },
       getTenderList: function () {
         HttpTender.getTenders($scope, this.getSearchCondition(), function (err, data) {
+          console.log(err);
+          console.log(data);
           tenderView.renderList(data);
           tenderConfig.detail.init();
         });

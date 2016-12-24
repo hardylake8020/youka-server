@@ -26,6 +26,10 @@ var bidderService = require('./bidder'),
 var that = exports;
 
 exports.create = function (owner, truckInfo, callback) {
+  if (!truckInfo) {
+    return callback({err: {type: 'truck_info_empty'}});
+  }
+
   if (!truckInfo.driver_number) {
     return callback({err: {type: 'driver_number_empty'}});
   }
@@ -76,7 +80,7 @@ exports.create = function (owner, truckInfo, callback) {
 
 
 exports.getListByDriver = function (curDriver, callback) {
-  Truck.find({owner: curDriver._id}).populate('card').exec(function (err, trucks) {
+  Truck.find({owner: curDriver._id}).sort({created:-1}).populate('card').exec(function (err, trucks) {
     if (err || !trucks) {
       return callback({err: error.system.db_error});
     }

@@ -58,7 +58,7 @@ exports.create = function (owner, cardInfo, callback) {
 };
 
 exports.getListByDriver = function (curDriver, callback) {
-  Card.find({owner: curDriver._id}).populate('truck').exec( function (err, cards) {
+  Card.find({owner: curDriver._id}).sort({created:-1}).populate('truck').exec( function (err, cards) {
     if (err || !cards) {
       return callback({err: error.system.db_error});
     }

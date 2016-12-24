@@ -22,7 +22,8 @@ exports.getUnStartedListByDriver = function (req, res, next) {
   var condition = {
     currentCount: currentCount,
     limit: limit,
-    sort: {created: -1}
+    sort: {created: -1},
+    status:'unStarted'
   };
 
   newTenderService.getUnStartedListByDriver(currentDriver, condition, function (err, result) {
