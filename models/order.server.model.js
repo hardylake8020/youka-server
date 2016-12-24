@@ -224,6 +224,14 @@ module.exports = function (appDb) {
       type: String,
       default: 'order'
     },
+    order_number: {
+      type: String,
+      default: ''
+    },
+    refer_order_number: {
+      type: String,
+      default: ''
+    },
     order_numbers_for_search: {
       type: String
     },
@@ -537,10 +545,10 @@ module.exports = function (appDb) {
     halfway_events: [{
       type: Schema.Types.Mixed
     }],
-    insurance: {
-      type: Schema.Types.Mixed,
-      default: new Insurance({})
-    },
+    // insurance: {
+    //   type: Schema.Types.Mixed,
+    //   default: new Insurance({})
+    // },
     // 关注人salesmen表的username
     salesmen: [{
       type: Schema.Types.Mixed
@@ -652,7 +660,10 @@ module.exports = function (appDb) {
     //已评价的用户，可以是关注人username，也可以是公司Id
     evaluation_users: {
       type: [String]
-    }
+    },
+    goods: [{
+      type: Schema.Types.Mixed
+    }]
   });
 
   OrderSchema.plugin(timestamps, {
