@@ -1259,7 +1259,7 @@ exports.getDriverOrdersByDriverIdWithStatuses = function (driverId, statusArray,
 };
 
 //获取用户所有的订单（包括已删除的订单）
-exports.getUserAllOrders = function (user, groupIds, currentPage, limit, sort, searchArray, callback) {
+exports.getUserAllOrders = function (user, currentPage, limit, sort, searchArray, callback) {
   if (!currentPage) {
     currentPage = 1;
   }
@@ -1270,7 +1270,7 @@ exports.getUserAllOrders = function (user, groupIds, currentPage, limit, sort, s
     $and: []
   };
 
-  generateQueryCondition(orderQuery, searchArray, user, groupIds);
+  generateQueryCondition(orderQuery, searchArray, user);
 
   if (orderQuery.$or.length === 0) {
     delete orderQuery.$or;
@@ -1375,9 +1375,9 @@ exports.handleAbnormalOrder = function (orderId, currentUser, callback) {
   });
 };
 
-exports.getAssignOrderCount = function (user, groupIds, callback) {
+exports.getAssignOrderCount = function (user, callback) {
   Order.count({
-    execute_group: {$in: groupIds},
+    // execute_group: {$in: groupIds},
     $or: [{'delete_status': {$exists: false}}, {'delete_status': false}],
     assign_status: {$in: ['unAssigned', 'assigning']}
   }).exec(function (err, count) {
@@ -1388,9 +1388,9 @@ exports.getAssignOrderCount = function (user, groupIds, callback) {
   });
 };
 
-exports.getOnwayOrderCount = function (user, groupIds, callback) {
+exports.getOnwayOrderCount = function (user, callback) {
   Order.count({
-    execute_group: {$in: groupIds},
+    // execute_group: {$in: groupIds},
     $or: [{'delete_status': {$exists: false}}, {'delete_status': false}],
     status: {$in: ['assigning', 'unPickupSigned', 'unPickuped', 'unDeliverySigned', 'unDeliveried']}
   }).exec(function (err, count) {

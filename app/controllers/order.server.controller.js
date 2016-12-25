@@ -743,26 +743,13 @@ exports.getOperationCount = function (req, res, next) {
   var currentUser = req.user || {};
 
   async.auto({
-    groupIds: function (autoCallback) {
-      userService.getGroupIdsByUser(currentUser, function (err, groupIds) {
-        if (err) {
-          return autoCallback(err);
-        }
-
-        if (!groupIds || groupIds.length <= 0) {
-          return autoCallback({err: orderError.group_id_null});
-        }
-
-        return autoCallback(null, groupIds);
-      });
-    },
-    assignCount: ['groupIds', function (autoCallback, result) {
-      orderService.getAssignOrderCount(currentUser, result.groupIds, function (err, count) {
+    assignCount: [function (autoCallback, result) {
+      orderService.getAssignOrderCount(currentUser, function (err, count) {
         return autoCallback(err, count);
       });
     }],
-    onwayCount: ['groupIds', function (autoCallback, result) {
-      orderService.getOnwayOrderCount(currentUser, result.groupIds, function (err, count) {
+    onwayCount: [function (autoCallback, result) {
+      orderService.getOnwayOrderCount(currentUser, function (err, count) {
         return autoCallback(err, count);
       });
     }]
@@ -831,27 +818,30 @@ exports.getUserAllOrders = function (req, res, next) {
   var searchArray = req.body.searchArray || req.query.searchArray || [];
 
   if (!res.logs)res.logs = [];
-  userService.getGroupIdsByUser(currentUser, function (err, groupIds) {
+
+  orderService.getUserAllOrders(currentUser, currentPage, limit, sort, searchArray, function (err, result) {
     if (err) {
       req.err = err;
-      //res.logs.push({});
       return next();
     }
-
-    if (!groupIds || groupIds.length <= 0) {
-      req.err = {err: orderError.group_id_null};
-      return next();
-    }
-
-    orderService.getUserAllOrders(currentUser, groupIds, currentPage, limit, sort, searchArray, function (err, result) {
-      if (err) {
-        req.err = err;
-        return next();
-      }
-      req.data = result;
-      return next();
-    });
+    req.data = result;
+    return next();
   });
+  
+  // userService.getGroupIdsByUser(currentUser, function (err, groupIds) {
+  //   if (err) {
+  //     req.err = err;
+  //     //res.logs.push({});
+  //     return next();
+  //   }
+  //
+  //   if (!groupIds || groupIds.length <= 0) {
+  //     req.err = {err: orderError.group_id_null};
+  //     return next();
+  //   }
+  //
+  //  
+  // });
 };
 
 //获取异常运单(实际提交货时间大于预计提交货时间，有货损，有中途事件，缺件，不包括删除)
