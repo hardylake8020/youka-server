@@ -20,7 +20,7 @@ module.exports = function (appDb) {
     },
     truck: {
       type: Schema.Types.ObjectId,
-      ref: 'Driver'
+      ref: 'Truck'
     },
     truck_number: {
       type: String,

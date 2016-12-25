@@ -18,10 +18,10 @@
                ng-click="changeTab('map')">
             地图(GPS点数：{{orderDetailInfo.gpsCount}}，非GPS点数:{{orderDetailInfo.ungpsCount}})
           </div>
-          <div class="col-xs-2 tab inner-btn" ng-click="exportOrderPdf()"
-               ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status==='completed'">
-            <span class="order-pdf-btn">导出PDF</span>
-          </div>
+          <!--<div class="col-xs-2 tab inner-btn" ng-click="exportOrderPdf()"-->
+               <!--ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status==='completed'">-->
+            <!--<span class="order-pdf-btn">导出PDF</span>-->
+          <!--</div>-->
         </div>
       </div>
       <div class="col-xs-2 close"><span ng-click="close($event);"></span></div>
@@ -395,21 +395,21 @@
                 完成 {{generateEventTypeDescription(event)}}
               </div>
 
-              <table class="pure-table pure-table-bordered" ng-show="event.type == 'pickup' || event.type == 'delivery'">
-                <thead>
-                <tr><th>货物名</th><th>计划货物数量</th>
-                  <th ng-show="event.type == 'pickup'">实际提货数量</th>
-                  <th ng-show="event.type == 'delivery'">实际交货数量</th><th>备注</th></tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="a in event.compare_goods">
-                  <td><span>{{a.name}}</span></td>
-                  <td><span>{{a.planned}}</span></td>
-                  <td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.actual}}</span></td>
-                  <td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.compare}}</span></td>
-                </tr>
-                </tbody>
-              </table>
+              <!--<table class="pure-table pure-table-bordered" ng-show="event.type == 'pickup' || event.type == 'delivery'">-->
+                <!--<thead>-->
+                <!--<tr><th>货物名</th><th>计划货物数量</th>-->
+                  <!--<th ng-show="event.type == 'pickup'">实际提货数量</th>-->
+                  <!--<th ng-show="event.type == 'delivery'">实际交货数量</th><th>备注</th></tr>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--<tr ng-repeat="a in event.compare_goods">-->
+                  <!--<td><span>{{a.name}}</span></td>-->
+                  <!--<td><span>{{a.planned}}</span></td>-->
+                  <!--<td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.actual}}</span></td>-->
+                  <!--<td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.compare}}</span></td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+              <!--</table>-->
 
               <div class="item damaged"><strong>货损: </strong><span>{{(event.damaged == true || event.damaged == 'true')?'有': '无'}}</span>
               </div>

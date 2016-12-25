@@ -309,19 +309,19 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
         $scope.orders.config.fields.forEach(function (fieldItem) {
           switch (fieldItem.value) {
             case 'order_number':
-              rowData.order_number = currentOrder.order_details.order_number;
+              rowData.order_number = currentOrder.order_number;
               break;
             case 'ref_number':
-              rowData.ref_number = currentOrder.order_details.refer_order_number ? currentOrder.order_details.refer_order_number : '未填';
+              rowData.ref_number = currentOrder.refer_order_number ? currentOrder.refer_order_number : '未填';
               break;
             case 'original_order_number':
-              rowData.original_order_number = currentOrder.order_details.original_order_number ? currentOrder.order_details.original_order_number : '未填';
+              rowData.original_order_number = currentOrder.original_order_number ? currentOrder.original_order_number : '未填';
               break;
             case 'goods_name':
-              rowData.goods_name = OrderHelper.getGoodsNameString(currentOrder.order_details);
+              rowData.goods_name = OrderHelper.getGoodsNameString(currentOrder);
               break;
             case 'count_weight_volume':
-              rowData.count_weight_volume = OrderHelper.getCountDetail(currentOrder.order_details);
+              rowData.count_weight_volume = OrderHelper.getCountDetail(currentOrder);
               break;
             case 'pickup_start_time':
               rowData.pickup_start_time = currentOrder.pickup_start_time ? new Date(currentOrder.pickup_start_time).Format('yy/MM/dd hh:mm') : '未填';
@@ -662,7 +662,7 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
 
       function orderAssign(order) {
         var order_id = order._id;
-        var new_order_number=order.new_order_number;
+        var new_order_number = order.new_order_number;
 
         var assign_infos = order.extendData.assignInfos;
 
@@ -1023,7 +1023,7 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
           //$scope.orders.config.pagination.searchName,
           //$scope.orders.config.pagination.searchValue
 
-        )
+          )
           .then(function (data) {
             $scope.$emit(GlobalEvent.onShowLoading, false);
             console.log(data);
@@ -1069,18 +1069,18 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
               assignInfos: currentOrder.assigned_infos,
               detail: {
                 parent_order: currentOrder.parent_order,
-                order_number: currentOrder.order_details.order_number,
-                refer_order_number: currentOrder.order_details.refer_order_number,
-                original_order_number: currentOrder.order_details.original_order_number,
-                goods_name: currentOrder.order_details.goods_name,
-                pickup_contact_name: currentOrder.pickup_contact.name,
-                pickup_contact_phone: currentOrder.pickup_contact.phone,
-                pickup_contact_mobile_phone: currentOrder.pickup_contact.mobile_phone,
-                pickup_contact_address: currentOrder.pickup_contact.address,
-                delivery_contact_name: currentOrder.delivery_contact.name,
-                delivery_contact_phone: currentOrder.delivery_contact.phone,
-                delivery_contact_mobile_phone: currentOrder.delivery_contact.mobile_phone,
-                delivery_contact_address: currentOrder.delivery_contact.address,
+                order_number: currentOrder.order_number,
+                refer_order_number: currentOrder.refer_order_number,
+                original_order_number: currentOrder.original_order_number,
+                goods_name: currentOrder.goods_name,
+                pickup_contact_name: currentOrder.pickup_contacts.name,
+                pickup_contact_phone: currentOrder.pickup_contacts.phone,
+                pickup_contact_mobile_phone: currentOrder.pickup_contacts.mobile_phone,
+                pickup_contact_address: currentOrder.pickup_contacts.address,
+                delivery_contact_name: currentOrder.delivery_contacts.name,
+                delivery_contact_phone: currentOrder.delivery_contacts.phone,
+                delivery_contact_mobile_phone: currentOrder.delivery_contacts.mobile_phone,
+                delivery_contact_address: currentOrder.delivery_contacts.address,
                 pickup_start_time: currentOrder.pickup_start_time,
                 pickup_end_time: currentOrder.pickup_end_time,
                 delivery_start_time: currentOrder.delivery_start_time,
@@ -1090,13 +1090,13 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
                 create_group: currentOrder.create_group,
                 execute_group: currentOrder.execute_group,
                 description: currentOrder.description,
-                count: currentOrder.order_details.count,
-                weight: currentOrder.order_details.weight,
-                volume: currentOrder.order_details.volume,
-                count_unit: currentOrder.order_details.count_unit,
-                weight_unit: currentOrder.order_details.weight_unit,
-                volume_unit: currentOrder.order_details.volume_unit,
-                freight_charge: currentOrder.order_details.freight_charge,
+                count: currentOrder.count,
+                weight: currentOrder.weight,
+                volume: currentOrder.volume,
+                count_unit: currentOrder.count_unit,
+                weight_unit: currentOrder.weight_unit,
+                volume_unit: currentOrder.volume_unit,
+                freight_charge: currentOrder.freight_charge,
                 details: currentOrder.details,
                 receiver_name: currentOrder.receiver_name,
                 sender_name: currentOrder.sender_name,
@@ -1106,7 +1106,7 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
             },
             rowConfig: {
               notOptional: (currentOrder.status !== 'unAssigned'),
-              unEdited: (currentOrder.create_company._id !== currentOrder.execute_company) || currentOrder.status !== 'unAssigned',
+              unEdited: true,//(currentOrder.create_company._id !== currentOrder.execute_company) || currentOrder.status !== 'unAssigned',
               expand: true,
               expandText: currentOrder.assign_status === 'assigning' ? '继续分配' : '分配'
             }
@@ -1118,7 +1118,11 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
 
       function firstAssign(order_id, new_order_number, assign_infos) {
         $scope.$emit(GlobalEvent.onShowLoading, true);
-        OrderService.assignOrder({order_id: order_id, assign_infos: assign_infos, new_order_number: new_order_number}).then(function (data) {
+        OrderService.assignOrder({
+          order_id: order_id,
+          assign_infos: assign_infos,
+          new_order_number: new_order_number
+        }).then(function (data) {
           $scope.$emit(GlobalEvent.onShowLoading, false);
           console.log(data);
           if (data.err) {

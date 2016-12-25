@@ -14,6 +14,9 @@ var transportEventError = require('../errors/transport_event'),
   appDb = require('../../libraries/mongoose').appDb,
   TransportEvent = appDb.model('TransportEvent'),
   Order = appDb.model('Order'),
+  Tender = appDb.model('Tender'),
+  Card = appDb.model('Card'),
+  Truck = appDb.model('Truck'),
   OrderShare = appDb.model('OrderShare');
 
 var userService = require('../services/user'),
@@ -410,150 +413,150 @@ function createEvaluation(order, driverId, callback) {
   });
 }
 
-function updateParentOrderInfo(order, newStatus, transportEventObject, callback) {
-  if (!order.parent_order)
-    return callback(null, {success: true});
-
-  orderService.getOrderById(order.parent_order, function (err, parentOrder) {
-    if (err) {
-      return callback(err);
-    }
-
-    updateOrderDescriptionByEvent(parentOrder, transportEventObject);
-    updateOrderPlateByEvent(parentOrder, transportEventObject);
-    updateOrderDamagedByEvent(parentOrder, transportEventObject);
-    updateOrderQrcodeStatusByEvent(parentOrder, transportEventObject);
-    updateOrderMissingPackageEvent(parentOrder, transportEventObject);
-    addEventToOrder(parentOrder, transportEventObject);
-
-    if (transportEventObject.type === 'pickupSign' && !parentOrder.pickup_sign_time) {
-      updateOrderPickupSignDeferedByEvent(parentOrder, order.pickup_sign_time);
-    }
-
-    if (transportEventObject.type === 'pickup' && !parentOrder.pickup_time) {
-      updateOrderPickupDeferedByEvent(parentOrder, order.pickup_time);
-      updateOrderAddressDifferent(parentOrder, transportEventObject);
-    }
-
-    if (newStatus && parentOrder.status !== newStatus) {
-      parentOrder.status = newStatus;
-    }
-
-    parentOrder.save(function (err, saveOrderEntity) {
-      if (err) {
-        return callback({err: transportEventError.internal_system_error}, null);
-      }
-
-      //计算父运单所提供的地址是否异常, A --> B, 那么B的提货交货地址是由A提供的
-      setTransportEventDistance(saveOrderEntity, transportEventObject);
-      updateParentOrderInfo(saveOrderEntity, newStatus, transportEventObject, callback);
-    });
-
-  });
-}
-function updateParentOrderInfoToCompleted(order, newStatus, transportEventObject, callback) {
-  if (!order.parent_order)
-    return callback(null, {success: true});
-
-  orderService.getOrderById(order.parent_order, function (err, parentOrder) {
-    if (err) {
-      return callback(err);
-    }
-
-    if (parentOrder.status === 'completed') {
-      return callback({err: transportEventError.order_has_been_complete}, null);
-    }
-
-    //如果父运单还未分配完，则直接返回
-    if (parentOrder.assign_status !== 'completed') {
-      return callback(null, {success: true});
-    }
-
-    orderService.getChildrenByParentId(order.parent_order, function (err, brotherOrders) {
-      if (err) {
-        return callback(err);
-      }
-
-      //最后一个交货进场
-      if (transportEventObject.type === 'deliverySign') {
-        async.each(brotherOrders, function (brotherOrder, eachCallback) {
-          //如果是自己，则直接过
-          if (brotherOrder._id.toString() === order._id.toString()) {
-            return eachCallback();
-          }
-
-          if (brotherOrder.status !== 'completed') {
-            return eachCallback({err: transportEventError.uncompleted}, null);
-          }
-
-          return eachCallback();
-        }, function (err) {
-          if (err) {
-            return callback(null, {success: true});
-          }
-
-          if (!parentOrder.delivery_sign_time) {
-            updateOrderDeliverySignDeferedByEvent(parentOrder, order.delivery_sign_time);
-          }
-
-          parentOrder.save(function (err, saveParentOrder) {
-            if (err || !saveParentOrder)
-              return callback({err: transportEventError.internal_system_error}, null);
-
-            if (!saveParentOrder.parent_order) {
-              //推送短信通知
-
-              orderService.sendOrderMessage(allEnum.company_order_message_push_type.ltl_delivery_sign, parentOrder, transportEventObject.driver_phone, transportEventObject.driver_plate_numbers && transportEventObject.driver_plate_numbers[0]);
-            }
-
-
-            updateParentOrderInfoToCompleted(saveParentOrder, newStatus, transportEventObject, callback);
-          });
-
-        });
-
-      }
-      else {
-        async.each(brotherOrders, function (brotherOrder, eachCallback) {
-          if (brotherOrder.status !== 'completed') {
-            return eachCallback({err: transportEventError.uncompleted}, null);
-          }
-
-          return eachCallback();
-        }, function (err) {
-          if (err) {
-            return callback(null, {success: true});
-          }
-
-          if (!parentOrder.delivery_time) {
-            updateOrderDeliveryDeferedByEvent(parentOrder, order.delivery_time);
-            updateOrderAddressDifferent(parentOrder, transportEventObject);
-          }
-
-          parentOrder.status = 'completed';
-          parentOrder.save(function (err, saveParentOrder) {
-            if (err || !saveParentOrder)
-              return callback({err: transportEventError.internal_system_error}, null);
-
-
-            if (!saveParentOrder.parent_order) {
-              //推送短信通知
-
-              orderService.sendOrderMessage(allEnum.company_order_message_push_type.delivery, parentOrder);
-            }
-
-            //计算父运单所提供的地址是否异常, A --> B, 那么B的提货交货地址是由A提供的
-            setTransportEventDistance(saveParentOrder, transportEventObject);
-            updateParentOrderInfoToCompleted(saveParentOrder, newStatus, transportEventObject, callback);
-          });
-
-        });
-
-      }
-
-    });
-  });
-}
+// function updateParentOrderInfo(order, newStatus, transportEventObject, callback) {
+//   if (!order.parent_order)
+//     return callback(null, {success: true});
+//
+//   orderService.getOrderById(order.parent_order, function (err, parentOrder) {
+//     if (err) {
+//       return callback(err);
+//     }
+//
+//     updateOrderDescriptionByEvent(parentOrder, transportEventObject);
+//     updateOrderPlateByEvent(parentOrder, transportEventObject);
+//     updateOrderDamagedByEvent(parentOrder, transportEventObject);
+//     updateOrderQrcodeStatusByEvent(parentOrder, transportEventObject);
+//     updateOrderMissingPackageEvent(parentOrder, transportEventObject);
+//     addEventToOrder(parentOrder, transportEventObject);
+//
+//     if (transportEventObject.type === 'pickupSign' && !parentOrder.pickup_sign_time) {
+//       updateOrderPickupSignDeferedByEvent(parentOrder, order.pickup_sign_time);
+//     }
+//
+//     if (transportEventObject.type === 'pickup' && !parentOrder.pickup_time) {
+//       updateOrderPickupDeferedByEvent(parentOrder, order.pickup_time);
+//       updateOrderAddressDifferent(parentOrder, transportEventObject);
+//     }
+//
+//     if (newStatus && parentOrder.status !== newStatus) {
+//       parentOrder.status = newStatus;
+//     }
+//
+//     parentOrder.save(function (err, saveOrderEntity) {
+//       if (err) {
+//         return callback({err: transportEventError.internal_system_error}, null);
+//       }
+//
+//       //计算父运单所提供的地址是否异常, A --> B, 那么B的提货交货地址是由A提供的
+//       setTransportEventDistance(saveOrderEntity, transportEventObject);
+//       updateParentOrderInfo(saveOrderEntity, newStatus, transportEventObject, callback);
+//     });
+//
+//   });
+// }
+// function updateParentOrderInfoToCompleted(order, newStatus, transportEventObject, callback) {
+//   if (!order.parent_order)
+//     return callback(null, {success: true});
+//
+//   orderService.getOrderById(order.parent_order, function (err, parentOrder) {
+//     if (err) {
+//       return callback(err);
+//     }
+//
+//     if (parentOrder.status === 'completed') {
+//       return callback({err: transportEventError.order_has_been_complete}, null);
+//     }
+//
+//     //如果父运单还未分配完，则直接返回
+//     if (parentOrder.assign_status !== 'completed') {
+//       return callback(null, {success: true});
+//     }
+//
+//     orderService.getChildrenByParentId(order.parent_order, function (err, brotherOrders) {
+//       if (err) {
+//         return callback(err);
+//       }
+//
+//       //最后一个交货进场
+//       if (transportEventObject.type === 'deliverySign') {
+//         async.each(brotherOrders, function (brotherOrder, eachCallback) {
+//           //如果是自己，则直接过
+//           if (brotherOrder._id.toString() === order._id.toString()) {
+//             return eachCallback();
+//           }
+//
+//           if (brotherOrder.status !== 'completed') {
+//             return eachCallback({err: transportEventError.uncompleted}, null);
+//           }
+//
+//           return eachCallback();
+//         }, function (err) {
+//           if (err) {
+//             return callback(null, {success: true});
+//           }
+//
+//           if (!parentOrder.delivery_sign_time) {
+//             updateOrderDeliverySignDeferedByEvent(parentOrder, order.delivery_sign_time);
+//           }
+//
+//           parentOrder.save(function (err, saveParentOrder) {
+//             if (err || !saveParentOrder)
+//               return callback({err: transportEventError.internal_system_error}, null);
+//
+//             if (!saveParentOrder.parent_order) {
+//               //推送短信通知
+//
+//               orderService.sendOrderMessage(allEnum.company_order_message_push_type.ltl_delivery_sign, parentOrder, transportEventObject.driver_phone, transportEventObject.driver_plate_numbers && transportEventObject.driver_plate_numbers[0]);
+//             }
+//
+//
+//             updateParentOrderInfoToCompleted(saveParentOrder, newStatus, transportEventObject, callback);
+//           });
+//
+//         });
+//
+//       }
+//       else {
+//         async.each(brotherOrders, function (brotherOrder, eachCallback) {
+//           if (brotherOrder.status !== 'completed') {
+//             return eachCallback({err: transportEventError.uncompleted}, null);
+//           }
+//
+//           return eachCallback();
+//         }, function (err) {
+//           if (err) {
+//             return callback(null, {success: true});
+//           }
+//
+//           if (!parentOrder.delivery_time) {
+//             updateOrderDeliveryDeferedByEvent(parentOrder, order.delivery_time);
+//             updateOrderAddressDifferent(parentOrder, transportEventObject);
+//           }
+//
+//           parentOrder.status = 'completed';
+//           parentOrder.save(function (err, saveParentOrder) {
+//             if (err || !saveParentOrder)
+//               return callback({err: transportEventError.internal_system_error}, null);
+//
+//
+//             if (!saveParentOrder.parent_order) {
+//               //推送短信通知
+//
+//               orderService.sendOrderMessage(allEnum.company_order_message_push_type.delivery, parentOrder);
+//             }
+//
+//             //计算父运单所提供的地址是否异常, A --> B, 那么B的提货交货地址是由A提供的
+//             setTransportEventDistance(saveParentOrder, transportEventObject);
+//             updateParentOrderInfoToCompleted(saveParentOrder, newStatus, transportEventObject, callback);
+//           });
+//
+//         });
+//
+//       }
+//
+//     });
+//   });
+// }
 
 function updateOrderBasicInfosForPickupSign(order, transportEventEntity) {
   updateOrderPickupSignDeferedByEvent(order, transportEventEntity.time);
@@ -667,28 +670,88 @@ function updateOrderInfo(order, transportEventEntity, callback) {
 
       //初始化transportEventEntity的distance
       setTransportEventDistance(orderEntity, transportEventEntity);
-      updateParentOrderInfo(orderEntity || {}, newStatus, transportEventEntity, function (err, result) {
-        if (err) {
-          return callback(err, null);
-        }
 
-        if (newStatus !== 'unDeliveried') {
-          return callback(null, result);
-        }
+      if (orderEntity.status != 'completed') {
+        return callback(null, {success: true});
+      }
 
-        return callback(null, result);
-        //初始化transportEventEntity的distance
-        // setTransportEventDistance(orderEntity, transportEventEntity);
-        // updateParentOrderInfoToCompleted(orderEntity, 'completed', transportEventEntity, function (err, result) {
-        //   if (err)
-        //     return callback(err, null);
-        //
-        //   return callback(null, result);
-        // });
+      async.auto({
+        tender: function (autoCallback) {
+          Tender.findOne({_id: orderEntity.tender}, function (err, tender) {
+            if (err || !tender) {
+              return autoCallback({err: transportEventError.internal_system_error}, null);
+            }
+            tender.status = 'completed';
+            return autoCallback(null, tender);
+          });
+        },
+        card: ['tender', function (autoCallback, result) {
+          var tender = result.tender;
+          Card.findOne({_id: tender.card}, function (err, card) {
+            if (err || !card) {
+              return autoCallback({err: transportEventError.internal_system_error}, null);
+            }
+            card.truck = null;
+            card.truck_number = '';
+            return autoCallback(null, card);
+          });
+        }],
+        truck: ['tender', function (autoCallback, result) {
+          var tender = result.tender;
+          Truck.findOne({_id: tender.truck}, function (err, truck) {
+            if (err || !truck) {
+              return autoCallback({err: transportEventError.internal_system_error}, null);
+            }
+            truck.card = null;
+            truck.card_number = '';
+            return autoCallback(null, truck);
+          });
+        }]
+      }, function (err, result) {
+        var tender = result.tender;
+        var card = result.card;
+        var truck = result.truck;
+        tender.save(function (err, saveTender) {
+          if (err || !saveTender) {
+            return callback({err: transportEventError.internal_system_error}, null);
+          }
+          card.save(function (err, saveCard) {
+            if (err || !saveCard) {
+              return callback({err: transportEventError.internal_system_error}, null);
+            }
+
+            truck.save(function (err, saveTruck) {
+              if (err || !saveTruck) {
+                return callback({err: transportEventError.internal_system_error}, null);
+              }
+              return callback(err, {success: true})
+            });
+          });
+        });
       });
+
+
+      // updateParentOrderInfo(orderEntity || {}, newStatus, transportEventEntity, function (err, result) {
+      //   if (err) {
+      //     return callback(err, null);
+      //   }
+      //
+      //   if (newStatus !== 'unDeliveried') {
+      //     return callback(null, result);
+      //   }
+
+      //初始化transportEventEntity的distance
+      // setTransportEventDistance(orderEntity, transportEventEntity);
+      // updateParentOrderInfoToCompleted(orderEntity, 'completed', transportEventEntity, function (err, result) {
+      //   if (err)
+      //     return callback(err, null);
+      //
+      //   return callback(null, result);
+      // });
     });
   });
 }
+
 
 //执行TransportEvent单个订单处理
 function executeTransportEventHandle(orderId, currentDriver, transportEvent, callback) {
@@ -927,41 +990,44 @@ exports.getEventByOrderId = function (req, res, next) {
       return res.send({err: orderError.order_not_exist});
     }
 
-    orderService.isOrderAllowSeeing(order, currentUser, otherCondition, function (err, canSeeing) {
+    var startTime = order.create_time;
+    var endTime = order.delivery_time || new Date().toISOString();
+
+
+    transportEventService.getEventByOrder([order._id], startTime, endTime, function (err, transportEvents) {
       if (err) {
         return res.send(err);
       }
-      if (!canSeeing) {
-        return res.send({err: orderError.order_not_visible});
-      }
 
-      var startTime = order.create_time;
-      var endTime = order.delivery_time || new Date().toISOString();
-
-      orderService.getDriverChildrenOrderIds(orderId, function (err, driverOrderIds) {
-        if (err) {
-          return res.send(err);
-        }
-
-        transportEventService.getEventByOrder(driverOrderIds, startTime, endTime, function (err, transportEvents) {
-          if (err) {
-            return res.send(err);
-          }
-
-          return res.send({
-            order: {
-              createUserNickname: order.create_user.nickname,
-              createUserPhone: order.create_user.phone,
-              createUsername: order.create_user.username,
-              create_time: order.create_time,
-              pickup_time: order.pickup_time,
-              delivery_time: order.delivery_time
-            }, events: transportEvents
-          });
-        });
+      return res.send({
+        order: {
+          createUserNickname:'',// order.create_user.nickname,
+          createUserPhone: '',//order.create_user.phone,
+          createUsername: '',//order.create_user.username,
+          create_time: order.create_time,
+          pickup_time: order.pickup_time,
+          delivery_time: order.delivery_time
+        }, events: transportEvents
       });
-
     });
+
+    // orderService.isOrderAllowSeeing(order, currentUser, otherCondition, function (err, canSeeing) {
+    //   if (err) {
+    //     return res.send(err);
+    //   }
+    //   if (!canSeeing) {
+    //     return res.send({err: orderError.order_not_visible});
+    //   }
+    //
+    //
+    //   // orderService.getDriverChildrenOrderIds(orderId, function (err, driverOrderIds) {
+    //   //   if (err) {
+    //   //     return res.send(err);
+    //   //   }
+    //   //
+    //   // });
+    //
+    // });
   });
 };
 

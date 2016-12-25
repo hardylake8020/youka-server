@@ -26,9 +26,9 @@ exports.getGroups = function (userId, callback) {
       return callback({err: userError.account_not_exist}, null);
     }
 
-    if (!user.email_verified) {
-      return callback({err: userError.account_not_activate}, null);
-    }
+    // if (!user.email_verified) {
+    //   return callback({err: userError.account_not_activate}, null);
+    // }
 
     UserGroup.find({user: userId}).populate('group').exec(function (err, userGroups) {
       if (err) {
@@ -45,9 +45,9 @@ exports.getGroupIdsByUser = function (userEntity, callback) {
     return callback({err: userEntity.account_not_exist}, null);
   }
 
-  if (!userEntity.email_verified) {
-    return callback({err: userError.account_not_activate}, null);
-  }
+  // if (!userEntity.email_verified) {
+  //   return callback({err: userError.account_not_activate}, null);
+  // }
 
   UserGroup.find({user: userEntity._id}, 'group').exec(function (err, docs) {
     if (err) {

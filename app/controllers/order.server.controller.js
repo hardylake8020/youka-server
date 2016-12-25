@@ -728,7 +728,7 @@ exports.getUserOrders = function (req, res, next) {
       return next();
     }
 
-    orderService.getOrdersByGroupIdsWithStatusArray(currentUser, groupIds, null, currentPage, limit, sort, search, function (err, result) {
+    orderService.getOrdersByGroupIdsWithStatusArray(currentUser, null, currentPage, limit, sort, search, function (err, result) {
       if (err) {
         req.err = err;
         return next();
@@ -791,31 +791,33 @@ exports.getUnassignedOrders = function (req, res, next) {
   var searchArray = req.body.searchArray || req.query.searchArray || [];
 
   if (!res.logs)res.logs = [];
-  userService.getGroupIdsByUser(currentUser, function (err, groupIds) {
+
+  searchArray.push({key: 'isDeleted', value: 'false'});
+  searchArray.push({key: 'assign_status', value: ['unAssigned', 'assigning']});
+
+
+  orderService.getOrdersByGroupIdsWithStatusArray(currentUser, null, currentPage, limit, sort, searchArray, function (err, result) {
     if (err) {
       req.err = err;
       return next();
     }
 
-    if (!groupIds || groupIds.length <= 0) {
-      req.err = {err: orderError.group_id_null};
-      return next();
-    }
-
-    searchArray.push({key: 'isDeleted', value: 'false'});
-    searchArray.push({key: 'assign_status', value: ['unAssigned', 'assigning']});
-
-
-    orderService.getOrdersByGroupIdsWithStatusArray(currentUser, groupIds, null, currentPage, limit, sort, searchArray, function (err, result) {
-      if (err) {
-        req.err = err;
-        return next();
-      }
-
-      req.data = result;
-      return next();
-    });
+    req.data = result;
+    return next();
   });
+  // userService.getGroupIdsByUser(currentUser, function (err, groupIds) {
+  //   if (err) {
+  //     req.err = err;
+  //     return next();
+  //   }
+  //
+  //   if (!groupIds || groupIds.length <= 0) {
+  //     req.err = {err: orderError.group_id_null};
+  //     return next();
+  //   }
+  //
+  // 
+  // });
 };
 
 exports.getUserAllOrders = function (req, res, next) {
@@ -1629,77 +1631,82 @@ exports.getOrderAssignedDetailById = function (req, res, next) {
         return res.send({err: orderError.order_not_exist});
       }
 
-      orderService.isOrderAllowSeeing(order, currentUser, otherCondition, function (err, canSeeing) {
-        if (err) {
-          return res.send(err);
-        }
-        if (!canSeeing) {
-          return res.send({err: orderError.order_not_visible});
-        }
-        orderService.getOrderAssignedInfoByOrderId(order, function (err, assignedOrders) {
-          if (err) {
-            return res.send(err);
-          }
-          var result = {
-            orderDetail: {
-              number: order.order_details.order_number,
-              customer_name: order.customer_name,
-              refer_numbers: order.order_details.refer_order_number,
-              original_order_number: order.order_details.original_order_number,
-              goods_name: order.order_details.goods_name,
-              count: order.order_details.count ? order.order_details.count + order.order_details.count_unit : '',
-              weight: order.order_details.weight ? order.order_details.weight + order.order_details.weight_unit : '',
-              volume: order.order_details.volume ? order.order_details.volume + order.order_details.volume_unit : '',
-              count_unit: order.order_details.count_unit,
-              weight_unit: order.order_details.weight_unit,
-              volume_unit: order.order_details.volume_unit,
-              goods: order.order_details.goods,
-              description: order.description,
-              freight_charge: order.order_details.freight_charge,
-              status: order.status,
-              source: order.source,
-              sender_name: order.sender_name,
-              receiver_name: order.receiver_name,
-              damaged: order.damaged,
-              pickup_start_time: order.pickup_start_time,
-              pickup_end_time: order.pickup_end_time,
-              pickup_contacts: order.pickup_contacts,
-              delivery_start_time: order.delivery_start_time,
-              delivery_end_time: order.delivery_end_time,
-              delivery_contacts: order.delivery_contacts,
-              delivery_by_qrcode: order.delivery_by_qrcode ? true : false,
-              assigned_infos: order.assigned_infos,
-              parent_order: order.parent_order,
-              salesmen: order.salesmen
-            }, assignedCompanyOrders: assignedOrders
-          };
-          if(order.salesmen && order.salesmen.length > 0){
-            if(order.salesmen[0] && order.salesmen[0]._id){
-              return res.send(result);
-            }else{
-              var usernames = [];
-              order.salesmen.forEach(function(s){
-                if(s && s.username){
-                  usernames.push(s.username);
-                }
-              });
-              SalesmanCompany.find({username: usernames}).lean().exec(function(salesmen, err){
-                if(err){
-                  console.log(err);
-                  res.send(result);
-                }else{
-                  result.orderDetail.salesmen = salesmen;
-                  res.send(result);
-                }
-              });
+      var result = {
+        orderDetail: {
+          number: order.order_number,
+          customer_name: order.customer_name,
+          refer_numbers: order.refer_order_number,
+          original_order_number: order.original_order_number,
+          goods_name: order.goods_name,
+          count: order.count ? order.count + order.count_unit : '',
+          weight: order.weight ? order.weight + order.weight_unit : '',
+          volume: order.volume ? order.volume + order.volume_unit : '',
+          count_unit: order.count_unit,
+          weight_unit: order.weight_unit,
+          volume_unit: order.volume_unit,
+          goods: order.goods,
+          description: order.description,
+          freight_charge: order.freight_charge,
+          status: order.status,
+          source: order.source,
+          sender_name: order.sender_name,
+          receiver_name: order.receiver_name,
+          damaged: order.damaged,
+          pickup_start_time: order.pickup_start_time,
+          pickup_end_time: order.pickup_end_time,
+          pickup_contacts: order.pickup_contacts,
+          delivery_start_time: order.delivery_start_time,
+          delivery_end_time: order.delivery_end_time,
+          delivery_contacts: order.delivery_contacts,
+          delivery_by_qrcode: order.delivery_by_qrcode ? true : false,
+          assigned_infos: order.assigned_infos,
+          parent_order: order.parent_order,
+          salesmen: order.salesmen
+        },
+        //assignedCompanyOrders: assignedOrders
+      };
+      if(order.salesmen && order.salesmen.length > 0){
+        if(order.salesmen[0] && order.salesmen[0]._id){
+          return res.send(result);
+        }else{
+          var usernames = [];
+          order.salesmen.forEach(function(s){
+            if(s && s.username){
+              usernames.push(s.username);
             }
-          }else{
-            return res.send(result);
-          }
+          });
+          SalesmanCompany.find({username: usernames}).lean().exec(function(salesmen, err){
+            if(err){
+              console.log(err);
+              res.send(result);
+            }else{
+              result.orderDetail.salesmen = salesmen;
+              res.send(result);
+            }
+          });
+        }
+      }else{
+        return res.send(result);
+      }
 
-        });
+      // orderService.getOrderAssignedInfoByOrderId(order, function (err, assignedOrders) {
+      //   if (err) {
+      //     return res.send(err);
+      //   }
+      //
+      //
+      // });
 
-      });
+
+      // orderService.isOrderAllowSeeing(order, currentUser, otherCondition, function (err, canSeeing) {
+      //   if (err) {
+      //     return res.send(err);
+      //   }
+      //   // if (!canSeeing) {
+      //   //   return res.send({err: orderError.order_not_visible});
+      //   // }
+      //
+      // });
 
     });
 };

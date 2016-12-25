@@ -81,25 +81,27 @@ exports.getTrace = function (req, res, next) {
       return res.send({err: orderError.order_not_exist});
     }
 
-    orderService.isOrderAllowSeeing(order, currentUser, otherCondition, function (err, canSeeing) {
-      if (err) {
+
+    traceService.getTracesByOrders([order])
+      .then(function (result) {
+        return res.send(result);
+      }, function (err) {
         return res.send(err);
-      }
-      if (!canSeeing) {
-        return res.send({err: orderError.order_not_visible});
-      }
-      orderService.getDriverChildrenOrders(orderId, function (err, driverOrders) {
-        if (err) {
-          return res.send(err);
-        }
-        traceService.getTracesByOrders(driverOrders)
-          .then(function (result) {
-            return res.send(result);
-          }, function (err) {
-            return res.send(err);
-          });
       });
-    });
+    // orderService.isOrderAllowSeeing(order, currentUser, otherCondition, function (err, canSeeing) {
+    //   if (err) {
+    //     return res.send(err);
+    //   }
+    //   if (!canSeeing) {
+    //     return res.send({err: orderError.order_not_visible});
+    //   }
+    //   orderService.getDriverChildrenOrders(orderId, function (err, driverOrders) {
+    //     if (err) {
+    //       return res.send(err);
+    //     }
+    //    
+    //   });
+    // });
   });
 };
 

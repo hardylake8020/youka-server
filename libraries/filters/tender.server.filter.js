@@ -1,7 +1,7 @@
 'use strict';
 
 var cryptoLib = require('../crypto'),
-  tenderService = require('../services/tender'),
+  tenderService = require('../services/new_tender'),
   error = require('../../errors/all');
 
 

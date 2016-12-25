@@ -16,6 +16,7 @@ var appDb = require('../mongoose').appDb,
   Driver = appDb.model('Driver'),
   Contact = appDb.model('Contact'),
   Order = appDb.model('Order'),
+  TransportEvent = appDb.model('TransportEvent'),
   BidRecord = appDb.model('BidRecord');
 
 var bidderService = require('./bidder'),
@@ -94,10 +95,22 @@ exports.getStartedListByDriver = function (currentDriver, condition, callback) {
 
 
 exports.getUnStartedListByDriver = function (currentDriver, condition, callback) {
+  var query = {status: 'unStarted'};
+  if (condition.pickupAddress) {
+    query.pickup_address = new RegExp(condition.pickupAddress, "i")
+  }
+
+  if (condition.deliveryAddress) {
+    query.delivery_address = new RegExp(condition.deliveryAddress, "i")
+  }
+
+  if (condition.tenderType) {
+    query.tender_type = condition.tenderType;
+  }
 
   async.auto({
     getCount: function (countCallback) {
-      Tender.count({status: 'unStarted'}).exec(function (err, totalCount) {
+      Tender.count(query).exec(function (err, totalCount) {
         if (err) {
           return countCallback({err: error.system.db_error});
         }
@@ -108,7 +121,7 @@ exports.getUnStartedListByDriver = function (currentDriver, condition, callback)
       if (!result.getCount) {
         return dataCallback(null, []);
       }
-      Tender.find({status: 'unStarted'})
+      Tender.find(query)
         .skip(condition.currentCount || 0)
         .limit(condition.limit)
         .sort(condition.sort)
@@ -132,6 +145,23 @@ exports.getUnStartedListByDriver = function (currentDriver, condition, callback)
       tenders: result.getData
     });
   });
+};
+
+exports.getEventByTender = function (currentTender, callback) {
+  if (!currentTender.order) {
+    return callback({err: error.system.db_error});
+  }
+
+  TransportEvent
+    .find({order: currentTender.order._id})
+    .populate('driver')
+    .sort({time: -1})
+    .exec(function (err, transportEvents) {
+      if (err) {
+        return callback({err: error.system.db_error});
+      }
+      return callback(err, {transport_events: transportEvents});
+    });
 };
 
 exports.assignDriver = function (currentTender, card, truck, callback) {
@@ -255,7 +285,8 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
           parent_order: null,
           status: 'unPickupSigned', //分配给司机，则订单变为unPickupSigned
           create_company: tender.create_company,
-          execute_driver_object:driver.toJSON(),
+          create_user: tender.create_user,
+          execute_driver_object: driver.toJSON(),
           execute_driver: driver._id,
           execute_drivers: execute_drivers,
           pickup_start_time: tender.pickup_start_time,

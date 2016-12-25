@@ -4,16 +4,16 @@
 zhuzhuqs.factory('OrderHelper',
   ['config', function (config) {
 
-    function getOrderGoodsName(orderDetail) {
+    function getOrderGoodsName(order) {
       var goodsName = '';
-      if (orderDetail.goods && orderDetail.goods.length > 0) {
-        orderDetail.goods.forEach(function (item) {
+      if (order.goods && order.goods.length > 0) {
+        order.goods.forEach(function (item) {
           goodsName += ((item.name || '未知') + ',');
         });
         goodsName = goodsName.substr(0, goodsName.length - 1);
       }
       else {
-        goodsName = orderDetail.goods_name || '未知';
+        goodsName = order.goods_name || '未知';
       }
       return goodsName;
     }
@@ -27,16 +27,16 @@ zhuzhuqs.factory('OrderHelper',
       return sText;
     }
 
-    function getOrderCountDetail(orderDetail) {
+    function getOrderCountDetail(order) {
       var countDetail = '';
-      if (orderDetail.goods && orderDetail.goods.length > 0) {
-        orderDetail.goods.forEach(function (item) {
+      if (order.goods && order.goods.length > 0) {
+        order.goods.forEach(function (item) {
           countDetail += (getOrderGoodsSingleCountDetail(item) + ',');
         });
         countDetail = countDetail.substr(0, countDetail.length - 1);
       }
       else {
-        countDetail = getOrderCountVolumeWeight(orderDetail);
+        countDetail = getOrderCountVolumeWeight(order);
       }
       return countDetail;
     }

@@ -1788,16 +1788,16 @@ zhuzhuqs.factory('OnlineReportConfigService', ['$http', '$q', 'config', function
 zhuzhuqs.factory('OrderHelper',
   ['config', function (config) {
 
-    function getOrderGoodsName(orderDetail) {
+    function getOrderGoodsName(order) {
       var goodsName = '';
-      if (orderDetail.goods && orderDetail.goods.length > 0) {
-        orderDetail.goods.forEach(function (item) {
+      if (order.goods && order.goods.length > 0) {
+        order.goods.forEach(function (item) {
           goodsName += ((item.name || '未知') + ',');
         });
         goodsName = goodsName.substr(0, goodsName.length - 1);
       }
       else {
-        goodsName = orderDetail.goods_name || '未知';
+        goodsName = order.goods_name || '未知';
       }
       return goodsName;
     }
@@ -1811,16 +1811,16 @@ zhuzhuqs.factory('OrderHelper',
       return sText;
     }
 
-    function getOrderCountDetail(orderDetail) {
+    function getOrderCountDetail(order) {
       var countDetail = '';
-      if (orderDetail.goods && orderDetail.goods.length > 0) {
-        orderDetail.goods.forEach(function (item) {
+      if (order.goods && order.goods.length > 0) {
+        order.goods.forEach(function (item) {
           countDetail += (getOrderGoodsSingleCountDetail(item) + ',');
         });
         countDetail = countDetail.substr(0, countDetail.length - 1);
       }
       else {
-        countDetail = getOrderCountVolumeWeight(orderDetail);
+        countDetail = getOrderCountVolumeWeight(order);
       }
       return countDetail;
     }
@@ -5094,19 +5094,19 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
         $scope.orders.config.fields.forEach(function (fieldItem) {
           switch (fieldItem.value) {
             case 'order_number':
-              rowData.order_number = currentOrder.order_details.order_number;
+              rowData.order_number = currentOrder.order_number;
               break;
             case 'ref_number':
-              rowData.ref_number = currentOrder.order_details.refer_order_number ? currentOrder.order_details.refer_order_number : '未填';
+              rowData.ref_number = currentOrder.refer_order_number ? currentOrder.refer_order_number : '未填';
               break;
             case 'original_order_number':
-              rowData.original_order_number = currentOrder.order_details.original_order_number ? currentOrder.order_details.original_order_number : '未填';
+              rowData.original_order_number = currentOrder.original_order_number ? currentOrder.original_order_number : '未填';
               break;
             case 'goods_name':
-              rowData.goods_name = OrderHelper.getGoodsNameString(currentOrder.order_details);
+              rowData.goods_name = OrderHelper.getGoodsNameString(currentOrder);
               break;
             case 'count_weight_volume':
-              rowData.count_weight_volume = OrderHelper.getCountDetail(currentOrder.order_details);
+              rowData.count_weight_volume = OrderHelper.getCountDetail(currentOrder);
               break;
             case 'pickup_start_time':
               rowData.pickup_start_time = currentOrder.pickup_start_time ? new Date(currentOrder.pickup_start_time).Format('yy/MM/dd hh:mm') : '未填';
@@ -5447,7 +5447,7 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
 
       function orderAssign(order) {
         var order_id = order._id;
-        var new_order_number=order.new_order_number;
+        var new_order_number = order.new_order_number;
 
         var assign_infos = order.extendData.assignInfos;
 
@@ -5808,7 +5808,7 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
           //$scope.orders.config.pagination.searchName,
           //$scope.orders.config.pagination.searchValue
 
-        )
+          )
           .then(function (data) {
             $scope.$emit(GlobalEvent.onShowLoading, false);
             console.log(data);
@@ -5854,18 +5854,18 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
               assignInfos: currentOrder.assigned_infos,
               detail: {
                 parent_order: currentOrder.parent_order,
-                order_number: currentOrder.order_details.order_number,
-                refer_order_number: currentOrder.order_details.refer_order_number,
-                original_order_number: currentOrder.order_details.original_order_number,
-                goods_name: currentOrder.order_details.goods_name,
-                pickup_contact_name: currentOrder.pickup_contact.name,
-                pickup_contact_phone: currentOrder.pickup_contact.phone,
-                pickup_contact_mobile_phone: currentOrder.pickup_contact.mobile_phone,
-                pickup_contact_address: currentOrder.pickup_contact.address,
-                delivery_contact_name: currentOrder.delivery_contact.name,
-                delivery_contact_phone: currentOrder.delivery_contact.phone,
-                delivery_contact_mobile_phone: currentOrder.delivery_contact.mobile_phone,
-                delivery_contact_address: currentOrder.delivery_contact.address,
+                order_number: currentOrder.order_number,
+                refer_order_number: currentOrder.refer_order_number,
+                original_order_number: currentOrder.original_order_number,
+                goods_name: currentOrder.goods_name,
+                pickup_contact_name: currentOrder.pickup_contacts.name,
+                pickup_contact_phone: currentOrder.pickup_contacts.phone,
+                pickup_contact_mobile_phone: currentOrder.pickup_contacts.mobile_phone,
+                pickup_contact_address: currentOrder.pickup_contacts.address,
+                delivery_contact_name: currentOrder.delivery_contacts.name,
+                delivery_contact_phone: currentOrder.delivery_contacts.phone,
+                delivery_contact_mobile_phone: currentOrder.delivery_contacts.mobile_phone,
+                delivery_contact_address: currentOrder.delivery_contacts.address,
                 pickup_start_time: currentOrder.pickup_start_time,
                 pickup_end_time: currentOrder.pickup_end_time,
                 delivery_start_time: currentOrder.delivery_start_time,
@@ -5875,13 +5875,13 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
                 create_group: currentOrder.create_group,
                 execute_group: currentOrder.execute_group,
                 description: currentOrder.description,
-                count: currentOrder.order_details.count,
-                weight: currentOrder.order_details.weight,
-                volume: currentOrder.order_details.volume,
-                count_unit: currentOrder.order_details.count_unit,
-                weight_unit: currentOrder.order_details.weight_unit,
-                volume_unit: currentOrder.order_details.volume_unit,
-                freight_charge: currentOrder.order_details.freight_charge,
+                count: currentOrder.count,
+                weight: currentOrder.weight,
+                volume: currentOrder.volume,
+                count_unit: currentOrder.count_unit,
+                weight_unit: currentOrder.weight_unit,
+                volume_unit: currentOrder.volume_unit,
+                freight_charge: currentOrder.freight_charge,
                 details: currentOrder.details,
                 receiver_name: currentOrder.receiver_name,
                 sender_name: currentOrder.sender_name,
@@ -5891,7 +5891,7 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
             },
             rowConfig: {
               notOptional: (currentOrder.status !== 'unAssigned'),
-              unEdited: (currentOrder.create_company._id !== currentOrder.execute_company) || currentOrder.status !== 'unAssigned',
+              unEdited: true,//(currentOrder.create_company._id !== currentOrder.execute_company) || currentOrder.status !== 'unAssigned',
               expand: true,
               expandText: currentOrder.assign_status === 'assigning' ? '继续分配' : '分配'
             }
@@ -5903,7 +5903,11 @@ angular.module('zhuzhuqs').controller('OrderAssignController',
 
       function firstAssign(order_id, new_order_number, assign_infos) {
         $scope.$emit(GlobalEvent.onShowLoading, true);
-        OrderService.assignOrder({order_id: order_id, assign_infos: assign_infos, new_order_number: new_order_number}).then(function (data) {
+        OrderService.assignOrder({
+          order_id: order_id,
+          assign_infos: assign_infos,
+          new_order_number: new_order_number
+        }).then(function (data) {
           $scope.$emit(GlobalEvent.onShowLoading, false);
           console.log(data);
           if (data.err) {
@@ -9117,16 +9121,16 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     $scope.orders.orderList.fields.forEach(function (fieldItem) {
       switch (fieldItem.value) {
         case 'order_number':
-          rowData.order_number = currentOrder.order_details.order_number;
+          rowData.order_number = currentOrder.order_number;
           break;
         case 'ref_number':
-          rowData.ref_number = currentOrder.order_details.refer_order_number ? currentOrder.order_details.refer_order_number : '未填';
+          rowData.ref_number = currentOrder.refer_order_number ? currentOrder.refer_order_number : '未填';
           break;
         case 'original_order_number':
-          rowData.original_order_number = currentOrder.order_details.original_order_number ? currentOrder.order_details.original_order_number : '未填';
+          rowData.original_order_number = currentOrder.original_order_number ? currentOrder.original_order_number : '未填';
           break;
         case 'goods_name':
-          rowData.goods_name = OrderHelper.getGoodsNameString(currentOrder.order_details);
+          rowData.goods_name = OrderHelper.getGoodsNameString(currentOrder.goods);
           break;
         case 'execute_driver':
           rowData.execute_driver = ((currentOrder.execute_drivers && currentOrder.execute_drivers.length > 0) ? generateExecuteDriverName(currentOrder.execute_drivers[0]) : '无');
@@ -9832,53 +9836,53 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     return acturalResult;
   }
 
-  function myRound(x){
-    if(x){
-      return Math.round(x*100)/100;
-    }else{
+  function myRound(x) {
+    if (x) {
+      return Math.round(x * 100) / 100;
+    } else {
       return x;
     }
   }
 
-  function formatGood(good, sum){
-    if(good){
+  function formatGood(good, sum) {
+    if (good) {
       var a = [];
-      if(good.count && good.unit){
+      if (good.count && good.unit) {
         var count = parseFloat(good.count);
-        if(count){
+        if (count) {
           a.push(myFixed(count) + good.unit);
-          if(sum[good.unit]){
+          if (sum[good.unit]) {
             sum[good.unit] += myRound(count);
-          }else{
+          } else {
             sum[good.unit] = myRound(count);
           }
         }
       }
-      if(good.count2 && good.unit2){
+      if (good.count2 && good.unit2) {
         var count2 = parseFloat(good.count2);
-        if(count2){
+        if (count2) {
           a.push(myFixed(count2) + good.unit2);
-          if(sum[good.unit2]){
+          if (sum[good.unit2]) {
             sum[good.unit2] += myRound(count2);
-          }else{
+          } else {
             sum[good.unit2] = myRound(count2);
           }
         }
       }
-      if(good.count3 && good.unit3){
+      if (good.count3 && good.unit3) {
         var count3 = parseFloat(good.count3);
-        if(count3){
+        if (count3) {
           a.push(myFixed(count3) + good.unit3);
-          if(sum[good.unit3]){
+          if (sum[good.unit3]) {
             sum[good.unit3] += myRound(count3);
-          }else{
+          } else {
             sum[good.unit3] = myRound(count3);
           }
         }
       }
-      if(a.length == 0){
+      if (a.length == 0) {
         return '-';
-      }else{
+      } else {
         return a.join('/');
       }
     }
@@ -9891,66 +9895,66 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
         if (result.err) {
           return handleError(result.err.type);
         }
-        if(result && result.events && result.events instanceof Array){
-          result.events.forEach(function(evt){
-            if(evt.type == 'pickup' || evt.type == 'delivery'){
+        if (result && result.events && result.events instanceof Array) {
+          result.events.forEach(function (evt) {
+            if (evt.type == 'pickup' || evt.type == 'delivery') {
               var plan_goods = orderDetail.goods;
               var actual_goods = evt.actual_more_goods_record;
               var compare_goods = [];
               var plan_sum = {}, actual_sum = {}, compare_sum = '正常';
-              for(var i=0, len=plan_goods.length; i<len; i++){
+              for (var i = 0, len = plan_goods.length; i < len; i++) {
                 var good1 = plan_goods[i];
-                var good2 = actual_goods.filter(function(e){
-                  if(good1._id.toString() == e._id.toString()){
-                    return e;
-                  }
-                })[0] || {};
+                var good2 = actual_goods.filter(function (e) {
+                    if (good1._id.toString() == e._id.toString()) {
+                      return e;
+                    }
+                  })[0] || {};
                 var good1_string = formatGood(good1, plan_sum);
                 var good2_string = formatGood(good2, actual_sum);
                 var compare;
-                if(good2 && good2.count){
-                  if(good1.count != good2.count){
+                if (good2 && good2.count) {
+                  if (good1.count != good2.count) {
                     compare = '缺货';
                     compare_sum = '缺货';
-                  }else{
+                  } else {
                     compare = '正常';
                   }
-                }else{
+                } else {
                   compare = '缺货';
                   compare_sum = '缺货';
                 }
                 compare_goods.push({
-                  name : good1.name,
-                  planned : good1_string,
-                  actual : good2_string,
-                  compare : compare
+                  name: good1.name,
+                  planned: good1_string,
+                  actual: good2_string,
+                  compare: compare
                 });
               }
               var plan_sum_string = '';
-              for(var p in plan_sum){
-                if(plan_sum.hasOwnProperty(p)){
+              for (var p in plan_sum) {
+                if (plan_sum.hasOwnProperty(p)) {
                   plan_sum_string += '/' + myFixed(plan_sum[p]) + p;
                 }
               }
-              if(plan_sum_string.length > 0){
+              if (plan_sum_string.length > 0) {
                 plan_sum_string = plan_sum_string.substring(1);
               }
               var actual_sum_string = '';
-              for(p in actual_sum){
-                if(actual_sum.hasOwnProperty(p)){
+              for (p in actual_sum) {
+                if (actual_sum.hasOwnProperty(p)) {
                   actual_sum_string += '/' + myFixed(actual_sum[p]) + p;
                 }
               }
-              if(actual_sum_string.length > 0){
+              if (actual_sum_string.length > 0) {
                 actual_sum_string = actual_sum_string.substring(1);
-              }else{
+              } else {
                 actual_sum_string = '-';
               }
               compare_goods.push({
-                name : '合计',
-                planned : plan_sum_string,
-                actual : actual_sum_string,
-                compare : compare_sum
+                name: '合计',
+                planned: plan_sum_string,
+                actual: actual_sum_string,
+                compare: compare_sum
               });
 
               evt.compare_goods = compare_goods;
@@ -10086,11 +10090,11 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
       if (data.err) {
         return handleError(data.err.type);
       }
-      if(data && data.orderDetail && data.orderDetail.salesmen && data.orderDetail.salesmen.length > 0){
+      if (data && data.orderDetail && data.orderDetail.salesmen && data.orderDetail.salesmen.length > 0) {
         var salesmen = [];
         for (var i = 0, len = data.orderDetail.salesmen.length; i < len; i++) {
           var salesman = data.orderDetail.salesmen[i];
-          if(salesman){
+          if (salesman) {
             if (salesman.nickname && salesman.nickname != salesman.username) {
               salesmen.push(salesman.nickname + '(' + salesman.username + ')');
             } else {
@@ -10099,7 +10103,7 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
           }
         }
         data.orderDetail._salesmen = salesmen;
-      }else{
+      } else {
         data.orderDetail._salesmen = [];
       }
       $scope.orderDetailInfo.showOrderDetail = true;
@@ -10123,22 +10127,22 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
 
       var rowItem = {
         _id: currentOrder._id,
-        create_company_id: currentOrder.create_company._id.toString(),
-        execute_company_id: currentOrder.execute_company.toString(),
+        //create_company_id: currentOrder.create_company._id.toString(),
+        //execute_company_id: currentOrder.execute_company.toString(),
         status: currentOrder.status,
         columns: generateFieldsColumn(currentOrder),
         extendData: {
-          refer_order_number: currentOrder.order_details.refer_order_number,
-          original_order_number: currentOrder.order_details.original_order_number,
-          goods_name: currentOrder.order_details.goods_name,
-          pickup_contact_name: currentOrder.pickup_contact.name,
-          pickup_contact_phone: currentOrder.pickup_contact.phone,
-          pickup_contact_mobile_phone: currentOrder.pickup_contact.mobile_phone,
-          pickup_contact_address: currentOrder.pickup_contact.address,
-          delivery_contact_name: currentOrder.delivery_contact.name,
-          delivery_contact_phone: currentOrder.delivery_contact.phone,
-          delivery_contact_mobile_phone: currentOrder.delivery_contact.mobile_phone,
-          delivery_contact_address: currentOrder.delivery_contact.address,
+          refer_order_number: currentOrder.refer_order_number,
+          original_order_number: currentOrder.original_order_number,
+          goods_name: currentOrder.goods_name,
+          pickup_contact_name: currentOrder.pickup_contacts.name,
+          pickup_contact_phone: currentOrder.pickup_contacts.phone,
+          pickup_contact_mobile_phone: currentOrder.pickup_contacts.mobile_phone,
+          pickup_contact_address: currentOrder.pickup_contacts.address,
+          delivery_contact_name: currentOrder.delivery_contacts.name,
+          delivery_contact_phone: currentOrder.delivery_contacts.phone,
+          delivery_contact_mobile_phone: currentOrder.delivery_contacts.mobile_phone,
+          delivery_contact_address: currentOrder.delivery_contacts.address,
           pickup_start_time: currentOrder.pickup_start_time,
           pickup_end_time: currentOrder.pickup_end_time,
           delivery_start_time: currentOrder.delivery_start_time,
@@ -10148,13 +10152,13 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
           create_group: currentOrder.create_group,
           execute_group: currentOrder.execute_group,
           description: currentOrder.description,
-          count: currentOrder.order_details.count,
-          weight: currentOrder.order_details.weight,
-          volume: currentOrder.order_details.volume,
-          count_unit: currentOrder.order_details.count_unit,
-          weight_unit: currentOrder.order_details.weight_unit,
-          volume_unit: currentOrder.order_details.volume_unit,
-          freight_charge: currentOrder.order_details.freight_charge,
+          count: currentOrder.count,
+          weight: currentOrder.weight,
+          volume: currentOrder.volume,
+          count_unit: currentOrder.count_unit,
+          weight_unit: currentOrder.weight_unit,
+          volume_unit: currentOrder.volume_unit,
+          freight_charge: currentOrder.freight_charge,
           details: currentOrder.details,
 
           sender_name: currentOrder.sender_name,
@@ -10162,7 +10166,7 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
           receiver_company: currentOrder.receiver_company,
           sender_company: currentOrder.sender_company,
           salesmen: currentOrder.salesmen || [],
-          goods: currentOrder.order_details.goods || [],
+          goods: currentOrder.goods || [],
 
           pickup_deferred_duration: currentOrder.pickup_deferred_duration || 0,
           delivery_early_duration: currentOrder.delivery_early_duration || 0,
@@ -10199,14 +10203,14 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
 
     if ($scope.searchModule.currentLabel === 'assign') {
 
-      if (currentOrder.create_company._id === currentOrder.execute_company && currentOrder.status !== 'completed') {
-        selfButtons.push({
-          text: '',
-          clickHandle: modifyOrderInfo,
-          className: 'modify-order',
-          title: '修改运单'
-        });
-      }
+      // if (currentOrder.create_company._id === currentOrder.execute_company && currentOrder.status !== 'completed') {
+      //   selfButtons.push({
+      //     text: '',
+      //     clickHandle: modifyOrderInfo,
+      //     className: 'modify-order',
+      //     title: '修改运单'
+      //   });
+      // }
 
       //已经分配的订单,已经签到
       if (currentOrder.status === 'unPickupSigned' || currentOrder.status === 'assigning') {
@@ -10251,14 +10255,14 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     if ($scope.searchModule.currentLabel === 'assign') {
 
       //已经分配的订单,已经签到
-      if (currentOrder.create_company._id === currentOrder.execute_company && (currentOrder.status === 'unAssigned' || currentOrder.status === 'assigning' || currentOrder.status === 'unPickupSigned')) {
-        selfButtons.push({
-          text: '',
-          clickHandle: deleteOrder,
-          className: 'delete-order',
-          title: '删除'
-        });
-      }
+      // if (currentOrder.create_company._id === currentOrder.execute_company && (currentOrder.status === 'unAssigned' || currentOrder.status === 'assigning' || currentOrder.status === 'unPickupSigned')) {
+      //   selfButtons.push({
+      //     text: '',
+      //     clickHandle: deleteOrder,
+      //     className: 'delete-order',
+      //     title: '删除'
+      //   });
+      // }
     }
 
     return selfButtons;
@@ -10405,16 +10409,16 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
       });
     }
 
-    if(!row.extendData.goods || row.extendData.goods.length == 0){
+    if (!row.extendData.goods || row.extendData.goods.length == 0) {
       var goods = [];
       goods.push({
-        name : row.extendData.goods_name,
-        count : row.extendData.count,
-        unit : row.extendData.count_unit,
-        count2 : row.extendData.weight,
-        unit2 : row.extendData.weight_unit,
-        count3 : row.extendData.volume,
-        unit3 : row.extendData.volume_unit
+        name: row.extendData.goods_name,
+        count: row.extendData.count,
+        unit: row.extendData.count_unit,
+        count2: row.extendData.weight,
+        unit2: row.extendData.weight_unit,
+        count3: row.extendData.volume,
+        unit3: row.extendData.volume_unit
       });
       modifyOrder.goods = goods;
     }

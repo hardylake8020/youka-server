@@ -375,7 +375,7 @@ function createOrUpdateOrder(createUserId, createCompanyId, orderSource, groupId
               }
 
               orderEntity.create_company.name = orderSource;
-              if(orderEntity.create_push){
+              if (orderEntity.create_push) {
                 that.sendOrderMessage(allEnum.company_order_message_push_type.create, orderEntity);
               }
 
@@ -877,20 +877,20 @@ function getCompanyOrders(sourceOrder, callback) {
 
 exports.getOrderById = function (orderId, callback) {
   Order.findOne({
-    _id: orderId,
-    $or: [{delete_status: {$exists: false}}, {delete_status: false}]
-  })
+      _id: orderId,
+      $or: [{delete_status: {$exists: false}}, {delete_status: false}]
+    })
     .populate('execute_group create_group create_user create_company').exec(function (err, order) {
-      if (err) {
-        return callback({err: orderError.internal_system_error});
-      }
+    if (err) {
+      return callback({err: orderError.internal_system_error});
+    }
 
-      if (!order) {
-        return callback({err: orderError.order_not_exist});
-      }
+    if (!order) {
+      return callback({err: orderError.order_not_exist});
+    }
 
-      return callback(null, order);
-    });
+    return callback(null, order);
+  });
 };
 
 exports.getChildrenByParentId = function (parentId, callback) {
@@ -974,9 +974,9 @@ function getSortConditions(sort) {
   return result;
 }
 
-function generateQueryCondition(orderQuery, searchArray, user, groupIds) {
+function generateQueryCondition(orderQuery, searchArray, user) {
   if (!orderQuery || (!searchArray || searchArray.length <= 0)) {
-    orderQuery.$and.push({execute_group: {$in: groupIds}});
+    // orderQuery.$and.push({execute_group: {$in: groupIds}});
     return;
   }
 
@@ -1140,7 +1140,7 @@ function generateQueryCondition(orderQuery, searchArray, user, groupIds) {
   }
 
   if (needInGroup) {
-    orderQuery.$and.push({execute_group: {$in: groupIds}});
+    // orderQuery.$and.push({execute_group: {$in: groupIds}});
   }
 }
 
@@ -1187,7 +1187,7 @@ function generateAbnormalCondition(orderQuery) {
 }
 
 //根据组id和订单状态集合获取当前页的订单
-exports.getOrdersByGroupIdsWithStatusArray = function (user, groupIds, statusArray, currentPage, limit, sort, searchArray, callback) {
+exports.getOrdersByGroupIdsWithStatusArray = function (user, statusArray, currentPage, limit, sort, searchArray, callback) {
   if (!limit) {
     limit = 0;
   }
@@ -1205,7 +1205,7 @@ exports.getOrdersByGroupIdsWithStatusArray = function (user, groupIds, statusArr
 
   orderQuery.$and.push({status: {$in: statusArray}});
 
-  generateQueryCondition(orderQuery, searchArray, user, groupIds);
+  generateQueryCondition(orderQuery, searchArray, user);
 
   if (orderQuery.$or.length === 0) {
     delete orderQuery.$or;
@@ -2108,6 +2108,8 @@ function removeAssignedOrder(order_id, callback) {
 //指定运单是否可见
 //otherCondition 是指其他条件，如发货方，收货方。
 exports.isOrderAllowSeeing = function (order, currentUser, otherCondition, callback) {
+  return callback(null, true);
+
   if (otherCondition) {
     if (otherCondition.sender) {
       if (order.sender_company && order.sender_company.company_id && order.sender_company.company_id === currentUser.company._id.toString()) {
@@ -2346,8 +2348,8 @@ function writeSheet(cursor, worksheet, columns, companyName) {
   return new Promise(function (fulfill, reject) {
     worksheet.columns = columns;
     var columns_map = {};
-    columns.forEach(function(c){
-      if(columns_map.hasOwnProperty(c.key)){
+    columns.forEach(function (c) {
+      if (columns_map.hasOwnProperty(c.key)) {
         throw new Error('重复的key' + c.key);
       }
       columns_map[c.key] = c;
@@ -2376,7 +2378,7 @@ function writeSheet(cursor, worksheet, columns, companyName) {
         var promises = [];
         var promises_map = {};
         var i = 0;
-        if(columns_map.hasOwnProperty('承运商')){
+        if (columns_map.hasOwnProperty('承运商')) {
           var p1 = new Promise(function (fulfill, reject) {
             execute_company_array = execute_company_array.filter(function (elem, pos) {
               if (execute_company_map.hasOwnProperty(elem)) {
@@ -2397,7 +2399,7 @@ function writeSheet(cursor, worksheet, columns, companyName) {
           promises_map['Company'] = i;
           i++;
         }
-        if(columns_map.hasOwnProperty('司机姓名') || columns_map.hasOwnProperty('司机手机') || columns_map.hasOwnProperty('司机车牌')){
+        if (columns_map.hasOwnProperty('司机姓名') || columns_map.hasOwnProperty('司机手机') || columns_map.hasOwnProperty('司机车牌')) {
           var p2 = new Promise(function (fulfill, reject) {
             execute_driver_array = execute_driver_array.filter(function (elem, pos) {
               if (execute_driver_map.hasOwnProperty(elem)) {
@@ -2445,9 +2447,12 @@ function writeSheet(cursor, worksheet, columns, companyName) {
         promises_map['Contact'] = i;
         i++;
 
-        if(columns_map.hasOwnProperty('关注人')){
-          var p6 =  new Promise(function(fulfill, reject){
-            SalesmanCompany.find({username: salesman_array}).select({username: 1, nickname: 1}).sort({username: 1}).lean().exec(function (err, salesmen) {
+        if (columns_map.hasOwnProperty('关注人')) {
+          var p6 = new Promise(function (fulfill, reject) {
+            SalesmanCompany.find({username: salesman_array}).select({
+              username: 1,
+              nickname: 1
+            }).sort({username: 1}).lean().exec(function (err, salesmen) {
               if (err) {
                 return reject(err);
               } else {
@@ -2460,12 +2465,12 @@ function writeSheet(cursor, worksheet, columns, companyName) {
         }
 
         Promise.all(promises).then(function (a) {
-          if(columns_map.hasOwnProperty('承运商')){
+          if (columns_map.hasOwnProperty('承运商')) {
             a[promises_map['Company']].forEach(function (company) {
               execute_company_map[company._id] = company;
             });
           }
-          if(columns_map.hasOwnProperty('司机姓名') || columns_map.hasOwnProperty('司机手机') || columns_map.hasOwnProperty('司机车牌')){
+          if (columns_map.hasOwnProperty('司机姓名') || columns_map.hasOwnProperty('司机手机') || columns_map.hasOwnProperty('司机车牌')) {
             a[promises_map['Driver']].forEach(function (driver) {
               execute_driver_map[driver._id] = driver;
             });
@@ -2478,7 +2483,7 @@ function writeSheet(cursor, worksheet, columns, companyName) {
             contact_map[contact._id] = contact;
           });
 
-          if(columns_map.hasOwnProperty('关注人')){
+          if (columns_map.hasOwnProperty('关注人')) {
             a[promises_map['SalesmanCompany']].forEach(function (salesman) {
               contact_map[salesman.username] = salesman;
             });
@@ -2504,19 +2509,19 @@ function writeSheet(cursor, worksheet, columns, companyName) {
             if (order.delivery_contact) {
               order.delivery_contact = contact_map[order.delivery_contact];
             }
-            if(order.salesmen && columns_map.hasOwnProperty('关注人')){
+            if (order.salesmen && columns_map.hasOwnProperty('关注人')) {
               var salesmen = [];
               for (var i = 0, len = order.salesmen.length; i < len; i++) {
                 var salesman = order.salesmen[i];
-                if(salesman){
-                  if(!salesman._id){
+                if (salesman) {
+                  if (!salesman._id) {
                     var salesman1 = salesmen_map[salesman.username];
-                    if(salesman1){
+                    if (salesman1) {
                       salesmen.push(salesman1);
-                    }else{
+                    } else {
                       salesmen.push(salesman);
                     }
-                  }else{
+                  } else {
                     salesmen.push(salesman);
                   }
                 }
@@ -2553,12 +2558,12 @@ function writeSheet(cursor, worksheet, columns, companyName) {
       if (order.delivery_contact) {
         contact_array.push(order.delivery_contact);
       }
-      if(order.salesmen && columns_map.hasOwnProperty('关注人')){
+      if (order.salesmen && columns_map.hasOwnProperty('关注人')) {
         for (var i = 0, len = order.salesmen.length; i < len; i++) {
           var salesman = order.salesmen[i];
           // 原来的salesmen只保存username属性，后来加入了其他属性
           // 如果只有username需要查询SalesmenCompany
-          if(!salesman._id){
+          if (!salesman._id) {
             salesman_array.push(salesman.username);
           }
         }
@@ -2606,7 +2611,7 @@ function getOrdersOfGroupByFilter(groupIds, filter) {
         $lte: filter.endDate
       }
     };
-    if(filter.order_transport_type && filter.order_transport_type != ''){
+    if (filter.order_transport_type && filter.order_transport_type != '') {
       conditions.order_transport_type = filter.order_transport_type;
     }
     if (filter.damaged && filter.damaged !== '') {
@@ -2644,11 +2649,11 @@ function getOrdersOfGroupByFilter(groupIds, filter) {
           if (err) {
             return reject(err);
           }
-          if (result && result instanceof  Array && result.length > 0) {
+          if (result && result instanceof Array && result.length > 0) {
             var cursor = Order.find({
-              parent_order: {$in: result},
-              execute_company: filter.partner_id
-            })
+                parent_order: {$in: result},
+                execute_company: filter.partner_id
+              })
               .batchSize(10000).lean().stream();
             fulfill(cursor);
           } else {
