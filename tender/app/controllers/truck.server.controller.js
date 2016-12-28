@@ -19,3 +19,7 @@ exports.getListByDriver = function (req, res, next) {
     return res.send(err || result);
   });
 };
+
+exports.getById = function (req, res, next) {
+  return res.send(req.truck);
+};

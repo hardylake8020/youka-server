@@ -22,6 +22,10 @@ exports.getListByDriver = function (req, res, next) {
   })
 };
 
+exports.getById = function(req,res,next){
+  return res.send(req.card);
+};
+
 
 exports.bindTruck = function (req, res, next) {
   var currentCard = req.card;
