@@ -22,6 +22,10 @@ module.exports = function (appDb) {
       type: Schema.Types.ObjectId,
       ref: 'Truck'
     },
+    truck_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Truck'
+    },
     truck_number: {
       type: String,
       default: ''
@@ -40,6 +44,13 @@ module.exports = function (appDb) {
   CardSchema.plugin(timestamps, {
     createdAt: 'created',
     updatedAt: 'updated'
+  });
+
+  CardSchema.pre('save', function (next) {
+    if (this.truck) {
+      this.truck_id = this.truck;
+    }
+    next();
   });
 
 
@@ -61,6 +72,10 @@ module.exports = function (appDb) {
       type: Schema.Types.ObjectId,
       ref: 'Card'
     },
+    card_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Card'
+    },
     card_number: {
       type: String
     },
@@ -72,7 +87,7 @@ module.exports = function (appDb) {
       type: String,
       default: ''
     },
-    driver_name:{
+    driver_name: {
       type: String,
       default: ''
     },
@@ -93,6 +108,13 @@ module.exports = function (appDb) {
   TruckSchema.plugin(timestamps, {
     createdAt: 'created',
     updatedAt: 'updated'
+  });
+
+  TruckSchema.pre('save', function (next) {
+    if (this.card) {
+      this.card_id = this.card;
+    }
+    next();
   });
 
 
