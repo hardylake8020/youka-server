@@ -205,7 +205,36 @@ module.exports = function (appDb) {
     delivery_tel_phone: {
       type: String
     },
-
+    //实际现金支付首款
+    real_pay_top_cash:{
+      type:Number,
+      default:0
+    },
+    //实际油卡支付首款
+    real_pay_top_card:{
+      type:Number,
+      default:0
+    },
+    //实际现金支付回单
+    real_pay_last_cash:{
+      type:Number,
+      default:0
+    },
+    //实际油卡支付回单
+    real_pay_last_card:{
+      type:Number,
+      default:0
+    },
+    //实际现金支付尾款
+    real_pay_tail_cash:{
+      type:Number,
+      default:0
+    },
+    //实际现金支付尾款
+    real_pay_tail_card:{
+      type:Number,
+      default:0
+    },
     payment_top_rate: {
       type: Number
     },
@@ -358,7 +387,16 @@ module.exports = function (appDb) {
     truck_number: {
       type: String,
       default: ''
-    }
+    },
+    examined: {
+      type: Boolean,
+      default: false
+    },
+    examined_username: {
+      type: String,
+      default: ''
+    },
+
   });
 
   TenderSchema.plugin(timestamps, {
