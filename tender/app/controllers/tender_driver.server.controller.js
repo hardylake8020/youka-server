@@ -75,3 +75,11 @@ exports.getEventByTender = function (req, res, next) {
     return res.send(err || result);
   });
 };
+
+exports.getDashboardData = function (req, res, next) {
+  var curDriver = req.driver;
+  newTenderService.getDashboardData(curDriver, function (err, result) {
+    return res.send(err || result);
+  })
+
+};

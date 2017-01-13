@@ -332,6 +332,20 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
       return callback(err, results.order);
     }
   );
-
 }
+
+exports.getDashboardData = function (driver, callback) {
+  Tender.count({driver_winner: driver._id, status: {$ne: 'completed'}}, function (err, tenderCount) {
+    if (err) {
+      return callback({err: error.system.db_error});
+    }
+
+    Order.count({execute_driver: driver._id, status: {$ne: 'completed'}}, function (err, orderCount) {
+      if (err) {
+        return callback({err: error.system.db_error});
+      }
+      return callback(null, {tender_count: tenderCount, order_count: orderCount});
+    });
+  });
+};
 
