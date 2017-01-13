@@ -1026,69 +1026,6 @@ exports.setCities = function (req, res, next) {
         ]
       }
     ],
-    "台灣": [
-      {
-        "name": "台湾省",
-        "region": []
-      },
-      {
-        "name": "台灣",
-        "region": [
-          "宜蘭縣",
-          "桃園縣",
-          "新竹縣",
-          "苗栗縣",
-          "彰化縣",
-          "南投縣",
-          "雲林縣",
-          "嘉義縣",
-          "屏東縣",
-          "台東縣",
-          "花蓮縣",
-          "澎湖縣",
-          "基隆市",
-          "新竹市",
-          "嘉義市"
-        ]
-      },
-      {
-        "name": "台北市",
-        "region": [
-          "台北市"
-        ]
-      },
-      {
-        "name": "高雄市",
-        "region": [
-          "高雄市"
-        ]
-      },
-      {
-        "name": "新北市",
-        "region": [
-          "新北市"
-        ]
-      },
-      {
-        "name": "台灣福建省",
-        "region": [
-          "連江縣",
-          "金門縣"
-        ]
-      },
-      {
-        "name": "台中市",
-        "region": [
-          "台中市"
-        ]
-      },
-      {
-        "name": "台南市",
-        "region": [
-          "台南市"
-        ]
-      }
-    ],
     "北京市": [
       {
         "name": "北京市市辖区",
@@ -4889,16 +4826,27 @@ exports.setCities = function (req, res, next) {
 
   var provinceArray = [];
   for (var name in provinces) {
-    provinceArray.push({
+    var province = {
       name: name,
       cities: provinces[name]
-    });
+    };
+
+    for (var i = 0; i < province.cities.length; i++) {
+      var city = province.cities[i];
+      city.regions = [];
+      for (var j = 0; j < city.region.length; j++) {
+        city.regions.push({
+          name: city.region[j]
+        });
+      }
+    }
+    provinceArray.push(province);
   }
 
-  Province.count({},function(err,count){
-    if(count>10){
+  Province.count({}, function (err, count) {
+    if (count > 10) {
       console.log('地址已存在');
-      return ;
+      return;
     }
     async.each(provinceArray, function (provinceItem, provinceCallback) {
       var newProvince = new Province({
@@ -4955,3 +4903,65 @@ exports.getCities = function (req, res, next) {
     return res.send(provinceObject);
   });
 };
+
+var agent = require('superagent').agent();
+
+
+exports.updateLocation = function (req, res, next) {
+  // agent.get('http://api.map.baidu.com/geocoder/v2/?output=json&ak=C31306a16db1e14257abded320d9d2f5&address=' + encodeURIComponent('广东省江门市江海区'))
+  //   .end(function (err, result) {
+  //     if (err) {
+  //       console.log(JSON.stringify(err));
+  //     }
+  //     console.log(result.text);
+  //     return res.send(result.text);
+  //   });
+
+  Province.find({}, function (err, provinces) {
+      if (err || !provinces) {
+        return res.send({err: 'update_failed'});
+      }
+
+      async.eachSeries(provinces, function (provice, provicnesCallback) {
+        async.eachSeries(provice.cities, function (city, cityCallback) {
+          async.eachSeries(city.regions, function (region, regionCallback) {
+            var address = provice.name + city.name + region.name;
+
+            if (region.location && region.location[0]) {
+              return regionCallback();
+            }
+
+            console.log(address);
+
+
+            agent.get('http://api.map.baidu.com/geocoder/v2/?output=json&ak=C31306a16db1e14257abded320d9d2f5&address=' + encodeURIComponent(address))
+              .end(function (err, res) {
+                if (err) {
+                  console.log('errrrr:      --=======>' + JSON.stringify(err));
+                }
+                console.log(res.text);
+                var baiduResult = JSON.parse(res.text);
+                region.location = baiduResult.result.location;
+                return regionCallback();
+              });
+
+          }, function () {
+            return cityCallback();
+          });
+        }, function () {
+          provice.markModified('cities');
+          provice.save(function (err, saveProvince) {
+            if (err) {
+              console.log(err);
+            }
+            return provicnesCallback();
+          });
+        });
+      }, function (err) {
+        console.log(err);
+        return res.send({provinces: provinces});
+      });
+    }
+  )
+};
+

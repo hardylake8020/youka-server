@@ -118,6 +118,9 @@ module.exports = function (appDb) {
       type: String,
       default: ''
     },
+    pickup_region_location: {
+      type: [Number]
+    },
     pickup_street: {
       type: String,
       require: true
@@ -164,6 +167,9 @@ module.exports = function (appDb) {
     delivery_region: {
       type: String,
       default: ''
+    },
+    delivery_region_location: {
+      type: [Number]
     },
     delivery_street: {
       type: String,

@@ -278,7 +278,7 @@
                     <div class="select-box" ng-show="contactInfo.pickup.address.isShowRegion">
                       <p class="select-item"
                          ng-click="contactInfo.pickup.address.clickRegion(region, $event)"
-                         ng-repeat="region in contactInfo.pickup.address.regions">{{region}}</p>
+                         ng-repeat="region in contactInfo.pickup.address.regions">{{region.name}}</p>
                     </div>
                   </div>
                 </div>
@@ -353,7 +353,7 @@
                     <div class="select-box" ng-show="contactInfo.delivery.address.isShowRegion">
                       <p class="select-item"
                          ng-click="contactInfo.delivery.address.clickRegion(region, $event)"
-                         ng-repeat="region in contactInfo.delivery.address.regions">{{region}}</p>
+                         ng-repeat="region in contactInfo.delivery.address.regions">{{region.name}}</p>
                     </div>
                   </div>
                 </div>

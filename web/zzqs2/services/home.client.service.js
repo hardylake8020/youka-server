@@ -15,28 +15,28 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
   }
 
   var panelItems = [
-    {
-      "title": "运单创建",
-      "subtitle": "批量或单个创建您的运单",
-      "logo": "images/icon/icon_new.png",
-      "role": 'user',
-      "handle": [
-        [
-          {
-            "label": "创建运单",
-            "type": "link",//按钮标题
-            "state": "order_create",
-            "url": "/order_create"
-          },
-          {
-            "label": "批量创建",
-            "type": "link",
-            "state": "order_batch_create",
-            "url": "/order_batch_create"
-          }
-        ]
-      ]
-    },
+    // {
+    //   "title": "运单创建",
+    //   "subtitle": "批量或单个创建您的运单",
+    //   "logo": "images/icon/icon_new.png",
+    //   "role": 'user',
+    //   "handle": [
+    //     [
+    //       {
+    //         "label": "创建运单",
+    //         "type": "link",//按钮标题
+    //         "state": "order_create",
+    //         "url": "/order_create"
+    //       },
+    //       {
+    //         "label": "批量创建",
+    //         "type": "link",
+    //         "state": "order_batch_create",
+    //         "url": "/order_batch_create"
+    //       }
+    //     ]
+    //   ]
+    // },
     {
       "title": "任务分配",
       "subtitle": "正在等待分配的运单数量",
@@ -49,21 +49,21 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
             "type": "link",//按钮标题
             "state": "order_operation",
             "url": "/order_operation"
-          },
-          {
-            "label": "分配运单",
-            "type": "link",//按钮标题
-            "state": "order_assign",
-            "url": "/order_assign"
-          },
-          {
-            "label": "异常运单",
-            "type": "link",
-            "state": "abnormal_orders",
-            "url": "/abnormal_orders",
-            "topTip": 0,
-            "updateTopTip": updateAbnormalOrderTopTip
-          }
+          }//,
+          // {
+          //   "label": "分配运单",
+          //   "type": "link",//按钮标题
+          //   "state": "order_assign",
+          //   "url": "/order_assign"
+          // },
+          // {
+          //   "label": "异常运单",
+          //   "type": "link",
+          //   "state": "abnormal_orders",
+          //   "url": "/abnormal_orders",
+          //   "topTip": 0,
+          //   "updateTopTip": updateAbnormalOrderTopTip
+          // }
         ]
       ]
     },
@@ -100,8 +100,8 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
     var obj = null;
     if (sta != 'home') {
       panelItems.forEach(function (item) {
-        for(var i=0,len=item.handle.length; i<len; i++){
-          for(var j=0, a=item.handle[i], l=a.length; j<l; j++){
+        for (var i = 0, len = item.handle.length; i < len; i++) {
+          for (var j = 0, a = item.handle[i], l = a.length; j < l; j++) {
             var hd = a[j];
             if (each) {
               if (hd.state === sta) {
@@ -157,8 +157,8 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
   return {
     updatePanelItemsFromLocal: function (state) {
       panelItems.forEach(function (panelItem) {
-        for(var i=0,len=panelItem.handle.length; i<len; i++){
-          for(var j=0, a=panelItem.handle[i], l=a.length; j<l; j++){
+        for (var i = 0, len = panelItem.handle.length; i < len; i++) {
+          for (var j = 0, a = panelItem.handle[i], l = a.length; j < l; j++) {
             var labelItem = a[j];
             if (labelItem.state === state && labelItem.topTip && labelItem.topTip > 0) {
               labelItem.topTip--;
@@ -167,10 +167,10 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
         }
       });
     },
-    updatePanelItemsFromServer:function(){
+    updatePanelItemsFromServer: function () {
       panelItems.forEach(function (panelItem) {
-        for(var i=0,len=panelItem.handle.length; i<len; i++){
-          for(var j=0, a=panelItem.handle[i], l=a.length; j<l; j++){
+        for (var i = 0, len = panelItem.handle.length; i < len; i++) {
+          for (var j = 0, a = panelItem.handle[i], l = a.length; j < l; j++) {
             var labelItem = a[j];
             if (labelItem.updateTopTip) {
               labelItem.updateTopTip();

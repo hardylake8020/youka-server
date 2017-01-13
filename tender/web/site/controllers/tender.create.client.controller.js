@@ -146,6 +146,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           province: '',
           city: '',
           region: '',
+          region_location: null,
           street: '',
           cities: [],
           regions: [],
@@ -177,8 +178,9 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
             contactInfo.selectCity(city, this);
           },
           clickRegion: function (region, event) {
-            if (this.region !== region) {
-              this.region = region;
+            if (this.region !== region.name) {
+              this.region = region.name;
+              this.region_location = [region.location.lng, region.location.lat];
             }
           }
         },
@@ -195,6 +197,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           province: '',
           city: '',
           region: '',
+          region_location: null,
           street: '',
           cities: [],
           regions: [],
@@ -226,8 +229,9 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
             contactInfo.selectCity(city, this);
           },
           clickRegion: function (region, event) {
-            if (this.region !== region) {
-              this.region = region;
+            if (this.region !== region.name) {
+              this.region = region.name;
+              this.region_location = [region.location.lng, region.location.lat];
             }
           }
         },
@@ -277,7 +281,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           var currentCity = cities.filter(function (item) {
             return item.name === city;
           });
-          resource.regions = currentCity[0].region;
+          resource.regions = currentCity[0].regions;
         }
       },
       checkAddress: function (address) {
@@ -1035,6 +1039,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         pickup_contact_province: contactInfo.pickup.address.province,
         pickup_contact_city: contactInfo.pickup.address.city,
         pickup_contact_region: contactInfo.pickup.address.region || '',
+        pickup_contact_region_location: contactInfo.pickup.address.region_location || [],
         pickup_contact_street: contactInfo.pickup.address.street,
         pickup_contact_name: contactInfo.pickup.linkMan,
         pickup_contact_phone: contactInfo.pickup.tel,
@@ -1045,6 +1050,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         delivery_contact_province: contactInfo.delivery.address.province,
         delivery_contact_city: contactInfo.delivery.address.city,
         delivery_contact_region: contactInfo.delivery.address.region || '',
+        delivery_contact_region_location: contactInfo.delivery.address.region_location || [],
         delivery_contact_street: contactInfo.delivery.address.street,
         delivery_contact_name: contactInfo.delivery.linkMan,
         delivery_contact_phone: contactInfo.delivery.tel,
@@ -1165,6 +1171,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           "pickup_contact_province": "安徽",
           "pickup_contact_city": "蚌埠市",
           "pickup_contact_region": "蚌山区",
+          "pickup_contact_region_location": [106.74888681637321, 35.51577431592054],
           "pickup_contact_street": "测试地址1",
           "pickup_contact_name": "13472423583",
           "pickup_contact_phone": "",
@@ -1174,6 +1181,8 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           "delivery_contact_province": "安徽",
           "delivery_contact_city": "马鞍山市",
           "delivery_contact_region": "花山区",
+          "delivery_contact_region_location": [	100.79842929870361,
+            38.473163420727644],
           "delivery_contact_street": "测试地址2",
           "delivery_contact_name": "13472423583",
           "delivery_contact_phone": "",

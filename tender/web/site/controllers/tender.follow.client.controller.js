@@ -39,11 +39,7 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
         expand: function () {
         },
         exec: function () {
-        },
-        download: function () {
-          var params = tenderView.getSearchCondition();
-          params.access_token = Auth.getToken();
-          $('body').append('<iframe src="/tender/export_tenders?' + $.param(params) + '" style="display: none;" ></iframe>');
+        
         }
       },
       createTender: function () {
