@@ -36,7 +36,7 @@ module.exports = function (appDb) {
       type: [
         {
           type: String,
-          enum: ['user', 'admin', 'companyAdmin']
+          enum: ['user', 'admin', 'companyAdmin', 'tenderExaminer', 'tenderPaymenter']
         }
       ],
       default: ['user']
