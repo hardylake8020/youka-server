@@ -6,6 +6,7 @@
 
 var tender = require('../controllers/tender'),
   tenderDriver = require('../controllers/tender_driver'),
+  tenderPayment = require('../controllers/tender_payment'),
   userFilter = require('../../../libraries/filters/user'),
   tenderFileter = require('../../../libraries/filters/tender'),
   cardFileter = require('../../../libraries/filters/card'),
@@ -21,6 +22,10 @@ module.exports = function (app) {
   app.route('/tender/driver/getStartedListByDriver').post(driverFilter.requireDriver, tenderDriver.getStartedListByDriver);
   app.route('/tender/driver/assginDriver').post(driverFilter.requireDriver, cardFileter.requireById, truckFileter.requireById, tenderFileter.requireById, tenderDriver.assginDriver);
   app.route('/tender/driver/transportevent').post(driverFilter.requireDriver, tenderFileter.requireById, tenderDriver.getEventByTender);
+
+  app.route('/tender/user/payment').post(driverFilter.requireUser, tenderFileter.requireById, tenderPayment.payment);
+  app.route('/tender/user/examine').post(driverFilter.requireUser, tenderFileter.requireById, tenderPayment.examine);
+
 
   app.route('/tender/user/get/list').post(userFilter.requireUser, tender.getListByUser);
   app.route('/tender/user/get/one').get(userFilter.requireUser, tender.getOneByUser);

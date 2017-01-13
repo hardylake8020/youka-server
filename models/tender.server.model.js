@@ -206,34 +206,76 @@ module.exports = function (appDb) {
       type: String
     },
     //实际现金支付首款
-    real_pay_top_cash:{
-      type:Number,
-      default:0
+    real_pay_top_cash: {
+      type: Number,
+      default: 0
+    },
+    real_pay_top_cash_time: {
+      type: Date,
+      default: null
+    },
+    real_pay_top_cash_username: {
+      type: String
     },
     //实际油卡支付首款
-    real_pay_top_card:{
-      type:Number,
-      default:0
+    real_pay_top_card: {
+      type: Number,
+      default: 0
+    },
+    real_pay_top_card_time: {
+      type: Date,
+      default: null
+    },
+    real_pay_top_card_username: {
+      type: String
     },
     //实际现金支付回单
-    real_pay_last_cash:{
-      type:Number,
-      default:0
+    real_pay_last_cash: {
+      type: Number,
+      default: 0
+    },
+    real_pay_last_cash_time: {
+      type: Date,
+      default: null
+    },
+    real_pay_last_cash_username: {
+      type: String
     },
     //实际油卡支付回单
-    real_pay_last_card:{
-      type:Number,
-      default:0
+    real_pay_last_card: {
+      type: Number,
+      default: 0
+    },
+    real_pay_last_card_time: {
+      type: Date,
+      default: null
+    },
+    real_pay_last_card_username: {
+      type: String
     },
     //实际现金支付尾款
-    real_pay_tail_cash:{
-      type:Number,
-      default:0
+    real_pay_tail_cash: {
+      type: Number,
+      default: 0
+    },
+    real_pay_tail_cash_time: {
+      type: Date,
+      default: null
+    },
+    real_pay_tail_cash_username: {
+      type: String
     },
     //实际现金支付尾款
-    real_pay_tail_card:{
-      type:Number,
-      default:0
+    real_pay_tail_card: {
+      type: Number,
+      default: 0
+    },
+    real_pay_tail_card_time: {
+      type: Date,
+      default: null
+    },
+    real_pay_tail_card_username: {
+      type: String
     },
     payment_top_rate: {
       type: Number
