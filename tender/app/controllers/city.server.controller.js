@@ -4927,7 +4927,7 @@ exports.updateLocation = function (req, res, next) {
           async.eachSeries(city.regions, function (region, regionCallback) {
             var address = provice.name + city.name + region.name;
 
-            if (region.location && region.location[0]) {
+            if (region.location && region.location.lng) {
               return regionCallback();
             }
 
