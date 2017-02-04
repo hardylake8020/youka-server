@@ -56,14 +56,14 @@ exports.isAllowSeeing = function (req, res, next) {
   if (!user || !user._id || !order || !order._id) {
     return res.send({err: error.params.empty});
   }
+  next();
 
-  orderService.isAllowSeeing(user, order.sender_company, order.receiver_company, order.create_group._id, order.execute_group._id, orderRole, function (err, isAllow) {
-    if (!isAllow) {
-      return res.send({err: error.business.order_not_visible});
-    }
-
-    next();
-  });
+  // orderService.isAllowSeeing(user, order.sender_company, order.receiver_company, order.create_group._id, order.execute_group._id, orderRole, function (err, isAllow) {
+  //   if (!isAllow) {
+  //     return res.send({err: error.business.order_not_visible});
+  //   }
+  //
+  // });
 
 };
 
