@@ -32,7 +32,7 @@ exports.grab = function (currentDriver, tenderId, callback) {
   Tender.update({
     _id: tenderId,
     status: 'unStarted'
-  }, {$set: {driver_winner: currentDriver._id, status: 'unAssigned'}}, function (err, count) {
+  }, {$set: {driver_winner: currentDriver._id, status: 'unAssigned', winner_time: new Date()}}, function (err, count) {
     if (err) {
       return callback({err: error.system.db_error});
     }

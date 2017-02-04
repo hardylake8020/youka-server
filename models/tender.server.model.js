@@ -342,6 +342,9 @@ module.exports = function (appDb) {
       type: String,
       default: ''
     },
+    winner_time: {
+      type: Date
+    },
     carry_drivers: {
       type: [Schema.Types.Mixed]
     },

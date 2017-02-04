@@ -935,7 +935,7 @@ exports.getListByUser = function (currentUser, condition, callback) {
         .skip(skipCount)
         .limit(condition.limit)
         .sort(sort)
-        .populate('order')
+        .populate('order driver_winner')
         .exec(function (err, tenders) {
           if (err) {
             return dataCallback({err: error.system.db_error});
