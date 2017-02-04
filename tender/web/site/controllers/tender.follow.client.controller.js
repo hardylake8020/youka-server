@@ -489,16 +489,21 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
           if (!this.currentTender.order) {
             return;
           }
-          HttpTender.getOrderInfo($scope, {order_id: this.currentTender.order}, function (err, data) {
-            if (!data.currentOrder || !data.assignedCompanyOrders) {
-              return CommonHelper.showAlert($scope, '获取运单详情失败');
-            }
-            tenderConfig.detail.currentOrder = data.currentOrder || {};
-            tenderConfig.detail.currentOrder.goodsInfo = TenderHelper.createOrderGoodsDetail(tenderConfig.detail.currentOrder.order_details);
-            tenderConfig.detail.currentOrder.assignedCompanyOrders = data.assignedCompanyOrders
 
-            tenderConfig.detail.getOrderEvent();
-          });
+          tenderConfig.detail.currentOrder = this.currentTender.order;
+          tenderConfig.detail.currentOrder.goodsInfo = TenderHelper.createOrderGoodsDetail(tenderConfig.detail.currentOrder.order_details);
+          tenderConfig.detail.getOrderEvent();
+
+          // HttpTender.getOrderInfo($scope, {order_id: this.currentTender.order}, function (err, data) {
+          //   if (!data.currentOrder || !data.assignedCompanyOrders) {
+          //     return CommonHelper.showAlert($scope, '获取运单详情失败');
+          //   }
+          //   tenderConfig.detail.currentOrder = data.currentOrder || {};
+          //   tenderConfig.detail.currentOrder.goodsInfo = TenderHelper.createOrderGoodsDetail(tenderConfig.detail.currentOrder.order_details);
+          //   // tenderConfig.detail.currentOrder.assignedCompanyOrders = data.assignedCompanyOrders
+          //
+          //   tenderConfig.detail.getOrderEvent();
+          // });
         },
         getOrderEvent: function () {
           if (!this.currentOrder._id) {
