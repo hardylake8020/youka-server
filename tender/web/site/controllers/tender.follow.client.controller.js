@@ -491,7 +491,7 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
           }
 
           tenderConfig.detail.currentOrder = this.currentTender.order;
-          tenderConfig.detail.currentOrder.goodsInfo = TenderHelper.createOrderGoodsDetail(tenderConfig.detail.currentOrder.order_details);
+          tenderConfig.detail.currentOrder.goodsInfo = TenderHelper.createOrderGoodsDetail(tenderConfig.detail.currentOrder);
           tenderConfig.detail.getOrderEvent();
 
           // HttpTender.getOrderInfo($scope, {order_id: this.currentTender.order}, function (err, data) {
