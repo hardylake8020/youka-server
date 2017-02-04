@@ -39,7 +39,7 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
         expand: function () {
         },
         exec: function () {
-        
+
         }
       },
       createTender: function () {
@@ -481,9 +481,18 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
             return;
           }
 
-          HttpTender.getWinnerRecord($scope, {tender_id: this.currentTender._id}, function (err, data) {
-            tenderConfig.detail.winBidRecord = data || {};
-          });
+          if (this.currentTender.type === 'grab') {
+            this.currentTender.winner_price = this.currentTender.current_grab_price;
+            
+          }
+          // if (this.currentTender.type === 'grab') {
+          //   tenderConfig.detail.winBidRecord = this.currentTender.driver_winner || {};
+          // }
+          // else {
+          //   HttpTender.getWinnerRecord($scope, {tender_id: this.currentTender._id}, function (err, data) {
+          //     tenderConfig.detail.winBidRecord = data || {};
+          //   });
+          // }
         },
         getOrderInfo: function () {
           if (!this.currentTender.order) {

@@ -305,13 +305,13 @@
                     <div class="row bidder-item selected">
                       <p class="choice">√</p>
 
-                      <p class="col col-xs-3 username">{{tenderConfig.detail.winBidRecord.bidder.username}}</p>
+                      <p class="col col-xs-3 username">{{tenderConfig.detail.currentTender.driver_winner.username}}</p>
 
                       <p class="col col-xs-7 time">于
-                        {{tenderConfig.detail.formatTime(tenderConfig.detail.winBidRecord.updated, 'yy/MM/dd hh:mm')}}
+                        {{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.winner_time, 'yy/MM/dd hh:mm')}}
                         中标，报价</p>
 
-                      <p class="col col-xs-2 price">￥{{tenderConfig.detail.winBidRecord.current_price | number:0}}</p>
+                      <p class="col col-xs-2 price">￥{{tenderConfig.detail.currentTender.winner_price | number:0}}</p>
                     </div>
                   </div>
                 </div>
