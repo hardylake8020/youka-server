@@ -44,26 +44,20 @@ exports.getSingleOrderInfo = function (req, res, next) {
 exports.getSingleOrderEvent = function (req, res, next) {
   var order = req.currentOrder;
 
-  orderService.getDriverChildrenOrderIds(order._id, function (err, driverOrderIds) {
+  transportEventService.getEventByOrder([req.currentOrder._id], function (err, transportEvents) {
     if (err) {
       return res.send(err);
     }
 
-    transportEventService.getEventByOrder(driverOrderIds, function (err, transportEvents) {
-      if (err) {
-        return res.send(err);
-      }
-
-      return res.send({
-        order: {
-          createUserNickname: order.create_user.nickname,
-          createUserPhone: order.create_user.phone,
-          createUsername: order.create_user.username,
-          create_time: order.created,
-          pickup_time: order.pickup_time,
-          delivery_time: order.delivery_time
-        }, events: transportEvents
-      });
+    return res.send({
+      order: {
+        createUserNickname: order.create_user.nickname,
+        createUserPhone: order.create_user.phone,
+        createUsername: order.create_user.username,
+        create_time: order.created,
+        pickup_time: order.pickup_time,
+        delivery_time: order.delivery_time
+      }, events: transportEvents
     });
   });
 };
