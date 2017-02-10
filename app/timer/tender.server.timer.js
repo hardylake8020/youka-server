@@ -24,7 +24,8 @@ var _ = require('lodash'),
   CompanyService = require('../services/company'),
   CustomerContact = appDb.model('CustomerContact'),
   UserProfile = appDb.model('UserProfile'),
-  OrderReject = appDb.model('OrderReject'),
+  Tender = appDb.model('Tender'),
+  TenderRecord = appDb.model('TenderRecord'),
   salesmanService = require('../services/wechat/salesman'),
   pushService = require('../services/push'),
   OrderService = require('../services/order');
@@ -33,7 +34,15 @@ var InformType = require('../../enums/all').inform_type,
   WebAbnormalOrderType = require('../../enums/all').web_abnormal_order_type;
 
 
+function checkTenderStart() {
+  setTimeout(function () {
+    Tender.find({status:'unStarted',type:'comparing',start_time:{gte:new Date}},function(){
+      
+    })
 
+
+  }, 10);
+}
 
 
 //

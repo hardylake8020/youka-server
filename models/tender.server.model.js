@@ -33,7 +33,7 @@ module.exports = function (appDb) {
     updatedAt: 'updated'
   });
 
-  appDb.model('Tender', TenderRecorder);
+  appDb.model('TenderRecorder', TenderRecorder);
 
 
   var TenderSchema = new Schema({
