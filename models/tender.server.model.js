@@ -61,9 +61,12 @@ module.exports = function (appDb) {
       type: String,
       default: ''
     },
+    //comparing竞价中
+    //compareEnd竞价结束
+    //
     status: {
       type: String,
-      enum: ['unStarted', 'unAssigned', 'inProgress', 'completed'],//未开始，进行中，已截止， 已完成，已过时，已删除。 'stop',  'obsolete', 'deleted'
+      enum: ['unStarted', 'comparing','compareEnd','unAssigned', 'inProgress', 'completed'],//未开始，进行中，已截止， 已完成，已过时，已删除。 'stop',  'obsolete', 'deleted'
       default: 'unStarted'
     },
     start_time: {
