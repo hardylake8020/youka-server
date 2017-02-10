@@ -104,9 +104,9 @@ exports.getUnStartedListByDriver = function (currentDriver, condition, callback)
     query.delivery_address = new RegExp(condition.deliveryAddress, "i")
   }
 
-  if (condition.tenderType) {
-    query.tender_type = condition.tenderType;
-  }
+  // if (condition.tenderType) {
+  //   query.tender_type = condition.tenderType;
+  // }
 
   async.auto({
     getCount: function (countCallback) {
