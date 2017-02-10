@@ -10,6 +10,7 @@ var orderTimer = require('../app/timer/order');
 var tenderTimer = require('../app/timer/tender');
 module.exports = function () {
   tenderTimer.checkTenderStart();
+  tenderTimer.checkTenderEnd();
   // orderTimer.startPickupDeferredClock();
   // orderTimer.startDeliveryEarlyClock();
   //orderTimer.startCheckOrderConfirmClock();

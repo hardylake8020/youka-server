@@ -105,7 +105,7 @@ exports.getStartedListByDriver = function (currentDriver, condition, callback) {
   if (condition.status == 'unAssigned') {
     query = {
       $or: [
-        {status: condition.status, driver_winner: currentDriver._id},
+        {status: 'unAssigned', driver_winner: currentDriver._id},
         {
           status: 'comparing',
           'tender_records.driver': currentDriver._id

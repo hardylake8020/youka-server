@@ -38,12 +38,53 @@ exports.checkTenderStart = function () {
   checkTenderStart();
 };
 
+exports.checkTenderEnd = function () {
+  checkTenderEnd();
+};
+
+function checkTenderEnd() {
+  setTimeout(function () {
+    console.log('check tender end===============================>' + new Date().toLocaleTimeString());
+    Tender.findOne({
+      status: 'comparing',
+      type: 'compare',
+      end_time: {$lte: new Date()}
+    }, function (err, tender) {
+      if (!tender) {
+        return checkTenderEnd();
+      }
+
+      if (!tender.tender_records || tender.tender_records.length == 0) {
+        tender.status == 'compareEnd';
+        tender.save(function () {
+          return checkTenderEnd();
+        });
+      }
+      else {
+        TenderRecorder.find({tender: tender._id}).sort({price: -1}).exec(function (err, tenderRecords) {
+          if (err || !tenderRecords) {
+            return checkTenderEnd();
+          }
+          tender.driver_winner = tenderRecords[0].driver;
+          tender.status = 'unAssigned';
+          tender.winner_time = new Date();
+          tender.save(function (err) {
+            checkTenderEnd();
+          });
+        });
+      }
+
+    });
+  }, 5000);
+}
+
+
 function checkTenderStart() {
   setTimeout(function () {
-    console.log('start check tender start===============================>' + new Date().toLocaleTimeString());
+    console.log('check tender start===============================>' + new Date().toLocaleTimeString());
     Tender.find({
       status: 'unStarted',
-      type: 'comparing',
+      type: 'compare',
       start_time: {$lte: new Date()}
     }, function (err, tenders) {
       async.each(tenders, function (tender, callback) {
@@ -55,7 +96,6 @@ function checkTenderStart() {
           return callback();
         });
       }, function () {
-        console.log('start check tender end===============================>' + new Date().toLocaleTimeString());
         checkTenderStart();
       });
     });
