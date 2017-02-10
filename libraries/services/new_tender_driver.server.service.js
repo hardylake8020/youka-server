@@ -101,9 +101,22 @@ exports.compare = function (currentDriver, currentTender, price, callback) {
 };
 
 exports.getStartedListByDriver = function (currentDriver, condition, callback) {
+  var query = {status: condition.status, driver_winner: currentDriver._id};
+  if (condition.status == 'unAssigned') {
+    query = {
+      $or: [
+        {status: condition.status, driver_winner: currentDriver._id},
+        {
+          status: 'comparing',
+          'tender_records.driver': currentDriver._id
+        }
+      ]
+    };
+  }
+
   async.auto({
     getCount: function (countCallback) {
-      Tender.count({status: condition.status, driver_winner: currentDriver._id}).exec(function (err, totalCount) {
+      Tender.count(query).exec(function (err, totalCount) {
         if (err) {
           return countCallback({err: error.system.db_error});
         }
@@ -114,7 +127,7 @@ exports.getStartedListByDriver = function (currentDriver, condition, callback) {
       if (!result.getCount) {
         return dataCallback(null, []);
       }
-      Tender.find({status: condition.status, driver_winner: currentDriver._id})
+      Tender.find(query)
         .skip(condition.currentCount || 0)
         .limit(condition.limit)
         .sort(condition.sort)
