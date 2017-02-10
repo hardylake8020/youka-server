@@ -27,7 +27,7 @@ exports.getUnStartedListByDriver = function (req, res, next) {
     currentCount: currentCount,
     limit: limit,
     sort: {created: -1},
-    status: 'unStarted',
+    status: ['unStarted','comparing'],
     tenderType: tenderType,
     pickupAddress: pickupAddress,
     deliveryAddress: deliveryAddress

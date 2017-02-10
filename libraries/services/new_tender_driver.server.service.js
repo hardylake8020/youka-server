@@ -95,7 +95,7 @@ exports.getStartedListByDriver = function (currentDriver, condition, callback) {
 
 
 exports.getUnStartedListByDriver = function (currentDriver, condition, callback) {
-  var query = {status: 'unStarted'};
+  var query = {status: {$in:['unStarted','comparing']}};
   if (condition.pickupAddress) {
     query.pickup_address = new RegExp(condition.pickupAddress, "i")
   }

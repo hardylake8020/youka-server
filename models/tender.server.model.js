@@ -9,6 +9,21 @@ var mongoose = require('mongoose'),
 
 module.exports = function (appDb) {
 
+  var TenderRecorder = new Schema({
+    object: {
+      type: String,
+      default: 'tenderRecorder'
+    },
+    tender:{
+      type: Schema.Types.ObjectId,
+      ref: 'Tender'
+    },
+    driver:{
+      type: Schema.Types.ObjectId,
+      ref: 'Driver'
+    }
+  });
+
   var TenderSchema = new Schema({
     object: {
       type: String,
