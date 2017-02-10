@@ -27,7 +27,7 @@ exports.getUnStartedListByDriver = function (req, res, next) {
     currentCount: currentCount,
     limit: limit,
     sort: {created: -1},
-    status: ['unStarted','comparing'],
+    status: ['unStarted', 'comparing'],
     tenderType: tenderType,
     pickupAddress: pickupAddress,
     deliveryAddress: deliveryAddress
@@ -82,4 +82,14 @@ exports.getDashboardData = function (req, res, next) {
     return res.send(err || result);
   })
 
+};
+
+exports.compare = function (req, res, next) {
+  var curDriver = req.driver;
+  var curTender = req.tender;
+  var price = isNaN(parseInt(req.body.price)) ? 0 : parseInt(req.body.price);
+
+  newTenderService.compare(curDriver, curTender, price, function (err, result) {
+    return res.send(err || result);
+  });
 };

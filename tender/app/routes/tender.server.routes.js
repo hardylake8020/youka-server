@@ -23,6 +23,7 @@ module.exports = function (app) {
   app.route('/tender/driver/assginDriver').post(driverFilter.requireDriver, cardFileter.requireById, truckFileter.requireById, tenderFileter.requireById, tenderDriver.assginDriver);
   app.route('/tender/driver/transportevent').post(driverFilter.requireDriver, tenderFileter.requireById, tenderDriver.getEventByTender);
   app.route('/tender/driver/dashboard').post(driverFilter.requireDriver, tenderDriver.getDashboardData);
+  app.route('/tender/driver/compare').post(driverFilter.requireDriver, tenderFileter.requireById, tenderDriver.compare);
 
   app.route('/tender/user/payment').post(userFilter.requireUser, tenderFileter.requireById, tenderPayment.payment);
   app.route('/tender/user/examine').post(userFilter.requireUser, tenderFileter.requireById, tenderPayment.examine);

@@ -28,6 +28,14 @@ module.exports = function (appDb) {
     }
   });
 
+  TenderRecorder.plugin(timestamps, {
+    createdAt: 'created',
+    updatedAt: 'updated'
+  });
+
+  appDb.model('Tender', TenderRecorder);
+
+
   var TenderSchema = new Schema({
     object: {
       type: String,
@@ -37,7 +45,7 @@ module.exports = function (appDb) {
       type: Schema.Types.ObjectId,
       ref: 'Order'
     },
-    tender_record: {
+    tender_records: {
       type: [{
         type: Schema.Types.Mixed
       }],

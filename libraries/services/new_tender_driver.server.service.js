@@ -16,6 +16,7 @@ var appDb = require('../mongoose').appDb,
   Driver = appDb.model('Driver'),
   Contact = appDb.model('Contact'),
   Order = appDb.model('Order'),
+  TenderRecorder = appDb.model('TenderRecorder'),
   TransportEvent = appDb.model('TransportEvent'),
   BidRecord = appDb.model('BidRecord');
 
@@ -51,6 +52,52 @@ exports.grab = function (currentDriver, tenderId, callback) {
       return callback(null, {success: true});
     });
   });
+};
+
+exports.compare = function (currentDriver, currentTender, price, callback) {
+  if (currentTender.status != 'comparing') {
+    return callback({err: {type: 'tender_status_valid'}});
+  }
+
+  if (currentTender.highest_protect_price < price) {
+    return callback({err: {type: 'price_invalid'}});
+  }
+
+  TenderRecorder.findOne({tender: currentTender._id, driver: currentDriver._id}, function (err, tenderRecord) {
+    if (err) {
+      return callback({err: error.system.db_error});
+    }
+
+    if (tenderRecord) {
+      return callback({err: {type: 'has_compared'}});
+    }
+    tenderRecord = new TenderRecorder({
+      tender: currentTender._id,
+      driver: currentDriver._id,
+      price: price
+    });
+    tenderRecord.save(function (err, saveTenderRecord) {
+      if (err || !saveTenderRecord) {
+        return callback({err: error.system.db_error});
+      }
+
+      TenderRecorder.find({tender: currentTender._id}, function (err, tenderRecords) {
+        if (err || !tenderRecords) {
+          return callback({err: error.system.db_error});
+        }
+        currentTender.tender_records = tenderRecords;
+        currentTender.markModified('tenderRecords');
+        currentTender.save(function (err, saveTender) {
+          if (err || !saveTender) {
+            return callback({err: error.system.db_error});
+          }
+          return {success: true};
+        });
+      });
+    });
+
+  });
+
 };
 
 exports.getStartedListByDriver = function (currentDriver, condition, callback) {
