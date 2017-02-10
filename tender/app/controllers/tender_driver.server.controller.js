@@ -40,8 +40,6 @@ exports.getUnStartedListByDriver = function (req, res, next) {
 };
 
 exports.getStartedListByDriver = function (req, res, next) {
-  
-  
   var currentDriver = req.driver || {};
   var currentCount = parseInt(req.query.current_count || req.body.current_count) || 0;
   var limit = parseInt(req.query.limit || req.body.limit) || 10;

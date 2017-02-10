@@ -25,7 +25,7 @@ var _ = require('lodash'),
   CustomerContact = appDb.model('CustomerContact'),
   UserProfile = appDb.model('UserProfile'),
   Tender = appDb.model('Tender'),
-  TenderRecord = appDb.model('TenderRecord'),
+  TenderRecorder = appDb.model('TenderRecorder'),
   salesmanService = require('../services/wechat/salesman'),
   pushService = require('../services/push'),
   OrderService = require('../services/order');
@@ -34,16 +34,33 @@ var InformType = require('../../enums/all').inform_type,
   WebAbnormalOrderType = require('../../enums/all').web_abnormal_order_type;
 
 
+exports.checkTenderStart = function () {
+  checkTenderStart();
+};
+
 function checkTenderStart() {
   setTimeout(function () {
-    Tender.find({status:'unStarted',type:'comparing',start_time:{gte:new Date}},function(){
-      
-    })
-
-
-  }, 10);
+    console.log('start check tender start===============================>' + new Date().toLocaleTimeString());
+    Tender.find({
+      status: 'unStarted',
+      type: 'comparing',
+      start_time: {$lte: new Date()}
+    }, function (err, tenders) {
+      async.each(tenders, function (tender, callback) {
+        tender.status = 'comparing';
+        tender.save(function (err, saveTender) {
+          if (err || !saveTender) {
+            console.log('start tender failed:  ' + JSON.stringify(err));
+          }
+          return callback();
+        });
+      }, function () {
+        console.log('start check tender end===============================>' + new Date().toLocaleTimeString());
+        checkTenderStart();
+      });
+    });
+  }, 5000);
 }
-
 
 //
 // function getPushObjects(order, callback) {
