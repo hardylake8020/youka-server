@@ -14,13 +14,17 @@ module.exports = function (appDb) {
       type: String,
       default: 'tenderRecorder'
     },
-    tender:{
+    tender: {
       type: Schema.Types.ObjectId,
       ref: 'Tender'
     },
-    driver:{
+    driver: {
       type: Schema.Types.ObjectId,
       ref: 'Driver'
+    },
+    price: {
+      type: Number,
+      default: 0
     }
   });
 
@@ -32,6 +36,12 @@ module.exports = function (appDb) {
     order: {
       type: Schema.Types.ObjectId,
       ref: 'Order'
+    },
+    tender_record: {
+      type: [{
+        type: Schema.Types.Mixed
+      }],
+      default: []
     },
     //标书号
     tender_number: {
@@ -81,7 +91,7 @@ module.exports = function (appDb) {
     //
     status: {
       type: String,
-      enum: ['unStarted', 'comparing','compareEnd','unAssigned', 'inProgress', 'completed'],//未开始，进行中，已截止， 已完成，已过时，已删除。 'stop',  'obsolete', 'deleted'
+      enum: ['unStarted', 'comparing', 'compareEnd', 'unAssigned', 'inProgress', 'completed'],//未开始，进行中，已截止， 已完成，已过时，已删除。 'stop',  'obsolete', 'deleted'
       default: 'unStarted'
     },
     start_time: {
