@@ -10197,73 +10197,73 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
 
   function generateSelfButton(currentOrder) {
     var selfButtons = [];
-    if (currentOrder.delete_status === true) {
-      return selfButtons;
-    }
-
-    if ($scope.searchModule.currentLabel === 'assign') {
-
-      // if (currentOrder.create_company._id === currentOrder.execute_company && currentOrder.status !== 'completed') {
-      //   selfButtons.push({
-      //     text: '',
-      //     clickHandle: modifyOrderInfo,
-      //     className: 'modify-order',
-      //     title: '修改运单'
-      //   });
-      // }
-
-      //已经分配的订单,已经签到
-      if (currentOrder.status === 'unPickupSigned' || currentOrder.status === 'assigning') {
-        var canAssignAgain = true;
-        if (currentOrder.assigned_infos && currentOrder.assigned_infos.length > 0) {
-          //for (var index = 0; index < currentOrder.assigned_infos.length; index++) {
-          //  if (!currentOrder.assigned_infos[index].order_id) {
-          //    canAssignAgain = false;
-          //    break;
-          //  }
-          //}
-
-          if (canAssignAgain) {
-            selfButtons.push({
-              text: '',
-              clickHandle: modifyAssignInfo,
-              className: 'modify-assign-info',
-              title: '重新分配'
-            });
-          }
-
-        }
-      }
-    }
-
-    selfButtons.push({
-      text: '',
-      clickHandle: shareOrderByEmail,
-      className: 'email-share',
-      title: '分享到邮件'
-    });
-    selfButtons.push({
-      text: '',
-      clickHandle: function (rowInfo, event) {
-        var orderInfo = generateWechatShareOrderInfos([rowInfo]);
-        shareOrderByWechat(orderInfo, event);
-      },
-      className: 'wechat-share',
-      title: '分享到微信'
-    });
-
-    if ($scope.searchModule.currentLabel === 'assign') {
-
-      //已经分配的订单,已经签到
-      // if (currentOrder.create_company._id === currentOrder.execute_company && (currentOrder.status === 'unAssigned' || currentOrder.status === 'assigning' || currentOrder.status === 'unPickupSigned')) {
-      //   selfButtons.push({
-      //     text: '',
-      //     clickHandle: deleteOrder,
-      //     className: 'delete-order',
-      //     title: '删除'
-      //   });
-      // }
-    }
+    // if (currentOrder.delete_status === true) {
+    //   return selfButtons;
+    // }
+    //
+    // if ($scope.searchModule.currentLabel === 'assign') {
+    //
+    //   // if (currentOrder.create_company._id === currentOrder.execute_company && currentOrder.status !== 'completed') {
+    //   //   selfButtons.push({
+    //   //     text: '',
+    //   //     clickHandle: modifyOrderInfo,
+    //   //     className: 'modify-order',
+    //   //     title: '修改运单'
+    //   //   });
+    //   // }
+    //
+    //   //已经分配的订单,已经签到
+    //   if (currentOrder.status === 'unPickupSigned' || currentOrder.status === 'assigning') {
+    //     var canAssignAgain = true;
+    //     if (currentOrder.assigned_infos && currentOrder.assigned_infos.length > 0) {
+    //       //for (var index = 0; index < currentOrder.assigned_infos.length; index++) {
+    //       //  if (!currentOrder.assigned_infos[index].order_id) {
+    //       //    canAssignAgain = false;
+    //       //    break;
+    //       //  }
+    //       //}
+    //
+    //       if (canAssignAgain) {
+    //         selfButtons.push({
+    //           text: '',
+    //           clickHandle: modifyAssignInfo,
+    //           className: 'modify-assign-info',
+    //           title: '重新分配'
+    //         });
+    //       }
+    //
+    //     }
+    //   }
+    // }
+    //
+    // selfButtons.push({
+    //   text: '',
+    //   clickHandle: shareOrderByEmail,
+    //   className: 'email-share',
+    //   title: '分享到邮件'
+    // });
+    // selfButtons.push({
+    //   text: '',
+    //   clickHandle: function (rowInfo, event) {
+    //     var orderInfo = generateWechatShareOrderInfos([rowInfo]);
+    //     shareOrderByWechat(orderInfo, event);
+    //   },
+    //   className: 'wechat-share',
+    //   title: '分享到微信'
+    // });
+    //
+    // if ($scope.searchModule.currentLabel === 'assign') {
+    //
+    //   //已经分配的订单,已经签到
+    //   // if (currentOrder.create_company._id === currentOrder.execute_company && (currentOrder.status === 'unAssigned' || currentOrder.status === 'assigning' || currentOrder.status === 'unPickupSigned')) {
+    //   //   selfButtons.push({
+    //   //     text: '',
+    //   //     clickHandle: deleteOrder,
+    //   //     className: 'delete-order',
+    //   //     title: '删除'
+    //   //   });
+    //   // }
+    // }
 
     return selfButtons;
   };
@@ -13096,6 +13096,317 @@ zhuzhuqs.directive('zzExportDialog', function () {
   };
 });
 /**
+ * Created by elinaguo on 15/5/20.
+ */
+/**
+ * Created by elinaguo on 15/5/16.
+ */
+/**
+ * function: 分页UI
+ * author: elina
+ *
+ *  html代码
+ *  <zz-list config="listConfig"></zz-list>
+ *  angularjs代码
+ *
+ */
+
+
+zhuzhuqs.directive('zzList', ['GlobalEvent', function (GlobalEvent) {
+  return {
+    restrict: 'EA',
+    templateUrl: 'directive/zz_list/zz_list.client.directive.view.html',
+    replace: true,
+    transclude: true,
+    scope: {
+      config: '='
+    },
+    link: function (scope, element, attributes) {
+      scope.enableOptionalCount = 0;
+      scope.isSelectedAll = false;
+      scope.isShowFieldOption = false;
+      scope.selectedRows = [];
+
+      //<editor-fold desc="Interface for parent">
+      scope.config.load = function (callback) {
+        refreshDisplay();
+        if (!callback) {
+          return;
+        }
+
+        callback();
+        return;
+      };
+
+      scope.config.reLoad = function (callback) {
+        scope.config.isSelectedAll = false;
+        refreshDisplay();
+        if (!callback)
+          return;
+
+        return callback();
+      };
+      //</editor-fold>
+
+      //<editor-fold desc="Row Event Relation">
+
+      scope.toggleSelectAll = function () {
+        scope.isSelectedAll = !scope.isSelectedAll;
+
+        scope.selectedRows.splice(0, scope.selectedRows.length);
+
+        for (var i = 0; i < scope.config.rows.length; i++) {
+          var currentRow = scope.config.rows[i];
+          if (!currentRow.rowConfig.notOptional) {
+            currentRow.selected = scope.isSelectedAll;
+
+            if (scope.isSelectedAll) {
+              scope.selectedRows.push(currentRow);
+            }
+          }
+        }
+
+        notify('selectedHandler', scope.selectedRows);
+      };
+
+      scope.onRowSelected = function (currentRow, event) {
+        if (currentRow.rowConfig.notOptional) {
+          return;
+        }
+
+        currentRow.selected = !currentRow.selected;
+        if (currentRow.selected) {
+          scope.selectedRows.push(currentRow);
+        } else {
+          for (var i = 0; i < scope.selectedRows.length; i++) {
+            if (scope.selectedRows[i]._id === currentRow._id) {
+              scope.selectedRows.splice(i, 1);
+            }
+          }
+        }
+
+        //update selected all
+        if (scope.selectedRows.length === scope.enableOptionalCount) {
+          scope.isSelectedAll = true;
+        }
+        else {
+          scope.isSelectedAll = false;
+        }
+
+        notify('selectedHandler', scope.selectedRows, event);
+      };
+
+      scope.onRowClick = function (currentRow) {
+        notify('rowClickHandler', currentRow);
+      };
+
+      scope.onRowInfoEdit = function (currentRow) {
+        notify('rowInfoEditHandler', currentRow);
+      };
+
+      scope.onRowDelete = function (currentRow) {
+        notify('rowDeleteHandler', currentRow);
+      };
+
+      scope.onRowExpand = function (currentRow) {
+        closeAllRowExpand();
+        currentRow.isExpand = !currentRow.isExpand;
+      };
+
+      scope.onSortItemClick = function (field, item) {
+        field.curSort = item;
+        field.isExpanded = false;
+        notify('headerSortChangedHandler', field);
+      };
+
+      scope.onSearchItemSubmit = function (field) {
+        field.isExpanded = false;
+        notify('headerKeywordsChangedHandler', field);
+      };
+
+      scope.onHeaderFieldClick = function (field, event) {
+        field.isExpanded = !field.isExpanded;
+        event.stopPropagation();
+      };
+
+      scope.$on(GlobalEvent.onBodyClick, function () {
+        for (var i = 0; i < scope.config.fields.length; i++) {
+          scope.config.fields[i].isExpanded = false;
+        }
+
+        if (scope.isShowFieldOption) {
+          scope.isShowFieldOption = false;
+          notify('saveDisplayFields');
+        }
+
+      });
+
+      scope.onFieldSettingAreaClick = function(event) {
+        stopBubble(event);
+      };
+
+      scope.onFieldOptionButtonClick = function (event) {
+        scope.isShowFieldOption = !scope.isShowFieldOption;
+
+        if (!scope.isShowFieldOption) {
+          notify('saveDisplayFields');
+        }
+
+        stopBubble(event);
+      };
+      scope.onFiledOptionColumnClick = function (fieldItem, event) {
+        stopBubble(event);
+
+        if (!scope.config.selectOptions || scope.config.selectOptions.length <= 0) {
+          return;
+        }
+
+        if (fieldItem.isSelected) {
+          fieldItem.isSelected = false;
+
+          notify('updateDisplayFields');
+        }
+        else {
+          var selectedCount = 0;
+          scope.config.selectOptions.forEach(function (optionItem) {
+            if (optionItem.isSelected) {
+              selectedCount += 1;
+            }
+          });
+
+          if (selectedCount < scope.config.fields_length) {
+            fieldItem.isSelected = !fieldItem.isSelected;
+
+            notify('updateDisplayFields');
+          }
+
+          //超过最大长度，则选不中。
+        }
+      };
+
+      //</editor-fold>
+
+      //<editor-fold desc="Private function">
+      function closeAllRowExpand() {
+        for (var i = 0; i < scope.config.rows.length; i++) {
+          scope.config.rows[i].isExpand = false;
+        }
+      }
+
+      function stopBubble(e) {
+        if (e && e.stopPropagation)
+          e.stopPropagation(); //非IE
+        else
+          window.event.cancelBubble = true; //IE
+      }
+
+      function initConfig() {
+        if (scope.config.isOptional === undefined || scope.config.isOptional === null) {
+          scope.config.isOptional = true;
+        }
+        if (scope.config.selectionOption === undefined || scope.config.selectionOption === null) {
+          scope.config.selectionOption = {columnWidth: 1};
+        }
+        if (scope.config.handleOption === undefined || scope.config.handleOption === null) {
+          scope.config.handleOption = {columnWidth: 2};
+        }
+        if (scope.config.isFieldSetting === undefined || scope.config.isFieldSetting === null) {
+          scope.config.isFieldSetting = true;
+        }
+
+        if (scope.config.rowExpand === undefined || scope.config.rowExpand === null) {
+          scope.config.rowExpand = {
+            isSupport: false,
+            text: '展开'
+          };
+        }
+        if (scope.config.rowExpand.enable === undefined || scope.config.rowExpand.enable === null) {
+          scope.config.rowExpand.enable = false;
+        }
+        if (scope.config.rowExpand.expandText === undefined || scope.config.rowExpand.expandText === '') {
+          scope.config.rowExpand.expandText = '展开';
+        }
+        if (scope.config.rowExpand.cancelText === undefined || scope.config.rowExpand.cancelText === '') {
+          scope.config.rowExpand.cancelText = '取消';
+        }
+
+        if (scope.config.rowExpand.selfCloseButton === undefined || scope.config.rowExpand.selfCloseButton === '') {
+          scope.config.rowExpand.selfCloseButton = false;
+        }
+
+        if (scope.config.isSelectedAll === undefined || scope.config.isSelectedAll === null) {
+          scope.config.isSelectedAll = false;
+        }
+
+        if (!scope.config.selectedRows) {
+          scope.config.selectedRows = [];
+        }
+
+        if (!scope.config.fields_length) {
+          scope.config.fields_length = 7; //默认显示7个字段
+        }
+
+        refreshDisplay();
+      };
+
+      function refreshDisplay() {
+        scope.enableOptionalCount = 0;
+        scope.selectedRows.splice(0, scope.selectedRows.length);
+        scope.isSelectedAll = false;
+
+        if (scope.config.fields && scope.config.fields.length > 0) {
+          for (var i = 0; i < scope.config.fields.length; i++) {
+            if (!scope.config.fields[i].columnWidth) scope.config.fields[i].columnWidth = 1;
+
+            scope.config.fields[i].columnWidthStyle = 'zz-list-col-' + scope.config.fields[i].columnWidth;
+
+            if (scope.config.fields[i].self_column_class) {
+              scope.config.fields[i].columnWidthStyle += (' ' + scope.config.fields[i].self_column_class);
+            }
+
+            scope.config.fields[i].isExpanded = false;
+          }
+          for (var i = 0; i < scope.config.rows.length; i++) {
+            scope.config.rows[i].selected = false;
+            scope.config.rows[i].isExpand = false;
+
+            if (!scope.config.rows[i].disabled) {
+              scope.enableOptionalCount++;
+            }
+          }
+        }
+        if (!scope.config.selectionOption.columnWidth) {
+          scope.config.selectionOption.columnWidth = 1;
+        }
+        scope.config.selectionOptionColumnWidthStyle = 'zz-list-col-' + scope.config.selectionOption.columnWidth;
+        if (!scope.config.handleOption.columnWidth) {
+          scope.config.handleOption.columnWidth = 2;
+        }
+        scope.config.handleOptionColumnWidthStyle = 'zz-list-col-' + scope.config.handleOption.columnWidth;
+
+      }
+
+      //</editor-fold>
+
+      function notify(notifyType, params, event) {
+        if (scope.config.events) {
+          if (scope.config.events[notifyType] && scope.config.events[notifyType].length > 0) {
+            for (var i = 0; i < scope.config.events[notifyType].length; i++) {
+              var currentEvent = scope.config.events[notifyType][i];
+              if (currentEvent && typeof(currentEvent) === 'function') {
+                currentEvent(params, event);
+              }
+            }
+          }
+        }
+      };
+
+      initConfig();
+    }
+  };
+}]);
+
+/**
  * Created by elinaguo on 15/5/24.
  */
 zhuzhuqs.directive('zzOrderAssign', ['OrderHelper', function (OrderHelper) {
@@ -13485,521 +13796,6 @@ zhuzhuqs.directive('zzOrderAssign', ['OrderHelper', function (OrderHelper) {
 }]);
 
 /**
- * Created by elinaguo on 15/5/20.
- */
-/**
- * Created by elinaguo on 15/5/16.
- */
-/**
- * function: 分页UI
- * author: elina
- *
- *  html代码
- *  <zz-list config="listConfig"></zz-list>
- *  angularjs代码
- *
- */
-
-
-zhuzhuqs.directive('zzList', ['GlobalEvent', function (GlobalEvent) {
-  return {
-    restrict: 'EA',
-    templateUrl: 'directive/zz_list/zz_list.client.directive.view.html',
-    replace: true,
-    transclude: true,
-    scope: {
-      config: '='
-    },
-    link: function (scope, element, attributes) {
-      scope.enableOptionalCount = 0;
-      scope.isSelectedAll = false;
-      scope.isShowFieldOption = false;
-      scope.selectedRows = [];
-
-      //<editor-fold desc="Interface for parent">
-      scope.config.load = function (callback) {
-        refreshDisplay();
-        if (!callback) {
-          return;
-        }
-
-        callback();
-        return;
-      };
-
-      scope.config.reLoad = function (callback) {
-        scope.config.isSelectedAll = false;
-        refreshDisplay();
-        if (!callback)
-          return;
-
-        return callback();
-      };
-      //</editor-fold>
-
-      //<editor-fold desc="Row Event Relation">
-
-      scope.toggleSelectAll = function () {
-        scope.isSelectedAll = !scope.isSelectedAll;
-
-        scope.selectedRows.splice(0, scope.selectedRows.length);
-
-        for (var i = 0; i < scope.config.rows.length; i++) {
-          var currentRow = scope.config.rows[i];
-          if (!currentRow.rowConfig.notOptional) {
-            currentRow.selected = scope.isSelectedAll;
-
-            if (scope.isSelectedAll) {
-              scope.selectedRows.push(currentRow);
-            }
-          }
-        }
-
-        notify('selectedHandler', scope.selectedRows);
-      };
-
-      scope.onRowSelected = function (currentRow, event) {
-        if (currentRow.rowConfig.notOptional) {
-          return;
-        }
-
-        currentRow.selected = !currentRow.selected;
-        if (currentRow.selected) {
-          scope.selectedRows.push(currentRow);
-        } else {
-          for (var i = 0; i < scope.selectedRows.length; i++) {
-            if (scope.selectedRows[i]._id === currentRow._id) {
-              scope.selectedRows.splice(i, 1);
-            }
-          }
-        }
-
-        //update selected all
-        if (scope.selectedRows.length === scope.enableOptionalCount) {
-          scope.isSelectedAll = true;
-        }
-        else {
-          scope.isSelectedAll = false;
-        }
-
-        notify('selectedHandler', scope.selectedRows, event);
-      };
-
-      scope.onRowClick = function (currentRow) {
-        notify('rowClickHandler', currentRow);
-      };
-
-      scope.onRowInfoEdit = function (currentRow) {
-        notify('rowInfoEditHandler', currentRow);
-      };
-
-      scope.onRowDelete = function (currentRow) {
-        notify('rowDeleteHandler', currentRow);
-      };
-
-      scope.onRowExpand = function (currentRow) {
-        closeAllRowExpand();
-        currentRow.isExpand = !currentRow.isExpand;
-      };
-
-      scope.onSortItemClick = function (field, item) {
-        field.curSort = item;
-        field.isExpanded = false;
-        notify('headerSortChangedHandler', field);
-      };
-
-      scope.onSearchItemSubmit = function (field) {
-        field.isExpanded = false;
-        notify('headerKeywordsChangedHandler', field);
-      };
-
-      scope.onHeaderFieldClick = function (field, event) {
-        field.isExpanded = !field.isExpanded;
-        event.stopPropagation();
-      };
-
-      scope.$on(GlobalEvent.onBodyClick, function () {
-        for (var i = 0; i < scope.config.fields.length; i++) {
-          scope.config.fields[i].isExpanded = false;
-        }
-
-        if (scope.isShowFieldOption) {
-          scope.isShowFieldOption = false;
-          notify('saveDisplayFields');
-        }
-
-      });
-
-      scope.onFieldSettingAreaClick = function(event) {
-        stopBubble(event);
-      };
-
-      scope.onFieldOptionButtonClick = function (event) {
-        scope.isShowFieldOption = !scope.isShowFieldOption;
-
-        if (!scope.isShowFieldOption) {
-          notify('saveDisplayFields');
-        }
-
-        stopBubble(event);
-      };
-      scope.onFiledOptionColumnClick = function (fieldItem, event) {
-        stopBubble(event);
-
-        if (!scope.config.selectOptions || scope.config.selectOptions.length <= 0) {
-          return;
-        }
-
-        if (fieldItem.isSelected) {
-          fieldItem.isSelected = false;
-
-          notify('updateDisplayFields');
-        }
-        else {
-          var selectedCount = 0;
-          scope.config.selectOptions.forEach(function (optionItem) {
-            if (optionItem.isSelected) {
-              selectedCount += 1;
-            }
-          });
-
-          if (selectedCount < scope.config.fields_length) {
-            fieldItem.isSelected = !fieldItem.isSelected;
-
-            notify('updateDisplayFields');
-          }
-
-          //超过最大长度，则选不中。
-        }
-      };
-
-      //</editor-fold>
-
-      //<editor-fold desc="Private function">
-      function closeAllRowExpand() {
-        for (var i = 0; i < scope.config.rows.length; i++) {
-          scope.config.rows[i].isExpand = false;
-        }
-      }
-
-      function stopBubble(e) {
-        if (e && e.stopPropagation)
-          e.stopPropagation(); //非IE
-        else
-          window.event.cancelBubble = true; //IE
-      }
-
-      function initConfig() {
-        if (scope.config.isOptional === undefined || scope.config.isOptional === null) {
-          scope.config.isOptional = true;
-        }
-        if (scope.config.selectionOption === undefined || scope.config.selectionOption === null) {
-          scope.config.selectionOption = {columnWidth: 1};
-        }
-        if (scope.config.handleOption === undefined || scope.config.handleOption === null) {
-          scope.config.handleOption = {columnWidth: 2};
-        }
-        if (scope.config.isFieldSetting === undefined || scope.config.isFieldSetting === null) {
-          scope.config.isFieldSetting = true;
-        }
-
-        if (scope.config.rowExpand === undefined || scope.config.rowExpand === null) {
-          scope.config.rowExpand = {
-            isSupport: false,
-            text: '展开'
-          };
-        }
-        if (scope.config.rowExpand.enable === undefined || scope.config.rowExpand.enable === null) {
-          scope.config.rowExpand.enable = false;
-        }
-        if (scope.config.rowExpand.expandText === undefined || scope.config.rowExpand.expandText === '') {
-          scope.config.rowExpand.expandText = '展开';
-        }
-        if (scope.config.rowExpand.cancelText === undefined || scope.config.rowExpand.cancelText === '') {
-          scope.config.rowExpand.cancelText = '取消';
-        }
-
-        if (scope.config.rowExpand.selfCloseButton === undefined || scope.config.rowExpand.selfCloseButton === '') {
-          scope.config.rowExpand.selfCloseButton = false;
-        }
-
-        if (scope.config.isSelectedAll === undefined || scope.config.isSelectedAll === null) {
-          scope.config.isSelectedAll = false;
-        }
-
-        if (!scope.config.selectedRows) {
-          scope.config.selectedRows = [];
-        }
-
-        if (!scope.config.fields_length) {
-          scope.config.fields_length = 7; //默认显示7个字段
-        }
-
-        refreshDisplay();
-      };
-
-      function refreshDisplay() {
-        scope.enableOptionalCount = 0;
-        scope.selectedRows.splice(0, scope.selectedRows.length);
-        scope.isSelectedAll = false;
-
-        if (scope.config.fields && scope.config.fields.length > 0) {
-          for (var i = 0; i < scope.config.fields.length; i++) {
-            if (!scope.config.fields[i].columnWidth) scope.config.fields[i].columnWidth = 1;
-
-            scope.config.fields[i].columnWidthStyle = 'zz-list-col-' + scope.config.fields[i].columnWidth;
-
-            if (scope.config.fields[i].self_column_class) {
-              scope.config.fields[i].columnWidthStyle += (' ' + scope.config.fields[i].self_column_class);
-            }
-
-            scope.config.fields[i].isExpanded = false;
-          }
-          for (var i = 0; i < scope.config.rows.length; i++) {
-            scope.config.rows[i].selected = false;
-            scope.config.rows[i].isExpand = false;
-
-            if (!scope.config.rows[i].disabled) {
-              scope.enableOptionalCount++;
-            }
-          }
-        }
-        if (!scope.config.selectionOption.columnWidth) {
-          scope.config.selectionOption.columnWidth = 1;
-        }
-        scope.config.selectionOptionColumnWidthStyle = 'zz-list-col-' + scope.config.selectionOption.columnWidth;
-        if (!scope.config.handleOption.columnWidth) {
-          scope.config.handleOption.columnWidth = 2;
-        }
-        scope.config.handleOptionColumnWidthStyle = 'zz-list-col-' + scope.config.handleOption.columnWidth;
-
-      }
-
-      //</editor-fold>
-
-      function notify(notifyType, params, event) {
-        if (scope.config.events) {
-          if (scope.config.events[notifyType] && scope.config.events[notifyType].length > 0) {
-            for (var i = 0; i < scope.config.events[notifyType].length; i++) {
-              var currentEvent = scope.config.events[notifyType][i];
-              if (currentEvent && typeof(currentEvent) === 'function') {
-                currentEvent(params, event);
-              }
-            }
-          }
-        }
-      };
-
-      initConfig();
-    }
-  };
-}]);
-
-/**
- * Created by elinaguo on 15/5/16.
- */
-/**
- * function: 分页UI
- * author: elina
- *
- *  html代码
- *  <zz-pagination config="pagination"></zz-pagination>
- *
- *  angularjs代码
-    $scope.pagination= {
-                  currentPage: 1,                     //default
-                  limit: 20,                          //default   每页显示几条
-                  pageNavigationCount: 5,             //default   分页显示几页
-                  totalCount: 0,
-                  pageCount: 0,
-                  limitArray: [10, 20, 30, 40, 100],  //default   每页显示条数数组
-                  pageList: [1],                      //显示几页的数字数组
-                  canSeekPage: true,                  //default   是否可以手动定位到第几页
-                  canSetLimit: true,                  //default   是否可以设置每页显示几页
-                  isShowTotalInfo: true,              //default   是否显示总记录数信息
-                  onCurrentPageChanged: null or function(callback){
-                                                  //do something
-                                                  function(data){
-                                                    //data.totalCount, data.limit
-                                                    callback(data);
-                                                  }
-                                                }
-              };
-    $scope.pagination.render(); //渲染pagination
- *  }
- *
- */
-
-
-
-
-zhuzhuqs.directive('zzPagination',[function(){
-  return {
-    restrict: 'EA',
-    template: '<div class="zz-pagination" ng-show="config.pageCount>0">'
-                +'<div class="pagination_info">'
-                    +'<div ng-show="config.isShowTotalInfo" class="base_info">总数: {{config.totalCount}}</div>'
-                    +'<div ng-show="config.canSetLimit" class="limit_set"><span>每页显示:</span>'
-                        +'<select ng-options="limitItem for limitItem in config.limitArray" ng-change="config.changePageLimit()" ng-model="config.limit" ></select>'
-                    +'</div>'
-                    +'<div ng-show="config.canSeekPage" class="currentPage_set">'
-                      +'<span>跳转至第</span>'
-                      +'<input  ng-model="config.currentPage" ng-change="config.seekPage(config.currentPage);"/>'
-                      +'<span>页</span>'
-                    +'</div>'
-                +'</div>'
-                +'<div class="page_list">'
-                  +'<ul>'
-                    +'<li ng-show="config.currentPage > 1" ng-click="config.changePage(1);"><a>首页</a></li>'
-                    +'<li ng-show="config.currentPage > 1" ng-click="config.changePage(config.currentPage - 1);"><a>上一页</a></li>'
-                    +'<li ng-repeat="pageNumber in config.pageList" ng-click="config.changePage(pageNumber);" ng-class="(config.currentPage == pageNumber)?\'current\':\'\'"><a>{{pageNumber}}</a></li>'
-                    +'<li ng-show="config.currentPage < config.pageCount" ng-click="config.changePage(config.currentPage + 1);"><a>下一页</a></li>'
-                    +'<li ng-show="config.currentPage < config.pageCount" ng-click="config.changePage(config.pageCount)"><a>最后</a></li>'
-                  +'</ul>'
-                +'</div>'
-              +'</div>',
-    replace: true,
-    scope: {
-      config: '='
-    },
-
-    link: function(scope, element, attributes){
-      if(!scope.config){
-        scope.config = {};
-      }
-
-      scope.config.render = function(){
-        initConfig();
-        refreshPageNavigation();
-      };
-
-      scope.config.changePage = function(newPage){
-        switchPage(newPage);
-      };
-
-      scope.config.seekPage = function(newPage){
-        if(!newPage)
-          return;
-
-        newPage = parseInt(newPage);
-        if(newPage > scope.config.pageCount){
-          return;
-        }
-
-        switchPage(newPage);
-      };
-
-      scope.config.changePageLimit = function(){
-        scope.config.currentPage = 1;
-        //limit已经通过ng－model改变
-        scope.config.onCurrentPageChanged(function(data){
-          //data.limit =  parseInt(data.limit);
-          data.totalCount = data.totalCount;
-          data.pageCount = Math.ceil(data.totalCount / data.limit);
-        });
-      };
-      //
-      //scope.$watch(function(){
-      //    console.log('page changed');
-      //    return scope.config.pageCount + scope.config.currentPage;
-      //  },
-      //  function(){
-      //    console.log('currentPage changed');
-      //    refreshPageNavigation();
-      //  });
-
-      scope.$watchCollection('config',function(){
-        console.log('currentPage changed');
-        refreshPageNavigation();
-      });
-
-
-      function initConfig(){
-        if(!scope.config.currentPage || scope.config.currentPage === 0){
-          scope.config.currentPage = 1;
-        }
-
-        if(!scope.config.limit || scope.config.limit === 0){
-          scope.config.limit = 20;
-        }
-
-        if(!scope.config.totalCount){
-          scope.config.totalCount = 0;
-        }
-
-        if(!scope.config.pageCount){
-          scope.config.pageCount = 0;
-        }
-
-        if(!scope.config.limitArray || scope.config.limitArray.length === 0){
-          scope.config.limitArray = [10,20,30,50,100];
-        }
-
-        if(!scope.config.pageNavigationCount || scope.config.pageNavigationCount === 0){
-          scope.config.pageNavigationCount = 5;
-        }
-
-        if(scope.config.isShowTotalInfo === undefined || scope.config.isShowTotalInfo == null){
-          scope.config.isShowTotalInfo = true;
-        }
-
-        if(scope.config.canSetLimit === undefined || scope.config.canSetLimit == null){
-          scope.config.canSetLimit = true;
-        }
-
-        if(scope.config.canSeekPage === undefined || scope.config.canSeekPage == null){
-          scope.config.canSeekPage = true;
-        }
-
-        if(!scope.config.onChange){
-          scope.onChange = function(){
-            console.log('Turn to the '+scope.config.currentPage + ' page');
-          };
-        }
-      };
-
-      function refreshPageNavigation(){
-        if(scope.config.currentPage === '' || scope.config.currentPage <= 0){
-          return scope.config.currentPage = 1;
-        }
-
-        scope.config.pageList.splice(0, scope.config.pageList.length);
-
-        if(scope.config.pageCount > scope.config.pageNavigationCount){
-          var length = ((scope.config.currentPage + scope.config.pageNavigationCount - 1) > scope.config.pageCount) ? scope.config.pageCount : (scope.config.currentPage + scope.config.pageNavigationCount -1 );
-          var currentViewNumber = length - scope.config.pageNavigationCount + 1;
-          for(var i=currentViewNumber; i<= length;i++){
-            scope.config.pageList.push(i);
-          }
-        }else{
-          for(var i=1;i<= scope.config.pageCount;i++){
-            scope.config.pageList.push(i);
-          }
-        }
-      };
-
-      function switchPage(newPage){
-        if(newPage === scope.config.currentPage ){
-          return;
-        }
-        scope.config.currentPage = newPage;
-
-        if(!scope.config.onCurrentPageChanged){
-          console.log('currentPage changed!');
-          return;
-        }
-
-        scope.config.onCurrentPageChanged(function(data){
-          //data.limit =  parseInt(data.limit);
-          data.totalCount = data.totalCount;
-          data.pageCount = Math.ceil(data.totalCount / data.limit);
-        });
-      };
-    }
-  };
-}]);
-
-/**
  * Created by Wayne on 16/1/14.
  */
 
@@ -14213,6 +14009,210 @@ zhuzhuqs.directive('zzOrderOption', ['GlobalEvent', function (GlobalEvent) {
 
         return false;
       }
+    }
+  };
+}]);
+
+/**
+ * Created by elinaguo on 15/5/16.
+ */
+/**
+ * function: 分页UI
+ * author: elina
+ *
+ *  html代码
+ *  <zz-pagination config="pagination"></zz-pagination>
+ *
+ *  angularjs代码
+    $scope.pagination= {
+                  currentPage: 1,                     //default
+                  limit: 20,                          //default   每页显示几条
+                  pageNavigationCount: 5,             //default   分页显示几页
+                  totalCount: 0,
+                  pageCount: 0,
+                  limitArray: [10, 20, 30, 40, 100],  //default   每页显示条数数组
+                  pageList: [1],                      //显示几页的数字数组
+                  canSeekPage: true,                  //default   是否可以手动定位到第几页
+                  canSetLimit: true,                  //default   是否可以设置每页显示几页
+                  isShowTotalInfo: true,              //default   是否显示总记录数信息
+                  onCurrentPageChanged: null or function(callback){
+                                                  //do something
+                                                  function(data){
+                                                    //data.totalCount, data.limit
+                                                    callback(data);
+                                                  }
+                                                }
+              };
+    $scope.pagination.render(); //渲染pagination
+ *  }
+ *
+ */
+
+
+
+
+zhuzhuqs.directive('zzPagination',[function(){
+  return {
+    restrict: 'EA',
+    template: '<div class="zz-pagination" ng-show="config.pageCount>0">'
+                +'<div class="pagination_info">'
+                    +'<div ng-show="config.isShowTotalInfo" class="base_info">总数: {{config.totalCount}}</div>'
+                    +'<div ng-show="config.canSetLimit" class="limit_set"><span>每页显示:</span>'
+                        +'<select ng-options="limitItem for limitItem in config.limitArray" ng-change="config.changePageLimit()" ng-model="config.limit" ></select>'
+                    +'</div>'
+                    +'<div ng-show="config.canSeekPage" class="currentPage_set">'
+                      +'<span>跳转至第</span>'
+                      +'<input  ng-model="config.currentPage" ng-change="config.seekPage(config.currentPage);"/>'
+                      +'<span>页</span>'
+                    +'</div>'
+                +'</div>'
+                +'<div class="page_list">'
+                  +'<ul>'
+                    +'<li ng-show="config.currentPage > 1" ng-click="config.changePage(1);"><a>首页</a></li>'
+                    +'<li ng-show="config.currentPage > 1" ng-click="config.changePage(config.currentPage - 1);"><a>上一页</a></li>'
+                    +'<li ng-repeat="pageNumber in config.pageList" ng-click="config.changePage(pageNumber);" ng-class="(config.currentPage == pageNumber)?\'current\':\'\'"><a>{{pageNumber}}</a></li>'
+                    +'<li ng-show="config.currentPage < config.pageCount" ng-click="config.changePage(config.currentPage + 1);"><a>下一页</a></li>'
+                    +'<li ng-show="config.currentPage < config.pageCount" ng-click="config.changePage(config.pageCount)"><a>最后</a></li>'
+                  +'</ul>'
+                +'</div>'
+              +'</div>',
+    replace: true,
+    scope: {
+      config: '='
+    },
+
+    link: function(scope, element, attributes){
+      if(!scope.config){
+        scope.config = {};
+      }
+
+      scope.config.render = function(){
+        initConfig();
+        refreshPageNavigation();
+      };
+
+      scope.config.changePage = function(newPage){
+        switchPage(newPage);
+      };
+
+      scope.config.seekPage = function(newPage){
+        if(!newPage)
+          return;
+
+        newPage = parseInt(newPage);
+        if(newPage > scope.config.pageCount){
+          return;
+        }
+
+        switchPage(newPage);
+      };
+
+      scope.config.changePageLimit = function(){
+        scope.config.currentPage = 1;
+        //limit已经通过ng－model改变
+        scope.config.onCurrentPageChanged(function(data){
+          //data.limit =  parseInt(data.limit);
+          data.totalCount = data.totalCount;
+          data.pageCount = Math.ceil(data.totalCount / data.limit);
+        });
+      };
+      //
+      //scope.$watch(function(){
+      //    console.log('page changed');
+      //    return scope.config.pageCount + scope.config.currentPage;
+      //  },
+      //  function(){
+      //    console.log('currentPage changed');
+      //    refreshPageNavigation();
+      //  });
+
+      scope.$watchCollection('config',function(){
+        console.log('currentPage changed');
+        refreshPageNavigation();
+      });
+
+
+      function initConfig(){
+        if(!scope.config.currentPage || scope.config.currentPage === 0){
+          scope.config.currentPage = 1;
+        }
+
+        if(!scope.config.limit || scope.config.limit === 0){
+          scope.config.limit = 20;
+        }
+
+        if(!scope.config.totalCount){
+          scope.config.totalCount = 0;
+        }
+
+        if(!scope.config.pageCount){
+          scope.config.pageCount = 0;
+        }
+
+        if(!scope.config.limitArray || scope.config.limitArray.length === 0){
+          scope.config.limitArray = [10,20,30,50,100];
+        }
+
+        if(!scope.config.pageNavigationCount || scope.config.pageNavigationCount === 0){
+          scope.config.pageNavigationCount = 5;
+        }
+
+        if(scope.config.isShowTotalInfo === undefined || scope.config.isShowTotalInfo == null){
+          scope.config.isShowTotalInfo = true;
+        }
+
+        if(scope.config.canSetLimit === undefined || scope.config.canSetLimit == null){
+          scope.config.canSetLimit = true;
+        }
+
+        if(scope.config.canSeekPage === undefined || scope.config.canSeekPage == null){
+          scope.config.canSeekPage = true;
+        }
+
+        if(!scope.config.onChange){
+          scope.onChange = function(){
+            console.log('Turn to the '+scope.config.currentPage + ' page');
+          };
+        }
+      };
+
+      function refreshPageNavigation(){
+        if(scope.config.currentPage === '' || scope.config.currentPage <= 0){
+          return scope.config.currentPage = 1;
+        }
+
+        scope.config.pageList.splice(0, scope.config.pageList.length);
+
+        if(scope.config.pageCount > scope.config.pageNavigationCount){
+          var length = ((scope.config.currentPage + scope.config.pageNavigationCount - 1) > scope.config.pageCount) ? scope.config.pageCount : (scope.config.currentPage + scope.config.pageNavigationCount -1 );
+          var currentViewNumber = length - scope.config.pageNavigationCount + 1;
+          for(var i=currentViewNumber; i<= length;i++){
+            scope.config.pageList.push(i);
+          }
+        }else{
+          for(var i=1;i<= scope.config.pageCount;i++){
+            scope.config.pageList.push(i);
+          }
+        }
+      };
+
+      function switchPage(newPage){
+        if(newPage === scope.config.currentPage ){
+          return;
+        }
+        scope.config.currentPage = newPage;
+
+        if(!scope.config.onCurrentPageChanged){
+          console.log('currentPage changed!');
+          return;
+        }
+
+        scope.config.onCurrentPageChanged(function(data){
+          //data.limit =  parseInt(data.limit);
+          data.totalCount = data.totalCount;
+          data.pageCount = Math.ceil(data.totalCount / data.limit);
+        });
+      };
     }
   };
 }]);

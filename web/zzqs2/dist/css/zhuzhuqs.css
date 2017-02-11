@@ -5079,96 +5079,18 @@ input:-ms-input-placeholder {
 }
 .zz-order-follow-container .mask-container .content .evaluation .driver-orders {
   padding-left: 30px;
-  font-size: 14px;
+  margin-top: 10px;
+  line-height: 20px;
+  font-size: 12px;
 }
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info {
-  position: relative;
-  padding: 25px 110px 25px 0px;
-  border-bottom: 1px solid #dbdbdb;
+.zz-order-follow-container .mask-container .content .evaluation .driver-orders .verify-pass {
+  background-color: #4186c9;
+  padding: 2px 5px;
+  margin-left: 20px;
+  color: white;
 }
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .one,
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .two,
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .three {
-  position: relative;
-  padding-left: 30px;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .one .box .vertical-line,
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .two .box .vertical-line,
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .three .box .vertical-line {
-  position: absolute;
-  height: 100%;
-  width: 1px;
-  border-left: 1px dashed #dbdbdb;
-  z-index: 20;
-  left: 8px;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .one .number {
-  position: absolute;
-  z-index: 21;
-  left: 0;
-  width: 17px;
-  height: 17px;
-  line-height: 17px;
-  text-align: center;
-  color: #fff;
-  background: url('../../images/icon/order_follow/details/icon_number.png') no-repeat left center;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .one .assign {
-  padding-bottom: 50px;
-  color: #333;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .one .assign .time {
-  color: #999;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .two .icon,
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .three .icon {
-  position: absolute;
-  z-index: 21;
-  left: 0;
-  width: 17px;
-  height: 17px;
-  background: url('../../images/icon/order_follow/details/icon_not_over.png') no-repeat left center;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .two .content .address,
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .three .content .address {
-  display: block;
-  color: #666;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .two .content .time,
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .three .content .time {
-  display: block;
-  color: #999;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .two.actual .icon,
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .three.actual .icon {
-  background-image: url('../../images/icon/order_follow/details/icon_over.png');
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .left .two {
-  padding-bottom: 50px;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .right {
-  position: absolute;
-  top: 50%;
-  margin-top: -20px;
-  right: 30px;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .right .value {
-  position: absolute;
-  top: -30px;
-  width: 80px;
-  text-align: center;
-}
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .assign_order_info .order-info .right .button {
-  width: 80px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  font-size: 14px;
-  color: #999;
-  background-color: #fff;
-  border: 1px solid #dbdbdb;
-  border-radius: 4px;
-  cursor: pointer;
+.zz-order-follow-container .mask-container .content .evaluation .driver-orders .verify-pass .passed {
+  background-color: gray;
 }
 .zz-order-follow-container .mask-container .content .timeline {
   position: relative;
