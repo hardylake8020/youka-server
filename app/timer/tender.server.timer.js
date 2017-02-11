@@ -58,7 +58,7 @@ function checkTenderEnd() {
 
       if (!tender.tender_records || tender.tender_records.length == 0) {
         console.log('tender compareEdn==========>');
-        tender.status == 'compareEnd';
+        tender.status = 'compareEnd';
         tender.save(function () {
           return checkTenderEnd();
         });
