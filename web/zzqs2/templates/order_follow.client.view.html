@@ -148,7 +148,7 @@
           <span>{{'车辆已出发'}}</span>
           <button class="verify-pass"
                   ng-class="{pass:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true}"
-                  ng-click="verifyOrder('can_pay_top',orderDetailInfo.currentOrderDetail.orderDetail.order_id)">
+                  ng-click="verifyOrder('can_pay_top',orderDetailInfo.currentOrderDetail.orderDetail)">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true?'首单审核通过':'首单审核'}}
           </button>
         </div>
@@ -157,7 +157,7 @@
           <span>{{'运单已完成'}}</span>
           <button class="verify-pass"
                   ng-class="{pass:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==true}"
-                  ng-click="verifyOrder('can_pay_tail',orderDetailInfo.currentOrderDetail.orderDetail.order_id)">
+                  ng-click="verifyOrder('can_pay_tail',orderDetailInfo.currentOrderDetail.orderDetail)">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==true?'尾单审核通过':'尾单审核'}}
           </button>
         </div>
@@ -166,7 +166,7 @@
           <span>{{'运单已完成'}}</span>
           <button class="verify-pass"
                   ng-class="{pass:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true}"
-                  ng-click="verifyOrder('can_pay_last',orderDetailInfo.currentOrderDetail.orderDetail.order_id)">
+                  ng-click="verifyOrder('can_pay_last',orderDetailInfo.currentOrderDetail.orderDetail)">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true?'回单审核通过':'回单审核'}}
           </button>
         </div>
