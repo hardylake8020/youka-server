@@ -128,6 +128,7 @@ exports.getStartedListByDriver = function (currentDriver, condition, callback) {
         return dataCallback(null, []);
       }
       Tender.find(query)
+        .populate('driver_winner')
         .skip(condition.currentCount || 0)
         .limit(condition.limit)
         .sort(condition.sort)

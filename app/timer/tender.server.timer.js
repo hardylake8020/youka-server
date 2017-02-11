@@ -72,6 +72,7 @@ function checkTenderEnd() {
           console.log('tender record count '+tenderRecords.length);
           tender.driver_winner = tenderRecords[0].driver;
           tender.status = 'unAssigned';
+          tender.winner_price = tenderRecords[0].price;
           tender.winner_time = new Date();
           tender.save(function (err) {
             checkTenderEnd();
