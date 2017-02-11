@@ -166,7 +166,7 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
               rowData.auto_close_time = new Date(tenderItem.auto_close_time).Format('yy/MM/dd hh:mm');
               break;
             case 'request_count':
-              rowData.request_count = (tenderItem.status === 'unStarted' ? '未开始' : tenderItem.tender_records || 0);
+              rowData.request_count = (tenderItem.status === 'unStarted' ? '未开始' : tenderItem.tender_records.length || 0);
               break;
             default:
               break;
