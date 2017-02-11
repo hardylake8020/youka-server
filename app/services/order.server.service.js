@@ -2902,7 +2902,7 @@ exports.sendOrderMessage = function (type, order, driverPhone, plateNumber) {
 };
 
 exports.verifyOrder = function (order, type, callback) {
-  if (type != 'can_pay_last' || type != 'can_pay_top' || type != 'can_pay_tail') {
+  if (type != 'can_pay_last' && type != 'can_pay_top' && type != 'can_pay_tail') {
     return callback({err: {type: 'invalid_type'}});
   }
 
