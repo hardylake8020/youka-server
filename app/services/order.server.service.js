@@ -13,6 +13,7 @@ var _ = require('lodash'),
   appDb = require('../../libraries/mongoose').appDb,
   async = require('async'),
   Order = appDb.model('Order'),
+  Tender = appDb.model('Tender'),
   GoodsDetail = appDb.model('GoodsDetail'),
   OrderDetail = appDb.model('OrderDetail'),
   Detail = appDb.model('Detail'),
@@ -2898,4 +2899,23 @@ exports.sendOrderMessage = function (type, order, driverPhone, plateNumber) {
     }
   });
 
+};
+
+exports.verifyOrder = function (order, type, callback) {
+  if (type != 'can_pay_last' || type != 'can_pay_top' || type != 'can_pay_tail') {
+    return callback({err: {type: 'invalid_type'}});
+  }
+
+  Tender.findOne({order: order._id}, function (err, tender) {
+    if (err || !tender) {
+      return callback({err: orderError.internal_system_error});
+    }
+    tender[type] = true;
+    tender.save(function (err, saveTender) {
+      if (err || !saveTender) {
+        return callback({err: orderError.internal_system_error});
+      }
+      return callback(null, {success: true});
+    });
+  });
 };

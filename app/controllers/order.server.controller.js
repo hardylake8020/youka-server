@@ -45,6 +45,19 @@ var userService = require('../services/user'),
 var OrderLogic = require('../logics/order');
 var mongoose = require('mongoose');
 
+exports.verifyOrder = function (req, res, next) {
+  var order = req.order;
+  var type = req.body.type || req.query.type;
+  orderService.verifyOrder(order, type, function (err, results) {
+    if (err) {
+      req.err = err;
+      return next();
+    }
+    req.data = results;
+    return next();
+  })
+};
+
 exports.updateAssignedOrder = function (req, res, next) {
   var currentUser = req.user;
   var orderInfo = req.body.order || {};
@@ -598,101 +611,101 @@ exports.exportOrders = function (req, res, next) {
       });
 
       var allColumns = [
-        { header: '公司', key: '公司', width: 20 },
-        { header: '发货方', key: '发货方', width: 20 },
-        { header: '收货方', key: '收货方', width: 20 },
-        { header: '运单号', key: '运单号', width: 20},
-        { header: '创建时间', key: '创建时间', width: 10},
-        { header: '分配时间', key: '分配时间', width: 10},
-        { header: '提货进场时间', key: '提货进场时间', width: 15 },
-        { header: '交货进场时间', key: '交货进场时间', width:15 },
-        { header: '中途事件', key: '中途事件', width: 40},
-        { header: '参考单号', key: '参考单号', width: 20},
-        { header: '品名', key: '品名', width: 30},
-        { header: '运费', key: '运费', width: 10},
-        { header: '状态', key: '状态', width: 10},
-        { header: '司机姓名', key: '司机姓名', width: 10},
-        { header: '司机手机', key: '司机手机', width: 20},
-        { header: '司机车牌', key: '司机车牌', width: 20},
-        { header: '承运商', key: '承运商', width: 20},
-        { header: '件数', key: '件数', width: 10},
-        { header: '件数单位', key: '件数单位', width: 10},
-        { header: '重量', key: '重量', width: 10},
-        { header: '重量单位', key: '重量单位', width: 10},
-        { header: '体积', key: '体积', width: 10},
-        { header: '体积单位', key: '体积单位', width: 10},
-        { header: '实际提货时间', key: '实际提货时间', width: 15},
-        { header: '实际交货时间', key: '实际交货时间', width: 15},
-        { header: '计划提货时间', key: '计划提货时间', width: 15},
-        { header: '计划交货时间', key: '计划交货时间', width: 15},
-        { header: '提货联系人', key: '提货联系人', width: 10},
-        { header: '提货联系手机', key: '提货联系手机', width: 15},
-        { header: '提货联系固话', key: '提货联系固话', width: 15},
-        { header: '提货地址', key: '提货地址', width: 20},
-        { header: '交货联系人', key: '交货联系人', width: 10},
-        { header: '交货联系手机', key: '交货联系手机', width: 15},
-        { header: '交货联系固话', key: '交货联系固话', width: 15},
-        { header: '交货地址', key: '交货地址', width: 20},
-        { header: '关注人', key: '关注人', width: 50},
-        { header: '备注', key: '备注', width: 30},
-        { header: '提货进场拍照', key: '提货进场拍照', width: 10},
-        { header: '提货拍照', key: '提货拍照', width: 10},
-        { header: '交货进场拍照', key: '交货进场拍照', width: 10},
-        { header: '交货拍照', key: '交货拍照', width: 10},
-        { header: '中途事件拍照', key: '中途事件拍照', width: 10},
-        { header: '实收货物', key: '实收货物', width: 10},
-        { header: '实收数量', key: '实收数量', width: 10},
-        { header: '货缺', key: '货缺', width: 30},
-        { header: '货损', key: '货损', width: 30},
-        { header: '类型', key: '类型', width: 10}, // order_transport_type
-        { header: '问题运单推送', key: '问题运单推送', width: 10}, // abnormal_push
-        { header: '创建运单通知', key: '创建运单通知', width: 10}, // create_push
-        { header: '发货通知', key: '发货通知', width: 10}, // pickup_push
-        { header: '到货通知', key: '到货通知', width: 10}, // delivery_sign_push
-        { header: '送达通知', key: '送达通知', width: 10} // delivery_push
+        {header: '公司', key: '公司', width: 20},
+        {header: '发货方', key: '发货方', width: 20},
+        {header: '收货方', key: '收货方', width: 20},
+        {header: '运单号', key: '运单号', width: 20},
+        {header: '创建时间', key: '创建时间', width: 10},
+        {header: '分配时间', key: '分配时间', width: 10},
+        {header: '提货进场时间', key: '提货进场时间', width: 15},
+        {header: '交货进场时间', key: '交货进场时间', width: 15},
+        {header: '中途事件', key: '中途事件', width: 40},
+        {header: '参考单号', key: '参考单号', width: 20},
+        {header: '品名', key: '品名', width: 30},
+        {header: '运费', key: '运费', width: 10},
+        {header: '状态', key: '状态', width: 10},
+        {header: '司机姓名', key: '司机姓名', width: 10},
+        {header: '司机手机', key: '司机手机', width: 20},
+        {header: '司机车牌', key: '司机车牌', width: 20},
+        {header: '承运商', key: '承运商', width: 20},
+        {header: '件数', key: '件数', width: 10},
+        {header: '件数单位', key: '件数单位', width: 10},
+        {header: '重量', key: '重量', width: 10},
+        {header: '重量单位', key: '重量单位', width: 10},
+        {header: '体积', key: '体积', width: 10},
+        {header: '体积单位', key: '体积单位', width: 10},
+        {header: '实际提货时间', key: '实际提货时间', width: 15},
+        {header: '实际交货时间', key: '实际交货时间', width: 15},
+        {header: '计划提货时间', key: '计划提货时间', width: 15},
+        {header: '计划交货时间', key: '计划交货时间', width: 15},
+        {header: '提货联系人', key: '提货联系人', width: 10},
+        {header: '提货联系手机', key: '提货联系手机', width: 15},
+        {header: '提货联系固话', key: '提货联系固话', width: 15},
+        {header: '提货地址', key: '提货地址', width: 20},
+        {header: '交货联系人', key: '交货联系人', width: 10},
+        {header: '交货联系手机', key: '交货联系手机', width: 15},
+        {header: '交货联系固话', key: '交货联系固话', width: 15},
+        {header: '交货地址', key: '交货地址', width: 20},
+        {header: '关注人', key: '关注人', width: 50},
+        {header: '备注', key: '备注', width: 30},
+        {header: '提货进场拍照', key: '提货进场拍照', width: 10},
+        {header: '提货拍照', key: '提货拍照', width: 10},
+        {header: '交货进场拍照', key: '交货进场拍照', width: 10},
+        {header: '交货拍照', key: '交货拍照', width: 10},
+        {header: '中途事件拍照', key: '中途事件拍照', width: 10},
+        {header: '实收货物', key: '实收货物', width: 10},
+        {header: '实收数量', key: '实收数量', width: 10},
+        {header: '货缺', key: '货缺', width: 30},
+        {header: '货损', key: '货损', width: 30},
+        {header: '类型', key: '类型', width: 10}, // order_transport_type
+        {header: '问题运单推送', key: '问题运单推送', width: 10}, // abnormal_push
+        {header: '创建运单通知', key: '创建运单通知', width: 10}, // create_push
+        {header: '发货通知', key: '发货通知', width: 10}, // pickup_push
+        {header: '到货通知', key: '到货通知', width: 10}, // delivery_sign_push
+        {header: '送达通知', key: '送达通知', width: 10} // delivery_push
       ];
 
       var columns;
       var fields = req.query.fields;
-      if(fields){
+      if (fields) {
         columns = [];
-        fields.split(',').forEach(function(f){
-          for(var i = 0, len = allColumns.length; i < len; i++){
+        fields.split(',').forEach(function (f) {
+          for (var i = 0, len = allColumns.length; i < len; i++) {
             var c = allColumns[i];
-            if(c.key == f){
+            if (c.key == f) {
               columns.push(c);
               break;
             }
           }
         });
-      }else{
+      } else {
         columns = allColumns;
       }
 
       orderService.exportCompanyOrder(groupIds, filter, columns)
-      .then(function(xlsx){
-        var options = {
-          root : xlsx.root
-        };
-        var mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-        var filePath = xlsx.filePath;
-        var filename = xlsx.filename;
-        res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-        res.setHeader('Content-type', mimetype);
-        res.sendFile(filePath, options, function (err) {
-          fs.unlink(filePath);
-          if (err) {
-            console.log(new Date().toISOString(), 'exportOrders', err);
-            res.status(err.status).end();
-          }
-          else {
-            console.log('Sent:', filename);
-          }
+        .then(function (xlsx) {
+          var options = {
+            root: xlsx.root
+          };
+          var mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+          var filePath = xlsx.filePath;
+          var filename = xlsx.filename;
+          res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+          res.setHeader('Content-type', mimetype);
+          res.sendFile(filePath, options, function (err) {
+            fs.unlink(filePath);
+            if (err) {
+              console.log(new Date().toISOString(), 'exportOrders', err);
+              res.status(err.status).end();
+            }
+            else {
+              console.log('Sent:', filename);
+            }
+          });
+        }, function (reason) {
+          console.log('export failed', reason);
+          return next(reason);
         });
-      }, function(reason){
-        console.log('export failed', reason);
-        return next(reason);
-      });
     }
   });
 
@@ -827,7 +840,7 @@ exports.getUserAllOrders = function (req, res, next) {
     req.data = result;
     return next();
   });
-  
+
   // userService.getGroupIdsByUser(currentUser, function (err, groupIds) {
   //   if (err) {
   //     req.err = err;
@@ -1225,7 +1238,10 @@ function updateOrderStatusAfterContinueAssign(orderId, callback) {
       return callback();
     }
 
-    Order.find({parent_order: order, $or: [{delete_status: {$exists: false}}, {delete_status: false}]}, function (err, childOrders) {
+    Order.find({
+      parent_order: order,
+      $or: [{delete_status: {$exists: false}}, {delete_status: false}]
+    }, function (err, childOrders) {
       var isComplete = true;
       for (var i = 0; i < childOrders.length; i++) {
         if (childOrders[i].status !== 'completed') {
@@ -1268,7 +1284,7 @@ exports.continueAssign = function (req, res, next) {
       return callback();
     }
     var assignInfo = new AssignInfo({
-      _id:assignItem._id,
+      _id: assignItem._id,
       type: assignItem.type,
       driver_username: assignItem.driver_username || '',
       driver_id: assignItem.driver_id || '',
@@ -1296,9 +1312,9 @@ exports.continueAssign = function (req, res, next) {
       road_order_name: assignItem.road_order_name || '',
       partner_name: assignItem.partner_name || ''
     });
-      if(assignItem._id){
-          toBeUpdatedAssignInfos[assignItem._id] = assignInfo;
-      }
+    if (assignItem._id) {
+      toBeUpdatedAssignInfos[assignItem._id] = assignInfo;
+    }
 
     unAssignInfos.push(assignInfo);
     return callback();
@@ -1324,8 +1340,8 @@ exports.continueAssign = function (req, res, next) {
       for (var i = 0; i < order.assigned_infos.length; i++) {
         var __assignInfo = order.assigned_infos[i];
         if (__assignInfo.is_assigned === true || __assignInfo.is_assigned === 'true') {
-          if(toBeUpdatedAssignInfos[__assignInfo._id]){
-              __assignInfo = toBeUpdatedAssignInfos[__assignInfo._id];
+          if (toBeUpdatedAssignInfos[__assignInfo._id]) {
+            __assignInfo = toBeUpdatedAssignInfos[__assignInfo._id];
           }
           assigned_infos.push(__assignInfo);
         }
@@ -1344,7 +1360,7 @@ exports.continueAssign = function (req, res, next) {
             findOrderEntity.assigned_count += result.assignedOrderList.length;
             findOrderEntity.assigned_infos = assigned_infos;
 
-              console.log("continue findOrderEntity.assigned_infos " + JSON.stringify(findOrderEntity.assigned_infos));
+            console.log("continue findOrderEntity.assigned_infos " + JSON.stringify(findOrderEntity.assigned_infos));
 
             if (findOrderEntity.total_assign_count === findOrderEntity.assigned_count) {
               if (findOrderEntity.status === 'unAssigned' || findOrderEntity.status === 'assigning') {
@@ -1623,6 +1639,7 @@ exports.getOrderAssignedDetailById = function (req, res, next) {
 
       var result = {
         orderDetail: {
+          order_id:order._id,
           number: order.order_number,
           customer_name: order.customer_name,
           refer_numbers: order.refer_order_number,
@@ -1652,32 +1669,32 @@ exports.getOrderAssignedDetailById = function (req, res, next) {
           assigned_infos: order.assigned_infos,
           parent_order: order.parent_order,
           salesmen: order.salesmen,
-          confirm_status:order.confirm_status,
-          tender:order.tender
+          confirm_status: order.confirm_status,
+          tender: order.tender
         },
         //assignedCompanyOrders: assignedOrders
       };
-      if(order.salesmen && order.salesmen.length > 0){
-        if(order.salesmen[0] && order.salesmen[0]._id){
+      if (order.salesmen && order.salesmen.length > 0) {
+        if (order.salesmen[0] && order.salesmen[0]._id) {
           return res.send(result);
-        }else{
+        } else {
           var usernames = [];
-          order.salesmen.forEach(function(s){
-            if(s && s.username){
+          order.salesmen.forEach(function (s) {
+            if (s && s.username) {
               usernames.push(s.username);
             }
           });
-          SalesmanCompany.find({username: usernames}).lean().exec(function(salesmen, err){
-            if(err){
+          SalesmanCompany.find({username: usernames}).lean().exec(function (salesmen, err) {
+            if (err) {
               console.log(err);
               res.send(result);
-            }else{
+            } else {
               result.orderDetail.salesmen = salesmen;
               res.send(result);
             }
           });
         }
-      }else{
+      } else {
         return res.send(result);
       }
 
@@ -2034,13 +2051,13 @@ exports.getRemainOrderCreateCount = function (req, res, next) {
     hasCreatedCount: function (callback) {
       Order.find({create_company: currentUser.company._id, create_time: {$gte: todayStartTime, $lte: new Date()}})
         .count({}).exec(function (err, todayOrderCount) {
-          if (err) {
-            return callback(orderError.internal_system_error);
-          }
-          else {
-            return callback(null, todayOrderCount);
-          }
-        });
+        if (err) {
+          return callback(orderError.internal_system_error);
+        }
+        else {
+          return callback(null, todayOrderCount);
+        }
+      });
     },
     maxOrderCount: function (callback) {
       Company.findOne({_id: currentUser.company._id}, function (err, companyEntity) {

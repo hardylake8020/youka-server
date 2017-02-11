@@ -36,6 +36,7 @@ exports.requireOrder = function (req, res, next) {
     }
 
     req.currentOrder = order;
+    req.order = order;
 
     next();
   });

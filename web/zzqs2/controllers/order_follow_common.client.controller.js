@@ -2329,4 +2329,17 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     getOrderList(); //首次获取订单信息
   });
 
+  $scope.verifyOrder = function (type, orderId) {
+    OrderService.verifyOrder({type: type, order_id: orderId}).then(function (data) {
+      console.log(data);
+      if (!data.err) {
+        $scope.$emit(GlobalEvent.onShowAlert, '审核通过', function () {
+          $state.go('order_follow', {}, {reload: true});
+        });
+      }
+    }, function (err) {
+      console.log(err);
+    });
+  }
+
 };

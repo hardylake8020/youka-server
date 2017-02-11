@@ -8,6 +8,7 @@
  */
 var orders = require('../../app/controllers/order'),
   userFilter = require('../filters/user'),
+  orderFilter = require('../filters/order'),
   groupFilter = require('../filters/group'),
   driverFilter = require('../filters/driver');
 
@@ -49,6 +50,9 @@ module.exports = function (app) {
 
   //获取临时司机的运单
   app.route('/order/temporarydriver').get(driverFilter.requireTemporaryDriver, orders.getTemporaryDriverOrder);
+  
+  
+  app.route('/order/verifyOrder').post(userFilter.requireUser, orderFilter.requireOrder, orders.verifyOrder);
 
   app.route('/resources/pdf_templates/pdf').get(orders.exportOrderToPdf);
 
