@@ -241,6 +241,11 @@ module.exports = function (appDb) {
     delivery_tel_phone: {
       type: String
     },
+    //可以支付首款
+    can_pay_top:{
+      type:Boolean,
+      default:false
+    },
     //实际现金支付首款
     real_pay_top_cash: {
       type: Number,
@@ -265,6 +270,11 @@ module.exports = function (appDb) {
     real_pay_top_card_username: {
       type: String
     },
+    //可以支付回单
+    can_pay_last:{
+      type:Boolean,
+      default:false
+    },
     //实际现金支付回单
     real_pay_last_cash: {
       type: Number,
@@ -288,6 +298,11 @@ module.exports = function (appDb) {
     },
     real_pay_last_card_username: {
       type: String
+    },
+    //可以支付尾单
+    can_pay_tail:{
+      type:Boolean,
+      default:false
     },
     //实际现金支付尾款
     real_pay_tail_cash: {

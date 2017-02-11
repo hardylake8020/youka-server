@@ -1287,7 +1287,7 @@ exports.getUserAllOrders = function (user, currentPage, limit, sort, searchArray
     Order.find(orderQuery)
       .limit(limit)
       .skip(skipCount)
-      .populate('order_detail create_company delivery_contact pickup_contact')
+      .populate('order_detail create_company delivery_contact pickup_contact tender')
       .sort(sort)
       .exec(function (err, orders) {
         if (err)
