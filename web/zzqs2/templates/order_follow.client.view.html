@@ -143,9 +143,9 @@
           </div>
         </div>
         <p class="vertical-halving-border-one"></p>
-        <div class="col-xs-8 driver-orders">
-          <span>{{orderDetailInfo.currentOrderDetail.orderDetail.confirm_status=='confirmed'?'车辆已出发':'车辆未出发'}}</span>
-          <button class="verify-pass">审核通过</button>
+        <div class="col-xs-8 driver-orders" ng-show="orderDetailInfo.currentOrderDetail.orderDetail.confirm_status=='confirmed'">
+          <span>{{'车辆已出发'}}</span>
+          <button class="verify-pass">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true?'首单审核':'首单审核通过'}}</button>
         </div>
       </div>
 
