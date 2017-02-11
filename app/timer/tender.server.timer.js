@@ -47,7 +47,7 @@ function checkTenderEnd() {
     console.log('check tender end===============================>' + new Date().toLocaleTimeString());
     Tender.findOne({
       status: 'comparing',
-      type: 'compare',
+      tender_type: 'compare',
       end_time: {$lte: new Date()}
     }, function (err, tender) {
       if (!tender) {
@@ -84,7 +84,7 @@ function checkTenderStart() {
     console.log('check tender start===============================>' + new Date().toLocaleTimeString());
     Tender.find({
       status: 'unStarted',
-      type: 'compare',
+      tender_type: 'compare',
       start_time: {$lte: new Date()}
     }, function (err, tenders) {
       async.each(tenders, function (tender, callback) {
