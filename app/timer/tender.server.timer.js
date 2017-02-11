@@ -54,8 +54,10 @@ function checkTenderEnd() {
         console.log('no tender end');
         return checkTenderEnd();
       }
+      
 
       if (!tender.tender_records || tender.tender_records.length == 0) {
+        console.log('tender compareEdn==========>');
         tender.status == 'compareEnd';
         tender.save(function () {
           return checkTenderEnd();
@@ -67,6 +69,7 @@ function checkTenderEnd() {
             console.log(JSON.stringify(err));
             return checkTenderEnd();
           }
+          console.log('tender record count '+tenderRecords.length);
           tender.driver_winner = tenderRecords[0].driver;
           tender.status = 'unAssigned';
           tender.winner_time = new Date();
