@@ -842,100 +842,11 @@
         .driver-orders {
           padding-left: 30px;
           font-size: 14px;
-          .assign_order_info {
-            .order-info {
-              position: relative;
-              padding: 25px 110px 25px 0px;
-              border-bottom: 1px solid #dbdbdb;
-              .left {
-                .one, .two, .three {
-                  position: relative;
-                  padding-left: 30px;
-                  .box {
-                    .vertical-line {
-                      position: absolute;
-                      height: 100%;
-                      width: 1px;
-                      border-left: 1px dashed #dbdbdb;
-                      z-index: 20;
-                      left: 8px;
-                    }
-                  }
-                }
-                .one {
-                  .number {
-                    position: absolute;
-                    z-index: 21;
-                    left: 0;
-                    width: 17px;
-                    height: 17px;
-                    line-height: 17px;
-                    text-align: center;
-                    color: #fff;
-                    background: url('../../images/icon/order_follow/details/icon_number.png') no-repeat left center;
-                  }
-                  .assign {
-                    padding-bottom: 50px;
-                    color: #333;
-                    .time {
-                      color: #999;
-                    }
-                  }
-                }
-                .two, .three {
-                  .icon {
-                    position: absolute;
-                    z-index: 21;
-                    left: 0;
-                    width: 17px;
-                    height: 17px;
-                    background: url('../../images/icon/order_follow/details/icon_not_over.png') no-repeat left center;
-                  }
-                  .content {
-                    .address {
-                      display: block;
-                      color: #666;
-                    }
-                    .time {
-                      display: block;
-                      color: #999;
-                    }
-                  }
-
-                  &.actual {
-                    .icon {
-                      background-image: url('../../images/icon/order_follow/details/icon_over.png');
-                    }
-                  }
-                }
-                .two {
-                  padding-bottom: 50px;
-                }
-              }
-              .right {
-                position: absolute;
-                top: 50%;
-                margin-top: -20px;
-                right: 30px;
-                .value {
-                  position: absolute;
-                  top: -30px;
-                  width: 80px;
-                  text-align: center;
-                }
-                .button {
-                  width: 80px;
-                  height: 40px;
-                  line-height: 40px;
-                  text-align: center;
-                  font-size: 14px;
-                  color: #999;
-                  background-color: #fff;
-                  border: 1px solid #dbdbdb;
-                  border-radius: 4px;
-                  cursor: pointer;
-                }
-              }
+          .verify-pass{
+            background-color: #4186c9;
+            color:white;
+            .passed{
+              background-color: gray;
             }
           }
         }

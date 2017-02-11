@@ -141,61 +141,11 @@
               {{ salesman }}
             </p>
           </div>
-          <!--<div class="halving-line"></div>-->
-
-          <!--<div class="item">-->
-          <!--<span class="name">投保状态:</span>-->
-          <!--<span class="value">已购买保险</span>-->
-          <!--</div>-->
-          <!--<div class="item">-->
-          <!--<span class="name">投保时间:</span>-->
-          <!--<span class="value">2015-10-25 14:20</span>-->
-          <!--</div>-->
-          <!--<div class="item">-->
-          <!--<span class="name">保额:</span>-->
-          <!--<span class="value">￥100000</span>-->
-          <!--</div>-->
-          <!--<div class="item">-->
-          <!--<span class="name">保费:</span>-->
-          <!--<span class="value">￥25</span>-->
-          <!--</div>-->
         </div>
         <p class="vertical-halving-border-one"></p>
         <div class="col-xs-8 driver-orders">
-          <div class="assign_order_info" ng-repeat="companyOrder in orderDetailInfo.currentOrderDetail.companyOrdersWithAssignDriver">
-            <div class="order-info" ng-repeat="driverOrder in companyOrder.drivers">
-              <div class="left">
-                <div class="one">
-                  <span class="number">{{driverOrder.number}}</span>
-                  <div class="box">
-                    <p class="vertical-line"></p>
-                    <p class="assign">[ {{driverOrder.create_company.name}} ]<span class="time"> 于{{companyOrder.assign_time_format}}分配给 </span>[ {{driverOrder.execute_driver.nickname || driverOrder.execute_driver.username}} ]</p>
-                  </div>
-                </div>
-                <div class="two" ng-class="{actual: driverOrder.pickup_event_format.isActual}">
-                  <span class="icon"></span>
-                  <div class="box">
-                    <p class="vertical-line"></p>
-                    <p class="content">
-                      <span class="address">{{driverOrder.pickup_event_format.address}}</span>
-                      <span class="time">{{driverOrder.pickup_event_format.time}} {{driverOrder.pickup_event_format.isActual ? '完成提货': '计划完成提货'}}</span>
-                    </p>
-                  </div>
-                </div>
-                <div class="three" ng-class="{actual: driverOrder.delivery_event_format.isActual}">
-                  <span class="icon"></span>
-                  <p class="content">
-                    <span class="address">{{driverOrder.delivery_event_format.address}}</span>
-                    <span class="time">{{driverOrder.delivery_event_format.time}} {{driverOrder.delivery_event_format.isActual ? '完成交货' : '计划完成交货'}}</span>
-                  </p>
-                </div>
-              </div>
-              <div class="right" ng-show="driverOrder.status === 'completed'">
-                <p class="value" ng-show="driverOrder.current_evaluation">{{getEvaluationLevel(driverOrder.current_evaluation.level)}}</p>
-                <p class="button" ng-click="evaluateDriver(driverOrder)">{{(!driverOrder.current_evaluation) ? '评价司机' : '修改评价'}}</p>
-              </div>
-            </div>
-          </div>
+          <span>{{orderDetailInfo.currentOrderDetail.orderDetail.confirm_status=='confirmed'?'车辆已出发':'车辆未出发'}}</span>
+          <button class="verify-pass">审核通过</button>
         </div>
       </div>
 
