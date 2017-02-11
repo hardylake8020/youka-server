@@ -51,6 +51,7 @@ function checkTenderEnd() {
       end_time: {$lte: new Date()}
     }, function (err, tender) {
       if (!tender) {
+        console.log('no tender end');
         return checkTenderEnd();
       }
 
