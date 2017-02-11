@@ -61,7 +61,7 @@ function checkTenderEnd() {
         });
       }
       else {
-        TenderRecorder.find({tender: tender._id}).sort({price: -1}).exec(function (err, tenderRecords) {
+        TenderRecorder.find({tender: tender._id}).sort({price: 1}).exec(function (err, tenderRecords) {
           if (err || !tenderRecords) {
             return checkTenderEnd();
           }
