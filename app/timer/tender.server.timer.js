@@ -63,6 +63,7 @@ function checkTenderEnd() {
       else {
         TenderRecorder.find({tender: tender._id}).sort({price: 1}).exec(function (err, tenderRecords) {
           if (err || !tenderRecords) {
+            console.log(JSON.stringify(err));
             return checkTenderEnd();
           }
           tender.driver_winner = tenderRecords[0].driver;
