@@ -146,21 +146,21 @@
         <div class="col-xs-8 driver-orders"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.confirm_status=='confirmed'">
           <span>{{'车辆已出发'}}</span>
-          <button class="verify-pass">
+          <button class="verify-pass" ng-class="{pass:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true}">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true?'首单审核通过':'首单审核'}}
           </button>
         </div>
         <div class="col-xs-8 driver-orders"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
-          <button class="verify-pass">
+          <button class="verify-pass" ng-class="{pass:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==true}">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==true?'尾单审核通过':'首单审核'}}
           </button>
         </div>
         <div class="col-xs-8 driver-orders"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
-          <button class="verify-pass">
+          <button class="verify-pass" ng-class="{pass:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true}">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true?'回单审核通过':'回单审核'}}
           </button>
         </div>
