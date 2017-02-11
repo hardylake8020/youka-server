@@ -363,21 +363,18 @@ exports.signIn = function (req, res, next) {
 
           access_token = cryptoLib.encrypToken({_id: saveDriver._id, time: new Date()}, 'secret');
           delete saveDriver._doc.password;
-          delete saveDriver._doc._id;
           return res.send({access_token: access_token, driver: saveDriver});
         });
       }
       else {
         access_token = cryptoLib.encrypToken({_id: driver._id, time: new Date()}, 'secret');
         delete driver._doc.password;
-        delete driver._doc._id;
         return res.send({access_token: access_token, driver: driver});
       }
     }
     else {
       access_token = cryptoLib.encrypToken({_id: driver._id, time: new Date()}, 'secret');
       delete driver._doc.password;
-      delete driver._doc._id;
       return res.send({access_token: access_token, driver: driver});
     }
   });
