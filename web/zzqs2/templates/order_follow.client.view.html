@@ -15,8 +15,8 @@
             地图(GPS点数：{{orderDetailInfo.gpsCount}}，非GPS点数:{{orderDetailInfo.ungpsCount}})
           </div>
           <!--<div class="col-xs-2 tab inner-btn" ng-click="exportOrderPdf()"-->
-               <!--ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status==='completed'">-->
-            <!--<span class="order-pdf-btn">导出PDF</span>-->
+          <!--ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status==='completed'">-->
+          <!--<span class="order-pdf-btn">导出PDF</span>-->
           <!--</div>-->
         </div>
       </div>
@@ -143,9 +143,26 @@
           </div>
         </div>
         <p class="vertical-halving-border-one"></p>
-        <div class="col-xs-8 driver-orders" ng-show="orderDetailInfo.currentOrderDetail.orderDetail.confirm_status=='confirmed'">
+        <div class="col-xs-8 driver-orders"
+             ng-show="orderDetailInfo.currentOrderDetail.orderDetail.confirm_status=='confirmed'">
           <span>{{'车辆已出发'}}</span>
-          <button class="verify-pass">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true?'首单审核':'首单审核通过'}}</button>
+          <button class="verify-pass">
+            {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true?'首单审核通过':'首单审核'}}
+          </button>
+        </div>
+        <div class="col-xs-8 driver-orders"
+             ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
+          <span>{{'运单已完成'}}</span>
+          <button class="verify-pass">
+            {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==true?'尾单审核通过':'首单审核'}}
+          </button>
+        </div>
+        <div class="col-xs-8 driver-orders"
+             ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
+          <span>{{'运单已完成'}}</span>
+          <button class="verify-pass">
+            {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true?'回单审核通过':'回单审核'}}
+          </button>
         </div>
       </div>
 
@@ -342,19 +359,19 @@
               </div>
 
               <!--<table class="pure-table pure-table-bordered" ng-show="event.type == 'pickup' || event.type == 'delivery'">-->
-                <!--<thead>-->
-                <!--<tr><th>货物名</th><th>计划货物数量</th>-->
-                  <!--<th ng-show="event.type == 'pickup'">实际提货数量</th>-->
-                  <!--<th ng-show="event.type == 'delivery'">实际交货数量</th><th>备注</th></tr>-->
-                <!--</thead>-->
-                <!--<tbody>-->
-                <!--<tr ng-repeat="a in event.compare_goods">-->
-                  <!--<td><span>{{a.name}}</span></td>-->
-                  <!--<td><span>{{a.planned}}</span></td>-->
-                  <!--<td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.actual}}</span></td>-->
-                  <!--<td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.compare}}</span></td>-->
-                <!--</tr>-->
-                <!--</tbody>-->
+              <!--<thead>-->
+              <!--<tr><th>货物名</th><th>计划货物数量</th>-->
+              <!--<th ng-show="event.type == 'pickup'">实际提货数量</th>-->
+              <!--<th ng-show="event.type == 'delivery'">实际交货数量</th><th>备注</th></tr>-->
+              <!--</thead>-->
+              <!--<tbody>-->
+              <!--<tr ng-repeat="a in event.compare_goods">-->
+              <!--<td><span>{{a.name}}</span></td>-->
+              <!--<td><span>{{a.planned}}</span></td>-->
+              <!--<td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.actual}}</span></td>-->
+              <!--<td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.compare}}</span></td>-->
+              <!--</tr>-->
+              <!--</tbody>-->
               <!--</table>-->
 
               <div class="item damaged"><strong>货损: </strong><span>{{(event.damaged == true || event.damaged == 'true')?'有': '无'}}</span>
@@ -387,9 +404,9 @@
                 <div class="photo goods" ng-repeat="photo in event.goods_photos">
                   <div class="tag"><img src="images/icon/order_follow/tag_goods.png"/></div>
                   <img
-                    ng-src='{{generatePhoto(photo)}}'
-                    ng-click="showPhotos(photo)"
-                    onerror="this.src='images/icon/order_follow/error.jpg'"/>
+                      ng-src='{{generatePhoto(photo)}}'
+                      ng-click="showPhotos(photo)"
+                      onerror="this.src='images/icon/order_follow/error.jpg'"/>
                 </div>
                 <div class="photo" ng-repeat="photo in event.halfway_photos">
                   <img ng-src='{{generatePhoto(photo)}}'
@@ -399,18 +416,18 @@
                 <div class="photo credential" ng-repeat="photo in event.credential_photos">
                   <div class="tag"><img src="images/icon/order_follow/tag_credential.png"/></div>
                   <img
-                    ng-src='{{generatePhoto(photo)}}'
-                    ng-click="showPhotos(photo)"
-                    onerror="this.src='images/icon/order_follow/error.jpg'"/>
+                      ng-src='{{generatePhoto(photo)}}'
+                      ng-click="showPhotos(photo)"
+                      onerror="this.src='images/icon/order_follow/error.jpg'"/>
                 </div>
 
                 <div class="photo photos" ng-repeat="photo in event.photos">
                   <!--<div class="tag"><img src="images/icon/order_follow/tag_credential.png"/></div>-->
                   <div class="tag"><span class="name">{{photo.name}}</span></div>
                   <img
-                    ng-src='{{generatePhoto(photo.url)}}'
-                    ng-click="showPhotos(photo.url)"
-                    onerror="this.src='images/icon/order_follow/error.jpg'"/>
+                      ng-src='{{generatePhoto(photo.url)}}'
+                      ng-click="showPhotos(photo.url)"
+                      onerror="this.src='images/icon/order_follow/error.jpg'"/>
                 </div>
 
               </div>
@@ -476,16 +493,16 @@
             <div class="col-xs-6 company content-item">
               <ul class="list-group">
                 <li
-                  ng-repeat="company in orderShare.cooperateCompany.allCompany"
-                  ng-class="{selected: orderShare.cooperateCompany.currentCompanyName === company.name}"
-                  ng-click="orderShare.cooperateCompany.clickSingleCompany(company)">{{company.name}}
+                    ng-repeat="company in orderShare.cooperateCompany.allCompany"
+                    ng-class="{selected: orderShare.cooperateCompany.currentCompanyName === company.name}"
+                    ng-click="orderShare.cooperateCompany.clickSingleCompany(company)">{{company.name}}
                 </li>
               </ul>
             </div>
             <div class="col-xs-6 staff content-item">
               <ul class="list-group ">
                 <li
-                  ng-repeat="staff in orderShare.cooperateCompany.selectedCompanyStaffs">
+                    ng-repeat="staff in orderShare.cooperateCompany.selectedCompanyStaffs">
                   <input type="checkbox" class="checkbox-inline"
                          ng-model="staff.isSelected"
                          ng-click="orderShare.cooperateCompany.clickSingleStaff()"/>
