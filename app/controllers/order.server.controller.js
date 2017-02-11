@@ -1611,7 +1611,7 @@ exports.getOrderAssignedDetailById = function (req, res, next) {
   }
 
   Order.findOne({_id: orderId})
-    .populate('order_detail create_company execute_company execute_group create_group execute_driver pickup_contact delivery_contact')
+    .populate('order_detail create_company execute_company execute_group create_group execute_driver pickup_contact delivery_contact tender')
     .exec(function (err, order) {
       if (err) {
         return res.send({err: orderError.internal_system_error});
@@ -1651,7 +1651,9 @@ exports.getOrderAssignedDetailById = function (req, res, next) {
           delivery_by_qrcode: order.delivery_by_qrcode ? true : false,
           assigned_infos: order.assigned_infos,
           parent_order: order.parent_order,
-          salesmen: order.salesmen
+          salesmen: order.salesmen,
+          confirm_status:order.confirm_status,
+          tender:order.tender
         },
         //assignedCompanyOrders: assignedOrders
       };
