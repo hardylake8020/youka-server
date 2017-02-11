@@ -87,7 +87,7 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
         var searchArray = [];
         searchArray.push({
           key: 'status',
-          value: topHeader.label.current === 'processing' ? ['unStarted', 'inProgress', 'stop'] : ['completed']
+          value: topHeader.label.current === 'processing' ? ['unStarted', 'comparing','compareEnd','unAssigned','inProgress', 'stop'] : ['completed']
         });
         if (topHeader.search.orderNumber) {
           searchArray.push({
