@@ -401,12 +401,21 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
 }
 
 exports.getDashboardData = function (driver, callback) {
-  Tender.count({driver_winner: driver._id, status: {$ne: 'completed'}}, function (err, tenderCount) {
+  var query = {
+    $or:[
+      {driver_winner: driver._id, status: {$ne: 'completed'}},
+      {
+        status: 'comparing',
+        'tender_records.driver': driver._id
+      }
+    ]
+  };
+  Tender.count(query, function (err, tenderCount) {
     if (err) {
       return callback({err: error.system.db_error});
     }
 
-    Order.count({execute_driver: driver._id, status: {$ne: 'completed'}}, function (err, orderCount) {
+    Order.count(query, function (err, orderCount) {
       if (err) {
         return callback({err: error.system.db_error});
       }
