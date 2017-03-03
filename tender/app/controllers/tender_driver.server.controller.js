@@ -92,3 +92,30 @@ exports.compare = function (req, res, next) {
     return res.send(err || result);
   });
 };
+
+
+exports.updateDriverProfile = function (req, res, next) {
+  var curDriver = req.driver;
+  var id_card_number = req.body.id_card_number || '';
+  var bank_number = req.body.bank_number || '';
+
+  newTenderService.updateDriverProfile(curDriver, {
+    id_card_number: id_card_number,
+    bank_number: bank_number
+  }, function (err, result) {
+    return res.send(err || result);
+  });
+};
+
+exports.getDriverProfile = function (req, res, next) {
+  var curDriver = req.driver;
+  newTenderService.getDriverProfile(curDriver, function (err, result) {
+    return res.send(err || result);
+  });
+};
+
+exports.getTenderByTenderId = function (req, res, next) {
+  var tender = req.tender;
+  return res.send(tender);
+};
+

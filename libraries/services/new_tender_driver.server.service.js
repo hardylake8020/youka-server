@@ -68,14 +68,14 @@ exports.compare = function (currentDriver, currentTender, price, callback) {
       return callback({err: error.system.db_error});
     }
 
-    if (tenderRecord) {
-      return callback({err: {type: 'has_compared'}});
+    if (!tenderRecord) {
+      tenderRecord = new TenderRecorder({
+        tender: currentTender._id,
+        driver: currentDriver._id,
+      });
     }
-    tenderRecord = new TenderRecorder({
-      tender: currentTender._id,
-      driver: currentDriver._id,
-      price: price
-    });
+    tenderRecord.price = price;
+
     tenderRecord.save(function (err, saveTenderRecord) {
       if (err || !saveTenderRecord) {
         return callback({err: error.system.db_error});
@@ -155,12 +155,11 @@ exports.getStartedListByDriver = function (currentDriver, condition, callback) {
   });
 };
 
-
 exports.getUnStartedListByDriver = function (currentDriver, condition, callback) {
   var query = {
     status: {$in: ['unStarted', 'comparing']},
     'tender_records.driver': {$ne: currentDriver._id},
-    start_time:{$lte:new Date()}
+    start_time: {$lte: new Date()}
   };
   if (condition.pickupAddress) {
     query.pickup_address = new RegExp(condition.pickupAddress, "i")
@@ -402,7 +401,7 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
 
 exports.getDashboardData = function (driver, callback) {
   var query = {
-    $or:[
+    $or: [
       {driver_winner: driver._id, status: {$ne: 'completed'}},
       {
         status: 'comparing',
@@ -424,3 +423,27 @@ exports.getDashboardData = function (driver, callback) {
   });
 };
 
+exports.updateDriverProfile = function (currentDriver, profile, callback) {
+  if (!profile.id_card_number) {
+    return callback({err: {type: 'id_card_number is empty'}});
+  }
+
+  if (!profile.bank_number) {
+    return callback({err: {type: 'bank_number is empty'}});
+  }
+
+  currentDriver.id_card_number = profile.id_card_number;
+  currentDriver.bank_number = profile.bank_number;
+  currentDriver.save(function (err, saveDriver) {
+    if (err) {
+      return callback({err: error.system.db_error});
+    }
+
+    return callback(null, {success: true});
+  });
+
+};
+
+exports.getDriverProfile = function (currentDriver, callback) {
+  return callback(null, {id_card_number: currentDriver.id_card_number, bank_number: currentDriver.bank_number});
+};

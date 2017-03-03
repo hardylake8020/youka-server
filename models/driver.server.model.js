@@ -67,7 +67,12 @@ module.exports = function (appDb) {
       },
       // 身份证
       id_card_number: {
-        type: String
+        type: String,
+        default: ''
+      },
+      bank_number: {
+        type: String,
+        default: ''
       },
       id_card_photo: {
         type: String
