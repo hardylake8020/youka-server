@@ -27,7 +27,7 @@ module.exports = function (app) {
 
   app.route('/tender/driver/updateDriverProfile').post(driverFilter.requireDriver, tenderDriver.updateDriverProfile);
   app.route('/tender/driver/getDriverProfile').post(driverFilter.requireDriver, tenderDriver.getDriverProfile);
-  app.route('/tender/driver/getTenderByTenderId').post(driverFilter.requireDriver, tenderDriver.getTenderByTenderId);
+  app.route('/tender/driver/getTenderByTenderId').post(driverFilter.requireDriver, tenderFileter.requireById, tenderDriver.getTenderByTenderId);
 
   app.route('/tender/user/payment').post(userFilter.requireUser, tenderFileter.requireById, tenderPayment.payment);
   app.route('/tender/user/examine').post(userFilter.requireUser, tenderFileter.requireById, tenderPayment.examine);
