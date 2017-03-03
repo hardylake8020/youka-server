@@ -99,7 +99,7 @@ function getSortCondition(sort) {
   return result;
 }
 function getOneByCondition(condition, callback) {
-  Tender.findOne(condition || {}).populate('order').exec(function (err, findTender) {
+  Tender.findOne(condition || {}).populate('order driver_winner').exec(function (err, findTender) {
     if (err) {
       return callback({err: error.system.db_error});
     }
