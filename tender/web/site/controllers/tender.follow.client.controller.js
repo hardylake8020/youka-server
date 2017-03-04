@@ -87,7 +87,7 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
         var searchArray = [];
         searchArray.push({
           key: 'status',
-          value: topHeader.label.current === 'processing' ? ['unStarted', 'comparing','compareEnd','unAssigned','inProgress', 'stop'] : ['completed']
+          value: topHeader.label.current === 'processing' ? ['unStarted', 'comparing', 'compareEnd', 'unAssigned', 'inProgress', 'stop'] : ['completed']
         });
         if (topHeader.search.orderNumber) {
           searchArray.push({
@@ -166,14 +166,14 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
               rowData.auto_close_time = new Date(tenderItem.auto_close_time).Format('yy/MM/dd hh:mm');
               break;
             case 'request_count':
-              if(tenderItem.status=='unStarted'){
-                rowData.request_count='未开始';
+              if (tenderItem.status == 'unStarted') {
+                rowData.request_count = '未开始';
               }
-              else if(tenderItem.status=='compareEnd'){
-                rowData.request_count='已过期';
+              else if (tenderItem.status == 'compareEnd') {
+                rowData.request_count = '已过期';
               }
-              else{
-                rowData.request_count =tenderItem.tender_records.length || 0;
+              else {
+                rowData.request_count = tenderItem.tender_records.length || 0;
               }
               break;
             default:
@@ -491,7 +491,7 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
 
           if (this.currentTender.type === 'grab') {
             this.currentTender.winner_price = this.currentTender.current_grab_price;
-            
+
           }
           // if (this.currentTender.type === 'grab') {
           //   tenderConfig.detail.winBidRecord = this.currentTender.driver_winner || {};
@@ -632,6 +632,24 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
         return new Date(time).Format(format);
       }
     };
+
+    $scope.generateTenderStatusString = function (status) {
+      switch (status) {
+        case  'unStarted':
+          return '未开始';
+        case  'comparing':
+          return '比价中';
+        case  'compareEnd':
+          return '已过期';
+        case  'unAssigned':
+          return '未分配';
+        case  'inProgress':
+          return '进行中';
+        case  'completed':
+          return '已完成';
+      }
+    };
+
     $scope.generateEventTypeDescription = function (event) {
       if (event.order.type === 'warehouse')
         return '仓储收货';
