@@ -235,16 +235,17 @@
               <input class="tender-pay-input">
               <button class="tender-pay-btn">确认支付</button>
             </div>
-            <div class="tender-sure-row">回单审核情况：{{tenderConfig.detail.currentTender.can_pay_last?'已审核':'未审核'}}</div>
-            <div class="tender-pay-row" ng-if="tenderConfig.detail.currentTender.can_pay_last==true">
-              <span class="tender-pay-text" ng-if="tenderConfig.detail.currentTender.real_pay_last_cash">{{'已支付'+tenderConfig.detail.currentTender.real_pay_last_cash+'元'}}</span>
-              <input class="tender-pay-input">
-              <button class="tender-pay-btn">确认支付</button>
-            </div>
 
             <div class="tender-sure-row">尾单审核情况：{{tenderConfig.detail.currentTender.can_pay_tail?'已审核':'未审核'}}</div>
             <div class="tender-pay-row" ng-if="tenderConfig.detail.currentTender.can_pay_tail==true">
               <span class="tender-pay-text" ng-if="tenderConfig.detail.currentTender.real_pay_tail_cash">{{'已支付'+tenderConfig.detail.currentTender.real_pay_tail_cash+'元'}}</span>
+              <input class="tender-pay-input">
+              <button class="tender-pay-btn">确认支付</button>
+            </div>
+
+            <div class="tender-sure-row">回单审核情况：{{tenderConfig.detail.currentTender.can_pay_last?'已审核':'未审核'}}</div>
+            <div class="tender-pay-row" ng-if="tenderConfig.detail.currentTender.can_pay_last==true">
+              <span class="tender-pay-text" ng-if="tenderConfig.detail.currentTender.real_pay_last_cash">{{'已支付'+tenderConfig.detail.currentTender.real_pay_last_cash+'元'}}</span>
               <input class="tender-pay-input">
               <button class="tender-pay-btn">确认支付</button>
             </div>
