@@ -1143,14 +1143,21 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
     tenderView.getTenderList();
     $scope.paymentInfo = {
       paymentFunc: function (type, number) {
-      HttpTender.payment($scope, {type: type, number: number}, function (err, data) {
-        if (!data.err) {
-          $scope.$emit(GlobalEvent.onShowAlert, '支付成功', function () {
-            $state.go('tender_follow', {}, {reload: true});
-          });
-        }
-      });
-    }
+        HttpTender.payment($scope, {
+            type: type,
+            number: number,
+            tender_id: $scope.tenderConfig.detail.currentTender._id
+          },
+          function (err, data) {
+            if (!data.err) {
+              $scope.$emit(GlobalEvent.onShowAlert, '支付成功', function () {
+                $state.go('tender_follow', {}, {reload: true});
+              });
+            }
+          }
+        )
+        ;
+      }
 
     };
   }]);
