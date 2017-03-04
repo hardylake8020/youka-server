@@ -22,7 +22,7 @@ exports.payment = function (req, res, next) {
     return res.send({err: {type: 'empty_type'}});
   }
 
-  if (req.body.number) {
+  if (!req.body.number) {
     return res.send({err: {type: 'empty_number'}});
   }
 
