@@ -91,7 +91,7 @@ exports.compare = function (currentDriver, currentTender, price, callback) {
           if (err || !saveTender) {
             return callback({err: error.system.db_error});
           }
-          return callback(null, {success: true});
+          return callback(null, {success: true, tender: currentTender});
         });
       });
     });
