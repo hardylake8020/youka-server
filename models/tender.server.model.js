@@ -444,6 +444,10 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
+    can_pay_ya_jin: {
+      type: Boolean,
+      default: false
+    },
     //押金
     ya_jin: {
       type: Number,

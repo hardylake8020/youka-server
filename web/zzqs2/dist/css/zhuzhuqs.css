@@ -5085,11 +5085,12 @@ input:-ms-input-placeholder {
 }
 .zz-order-follow-container .mask-container .content .evaluation .driver-orders .verify-pass {
   background-color: #4186c9;
+  border: 0px;
   padding: 2px 5px;
   margin-left: 20px;
   color: white;
 }
-.zz-order-follow-container .mask-container .content .evaluation .driver-orders .verify-pass .passed {
+.zz-order-follow-container .mask-container .content .evaluation .driver-orders .verify-pass.passed {
   background-color: gray;
 }
 .zz-order-follow-container .mask-container .content .timeline {
