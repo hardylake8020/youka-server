@@ -455,6 +455,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       grabIncrementPrice: 0,
       currentGrabPrice: 0,
       showGrab: true,
+      ya_jin: 0,
       changeGrabDuration: function () {
         this.grabTimeDuration = this.increase(this.grabTimeDuration) - 1;
         if (this.grabTimeDuration < 1) {
@@ -1072,7 +1073,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
 
         assign_target: publishInfo.type || publishInfo.assign[1].type,
 
-
+        ya_jin: typeInfo.ya_jin || 0,
         tender_type: typeInfo.tenderType,
         lowest_protect_price: typeInfo.lowestProtectPrice,
         highest_protect_price: typeInfo.highestProtectPrice,

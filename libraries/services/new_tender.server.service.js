@@ -756,6 +756,8 @@ exports.create = function (currentUser, tenderInfo, callback) {
         newTender.grab_increment_price = tenderInfo.grab_increment_price;
         newTender.current_grab_price = tenderInfo.current_grab_price;
 
+        newTender.ya_jin = tenderInfo.ya_jin || 0;
+
         if (newTender.tender_type == 'compare') {
           if (newTender.start_time <= new Date()) {
             newTender.status = 'comparing';
