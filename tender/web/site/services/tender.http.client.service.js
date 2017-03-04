@@ -38,6 +38,9 @@ tender.factory('HttpTender', ['http',
     },
     getOrderTrace: function (scope, params, successCallback, errorCallback) {
       return http.sendRequest(scope, "get('/order/single/trace', params)", params, successCallback, errorCallback);
+    },
+    payment: function (scope, params, successCallback, errorCallback) {
+      return http.sendRequest(scope, "post('/tender/user/payment', params)", params, successCallback, errorCallback);
     }
   };
 }]);

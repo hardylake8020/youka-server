@@ -30,7 +30,7 @@ exports.payment = function (req, res, next) {
     return res.send({err: {type: 'invalid_number'}});
   }
 
-  newTenderService.examine(tender, user, req.body.type, req.body.number, function (err, result) {
+  newTenderService.payment(tender, user, req.body.type, req.body.number, function (err, result) {
     return res.send(err || result);
   });
 };

@@ -460,6 +460,9 @@ module.exports = function (appDb) {
     real_pay_ya_jin_time: {
       type: Date
     },
+    real_pay_ya_jin_username: {
+      type: String
+    },
     //保证金
     deposit: {
       type: Number,

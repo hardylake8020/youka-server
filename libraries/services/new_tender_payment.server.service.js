@@ -51,7 +51,9 @@ exports.payment = function (tender, user, type, number, callback) {
     'real_pay_last_cash',
     'real_pay_last_card',
     'real_pay_tail_cash',
-    'real_pay_tail_card'];
+    'real_pay_tail_card',
+    'real_pay_ya_jin',
+  ];
 
 
   if (payType.indexOf(type) < 0) {
