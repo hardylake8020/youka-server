@@ -242,9 +242,9 @@ module.exports = function (appDb) {
       type: String
     },
     //可以支付首款
-    can_pay_top:{
-      type:Boolean,
-      default:false
+    can_pay_top: {
+      type: Boolean,
+      default: false
     },
     //实际现金支付首款
     real_pay_top_cash: {
@@ -271,9 +271,9 @@ module.exports = function (appDb) {
       type: String
     },
     //可以支付回单
-    can_pay_last:{
-      type:Boolean,
-      default:false
+    can_pay_last: {
+      type: Boolean,
+      default: false
     },
     //实际现金支付回单
     real_pay_last_cash: {
@@ -300,9 +300,9 @@ module.exports = function (appDb) {
       type: String
     },
     //可以支付尾单
-    can_pay_tail:{
-      type:Boolean,
-      default:false
+    can_pay_tail: {
+      type: Boolean,
+      default: false
     },
     //实际现金支付尾款
     real_pay_tail_cash: {
@@ -443,6 +443,18 @@ module.exports = function (appDb) {
     highest_protect_price: {
       type: Number,
       default: 0
+    },
+    //押金
+    ya_jin: {
+      type: Number,
+      default: 0
+    },
+    real_pay_ya_jin: {
+      type: Number,
+      default: 0
+    },
+    real_pay_ya_jin_time: {
+      type: Date
     },
     //保证金
     deposit: {

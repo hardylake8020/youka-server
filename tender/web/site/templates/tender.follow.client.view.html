@@ -104,6 +104,31 @@
               <span class="value">{{generateTenderStatusString(tenderConfig.detail.currentTender.status)}}</span>
             </div>
             <div class="item">
+              <span class="name">中标价格:</span>
+              <span
+                  class="value">{{tenderConfig.detail.currentTender.winner_price||'未知'}}</span>
+            </div>
+            <div class="item">
+              <span class="name">首单应支付:</span>
+              <span
+                  class="value">{{(tenderConfig.detail.currentTender.winner_price*tenderConfig.detail.currentTender.payment_top_rate/100)||'未知'}}</span>
+            </div>
+            <div class="item">
+              <span class="name">尾单应支付:</span>
+              <span
+                  class="value">{{(tenderConfig.detail.currentTender.winner_price*tenderConfig.detail.currentTender.payment_tail_rate/100)||'未知'}}</span>
+            </div>
+            <div class="item">
+              <span class="name">回单应支付:</span>
+              <span
+                  class="value">{{(tenderConfig.detail.currentTender.winner_price*tenderConfig.detail.currentTender.payment_last_rate/100)||'未知'}}</span>
+            </div>
+            <div class="item">
+              <span class="name">押金应支付:</span>
+              <span
+                  class="value">{{(tenderConfig.detail.currentTender.winner_price*tenderConfig.detail.currentTender.ya_jin)||'未知'}}</span>
+            </div>
+            <div class="item">
               <span class="name">运单号:</span>
               <span class="value">{{tenderConfig.detail.currentTender.order_number}}</span>
             </div>
@@ -204,17 +229,17 @@
           <p class="vertical-halving-border-one"></p>
 
           <div class="col-xs-8 tender">
-            <div class="tender-sure-row">首单支付确认：</div>
+            <div class="tender-sure-row">首单审核情况：{{tenderConfig.detail.currentTender.can_pay_top?'已审核':'未审核'}}</div>
             <div class="tender-pay-row">
               <span class="tender-pay-text">sdad</span>
               <input class="tender-pay-input">
               <button class="tender-pay-btn">确认支付</button>
             </div>
-            <div class="tender-sure-row">尾单支付确认：</div>
+            <div class="tender-sure-row">尾单审核情况：{{tenderConfig.detail.currentTender.can_pay_last?'已审核':'未审核'}}</div>
             <div class="tender-pay-row"></div>
-            <div class="tender-sure-row">回单支付确认：</div>
+            <div class="tender-sure-row">回单审核情况：{{tenderConfig.detail.currentTender.can_pay_tail?'已审核':'未审核'}}</div>
             <div class="tender-pay-row"></div>
-            <div class="tender-sure-row">押金支付确认：</div>
+            <div class="tender-sure-row">押金审核情况：{{tenderConfig.detail.currentTender.can_pay_last?'已审核':'未审核'}}</div>
             <div class="tender-pay-row"></div>
             <!--<div class="view unstarted" ng-show="tenderConfig.detail.currentTender.status==='unStarted'">-->
             <!--<div class="view unstarted">-->
