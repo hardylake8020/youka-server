@@ -129,6 +129,16 @@
                   class="value">{{(tenderConfig.detail.currentTender.winner_price*tenderConfig.detail.currentTender.ya_jin)||'未知'}}</span>
             </div>
             <div class="item">
+              <span class="name">中标者身份证号:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.driver_winner?tenderConfig.detail.currentTender.driver_winner.id_card_number:'未填'}}</span>
+            </div>
+
+            <div class="item">
+              <span class="name">中标者银行卡号:</span>
+              <span class="value">{{tenderConfig.detail.currentTender.driver_winner?tenderConfig.detail.currentTender.driver_winner.bank_number:'未填'}}</span>
+            </div>
+
+            <div class="item">
               <span class="name">运单号:</span>
               <span class="value">{{tenderConfig.detail.currentTender.order_number}}</span>
             </div>
@@ -149,16 +159,6 @@
                 <span class="unit">{{goodsItem.value}}</span>
                 <span>{{goodsItem.sum | number:2}}元</span>
               </p>
-            </div>
-
-            <div class="item">
-              <span class="name">司机身份证号:</span>
-              <span class="value">{{tenderConfig.detail.currentTender.driver_winner?tenderConfig.detail.currentTender.driver_winner.id_card_number:'未填'}}</span>
-            </div>
-
-            <div class="item">
-              <span class="name">司机银行卡号:</span>
-              <span class="value">{{tenderConfig.detail.currentTender.driver_winner?tenderConfig.detail.currentTender.driver_winner.bank_number:'未填'}}</span>
             </div>
 
             <div class="item">
