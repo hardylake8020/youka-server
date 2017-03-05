@@ -153,12 +153,12 @@
 
             <div class="item">
               <span class="name">司机身份证号:</span>
-              <span class="value">{{tenderConfig.detail.currentTender.id_card_number||'未填'}}</span>
+              <span class="value">{{ttenderConfig.detail.currentTender.driver_winner?tenderConfig.detail.currentTender.driver_winner.id_card_number||'未填'}}</span>
             </div>
 
             <div class="item">
               <span class="name">司机银行卡号:</span>
-              <span class="value">{{tenderConfig.detail.currentTender.bank_number||'未填'}}</span>
+              <span class="value">{{tenderConfig.detail.currentTender.driver_winner?tenderConfig.detail.currentTender.driver_winner.bank_number||'未填'}}</span>
             </div>
 
             <div class="item">
