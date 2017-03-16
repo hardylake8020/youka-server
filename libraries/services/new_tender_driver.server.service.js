@@ -469,7 +469,7 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
       return callback({err: error.system.db_error});
     }
 
-    return callback(null, {success: true});
+    return callback(null, {success: true, driver: saveDriver});
   });
 
 };
