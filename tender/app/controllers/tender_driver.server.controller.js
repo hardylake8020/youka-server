@@ -96,12 +96,22 @@ exports.compare = function (req, res, next) {
 
 exports.updateDriverProfile = function (req, res, next) {
   var curDriver = req.driver;
-  var id_card_number = req.body.id_card_number || '';
-  var bank_number = req.body.bank_number || '';
+  var truck_photo = req.body.truck_photo || '';
+  var id_card_photo = req.body.id_card_photo || '';
+  var bank_number_photo = req.body.bank_number_photo || '';
+  var driving_id_photo = req.body.driving_id_photo || '';
+  var travel_id_photo = req.body.travel_id_photo || '';
+  var plate_photo = req.body.plate_photo || '';
+  var truck_list_photo = req.body.truck_list_photo || '';
 
   newTenderService.updateDriverProfile(curDriver, {
-    id_card_number: id_card_number,
-    bank_number: bank_number
+    truck_photo: truck_photo,
+    id_card_photo: id_card_photo,
+    bank_number_photo: bank_number_photo,
+    driving_id_photo: driving_id_photo,
+    travel_id_photo: travel_id_photo,
+    plate_photo: plate_photo,
+    truck_list_photo: truck_list_photo
   }, function (err, result) {
     return res.send(err || result);
   });

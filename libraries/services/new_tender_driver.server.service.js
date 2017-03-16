@@ -424,16 +424,46 @@ exports.getDashboardData = function (driver, callback) {
 };
 
 exports.updateDriverProfile = function (currentDriver, profile, callback) {
-  if (!profile.id_card_number) {
-    return callback({err: {type: 'id_card_number is empty'}});
+  // 车辆照片
+  if (!profile.truck_photo) {
+    return callback({err: {type: 'truck_photo is empty'}});
+  }
+  //身份证照片
+  if (!profile.id_card_photo) {
+    return callback({err: {type: 'id_card_photo is empty'}});
   }
 
-  if (!profile.bank_number) {
-    return callback({err: {type: 'bank_number is empty'}});
+  //银行卡照片
+  if (!profile.bank_number_photo) {
+    return callback({err: {type: 'bank_number_photo is empty'}});
   }
 
-  currentDriver.id_card_number = profile.id_card_number;
-  currentDriver.bank_number = profile.bank_number;
+  // 驾驶证照片
+  if (!profile.driving_id_photo) {
+    return callback({err: {type: 'driving_id_photo is empty'}});
+  }
+
+  // 行驶证照片
+  if (!profile.travel_id_photo) {
+    return callback({err: {type: 'travel_id_photo is empty'}});
+  }
+
+  // 车牌号照片
+  if (!profile.plate_photo) {
+    return callback({err: {type: 'plate_photo is empty'}});
+  }
+  // 装车单照片
+  if (!profile.truck_list_photo) {
+    return callback({err: {type: 'plate_photo is empty'}});
+  }
+
+  currentDriver.id_card_photo = profile.id_card_photo;
+  currentDriver.truck_photo = profile.truck_photo;
+  currentDriver.bank_number_photo = profile.bank_number_photo;
+  currentDriver.driving_id_photo = profile.driving_id_photo;
+  currentDriver.travel_id_photo = profile.travel_id_photo;
+  currentDriver.plate_photo = profile.plate_photo;
+  currentDriver.truck_list_photo = profile.truck_list_photo;
   currentDriver.save(function (err, saveDriver) {
     if (err) {
       return callback({err: error.system.db_error});

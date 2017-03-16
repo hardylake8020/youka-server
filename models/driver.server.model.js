@@ -65,17 +65,71 @@ module.exports = function (appDb) {
       age: {
         type: String//仅用于读取显示
       },
-      // 身份证
+      // 身份证号
       id_card_number: {
         type: String,
         default: ''
       },
+      //身份证照片
+      id_card_photo: {
+        type: String
+      },
+      //银行卡号
       bank_number: {
         type: String,
         default: ''
       },
-      id_card_photo: {
-        type: String
+      //银行卡照片
+      bank_number_photo: {
+        type: String,
+        default: ''
+      },
+      // 驾驶证
+      driving_id_number: {
+        type: String,
+        trim: true
+      },
+      // 驾驶证照片
+      driving_id_photo: {
+        type: String,
+        trim: true,
+        default: ''
+      },
+      // 行驶证
+      travel_id_number: {
+        type: String,
+        trim: true,
+        default: ''
+      },
+      // 行驶证照片
+      travel_id_photo: {
+        type: String,
+        trim: true,
+        default: ''
+      },
+      // 车牌号
+      plate_number: {
+        type: String,
+        trim: true,
+        default: ''
+      },
+      // 车牌号照片
+      plate_photo: {
+        type: String,
+        trim: true,
+        default: ''
+      },
+      // 车辆照片
+      truck_photo: {
+        type: String,
+        trim: true,
+        default: ''
+      },
+      //装车单照片
+      truck_list_photo: {
+        type: String,
+        trim: true,
+        default: ''
       },
       // 手机号
       phone: {
@@ -98,43 +152,6 @@ module.exports = function (appDb) {
       driving_year: {
         type: String,
         trim: true
-      },
-      // 驾驶证
-      driving_id_number: {
-        type: String,
-        trim: true
-      },
-      driving_id_photo: {
-        type: String,
-        trim: true,
-        default: ''
-      },
-      // 行驶证
-      travel_id_number: {
-        type: String,
-        trim: true,
-        default: ''
-      },
-      travel_id_photo: {
-        type: String,
-        trim: true,
-        default: ''
-      },
-      // 车牌
-      plate_numbers: [{
-        type: String,
-        trim: true,
-        default: ''
-      }],
-      plate_photos: [{
-        type: String,
-        trim: true,
-        default: ''
-      }],
-      truck_photo: {
-        type: String,
-        trim: true,
-        default: ''
       },
       operating_permits_photo: {
         type: String,
