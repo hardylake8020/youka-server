@@ -2914,19 +2914,15 @@ exports.verifyOrder = function (order, type, price, callback) {
 
     if (type == 'can_pay_top') {
       tender.real_pay_top_cash = price;
-      tender.real_pay_top_cash_time = new Date();
     }
     if (type == 'can_pay_tail') {
       tender.real_pay_tail_cash = price;
-      tender.real_pay_tail_cash_time = new Date();
     }
     if (type == 'can_pay_last') {
       tender.real_pay_last_cash = price;
-      tender.real_pay_last_cash_time = new Date();
     }
     if (type == 'can_pay_ya_jin') {
       tender.real_pay_ya_jin = price;
-      tender.real_pay_ya_jin_time = new Date();
     }
 
     tender[type] = true;
