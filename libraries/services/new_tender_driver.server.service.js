@@ -529,3 +529,52 @@ exports.addDriversToOwner = function (currentDriver, driver, callback) {
     });
   });
 };
+
+exports.addNewDriver = function (currentDriver, driverInfo, callback) {
+  if (!driverInfo) {
+    return callback({err: {type: 'truck_info_empty'}});
+  }
+
+  if (!driverInfo.driver_number) {
+    return callback({err: {type: 'driver_number_empty'}});
+  }
+
+  if (!driverInfo.truck_number) {
+    return callback({err: {type: 'truck_number_empty'}});
+  }
+
+  if (!driverInfo.truck_type) {
+    return callback({err: {type: 'truck_type_empty'}});
+  }
+
+  Driver.findOne({username: driverInfo.driver_number}, function (err, driver) {
+    if (err) {
+      return callback({err: error.system.db_error});
+    }
+    if (driver) {
+      return callback({err: {type: 'driver_has_existed'}});
+    }
+    driver = new Driver();
+    driver.username = driverInfo.driver_number;
+    driver.password = driver.hashPassword('111111');
+    driver.save(function (err, saveDriver) {
+      if (err || !saveDriver) {
+        return callback({err: error.system.db_error});
+      }
+      var truck = new Truck({
+        truck_number: driverInfo.truck_number,
+        truck_type: driverInfo.truck_type,
+        owner: currentDriver._id,
+        driver: saveDriver._id,
+        driver_number: saveDriver.username,
+        driver_name: saveDriver.nickname
+      });
+      truck.save(function (err, saveTruck) {
+        if (err) {
+          return callback({err: error.system.db_error});
+        }
+        return callback(null, saveTruck);
+      });
+    });
+  });
+};

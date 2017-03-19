@@ -148,7 +148,11 @@ exports.addDriversToOwner = function (req, res, next) {
   });
 };
 
-exports.addNewDriver = function () {
-
+exports.addNewDriver = function (req, res, next) {
+  var curDriver = req.driver;
+  var driverinfo = req.body.driver_info;
+  newTenderService.addNewDriver(curDriver, driverinfo, function (err, result) {
+    return res.send(err || result);
+  });
 };
 

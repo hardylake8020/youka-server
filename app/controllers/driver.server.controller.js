@@ -230,8 +230,6 @@ exports.invite = function (req, res, next) {
 exports.signUp = function (req, res, next) {
   var username = req.body.username || '';
   var password = req.body.password || '';
-  var smsVerifyId = req.body.sms_verify_id || '';
-  var smsVerifyCode = req.body.sms_verify_code || '';
 
   //手机号验证(11位数字)
   var phoneRegex = /\d{11}/;
