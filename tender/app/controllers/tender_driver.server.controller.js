@@ -130,7 +130,7 @@ exports.getTenderByTenderId = function (req, res, next) {
 };
 
 
-exports.searchDrivers = function (currentDriver, keyword, callback) {
+exports.searchDrivers = function (req, res, next) {
   var curDriver = req.driver;
   var keyword = req.body.keyword || '';
 
@@ -139,7 +139,16 @@ exports.searchDrivers = function (currentDriver, keyword, callback) {
   });
 };
 
-exports.addDrivers = function () {
+exports.addDriversToOwner = function (req, res, next) {
+  var curDriver = req.driver;
+  var driver = req.driverById;
+
+  newTenderService.addDriversToOwner(curDriver, driver, function (err, result) {
+    return res.send(err || result);
+  });
+};
+
+exports.addNewDriver = function () {
 
 };
 

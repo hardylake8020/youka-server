@@ -30,8 +30,8 @@ module.exports = function (app) {
   app.route('/tender/driver/getTenderByTenderId').post(driverFilter.requireDriver, tenderFileter.requireById, tenderDriver.getTenderByTenderId);
 
   app.route('/tender/driver/searchDrivers').post(driverFilter.requireDriver, tenderDriver.searchDrivers);
-  app.route('/tender/driver/addDrivers').post(driverFilter.requireDriver, tenderDriver.addDrivers);
-  
+  app.route('/tender/driver/addDriversToOwner').post(driverFilter.requireDriver, driverFilter.requireDriverById, tenderDriver.addDriversToOwner);
+  app.route('/tender/driver/addNewDriver').post(driverFilter.requireDriver, tenderDriver.addNewDriver);
 
   app.route('/tender/user/payment').post(userFilter.requireUser, tenderFileter.requireById, tenderPayment.payment);
   app.route('/tender/user/examine').post(userFilter.requireUser, tenderFileter.requireById, tenderPayment.examine);

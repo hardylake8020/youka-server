@@ -53,15 +53,35 @@ exports.requireDriver = function (req, res, next) {
     if (!driver) {
       return res.send({err: errors.business.driver_not_exist});
     }
-    //如果上传了device_id，则检查当前是否已更换了设备
-    if (phone_id) {
-      //当前帐号已被其他设备登录，则要求自己重新登录
-      if (driver.phone_id && driver.phone_id !== phone_id) {
-        return res.send({err: errors.business.driver_account_disconnected});
-      }
-    }
 
     req.driver = driver;
+    next();
+
+  });
+};
+
+
+exports.requireDriverById = function (req, res, next) {
+
+  var driver_id = req.body.driver_id || req.query.driver_id || '';
+
+  if (!driver_id) {
+    return res.send({err: {type: 'driver_id_empty'}});
+  }
+  req.connection = req.connection ? req.connection : {};
+  req.socket = req.socket ? req.socket : {};
+  req.connection.socket = req.connection.socket ? req.connection.socket : {};
+
+  Driver.findOne({_id: driver_id}, function (err, driver) {
+    if (err) {
+      return res.send({err: errors.system.db_error});
+    }
+
+    if (!driver) {
+      return res.send({err: errors.business.driver_not_exist});
+    }
+
+    req.driverById = driver;
     next();
 
   });

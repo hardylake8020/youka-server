@@ -501,3 +501,31 @@ exports.searchDrivers = function (currentDriver, keyword, callback) {
     });
   });
 };
+
+exports.addDriversToOwner = function (currentDriver, driver, callback) {
+  Truck.findOne({driver: driver._id, owner: currentDriver}, function (err, truck) {
+    if (err) {
+      return callback({err: error.system.db_error});
+    }
+
+    if (truck) {
+      return callback({err: {type: 'driver_has_added'}});
+    }
+
+    truck = new Truck({
+      truck_number: driver.truck_number,
+      truck_type: driver.truck_type,
+      owner: owner._id,
+      driver: driver._id,
+      driver_number: driver.username,
+      driver_name: driver.nickname
+    });
+
+    truck.save(function (err, newTruck) {
+      if (err || !newTruck) {
+        return callback({err: error.system.db_error});
+      }
+      return callback(err, newTruck);
+    });
+  });
+};
