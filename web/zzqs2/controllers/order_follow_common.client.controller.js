@@ -2337,7 +2337,7 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
       console.log(data);
       if (!data.err) {
         $scope.$emit(GlobalEvent.onShowAlert, '审核通过', function () {
-          $state.go('order_operation.order_operation_follow_onway', {}, {reload: true});
+          $state.go('^.order_operation_follow_onway', {}, {reload: true});
         });
       }
     }, function (err) {
