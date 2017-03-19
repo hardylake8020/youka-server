@@ -80,7 +80,7 @@ exports.create = function (owner, truckInfo, callback) {
 
 
 exports.getListByDriver = function (curDriver, callback) {
-  Truck.find({owner: curDriver._id}).sort({created:-1}).populate('card').exec(function (err, trucks) {
+  Truck.find({owner: curDriver._id}).sort({created:-1}).populate('card driver').exec(function (err, trucks) {
     if (err || !trucks) {
       return callback({err: error.system.db_error});
     }
