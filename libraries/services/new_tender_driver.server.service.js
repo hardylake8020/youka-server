@@ -590,6 +590,7 @@ exports.addNewDriver = function (currentDriver, driverInfo, callback) {
     driver = new Driver();
     driver.username = driverInfo.driver_number;
     driver.password = driver.hashPassword('111111');
+    driver.nickname = driverInfo.nickname;
     driver.save(function (err, saveDriver) {
       if (err || !saveDriver) {
         return callback({err: error.system.db_error});
