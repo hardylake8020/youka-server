@@ -484,8 +484,8 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
   if (profile.truck_number)
     currentDriver.truck_number = profile.truck_number;
 
-  if (profile.nickname )
-    currentDriver.nickname = profile.nickname ;
+  if (profile.nickname)
+    currentDriver.nickname = profile.nickname;
 
   if (profile.truck_type)
     currentDriver.truck_type = profile.truck_type;
@@ -495,11 +495,13 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
       return callback({err: error.system.db_error});
     }
 
-    Truck.update({driver:saveDriver._id},{$set:{
-      truck_type:saveDriver.truck_type,
-      truck_number:saveDriver.truck_number,
-      driver_name:saveDriver.nickname
-    }},function(err){
+    Truck.update({driver: saveDriver._id}, {
+      $set: {
+        truck_type: saveDriver.truck_type,
+        truck_number: saveDriver.truck_number,
+        driver_name: saveDriver.nickname
+      }
+    }, function (err) {
       if (err) {
         return callback({err: error.system.db_error});
       }
@@ -591,6 +593,9 @@ exports.addNewDriver = function (currentDriver, driverInfo, callback) {
     driver.username = driverInfo.driver_number;
     driver.password = driver.hashPassword('111111');
     driver.nickname = driverInfo.nickname;
+    driver.truck_number = driverInfo.truck_number;
+    driver.truck_type = driverInfo.truck_type;
+
     driver.save(function (err, saveDriver) {
       if (err || !saveDriver) {
         return callback({err: error.system.db_error});
