@@ -537,7 +537,7 @@ exports.addDriversToOwner = function (currentDriver, driver, callback) {
     truck = new Truck({
       truck_number: driver.truck_number,
       truck_type: driver.truck_type,
-      owner: owner._id,
+      owner: currentDriver._id,
       driver: driver._id,
       driver_number: driver.username,
       driver_name: driver.nickname
