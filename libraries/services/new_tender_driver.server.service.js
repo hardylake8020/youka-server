@@ -528,7 +528,7 @@ exports.searchDrivers = function (currentDriver, keyword, callback) {
         ids.push(truck.driver.toString());
       eachCallback();
     }, function () {
-      Driver.find({_id: {$nin: ids}, username: new RegExp(keyword)})
+      Driver.find({_id: {$nin: ids},$or:[{ username: new RegExp(keyword)},{truck_number:new RegExp(keyword)}]})
         .limit(10)
         .exec(function (err, drivers) {
           if (err || !drivers) {
