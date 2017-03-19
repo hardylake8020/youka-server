@@ -104,6 +104,11 @@ exports.updateDriverProfile = function (req, res, next) {
   var plate_photo = req.body.plate_photo || '';
   var truck_list_photo = req.body.truck_list_photo || '';
 
+  var truck_number = req.body.truck_number || '';
+  var truck_type = req.body.truck_type || '';
+  var nickname = req.body.nickname || '';
+
+
   newTenderService.updateDriverProfile(curDriver, {
     truck_photo: truck_photo,
     id_card_photo: id_card_photo,
@@ -111,7 +116,10 @@ exports.updateDriverProfile = function (req, res, next) {
     driving_id_photo: driving_id_photo,
     travel_id_photo: travel_id_photo,
     plate_photo: plate_photo,
-    truck_list_photo: truck_list_photo
+    truck_list_photo: truck_list_photo,
+    truck_number: truck_number,
+    truck_type: truck_type,
+    nickname: nickname
   }, function (err, result) {
     return res.send(err || result);
   });

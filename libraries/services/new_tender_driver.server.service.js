@@ -484,6 +484,9 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
   if (profile.truck_number)
     currentDriver.truck_number = profile.truck_number;
 
+  if (profile.nickname )
+    currentDriver.nickname = profile.nickname ;
+
   if (profile.truck_type)
     currentDriver.truck_type = profile.truck_type;
 
