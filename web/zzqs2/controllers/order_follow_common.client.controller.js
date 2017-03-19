@@ -2329,8 +2329,8 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     getOrderList(); //首次获取订单信息
   });
 
-  $scope.verifyOrder = function (type, orderDetail) {
-    OrderService.verifyOrder({type: type, order_id: orderDetail.order_id}).then(function (data) {
+  $scope.verifyOrder = function (type, orderDetail,price) {
+    OrderService.verifyOrder({type: type, order_id: orderDetail.order_id,price:price}).then(function (data) {
       console.log(data);
       if (!data.err) {
         $scope.$emit(GlobalEvent.onShowAlert, '审核通过', function () {

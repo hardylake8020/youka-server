@@ -2901,15 +2901,34 @@ exports.sendOrderMessage = function (type, order, driverPhone, plateNumber) {
 
 };
 
-exports.verifyOrder = function (order, type, callback) {
+exports.verifyOrder = function (order, type, price, callback) {
   if (type != 'can_pay_last' && type != 'can_pay_top' && type != 'can_pay_tail' && type != 'can_pay_ya_jin') {
     return callback({err: {type: 'invalid_type'}});
   }
+
 
   Tender.findOne({order: order._id}, function (err, tender) {
     if (err || !tender) {
       return callback({err: orderError.internal_system_error});
     }
+
+    if (type == 'can_pay_top') {
+      tender.real_pay_top_cash = price;
+      tender.real_pay_top_cash_time = new Date();
+    }
+    if (type == 'can_pay_tail') {
+      tender.real_pay_tail_cash = price;
+      tender.real_pay_tail_cash_time = new Date();
+    }
+    if (type == 'can_pay_last') {
+      tender.real_pay_last_cash = price;
+      tender.real_pay_last_cash_time = new Date();
+    }
+    if (type == 'can_pay_ya_jin') {
+      tender.real_pay_ya_jin = price;
+      tender.real_pay_ya_jin_time = new Date();
+    }
+
     tender[type] = true;
     tender.save(function (err, saveTender) {
       if (err || !saveTender) {

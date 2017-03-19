@@ -148,36 +148,57 @@
              orderDetailInfo.currentOrderDetail.orderDetail.status=='unDeliveried'||
              orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'车辆已出发'}}</span>
+          <input class="tender-pay-input"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_cash">
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true}"
-                  ng-click="verifyOrder('can_pay_top',orderDetailInfo.currentOrderDetail.orderDetail)">
+                  ng-click="verifyOrder(
+                  'can_pay_top',
+                  orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_cash,
+                  orderDetailInfo.currentOrderDetail.orderDetail)">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true?'首单审核通过':'首单审核'}}
           </button>
         </div>
         <div class="col-xs-8 driver-orders"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
+          <input class="tender-pay-input"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash">
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==true}"
-                  ng-click="verifyOrder('can_pay_tail',orderDetailInfo.currentOrderDetail.orderDetail)">
+                  ng-click="verifyOrder(
+                  'can_pay_tail',
+                  orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash,
+                  orderDetailInfo.currentOrderDetail.orderDetail
+                  )">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==true?'尾单审核通过':'尾单审核'}}
           </button>
         </div>
         <div class="col-xs-8 driver-orders"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
+          <input class="tender-pay-input"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_cash">
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true}"
-                  ng-click="verifyOrder('can_pay_last',orderDetailInfo.currentOrderDetail.orderDetail)">
+                  ng-click="verifyOrder(
+                  'can_pay_last',
+                  orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_cash,
+                  orderDetailInfo.currentOrderDetail.orderDetail)">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true?'回单审核通过':'回单审核'}}
           </button>
         </div>
         <div class="col-xs-8 driver-orders"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
+          <input class="tender-pay-input"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_cash">
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin==true}"
-                  ng-click="verifyOrder('can_pay_ya_jin',orderDetailInfo.currentOrderDetail.orderDetail)">
+                  ng-click="verifyOrder(
+                  'can_pay_ya_jin',
+                  orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_cash,
+                  orderDetailInfo.currentOrderDetail.orderDetail)">
             {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin==true?'押金审核通过':'押金审核'}}
           </button>
         </div>

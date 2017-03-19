@@ -48,7 +48,8 @@ var mongoose = require('mongoose');
 exports.verifyOrder = function (req, res, next) {
   var order = req.order;
   var type = req.body.type || req.query.type;
-  orderService.verifyOrder(order, type, function (err, results) {
+  var price = req.body.price || req.query.price;
+  orderService.verifyOrder(order, type, price,function (err, results) {
     if (err) {
       req.err = err;
       return next();
@@ -1639,7 +1640,7 @@ exports.getOrderAssignedDetailById = function (req, res, next) {
 
       var result = {
         orderDetail: {
-          order_id:order._id,
+          order_id: order._id,
           number: order.order_number,
           customer_name: order.customer_name,
           refer_numbers: order.refer_order_number,
