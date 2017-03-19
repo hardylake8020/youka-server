@@ -490,6 +490,9 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
   if (profile.truck_type)
     currentDriver.truck_type = profile.truck_type;
 
+  if (profile.photo)
+    currentDriver.photo= profile.photo;
+
   currentDriver.save(function (err, saveDriver) {
     if (err) {
       return callback({err: error.system.db_error});
@@ -595,6 +598,7 @@ exports.addNewDriver = function (currentDriver, driverInfo, callback) {
     driver.nickname = driverInfo.nickname;
     driver.truck_number = driverInfo.truck_number;
     driver.truck_type = driverInfo.truck_type;
+    driver.photo = driverInfo.photo;
 
     driver.save(function (err, saveDriver) {
       if (err || !saveDriver) {
