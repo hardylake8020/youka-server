@@ -129,3 +129,17 @@ exports.getTenderByTenderId = function (req, res, next) {
   return res.send(tender);
 };
 
+
+exports.searchDrivers = function (currentDriver, keyword, callback) {
+  var curDriver = req.driver;
+  var keyword = req.body.keyword || '';
+
+  newTenderService.searchDrivers(curDriver, keyword, function (err, result) {
+    return res.send(err || result);
+  });
+};
+
+exports.addDrivers = function () {
+
+};
+

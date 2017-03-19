@@ -14,6 +14,7 @@ var async = require('async'),
 var appDb = require('../mongoose').appDb,
   Tender = appDb.model('Tender'),
   Driver = appDb.model('Driver'),
+  Truck = appDb.model('Truck'),
   Contact = appDb.model('Contact'),
   Order = appDb.model('Order'),
   TenderRecorder = appDb.model('TenderRecorder'),
@@ -476,4 +477,27 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
 
 exports.getDriverProfile = function (currentDriver, callback) {
   return callback(null, {id_card_number: currentDriver.id_card_number, bank_number: currentDriver.bank_number});
+};
+
+exports.searchDrivers = function (currentDriver, keyword, callback) {
+  Truck.find({ower: currentDriver._id}, function (err, trucks) {
+    if (err || !trucks) {
+      return callback({err: error.system.db_error});
+    }
+    var ids = [];
+    async.each(trucks, function (truck, eachCallback) {
+      if (ids.indexOf(truck.driver.toString()))
+        ids.push(truck.driver.toString());
+      eachCallback();
+    }, function () {
+      Driver.find({_id: {$nin: ids}, username: new RegExp(keyword)})
+        .limit(10)
+        .exec(function (err, drivers) {
+          if (err || !drivers) {
+            return callback({err: error.system.db_error});
+          }
+          return callback(null, {drivers: drivers})
+        })
+    });
+  });
 };
