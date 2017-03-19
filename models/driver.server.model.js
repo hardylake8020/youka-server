@@ -188,6 +188,16 @@ module.exports = function (appDb) {
       wechat_profile: {
         type: Schema.Types.Mixed,
         default: {}
+      },
+      truck_number: {
+        type: String,
+        trim: true,
+        default: ''
+      },
+      truck_type: {
+        type: String,
+        trim: true,
+        default: ''
       }
     },
     {
