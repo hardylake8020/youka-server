@@ -2333,7 +2333,7 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     if (orderDetail.tender[type]) {
       return;
     }
-    OrderService.verifyOrder({type: type, order_id: orderDetail.order_id, price: price}).then(function (data) {
+    OrderService.verifyOrder({type: type, price: price, order_id: orderDetail.order_id}).then(function (data) {
       console.log(data);
       if (!data.err) {
         $scope.$emit(GlobalEvent.onShowAlert, '审核通过', function () {
