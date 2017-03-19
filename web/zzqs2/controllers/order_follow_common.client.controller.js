@@ -2329,7 +2329,7 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     getOrderList(); //首次获取订单信息
   });
 
-  $scope.verifyOrder = function (type, orderDetail, price) {
+  $scope.verifyOrder = function (type, price, orderDetail) {
     if (orderDetail.tender[type]) {
       return;
     }
