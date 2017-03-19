@@ -1021,7 +1021,7 @@ tender.controller('TenderFollowController', ['$rootScope', '$scope', '$state', '
         + '<div class="driver"><strong>司机:</strong><span>'
         + (event.driver.nickname ? (event.driver.nickname) + " " : '')
         + (event.driver.username ? (event.driver.username) + " " : '')
-        + (event.driver.plate_numbers.length > 0 ? (event.driver.plate_numbers[0] + " ") : '')
+        + (event.driver.plate_number? (event.driver.plate_number+ " ") : '')
         + '</span></div>'
         + '<div class="time"><strong>时间:</strong><time>' + new Date(event.time).toLocaleString() + '</time></div>'
         + '<div class="address"><strong>地点:</strong><span>' + event.address + '</span></div>'
