@@ -10,7 +10,7 @@ var newTenderService = require('../../../libraries/services/new_tender_driver'),
 exports.grab = function (req, res, next) {
   var currentDriver = req.driver;
   var tender = req.tender;
-  newTenderService.grab(currentDriver, tender._id, function (err, result) {
+  newTenderService.grab(currentDriver, tender, function (err, result) {
     return res.send(err || result);
   })
 };

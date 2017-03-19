@@ -30,16 +30,25 @@ var bidderService = require('./bidder'),
 var that = exports;
 
 
-exports.grab = function (currentDriver, tenderId, callback) {
+exports.grab = function (currentDriver, tender, callback) {
+
+
   Tender.update({
-    _id: tenderId,
+    _id: tender._id,
     status: 'unStarted'
-  }, {$set: {driver_winner: currentDriver._id, status: 'unAssigned', winner_time: new Date()}}, function (err, count) {
+  }, {
+    $set: {
+      winner_price: tender.current_grab_price || 0,
+      driver_winner: currentDriver._id,
+      status: 'unAssigned',
+      winner_time: new Date()
+    }
+  }, function (err, count) {
     if (err) {
       return callback({err: error.system.db_error});
     }
 
-    Tender.findOne({_id: tenderId}, function (err, tender) {
+    Tender.findOne({_id: tender._id}, function (err, tender) {
       if (err || !tender) {
         console.log(err);
         return callback({err: error.system.db_error});
@@ -472,19 +481,19 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
     currentDriver.plate_photo = profile.plate_photo;
   if (profile.truck_list_photo)
     currentDriver.truck_list_photo = profile.truck_list_photo;
-  if(profile.truck_number)
+  if (profile.truck_number)
     currentDriver.truck_number = profile.truck_number;
 
-  if(profile.truck_type)
+  if (profile.truck_type)
     currentDriver.truck_type = profile.truck_type;
 
   currentDriver.save(function (err, saveDriver) {
-      if (err) {
-        return callback({err: error.system.db_error});
-      }
+    if (err) {
+      return callback({err: error.system.db_error});
+    }
 
-      return callback(null, {success: true, driver: saveDriver});
-    });
+    return callback(null, {success: true, driver: saveDriver});
+  });
 
 };
 
