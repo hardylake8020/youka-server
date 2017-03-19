@@ -59,7 +59,6 @@ exports.payment = function (tender, user, type, number, callback) {
   if (payType.indexOf(type) < 0) {
     return callback({err: {type: 'invalid_type'}});
   }
-  tender[type] = number;
   tender[type + '_time'] = new Date();
   tender[type + '_username'] = user.username;
   tender.save(function (err, saveTender) {

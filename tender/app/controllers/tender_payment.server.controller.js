@@ -22,14 +22,6 @@ exports.payment = function (req, res, next) {
     return res.send({err: {type: 'empty_type'}});
   }
 
-  if (!req.body.number) {
-    return res.send({err: {type: 'empty_number'}});
-  }
-
-  if (isNaN(parseInt(req.body.number)) || parseInt(req.body.number) < 0) {
-    return res.send({err: {type: 'invalid_number'}});
-  }
-
   newTenderService.payment(tender, user, req.body.type, req.body.number, function (err, result) {
     return res.send(err || result);
   });
