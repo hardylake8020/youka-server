@@ -495,9 +495,17 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
       return callback({err: error.system.db_error});
     }
 
-    return callback(null, {success: true, driver: saveDriver});
+    Truck.update({driver:saveDriver._id},{$set:{
+      truck_type:saveDriver.truck_type,
+      truck_number:saveDriver.truck_number,
+      driver_name:saveDriver.nickname
+    }},function(err){
+      if (err) {
+        return callback({err: error.system.db_error});
+      }
+      return callback(null, {success: true, driver: saveDriver});
+    });
   });
-
 };
 
 exports.getDriverProfile = function (currentDriver, callback) {
