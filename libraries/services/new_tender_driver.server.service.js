@@ -502,7 +502,7 @@ exports.getDriverProfile = function (currentDriver, callback) {
 };
 
 exports.searchDrivers = function (currentDriver, keyword, callback) {
-  Truck.find({ower: currentDriver._id}, function (err, trucks) {
+  Truck.find({owner: currentDriver._id}, function (err, trucks) {
     if (err || !trucks) {
       return callback({err: error.system.db_error});
     }
