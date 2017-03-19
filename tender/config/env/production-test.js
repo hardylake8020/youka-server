@@ -11,7 +11,7 @@ module.exports = {
     title: 'tender - Development Environment'
   },
   serverAddress: 'http://183.131.76.178:3006/',
-  zzqsAddress:'http://183.131.76.178:80/',
+  zzqsAddress:'http://183.131.76.178:3002/',
   port: process.env.PORT || 3006,
   depositAmount: 200,
   email: {

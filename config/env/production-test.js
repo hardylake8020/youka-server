@@ -13,11 +13,11 @@ module.exports = {
   app_download_ios_url: 'app-release.ipa',
   app_download_ios_redirect_url: 'itms-services://?action=download-manifest&url=https://www.cvs001.com/zhuzhuqs/ios/debug/plist',
   app_barcode_url: 'barcode_zhuzhu56.png',
-  serverAddress: 'http://183.131.76.178:80/',
+  serverAddress: 'http://183.131.76.178:3002/',
   pushAddress:'http://localhost:3005/',
   tenderAddress:'http://183.131.76.178:3006/',
   paymentAddress:'http://localhost:3004/',
-  port: process.env.PORT || 80,
+  port: process.env.PORT || 3002,
   email: {
     from: '柱柱网络测试<hardy@zhuzhuqs.com>',
     auth: {
