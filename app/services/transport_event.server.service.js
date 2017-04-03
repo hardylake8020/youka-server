@@ -167,7 +167,8 @@ exports.create = function (order, driver, transportEvent, callback) {
     is_wechat: transportEvent.is_wechat || false,
     recognize_plates: transportEvent.recognize_plates,
     driver_plate_difference: transportEvent.driver_plate_difference || false,
-    transport_plate_difference: transportEvent.transport_plate_difference || false
+    transport_plate_difference: transportEvent.transport_plate_difference || false,
+    pickup_real_tons:transportEvent.pickup_real_tons||0
   });
 
   if (transportEvent.event_id) {

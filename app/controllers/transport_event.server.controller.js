@@ -614,6 +614,8 @@ function updateOrderBasicInfosByEvent(order, transportEventEntity, callback) {
       if (order.status !== 'unPickupSigned' && order.status !== 'unPickuped') {
         return callback({err: transportEventError.can_not_execute_pickup});
       }
+
+      order.pickup_real_tons = transportEventEntity.pickup_real_tons||0;
       updateOrderAddressDifferent(order, transportEventEntity);
       newStatus = updateOrderBasicInfosForPickup(order, transportEventEntity);
       break;

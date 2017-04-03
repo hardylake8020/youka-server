@@ -307,6 +307,10 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
+    pickup_real_tons: {
+      type: Number,
+      default: 0
+    },
     assigned_infos: {
       type: [{
         type: Schema.Types.Mixed
@@ -655,7 +659,7 @@ module.exports = function (appDb) {
     order_transport_type: {
       type: String,
       default: 'ltl',
-      enum: ['ltl','tl'] //零担，整车
+      enum: ['ltl', 'tl'] //零担，整车
     },
     //已评价的用户，可以是关注人username，也可以是公司Id
     evaluation_users: {
@@ -703,12 +707,12 @@ module.exports = function (appDb) {
       this.confirm_status = 'confirmed';
     }
 
-    if (this.pickup_push===true && this.pickup_deferred_duration && this.pickup_end_time) {
+    if (this.pickup_push === true && this.pickup_deferred_duration && this.pickup_end_time) {
       this.pickup_deferred_push = true;
       this.pickup_deferred_time = new Date(this.pickup_end_time.getTime() + this.pickup_deferred_duration * 60 * 60 * 1000);
     }
 
-    if (this.delivery_push===true && this.delivery_early_duration && this.delivery_start_time) {
+    if (this.delivery_push === true && this.delivery_early_duration && this.delivery_start_time) {
       this.delivery_early_push = true;
       this.delivery_early_time = new Date(this.delivery_start_time.getTime() - this.delivery_early_duration * 60 * 60 * 1000);
     }

@@ -169,6 +169,10 @@ module.exports = function (appDb) {
     transport_plate_difference: {
       type: Boolean,
       default: false
+    },
+    pickup_real_tons:{
+      type:Number,
+      default:0
     }
   });
 

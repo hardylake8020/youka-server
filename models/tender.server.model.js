@@ -453,6 +453,10 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
+    pickup_real_tons:{
+      type: Number,
+      default: 0
+    },
     //最高超额单价
     highest_more_price_per_ton: {
       type: Number,
