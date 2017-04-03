@@ -435,7 +435,7 @@ module.exports = function (appDb) {
     //标书类型
     tender_type: {
       type: String,
-      enum: ['grab', 'compare']//抢单，竞价。
+      enum: ['grab', 'compare', 'compares_ton']//抢单，竞价。
 
     },
     //最低保护价
@@ -459,7 +459,7 @@ module.exports = function (appDb) {
       default: 0
     },
     //比价成功的超额吨单价
-    winner_price_per_ton:{
+    winner_price_per_ton: {
       type: Number,
       default: 0
     },
