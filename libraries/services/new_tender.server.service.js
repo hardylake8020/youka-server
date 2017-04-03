@@ -756,6 +756,9 @@ exports.create = function (currentUser, tenderInfo, callback) {
         newTender.grab_increment_price = tenderInfo.grab_increment_price;
         newTender.current_grab_price = tenderInfo.current_grab_price;
 
+        newTender.lowest_tons_count = tenderInfo.lowest_tons_count;
+        newTender.highest_more_price_per_ton = tenderInfo.highest_more_price_per_ton;
+
         newTender.ya_jin = tenderInfo.ya_jin || 0;
 
         if (newTender.tender_type == 'compare') {
