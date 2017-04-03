@@ -87,8 +87,12 @@ exports.compare = function (req, res, next) {
   var curDriver = req.driver;
   var curTender = req.tender;
   var price = isNaN(parseInt(req.body.price)) ? 0 : parseInt(req.body.price);
-
-  newTenderService.compare(curDriver, curTender, price, function (err, result) {
+  var price_per_ton = isNaN(parseInt(req.body.price_per_ton)) ? 0 : parseInt(req.body.price_per_ton);
+  
+  newTenderService.compare(curDriver, curTender, {
+    price: price,
+    price_per_ton: price_per_ton
+  }, function (err, result) {
     return res.send(err || result);
   });
 };
@@ -107,7 +111,7 @@ exports.updateDriverProfile = function (req, res, next) {
   var truck_number = req.body.truck_number || '';
   var truck_type = req.body.truck_type || '';
   var nickname = req.body.nickname || '';
-  var photo = req.body.photo|| '';
+  var photo = req.body.photo || '';
 
 
   newTenderService.updateDriverProfile(curDriver, {
@@ -121,7 +125,7 @@ exports.updateDriverProfile = function (req, res, next) {
     truck_number: truck_number,
     truck_type: truck_type,
     nickname: nickname,
-    photo:photo
+    photo: photo
   }, function (err, result) {
     return res.send(err || result);
   });

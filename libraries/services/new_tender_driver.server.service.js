@@ -64,7 +64,9 @@ exports.grab = function (currentDriver, tender, callback) {
   });
 };
 
-exports.compare = function (currentDriver, currentTender, price, callback) {
+exports.compare = function (currentDriver, currentTender, info, callback) {
+  var price = info.price||0;
+  
   if (currentTender.status != 'comparing') {
     return callback({err: {type: 'tender_status_valid'}});
   }
@@ -85,6 +87,7 @@ exports.compare = function (currentDriver, currentTender, price, callback) {
       });
     }
     tenderRecord.price = price;
+    tenderRecord.price_per_ton = price_per_ton;
 
     tenderRecord.save(function (err, saveTenderRecord) {
       if (err || !saveTenderRecord) {

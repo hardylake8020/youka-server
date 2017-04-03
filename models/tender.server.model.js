@@ -25,6 +25,10 @@ module.exports = function (appDb) {
     price: {
       type: Number,
       default: 0
+    },
+    price_per_ton: {
+      type: Number,
+      default: 0
     }
   });
 
@@ -441,6 +445,21 @@ module.exports = function (appDb) {
     },
     //最高保护价
     highest_protect_price: {
+      type: Number,
+      default: 0
+    },
+    //保底吨数
+    lowest_tons_count: {
+      type: Number,
+      default: 0
+    },
+    //最高超额单价
+    highest_more_price_per_ton: {
+      type: Number,
+      default: 0
+    },
+    //比价成功的超额吨单价
+    winner_price_per_ton:{
       type: Number,
       default: 0
     },

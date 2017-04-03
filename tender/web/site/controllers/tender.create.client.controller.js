@@ -446,16 +446,18 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
     var typeInfo = {
       tenderType: 'grab',//compare
       title: '选择比价或抢单模式',
-      lowestProtectPrice: 0,
-      highestProtectPrice: 0,
+      lowestProtectPrice: null,
+      highestProtectPrice: null,
       deposit: 500,
-      lowestGrabPrice: 0,
-      highestGrabPrice: 0,
-      grabTimeDuration: 0,
-      grabIncrementPrice: 0,
-      currentGrabPrice: 0,
+      lowestGrabPrice: null,
+      highestGrabPrice: null,
+      grabTimeDuration: null,
+      grabIncrementPrice: null,
+      currentGrabPrice: null,
+      highest_more_price_per_ton:null,
+      lowest_tons_count:null,
       showGrab: true,
-      ya_jin: 0,
+      ya_jin: null,
       changeGrabDuration: function () {
         this.grabTimeDuration = this.increase(this.grabTimeDuration) - 1;
         if (this.grabTimeDuration < 1) {
@@ -1082,7 +1084,10 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         highest_grab_price: typeInfo.highestGrabPrice,
         grab_time_duration: typeInfo.grabTimeDuration,
         grab_increment_price: typeInfo.grabIncrementPrice,
-        current_grab_price: typeInfo.currentGrabPrice
+        current_grab_price: typeInfo.currentGrabPrice,
+
+        highest_more_price_per_ton:typeInfo.highest_more_price_per_ton,
+        lowest_tons_count:typeInfo.lowest_tons_count
       };
 
       return callback(null, info);

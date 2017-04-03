@@ -448,6 +448,8 @@
           <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="grab">
           <span>竞价</span>
           <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="compare">
+          <span>竞价</span>
+          <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="compares_ton">
         </div>
         <div class="info-input-container">
           <span class="info-title">保证金额</span>
@@ -463,11 +465,22 @@
           <input class="info-input" type="number" ng-model="typeInfo.lowestProtectPrice" required>
           <span class="info-tip">必填项</span>
         </div>
-        <div class="info-input-container" ng-show="typeInfo.tenderType=='compare'">
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='compare'||typeInfo.tenderType=='compares_ton'">
           <span class="info-title">最高保护价</span>
           <input class="info-input" type="number" ng-model="typeInfo.highestProtectPrice" required>
           <span class="info-tip">必填项</span>
         </div>
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='compares_ton'">
+          <span class="info-title">最高超额单价</span>
+          <input class="info-input" type="number" ng-model="typeInfo.highest_more_price_per_ton" required>
+          <span class="info-tip">必填项</span>
+        </div>
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='compares_ton'">
+          <span class="info-title">保底吨数</span>
+          <input class="info-input" type="number" ng-model="typeInfo.lowest_tons_count" required>
+          <span class="info-tip">必填项</span>
+        </div>
+
         <div class="info-input-container more-option goods truck auto-close" ng-show="typeInfo.tenderType=='compare'">
           <span class="info-title">{{basicInfo.autoCloseTender.title}}</span>
           <div class="info-input-keyword">
@@ -497,7 +510,6 @@
           <input class="info-input" type="number" ng-model="typeInfo.highestGrabPrice" required>
           <span class="info-tip">必填项</span>
         </div>
-
         <div class="info-input-container more-option goods truck auto-close" ng-show="typeInfo.tenderType=='grab'">
           <span class="info-title">抢单时间窗</span>
           <div class="info-input-keyword">
@@ -519,11 +531,7 @@
           <input class="info-input" type="number" ng-model="typeInfo.grabIncrementPrice" required>
           <span class="info-tip">元</span>
         </div>
-
-
-
       </div>
-
     </div>
     <div class="col-sm-3 right-area">
       <div class="group-area">
