@@ -65,8 +65,8 @@ exports.grab = function (currentDriver, tender, callback) {
 };
 
 exports.compare = function (currentDriver, currentTender, info, callback) {
-  var price = info.price||0;
-  
+  var price = info.price || 0;
+
   if (currentTender.status != 'comparing') {
     return callback({err: {type: 'tender_status_valid'}});
   }
@@ -380,7 +380,8 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
           pickup_photo_force: true,
           delivery_entrance_force: true,
           delivery_photo_force: true,
-          goods: tender.mobile_goods
+          goods: tender.mobile_goods,
+          lowest_tons_count: tender.lowest_tons_count
         });
 
         newOrder.save(function (err, driverOrder) {
@@ -494,10 +495,10 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
     currentDriver.truck_type = profile.truck_type;
 
   if (profile.photo)
-    currentDriver.photo= profile.photo;
+    currentDriver.photo = profile.photo;
 
   if (profile.id_card_number)
-    currentDriver.id_card_number= profile.id_card_number;
+    currentDriver.id_card_number = profile.id_card_number;
 
   currentDriver.save(function (err, saveDriver) {
     if (err) {
@@ -534,7 +535,7 @@ exports.searchDrivers = function (currentDriver, keyword, callback) {
         ids.push(truck.driver.toString());
       eachCallback();
     }, function () {
-      Driver.find({_id: {$nin: ids},$or:[{ username: new RegExp(keyword)},{truck_number:new RegExp(keyword)}]})
+      Driver.find({_id: {$nin: ids}, $or: [{username: new RegExp(keyword)}, {truck_number: new RegExp(keyword)}]})
         .limit(10)
         .exec(function (err, drivers) {
           if (err || !drivers) {
