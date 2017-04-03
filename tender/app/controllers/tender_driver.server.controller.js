@@ -112,6 +112,7 @@ exports.updateDriverProfile = function (req, res, next) {
   var truck_type = req.body.truck_type || '';
   var nickname = req.body.nickname || '';
   var photo = req.body.photo || '';
+  var id_card_number = req.body.id_card_number||'';
 
 
   newTenderService.updateDriverProfile(curDriver, {
@@ -125,7 +126,8 @@ exports.updateDriverProfile = function (req, res, next) {
     truck_number: truck_number,
     truck_type: truck_type,
     nickname: nickname,
-    photo: photo
+    photo: photo,
+    id_card_number:id_card_number
   }, function (err, result) {
     return res.send(err || result);
   });

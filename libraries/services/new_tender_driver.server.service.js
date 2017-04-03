@@ -496,6 +496,9 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
   if (profile.photo)
     currentDriver.photo= profile.photo;
 
+  if (profile.id_card_number)
+    currentDriver.id_card_number= profile.id_card_number;
+
   currentDriver.save(function (err, saveDriver) {
     if (err) {
       return callback({err: error.system.db_error});
