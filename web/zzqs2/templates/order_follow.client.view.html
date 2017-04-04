@@ -206,7 +206,9 @@
                  ng-show="showTopRaise==true"
                  type="text"
                  ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_cash_reason">
-          <button class="verify-pass" ng-click="showTopRaise=true">
+          <button class="verify-pass"
+                  ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==false&&showTopRaise==false"
+                  ng-click="showTopRaise=true">
             调帐
           </button>
           <button class="verify-pass"
@@ -219,19 +221,25 @@
           </button>
         </div>
         <div class="col-xs-8 driver-orders"
+             ng-init="showTailRaise=false"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
           <!--<input class="tender-pay-input"-->
           <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash">-->
           <input class="tender-pay-input"
                  placeholder="{{orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash_raise||''}}请输入调帐金额"
-                 ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==false"
+                 ng-show="showTailRaise==true"
                  ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash_raise">
           <input class="tender-pay-input"
                  placeholder="请输入调帐原因"
-                 ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==false"
+                 ng-show="showTailRaise==true"
                  type="text"
                  ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash_reason">
+          <button class="verify-pass"
+                  ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==false&&showTailRaise==false"
+                  ng-click="showTailRaise=true">
+            调帐
+          </button>
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==true}"
                   ng-click="verifyOrder(
@@ -243,11 +251,23 @@
           </button>
         </div>
         <div class="col-xs-8 driver-orders"
+             ng-init="showLastRaise=false"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
-          <!--<input class="tender-pay-input"-->
-          <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_cash">-->
-
+          <input class="tender-pay-input"
+                 placeholder="{{orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_cash_raise||''}}请输入调帐金额"
+                 ng-show="showLastRaise==true"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_cash_raise">
+          <input class="tender-pay-input"
+                 placeholder="请输入调帐原因"
+                 ng-show="showLastRaise==true"
+                 type="text"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_cash_reason">
+          <button class="verify-pass"
+                  ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==false&&showLastRaise==false"
+                  ng-click="showLastRaise=true">
+            调帐
+          </button>
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true}"
                   ng-click="verifyOrder(
@@ -258,10 +278,23 @@
           </button>
         </div>
         <div class="col-xs-8 driver-orders"
+             ng-init="showYaJinRaise=false"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
-          <!--<input class="tender-pay-input"-->
-          <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_cash">-->
+          <input class="tender-pay-input"
+                 placeholder="{{orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_cash_raise||''}}请输入调帐金额"
+                 ng-show="showYaJinRaise==true"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_cash_raise">
+          <input class="tender-pay-input"
+                 placeholder="请输入调帐原因"
+                 ng-show="showYaJinRaise==true"
+                 type="text"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_cash_reason">
+          <button class="verify-pass"
+                  ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin==false&&showYaJinRaise==false"
+                  ng-click="showYaJinRaise=true">
+            调帐
+          </button>
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin==true}"
                   ng-click="verifyOrder(
