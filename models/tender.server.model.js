@@ -255,6 +255,18 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
+    real_pay_top_cash_reduce: {
+      type: Number,
+      default: 0
+    },
+    real_pay_top_cash_raise: {
+      type: Number,
+      default: 0
+    },
+    real_pay_top_cash_reason: {
+      type: String,
+      default: ''
+    },
     real_pay_top_cash_time: {
       type: Date,
       default: null
@@ -284,6 +296,18 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
+    real_pay_last_cash_reduce: {
+      type: Number,
+      default: 0
+    },
+    real_pay_last_cash_raise: {
+      type: Number,
+      default: 0
+    },
+    real_pay_last_cash_reason: {
+      type: String,
+      default: ''
+    },
     real_pay_last_cash_time: {
       type: Date,
       default: null
@@ -312,6 +336,18 @@ module.exports = function (appDb) {
     real_pay_tail_cash: {
       type: Number,
       default: 0
+    },
+    real_pay_tail_cash_reduce: {
+      type: Number,
+      default: 0
+    },
+    real_pay_tail_cash_raise: {
+      type: Number,
+      default: 0
+    },
+    real_pay_tail_cash_reason: {
+      type: String,
+      default: ''
     },
     real_pay_tail_cash_time: {
       type: Date,
@@ -453,7 +489,7 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
-    pickup_real_tons:{
+    pickup_real_tons: {
       type: Number,
       default: 0
     },
