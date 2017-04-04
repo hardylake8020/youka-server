@@ -82,6 +82,48 @@
           <div class="halving-line"></div>
 
           <div class="item">
+            <span class="name">中标价格:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price||'未知'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">首单应支付:</span>
+            <span class="value">{{(orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_top_rate/100)||'未知'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">尾单应支付:</span>
+            <span class="value">{{(orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_tail_rate/100)||'未知'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">回单应支付:</span>
+            <span class="value">{{(orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_last_rate/100)||'未知'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">押金应支付:</span>
+            <span class="value">{{(orderDetailInfo.currentOrderDetail.orderDetail.tender.ya_jin)||'未知'}}</span>
+          </div>
+          <div class="item">
+            <span class="name">中标者身份证:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price||'位置'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">中标者银行卡号:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price||'位置'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">中标者身份证:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price||'位置'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">中标者身份证:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price||'位置'}}</span>
+          </div>
+
+          <div class="halving-line"></div>
+
+          <div class="item">
             <span class="name">提货地址:</span>
             <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.address ? orderDetailInfo.currentOrderDetail.orderDetail.pickup_contacts.address: '未填'}}</span>
           </div>
