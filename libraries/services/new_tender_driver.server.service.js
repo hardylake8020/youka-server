@@ -66,6 +66,7 @@ exports.grab = function (currentDriver, tender, callback) {
 
 exports.compare = function (currentDriver, currentTender, info, callback) {
   var price = info.price || 0;
+  var price_per_ton = info.price_per_ton||0;
 
   if (currentTender.status != 'comparing') {
     return callback({err: {type: 'tender_status_valid'}});
