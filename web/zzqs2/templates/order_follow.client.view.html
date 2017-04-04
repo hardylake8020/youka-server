@@ -218,11 +218,12 @@
           <!--<input class="tender-pay-input"-->
           <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash">-->
           <input class="tender-pay-input"
-                 placeholder="请输入调帐金额"
-                 type="number"
+                 placeholder="{{orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash_raise||''}}请输入调帐金额"
+                 ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==false"
                  ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash_raise">
           <input class="tender-pay-input"
                  placeholder="请输入调帐原因"
+                 ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==false"
                  type="text"
                  ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash_reason">
           <button class="verify-pass"
