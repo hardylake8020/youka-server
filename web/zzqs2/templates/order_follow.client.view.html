@@ -195,8 +195,14 @@
              orderDetailInfo.currentOrderDetail.orderDetail.status=='unDeliveried'||
              orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'车辆已出发'}}</span>
-          <!--<input class="tender-pay-input"-->
-          <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_cash">-->
+          <input class="tender-pay-input"
+                 placeholder="请输入调帐金额"
+                 type="number"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_cash_raise">
+          <input class="tender-pay-input"
+                 placeholder="请输入调帐原因"
+                 type="text"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_cash_reason">
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true}"
                   ng-click="verifyOrder(
@@ -210,7 +216,15 @@
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
           <!--<input class="tender-pay-input"-->
-                 <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash">-->
+          <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash">-->
+          <input class="tender-pay-input"
+                 placeholder="请输入调帐金额"
+                 type="number"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash_raise">
+          <input class="tender-pay-input"
+                 placeholder="请输入调帐原因"
+                 type="text"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_cash_reason">
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail==true}"
                   ng-click="verifyOrder(
@@ -225,7 +239,7 @@
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
           <!--<input class="tender-pay-input"-->
-                 <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_cash">-->
+          <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_cash">-->
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true}"
                   ng-click="verifyOrder(
@@ -239,7 +253,7 @@
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'运单已完成'}}</span>
           <!--<input class="tender-pay-input"-->
-                 <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_cash">-->
+          <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_cash">-->
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin==true}"
                   ng-click="verifyOrder(
