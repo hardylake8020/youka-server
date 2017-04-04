@@ -255,10 +255,6 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
-    real_pay_top_cash_reduce: {
-      type: Number,
-      default: 0
-    },
     real_pay_top_cash_raise: {
       type: Number,
       default: 0
@@ -296,10 +292,6 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
-    real_pay_last_cash_reduce: {
-      type: Number,
-      default: 0
-    },
     real_pay_last_cash_raise: {
       type: Number,
       default: 0
@@ -334,10 +326,6 @@ module.exports = function (appDb) {
     },
     //实际现金支付尾款
     real_pay_tail_cash: {
-      type: Number,
-      default: 0
-    },
-    real_pay_tail_cash_reduce: {
       type: Number,
       default: 0
     },
@@ -512,9 +500,18 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
+
     real_pay_ya_jin: {
       type: Number,
       default: 0
+    },
+    real_pay_ya_jin_raise: {
+      type: Number,
+      default: 0
+    },
+    real_pay_ya_jin_reason: {
+      type: String,
+      default: ''
     },
     real_pay_ya_jin_time: {
       type: Date

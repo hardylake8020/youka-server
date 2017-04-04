@@ -2901,7 +2901,7 @@ exports.sendOrderMessage = function (type, order, driverPhone, plateNumber) {
 
 };
 
-exports.verifyOrder = function (order, type, price, callback) {
+exports.verifyOrder = function (order, type, price, raise,reason, callback) {
   if (type != 'can_pay_last' && type != 'can_pay_top' && type != 'can_pay_tail' && type != 'can_pay_ya_jin') {
     return callback({err: {type: 'invalid_type'}});
   }
@@ -2914,15 +2914,23 @@ exports.verifyOrder = function (order, type, price, callback) {
 
     if (type == 'can_pay_top') {
       tender.real_pay_top_cash = price;
+      tender.real_pay_top_cash_raise = raise;
+      tender.real_pay_top_cash_reason = reason;
     }
     if (type == 'can_pay_tail') {
       tender.real_pay_tail_cash = price;
+      tender.real_pay_tail_cash_raise = raise;
+      tender.real_pay_tail_cash_reason = reason;
     }
     if (type == 'can_pay_last') {
       tender.real_pay_last_cash = price;
+      tender.real_pay_last_cash_raise = raise;
+      tender.real_pay_last_cash_reason = reason;
     }
     if (type == 'can_pay_ya_jin') {
       tender.real_pay_ya_jin = price;
+      tender.real_pay_ya_jin_raise = raise;
+      tender.real_pay_ya_jin_reason = reason;
     }
 
     tender[type] = true;
