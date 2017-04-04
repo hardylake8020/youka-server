@@ -85,6 +85,29 @@
             <span class="name">中标价格:</span>
             <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price||'未知'}}</span>
           </div>
+
+          <div class="item">
+            <span class="name">保底吨数:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.lowest_tons_count||'未知'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">中标超出单价／吨:</span>
+            <span
+                class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price_per_ton||'未知'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">实际提货吨数:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.pickup_real_tons||'未知'}}</span>
+          </div>
+
+          <div class="item">
+            <span class="name">实际超出吨数:</span>
+            <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.tender.pickup_real_tons-orderDetailInfo.currentOrderDetail.orderDetail.tender.lowest_tons_count||'未知'}}</span>
+          </div>
+
+
           <div class="item">
             <span class="name">首单应支付:</span>
             <span class="value">{{(orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_top_rate/100)||'未知'}}</span>
