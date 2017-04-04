@@ -191,18 +191,24 @@
         </div>
         <p class="vertical-halving-border-one"></p>
         <div class="col-xs-8 driver-orders"
+             ng-init="showTopRaise=false"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='unDeliverySigned'||
              orderDetailInfo.currentOrderDetail.orderDetail.status=='unDeliveried'||
              orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
           <span>{{'车辆已出发'}}</span>
           <input class="tender-pay-input"
                  placeholder="请输入调帐金额"
+                 ng-show="showTopRaise==true"
                  type="number"
                  ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_cash_raise">
           <input class="tender-pay-input"
                  placeholder="请输入调帐原因"
+                 ng-show="showTopRaise==true"
                  type="text"
                  ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_cash_reason">
+          <button class="verify-pass" ng-click="showTopRaise=true">
+            调帐
+          </button>
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==true}"
                   ng-click="verifyOrder(
@@ -241,6 +247,7 @@
           <span>{{'运单已完成'}}</span>
           <!--<input class="tender-pay-input"-->
           <!--ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_cash">-->
+
           <button class="verify-pass"
                   ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last==true}"
                   ng-click="verifyOrder(
