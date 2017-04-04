@@ -1674,7 +1674,8 @@ exports.getOrderAssignedDetailById = function (req, res, next) {
           parent_order: order.parent_order,
           salesmen: order.salesmen,
           confirm_status: order.confirm_status,
-          tender: order.tender
+          tender: order.tender,
+          pickup_real_tons:order.pickup_real_tons
         },
         //assignedCompanyOrders: assignedOrders
       };
