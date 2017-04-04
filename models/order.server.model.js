@@ -311,6 +311,10 @@ module.exports = function (appDb) {
       type: Number,
       default: 0
     },
+    lowest_tons_count:{
+      type: Number,
+      default: 0
+    },
     assigned_infos: {
       type: [{
         type: Schema.Types.Mixed
