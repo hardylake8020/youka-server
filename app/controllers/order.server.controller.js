@@ -49,7 +49,7 @@ exports.verifyOrder = function (req, res, next) {
   var order = req.order;
   var type = req.body.type || req.query.type;
   var price = req.body.price || req.query.price;
-  var reason = req.body.raise || req.query.raise;
+  var reason = req.body.raise || req.query.reason;
   var raise = req.body.raise || req.query.raise;
   
   orderService.verifyOrder(order, type, price, raise,reason,function (err, results) {
