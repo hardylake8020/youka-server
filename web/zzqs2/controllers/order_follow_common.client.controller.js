@@ -2268,15 +2268,14 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     });
   };
 
-  $scope.verifyOrder = function (type, price, raise, reason, orderDetail) {
-    if (orderDetail.tender[type]) {
+  $scope.verifyOrder = function (type, price, orderDetail) {
+    if (orderDetail.tender['can_pay_' + type]) {
       return;
     }
     OrderService.verifyOrder({
-      type: type,
+      type: 'can_pay_' + type,
       price: price,
-      raise: raise,
-      reason: reason,
+      tender_tiaozhang: orderDetail.tender['real_pay_' + type + '_tiaozhangs'],
       order_id: orderDetail.order_id
     }).then(function (data) {
       console.log(data);

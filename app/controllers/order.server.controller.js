@@ -50,12 +50,10 @@ exports.verifyOrder = function (req, res, next) {
   var user = req.user;
   var type = req.body.type || req.query.type;
   var price = req.body.price || req.query.price;
-  var reason = req.body.reason || req.query.reason;
-  var raise = req.body.raise || req.query.raise;
 
   var tiaozhangs = req.body.tender_tiaozhang || [];
 
-  orderService.verifyOrder(user, order, type, tiaozhangs, function (err, results) {
+  orderService.verifyOrder(user, order, type,price, tiaozhangs, function (err, results) {
     if (err) {
       req.err = err;
       return next();

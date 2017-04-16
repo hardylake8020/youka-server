@@ -2902,7 +2902,7 @@ exports.sendOrderMessage = function (type, order, driverPhone, plateNumber) {
 
 };
 
-exports.verifyOrder = function (user, order, type, tiaozhangs, callback) {
+exports.verifyOrder = function (user, order, type,price, tiaozhangs, callback) {
   if (type != 'can_pay_last' && type != 'can_pay_top' && type != 'can_pay_tail' && type != 'can_pay_ya_jin') {
     return callback({err: {type: 'invalid_type'}});
   }

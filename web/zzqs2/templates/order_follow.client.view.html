@@ -224,7 +224,10 @@
                       ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'top')">
                 添加调帐
               </button>
-              <button class="tiaozhang-btn">
+              <button class="tiaozhang-btn" ng-click="verifyOrder(
+                  'top',
+                  (orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_top_rate/100),
+                  orderDetailInfo.currentOrderDetail.orderDetail)">
                 审核通过
               </button>
             </div>
