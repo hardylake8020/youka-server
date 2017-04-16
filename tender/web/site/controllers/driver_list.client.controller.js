@@ -19,8 +19,22 @@ tender.controller('DriverlistController', ['$rootScope', '$scope', '$stateParams
       return config.qiniuServerAddress + path;
     };
 
+    $scope.verifyDriver = function (driver,status) {
+      HttpTender.getAllDrivers($scope, {verify_status: status || 'unVerifyPassed'}, function (err, results) {
+        $scope.info.driverList = results || [];
+        if (!err) {
+          $scope.$emit(GlobalEvent.onShowAlert, '操作成功', function () {
+            $state.go('driver_list', {}, {reload: true});
+          });
+        }
+      }, function () {
+
+      });
+    };
+
     function init() {
       $scope.getAllDrivers();
     }
+
     init();
   }]);

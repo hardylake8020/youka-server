@@ -44,6 +44,12 @@ tender.factory('HttpTender', ['http',
       },
       getAllDrivers: function (scope, params, successCallback, errorCallback) {
         return http.sendRequest(scope, "post('/tender/user/getAllDrivers', params)", params, successCallback, errorCallback);
+      },
+      verifyDriver: function (scope, params, successCallback, errorCallback) {
+        return http.sendRequest(scope, "post('/tender/user/verifyDriver', params)", params, successCallback, errorCallback);
       }
+
+
+
     };
   }]);
