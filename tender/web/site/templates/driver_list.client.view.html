@@ -72,17 +72,17 @@
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          {{driver.nickname}}
+          {{driver.nickname||'-'}}
         </div>
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          {{driver.username}}
+          {{driver.username||'-'}}
         </div>
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          {{driver.id_card_number}}
+          {{driver.id_card_number||'-'}}
         </div>
       </div>
       <div class="driver-col width10">
@@ -97,13 +97,13 @@
       </div>
       <div class="driver-col width5">
         <div class="driver-item">
-          {{ driver.plate_number}}
+          {{ driver.plate_number||'-'}}
 
         </div>
       </div>
       <div class="driver-col width5">
         <div class="driver-item">
-          {{driver.truck_type}}
+          {{driver.truck_type||'-'}}
         </div>
       </div>
       <div class="driver-col width5">
