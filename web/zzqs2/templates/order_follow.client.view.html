@@ -231,12 +231,11 @@
             <div class="tiaozhang-col width40">
               <div class="tiaozhang-col width100"
                    ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_tiaozhangs">
-                <input class="tiaozhang-col width50">
-                {{tiaozhang.price}}
+                <input class="tiaozhang-col width50" ng-model="tiaozhang.price">
                 </input>
-                <input class="tiaozhang-col width50">
-                {{tiaozhang.reason}}
+                <input class="tiaozhang-col width50" ng-model="tiaozhang.reason">
                 </input>
+
               </div>
             </div>
           </div>
@@ -262,11 +261,9 @@
             <div class="tiaozhang-col width40">
               <div class="tiaozhang-col width100"
                    ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_tiaozhangs">
-                <input class="tiaozhang-col width50">
-                {{tiaozhang.price}}
+                <input class="tiaozhang-col width50" ng-model="tiaozhang.price">
                 </input>
-                <input class="tiaozhang-col width50">
-                {{tiaozhang.reason}}
+                <input class="tiaozhang-col width50" ng-model="tiaozhang.reason">
                 </input>
               </div>
             </div>
@@ -293,12 +290,11 @@
             <div class="tiaozhang-col width40">
               <div class="tiaozhang-col width100"
                    ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_tiaozhangs">
-                <input class="tiaozhang-col width50">
-                {{tiaozhang.price}}
+                <input class="tiaozhang-col width50" ng-model="tiaozhang.price">
                 </input>
-                <input class="tiaozhang-col width50">
-                {{tiaozhang.reason}}
+                <input class="tiaozhang-col width50" ng-model="tiaozhang.reason">
                 </input>
+
               </div>
             </div>
           </div>
@@ -324,12 +320,11 @@
             <div class="tiaozhang-col width40">
               <div class="tiaozhang-col width100"
                    ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_tiaozhangs">
-                <input class="tiaozhang-col width50">
-                {{tiaozhang.price}}
+                <input class="tiaozhang-col width50" ng-model="tiaozhang.price">
                 </input>
-                <input class="tiaozhang-col width50">
-                {{tiaozhang.reason}}
+                <input class="tiaozhang-col width50" ng-model="tiaozhang.reason">
                 </input>
+
               </div>
             </div>
           </div>
