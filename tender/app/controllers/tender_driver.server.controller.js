@@ -181,7 +181,7 @@ exports.getAllDrivers = function (req, res, next) {
 
 exports.verifyDriver = function (req, res, next) {
   var status = req.body.verify_status || 'unVerifyPassed';
-  var driver = req.driver || {};
+  var driver = req.driverById || {};
   newTenderService.verifyDriver(driver,status, function (err, result) {
     return res.send(err || result);
   });
