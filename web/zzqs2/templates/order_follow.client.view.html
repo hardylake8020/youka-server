@@ -207,14 +207,14 @@
               调帐原因
             </div>
           </div>
-          <div class="tiaozhang-body-row">
-            <div class="tiaozhang-col width10">
-              {{(orderDetailInfo.currentOrderDetail.orderDetail.status=='unDeliverySigned'||
+          <div class="tiaozhang-body-row" ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='unDeliverySigned'||
               orderDetailInfo.currentOrderDetail.orderDetail.status=='unDeliveried'||
-              orderDetailInfo.currentOrderDetail.orderDetail.status=='completed')?'车辆未出发':'车辆已出发'}}
+              orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
+            <div class="tiaozhang-col width10">
+              车辆已出发
             </div>
             <div class="tiaozhang-col width10">
-             首款支付
+              首款
             </div>
             <div class="tiaozhang-col width10">
               {{(orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_top_rate/100)||'未知'}}元
@@ -241,10 +241,10 @@
               {{'运单未完成'}}
             </div>
             <div class="tiaozhang-col width10">
-              款项
+              尾款
             </div>
             <div class="tiaozhang-col width10">
-              金额（元）
+              {{(orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_tail_rate/100)||'未知'}}元
             </div>
             <div class="tiaozhang-col width30">
               <button class="tiaozhang-btn">
@@ -268,10 +268,10 @@
               运单已完成
             </div>
             <div class="tiaozhang-col width10">
-              款项
+              回款
             </div>
             <div class="tiaozhang-col width10">
-              金额（元）
+              {{(orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_last_rate/100)||'未知'}}元
             </div>
             <div class="tiaozhang-col width30">
               <button class="tiaozhang-btn">
@@ -291,14 +291,14 @@
             </div>
           </div>
           <div class="tiaozhang-body-row" ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
-          <div class="tiaozhang-col width10">
-            运单已完成
+            <div class="tiaozhang-col width10">
+              运单已完成
             </div>
             <div class="tiaozhang-col width10">
-              款项
+              押金
             </div>
             <div class="tiaozhang-col width10">
-              金额（元）
+              {{(orderDetailInfo.currentOrderDetail.orderDetail.tender.ya_jin)||'未知'}}元
             </div>
             <div class="tiaozhang-col width30">
               <button class="tiaozhang-btn">
