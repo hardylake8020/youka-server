@@ -19,6 +19,11 @@ tender.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,
       templateUrl: 'templates/tender.follow.client.view.html',
       controller: 'TenderFollowController'
     })
+    .state('driver_list', {
+      url: '/driver_list',
+      templateUrl: 'templates/driver_list.client.view.html',
+      controller: 'DriverlistController'
+    })
     .state('tender_create', {
       url: '/tender_create/:tender_id',
       templateUrl: 'templates/tender.create.client.view.html',

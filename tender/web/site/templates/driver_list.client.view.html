@@ -1,0 +1,133 @@
+<div class="zz-tender-driver-list-view">
+  <div class="verify-btn">待审核司机</div>
+  <div class="verify-btn">已审核司机</div>
+  <div class="driver-container">
+    <div class="driver-header-row">
+      <div class="driver-col width10">
+        <div class="driver-item">
+          司机照片
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          司机姓名
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          司机手机
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          身份证号
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          身份证照片
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          驾驶证照片
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          车牌号
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          车辆类型
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          车辆照片
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          行驶证照片
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          操作
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          操作
+        </div>
+      </div>
+    </div>
+    <div class="driver-body-row" ng-repeat="driver in info.driverList">
+      <div class="driver-col width10">
+        <div class="driver-item">
+          {{ getPhotos( driver.photo)}}
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          司机姓名
+          {{driver.nickname}}
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          {{driver.username}}
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          {{driver.id_card_number}}
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          {{ getPhotos( driver.id_card_photo)}}
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          {{ getPhotos( driver.driving_id_photo)}}
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          {{ driver.plate_number}}
+
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          {{driver.truck_type}}
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          {{getPhotos( driver.truck_photo)}}
+        </div>
+      </div>
+      <div class="driver-col width10">
+        <div class="driver-item">
+          {{getPhotos(driver.travel_id_photo)}}
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          通过
+        </div>
+      </div>
+      <div class="driver-col width5">
+        <div class="driver-item">
+          拒绝
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
