@@ -501,6 +501,7 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
   if (profile.id_card_number)
     currentDriver.id_card_number = profile.id_card_number;
 
+  currentDriver.verify_status = 'unVerifyPassed';
   currentDriver.save(function (err, saveDriver) {
     if (err) {
       return callback({err: error.system.db_error});
