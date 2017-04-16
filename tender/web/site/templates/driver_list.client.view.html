@@ -1,6 +1,6 @@
 <div class="zz-tender-driver-list-view">
-  <div class="verify-btn">待审核司机</div>
-  <div class="verify-btn">已审核司机</div>
+  <div class="verify-btn" ng-click="getAllDrivers('unVerifyPassed')">待审核司机</div>
+  <div class="verify-btn" ng-click="getAllDrivers('verifyPassed')">已审核司机</div>
   <div class="driver-container">
     <div class="driver-header-row">
       <div class="driver-col width10">
@@ -122,7 +122,7 @@
         </div>
       </div>
       <div class="driver-col width5">
-        <div class="driver-item"ng-click="verifyDriver(driver,'unVerifyPassed')">
+        <div class="driver-item" ng-click="verifyDriver(driver,'unVerifyPassed')">
           拒绝
         </div>
       </div>
