@@ -316,7 +316,36 @@
             </div>
           </div>
         </div>
+        <div class="col-xs-8 driver-orders"
+             ng-init="showYaJinRaise=false"
+             ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='completed'">
+          <span>{{'运单已完成'}}</span>
+          <input class="tender-pay-input"
+                 placeholder="{{orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_cash_raise||''}}请输入调帐金额"
+                 ng-show="showYaJinRaise==true"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_raise">
+          <input class="tender-pay-input"
+                 placeholder="请输入调帐原因"
+                 ng-show="showYaJinRaise==true"
+                 type="text"
+                 ng-model="orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_reason">
+          <button class="verify-pass"
+                  ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin==false&&showYaJinRaise==false"
+                  ng-click="showYaJinRaise=true">
+            调帐
+          </button>
+          <button class="verify-pass"
+                  ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin==true}"
+                  ng-click="verifyOrder(
+                  'can_pay_ya_jin',
+                  orderDetailInfo.currentOrderDetail.orderDetail.tender.ya_jin,
+                  orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_raise,
+                  orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_reason,
+                  orderDetailInfo.currentOrderDetail.orderDetail)">
+            {{orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin==true?'押金审核通过':'押金审核'}}
+          </button>
         </div>
+      </div>
 
       <div class="row detail-container" ng-show="orderDetailInfo.currentTab == 'assign'">
         <div class="col-xs-4 detail">
