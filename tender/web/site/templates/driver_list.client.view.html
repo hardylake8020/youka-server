@@ -67,12 +67,11 @@
     <div class="driver-body-row" ng-repeat="driver in info.driverList">
       <div class="driver-col width10">
         <div class="driver-item">
-          {{ getPhotos( driver.photo)}}
+          <img ng-src="{{ getPhotos( driver.photo)}}">
         </div>
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          司机姓名
           {{driver.nickname}}
         </div>
       </div>
@@ -88,12 +87,12 @@
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          {{ getPhotos( driver.id_card_photo)}}
+          <img ng-src="{{ getPhotos( driver.id_card_photo)}}">
         </div>
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          {{ getPhotos( driver.driving_id_photo)}}
+          <img ng-src="{{ getPhotos( driver.driving_id_photo)}}">
         </div>
       </div>
       <div class="driver-col width5">
@@ -109,12 +108,12 @@
       </div>
       <div class="driver-col width5">
         <div class="driver-item">
-          {{getPhotos( driver.truck_photo)}}
+          <img ng-src="{{ getPhotos( driver.truck_photo)}}">
         </div>
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          {{getPhotos(driver.travel_id_photo)}}
+          <img ng-src="{{ getPhotos( driver.travel_id_photo)}}">
         </div>
       </div>
       <div class="driver-col width5">
