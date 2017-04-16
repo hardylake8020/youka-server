@@ -220,7 +220,8 @@
               {{(orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_top_rate/100)||'未知'}}元
             </div>
             <div class="tiaozhang-col width30">
-              <button class="tiaozhang-btn">
+              <button class="tiaozhang-btn"
+                      ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'top')">
                 添加调帐
               </button>
               <button class="tiaozhang-btn">
@@ -228,11 +229,14 @@
               </button>
             </div>
             <div class="tiaozhang-col width40">
-              <div class="tiaozhang-col width50">
-                调帐金额
-              </div>
-              <div class="tiaozhang-col width50">
-                调帐原因
+              <div class="tiaozhang-col width100"
+                   ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_tiaozhangs">
+                <input class="tiaozhang-col width50">
+                {{tiaozhang.price}}
+                </input>
+                <input class="tiaozhang-col width50">
+                {{tiaozhang.reason}}
+                </input>
               </div>
             </div>
           </div>
@@ -248,7 +252,7 @@
             </div>
             <div class="tiaozhang-col width30">
               <button class="tiaozhang-btn"
-                      ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'top')">
+                      ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'tail')">
                 添加调帐
               </button>
               <button class="tiaozhang-btn">
@@ -257,13 +261,13 @@
             </div>
             <div class="tiaozhang-col width40">
               <div class="tiaozhang-col width100"
-                   ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_top_tiaozhangs">
-                <div class="tiaozhang-col width50">
-                  {{tiaozhang.price}}
-                </div>
-                <div class="tiaozhang-col width50">
-                  {{tiaozhang.reason}}
-                </div>
+                   ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_tiaozhangs">
+                <input class="tiaozhang-col width50">
+                {{tiaozhang.price}}
+                </input>
+                <input class="tiaozhang-col width50">
+                {{tiaozhang.reason}}
+                </input>
               </div>
             </div>
           </div>
@@ -278,7 +282,8 @@
               {{(orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_last_rate/100)||'未知'}}元
             </div>
             <div class="tiaozhang-col width30">
-              <button class="tiaozhang-btn">
+              <button class="tiaozhang-btn"
+                      ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'last')">
                 添加调帐
               </button>
               <button class="tiaozhang-btn">
@@ -286,11 +291,14 @@
               </button>
             </div>
             <div class="tiaozhang-col width40">
-              <div class="tiaozhang-col width50">
-                调帐金额
-              </div>
-              <div class="tiaozhang-col width50">
-                调帐原因
+              <div class="tiaozhang-col width100"
+                   ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_last_tiaozhangs">
+                <input class="tiaozhang-col width50">
+                {{tiaozhang.price}}
+                </input>
+                <input class="tiaozhang-col width50">
+                {{tiaozhang.reason}}
+                </input>
               </div>
             </div>
           </div>
@@ -305,7 +313,8 @@
               {{(orderDetailInfo.currentOrderDetail.orderDetail.tender.ya_jin)||'未知'}}元
             </div>
             <div class="tiaozhang-col width30">
-              <button class="tiaozhang-btn">
+              <button class="tiaozhang-btn"
+                      ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'ya_jin')">
                 添加调帐
               </button>
               <button class="tiaozhang-btn">
@@ -313,11 +322,14 @@
               </button>
             </div>
             <div class="tiaozhang-col width40">
-              <div class="tiaozhang-col width50">
-                调帐金额
-              </div>
-              <div class="tiaozhang-col width50">
-                调帐原因
+              <div class="tiaozhang-col width100"
+                   ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_ya_jin_tiaozhangs">
+                <input class="tiaozhang-col width50">
+                {{tiaozhang.price}}
+                </input>
+                <input class="tiaozhang-col width50">
+                {{tiaozhang.reason}}
+                </input>
               </div>
             </div>
           </div>
