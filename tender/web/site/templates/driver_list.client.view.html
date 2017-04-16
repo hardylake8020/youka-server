@@ -67,7 +67,7 @@
     <div class="driver-body-row" ng-repeat="driver in info.driverList">
       <div class="driver-col width10">
         <div class="driver-item">
-          <img class="driver-photo radus" ng-src="{{ getPhotos( driver.photo)}}"alt="未上传">
+          <img class="driver-photo radus" ng-src="{{ getPhotos( driver.photo)}}" alt="未上传">
         </div>
       </div>
       <div class="driver-col width10">
@@ -87,12 +87,12 @@
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          <img class="driver-photo" ng-src="{{ getPhotos( driver.id_card_photo)}}"alt="未上传">
+          <img class="driver-photo" ng-src="{{ getPhotos( driver.id_card_photo)}}" alt="未上传">
         </div>
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          <img class="driver-photo" ng-src="{{ getPhotos( driver.driving_id_photo)}}"alt="未上传">
+          <img class="driver-photo" ng-src="{{ getPhotos( driver.driving_id_photo)}}" alt="未上传">
         </div>
       </div>
       <div class="driver-col width5">
@@ -108,21 +108,23 @@
       </div>
       <div class="driver-col width5">
         <div class="driver-item">
-          <img class="driver-photo" ng-src="{{ getPhotos( driver.truck_photo)}}"alt="未上传">
+          <img class="driver-photo" ng-src="{{ getPhotos( driver.truck_photo)}}" alt="未上传">
         </div>
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          <img class="driver-photo" ng-src="{{ getPhotos( driver.travel_id_photo)}}"alt="未上传">
+          <img class="driver-photo" ng-src="{{ getPhotos( driver.travel_id_photo)}}" alt="未上传">
         </div>
       </div>
       <div class="driver-col width5">
-        <div class="driver-item" ng-click="verifyDriver(driver,'verifyPassed')">
+        <div class="driver-item" ng-click="verifyDriver(driver,'verifyPassed')"
+             ng-show="driver.verify_status=='unVerifyPassed'">
           通过
         </div>
       </div>
       <div class="driver-col width5">
-        <div class="driver-item" ng-click="verifyDriver(driver,'unVerifyPassed')">
+        <div class="driver-item" ng-click="verifyDriver(driver,'unVerifyPassed')"
+             ng-show="driver.verify_status=='unVerifyPassed'">
           拒绝
         </div>
       </div>
