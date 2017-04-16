@@ -198,6 +198,11 @@ module.exports = function (appDb) {
         type: String,
         trim: true,
         default: ''
+      },
+      verify_status: {
+        type: String,
+        enum: ['verifyPassed', 'unVerifyPassed'],
+        default: 'unVerifyPassed'
       }
     },
     {

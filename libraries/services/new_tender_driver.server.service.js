@@ -66,7 +66,7 @@ exports.grab = function (currentDriver, tender, callback) {
 
 exports.compare = function (currentDriver, currentTender, info, callback) {
   var price = info.price || 0;
-  var price_per_ton = info.price_per_ton||0;
+  var price_per_ton = info.price_per_ton || 0;
 
   if (currentTender.status != 'comparing') {
     return callback({err: {type: 'tender_status_valid'}});
@@ -627,5 +627,19 @@ exports.addNewDriver = function (currentDriver, driverInfo, callback) {
         return callback(null, saveTruck);
       });
     });
+  });
+};
+
+exports.getAllDrivers = function (status, callback) {
+  var array = ['verifyPassed', 'unVerifyPassed'];
+  if (array.indexOf(status) < 0) {
+    return callback({err: {type: 'invalid_verify_status'}});
+  }
+
+  Driver.find({verify_status: status}, function (err, results) {
+    if (err) {
+      return callback({err: error.system.db_error});
+    }
+    return callback(null, results);
   });
 };

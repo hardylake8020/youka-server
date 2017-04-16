@@ -92,7 +92,26 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
           }
         ]
       ]
+    },
+    {
+      "title": "司机信息",
+      "subtitle": "司机信息",
+      "logo": "images/icon/icon_business.png",
+      "role": "user",
+      "handle": [
+        [
+          {
+            "label": "司机审核",
+            "type": "external_link",
+            "server": "tender",
+            "port": 3006,
+            "state": "driver_list",
+            "url": "/driver_list"
+          }
+        ]
+      ]
     }
+
   ];
 
   function getObjByHandelUrl(sta) {

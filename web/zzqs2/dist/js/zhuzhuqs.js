@@ -1507,7 +1507,26 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
           }
         ]
       ]
+    },
+    {
+      "title": "司机信息",
+      "subtitle": "司机信息",
+      "logo": "images/icon/icon_business.png",
+      "role": "user",
+      "handle": [
+        [
+          {
+            "label": "司机审核",
+            "type": "external_link",
+            "server": "tender",
+            "port": 3006,
+            "state": "driver_list",
+            "url": "/driver_list"
+          }
+        ]
+      ]
     }
+
   ];
 
   function getObjByHandelUrl(sta) {
@@ -11301,12 +11320,21 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     getOrderList(); //首次获取订单信息
   });
 
-  $scope.verifyOrder = function (type, orderDetail) {
-    OrderService.verifyOrder({type: type, order_id: orderDetail.order_id}).then(function (data) {
+  $scope.verifyOrder = function (type, price, raise, reason, orderDetail) {
+    if (orderDetail.tender[type]) {
+      return;
+    }
+    OrderService.verifyOrder({
+      type: type,
+      price: price,
+      raise: raise,
+      reason: reason,
+      order_id: orderDetail.order_id
+    }).then(function (data) {
       console.log(data);
       if (!data.err) {
         $scope.$emit(GlobalEvent.onShowAlert, '审核通过', function () {
-          $state.go('order_operation_follow_onway', {}, {reload: true});
+          $state.go('order_operation', {}, {reload: true});
         });
       }
     }, function (err) {
@@ -13108,16 +13136,6 @@ zhuzhuqs.directive('zzCustomizeDialog', function () {
         }
     }
 });
-zhuzhuqs.directive('zzExportDialog', function () {
-  return {
-    restrict:'A',
-    templateUrl:'directive/zz_export_dialog/order_export_dialog.client.directive.html',
-    replace:false,
-    scope:{
-    },
-    controller:'OrderExportController'
-  };
-});
 /**
  * Created by elinaguo on 15/5/20.
  */
@@ -13429,6 +13447,16 @@ zhuzhuqs.directive('zzList', ['GlobalEvent', function (GlobalEvent) {
   };
 }]);
 
+zhuzhuqs.directive('zzExportDialog', function () {
+  return {
+    restrict:'A',
+    templateUrl:'directive/zz_export_dialog/order_export_dialog.client.directive.html',
+    replace:false,
+    scope:{
+    },
+    controller:'OrderExportController'
+  };
+});
 /**
  * Created by elinaguo on 15/5/24.
  */
