@@ -643,3 +643,18 @@ exports.getAllDrivers = function (status, callback) {
     return callback(null, results);
   });
 };
+
+exports.verifyDriver = function (curDriver, status, callback) {
+  var array = ['verifyPassed', 'unVerifyPassed'];
+  if (array.indexOf(status) < 0) {
+    return callback({err: {type: 'invalid_verify_status'}});
+  }
+
+  curDriver.verify_status = status;
+  curDriver.save(function (err, result) {
+    if (err || !result) {
+      return callback({err: error.system.db_error});
+    }
+    return callback(null, result);
+  });
+};
