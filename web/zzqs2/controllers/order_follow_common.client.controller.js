@@ -2263,7 +2263,7 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
 
   $scope.addTiaoZhang = function (tender, type) {
     tender['real_pay_' + type + '_tiaozhangs'].push({
-      price: 0,
+      price: null,
       reason: ''
     });
   };

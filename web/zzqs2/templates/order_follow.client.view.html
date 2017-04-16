@@ -261,9 +261,9 @@
             <div class="tiaozhang-col width40">
               <div class="tiaozhang-col width100"
                    ng-repeat="tiaozhang in orderDetailInfo.currentOrderDetail.orderDetail.tender.real_pay_tail_tiaozhangs">
-                <input class="tiaozhang-col width50" ng-model="tiaozhang.price">
+                <input class="tiaozhang-col width50" type="number" ng-model="tiaozhang.price" placeholder="请输入金额">
                 </input>
-                <input class="tiaozhang-col width50" ng-model="tiaozhang.reason">
+                <input class="tiaozhang-col width50" ng-model="tiaozhang.reason" placeholder="请输入调帐原因">
                 </input>
               </div>
             </div>
