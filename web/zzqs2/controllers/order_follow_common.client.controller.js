@@ -2272,6 +2272,10 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     if (orderDetail.tender['can_pay_' + type]) {
       return;
     }
+    orderDetail.tender['real_pay_' + type + '_tiaozhangs'].each(function(item){
+      delete item.$$hashKey;
+    });
+    
     OrderService.verifyOrder({
       type: 'can_pay_' + type,
       price: price,

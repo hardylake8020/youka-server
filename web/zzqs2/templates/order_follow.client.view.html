@@ -254,9 +254,13 @@
                       ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'tail')">
                 添加调帐
               </button>
-              <button class="tiaozhang-btn">
+              <button class="tiaozhang-btn" ng-click="verifyOrder(
+                  'tail',
+                  (orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_tail_rate/100),
+                  orderDetailInfo.currentOrderDetail.orderDetail)">
                 审核通过
               </button>
+
             </div>
             <div class="tiaozhang-col width40">
               <div class="tiaozhang-col width100"
@@ -281,9 +285,13 @@
                       ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'last')">
                 添加调帐
               </button>
-              <button class="tiaozhang-btn">
+              <button class="tiaozhang-btn" ng-click="verifyOrder(
+                  'last',
+                  (orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_last_rate/100),
+                  orderDetailInfo.currentOrderDetail.orderDetail)">
                 审核通过
               </button>
+
             </div>
             <div class="tiaozhang-col width40">
               <div class="tiaozhang-col width100"
@@ -309,9 +317,13 @@
                       ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'ya_jin')">
                 添加调帐
               </button>
-              <button class="tiaozhang-btn">
+              <button class="tiaozhang-btn" ng-click="verifyOrder(
+                  'ya_jin',
+                  (orderDetailInfo.currentOrderDetail.orderDetail.tender.ya_jin),
+                  orderDetailInfo.currentOrderDetail.orderDetail)">
                 审核通过
               </button>
+
             </div>
             <div class="tiaozhang-col width40">
               <div class="tiaozhang-col width100"
