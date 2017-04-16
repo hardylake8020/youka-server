@@ -47,12 +47,15 @@ var mongoose = require('mongoose');
 
 exports.verifyOrder = function (req, res, next) {
   var order = req.order;
+  var user = req.user;
   var type = req.body.type || req.query.type;
   var price = req.body.price || req.query.price;
   var reason = req.body.reason || req.query.reason;
   var raise = req.body.raise || req.query.raise;
-  
-  orderService.verifyOrder(order, type, price, raise,reason,function (err, results) {
+
+  var tiaozhangs = req.body.tender_tiaozhang || [];
+
+  orderService.verifyOrder(user, order, type, tiaozhangs, function (err, results) {
     if (err) {
       req.err = err;
       return next();
@@ -1675,7 +1678,7 @@ exports.getOrderAssignedDetailById = function (req, res, next) {
           salesmen: order.salesmen,
           confirm_status: order.confirm_status,
           tender: order.tender,
-          pickup_real_tons:order.pickup_real_tons
+          pickup_real_tons: order.pickup_real_tons
         },
         //assignedCompanyOrders: assignedOrders
       };

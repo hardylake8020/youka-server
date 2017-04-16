@@ -46,11 +46,6 @@
                          placeholder="输入运单号/参考单号"/>
                   <input type="submit" value="搜索" class="search-button" ng-click="topHeader.search.exec()"/>
                 </form>
-
-                <!--<span class="more-condition" ng-show="!topHeader.search.isExpand"-->
-                <!--ng-click="topHeader.search.expand(true)">更多筛选条件</span>-->
-                <!--<span class="more-condition" ng-show="topHeader.search.isExpand"-->
-                <!--ng-click="topHeader.search.expand(false)">精简筛选条件</span>-->
               </div>
 
               <div class="pull-right button-option">
@@ -229,168 +224,49 @@
           <p class="vertical-halving-border-one"></p>
 
           <div class="col-xs-8 tender">
-            <div class="tender-sure-row">首单审核情况：{{tenderConfig.detail.currentTender.can_pay_top?('已审核, 需支付：'+tenderConfig.detail.currentTender.real_pay_top_cash+'元'):'未审核'}}</div>
+            <div class="tender-sure-row">首单审核情况：{{tenderConfig.detail.currentTender.can_pay_top?('已审核,
+              需支付：'+tenderConfig.detail.currentTender.real_pay_top_cash+'元'):'未审核'}}
+            </div>
             <div class="tender-pay-row" ng-if="tenderConfig.detail.currentTender.can_pay_top==true">
               <span class="tender-pay-text" ng-if="tenderConfig.detail.currentTender.real_pay_top_cash_time">{{'已支付'+tenderConfig.detail.currentTender.real_pay_top_cash+'元,支付时间：'+tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.real_pay_top_cash_time, 'yy/MM/dd hh:mm', '未填')}}</span>
-              <button class="tender-pay-btn" ng-if="!tenderConfig.detail.currentTender.real_pay_top_cash_time"  ng-click="paymentInfo.paymentFunc('real_pay_top_cash',tenderConfig.detail.currentTender.real_pay_top_cash)">确认支付</button>
+              <button class="tender-pay-btn" ng-if="!tenderConfig.detail.currentTender.real_pay_top_cash_time"
+                      ng-click="paymentInfo.paymentFunc('real_pay_top_cash',tenderConfig.detail.currentTender.real_pay_top_cash)">
+                确认支付
+              </button>
             </div>
 
-            <div class="tender-sure-row">尾单审核情况：{{tenderConfig.detail.currentTender.can_pay_tail?('已审核, 需支付：'+tenderConfig.detail.currentTender.real_pay_tail_cash+'元'):'未审核'}}</div>
+            <div class="tender-sure-row">尾单审核情况：{{tenderConfig.detail.currentTender.can_pay_tail?('已审核,
+              需支付：'+tenderConfig.detail.currentTender.real_pay_tail_cash+'元'):'未审核'}}
+            </div>
             <div class="tender-pay-row" ng-if="tenderConfig.detail.currentTender.can_pay_tail==true">
               <span class="tender-pay-text" ng-if="tenderConfig.detail.currentTender.real_pay_tail_cash_time">{{'已支付'+tenderConfig.detail.currentTender.real_pay_tail_cash+'元,支付时间：'+tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.real_pay_tail_cash_time, 'yy/MM/dd hh:mm', '未填')}}</span>
-              <button class="tender-pay-btn" ng-if="!tenderConfig.detail.currentTender.real_pay_tail_cash_time"  ng-click="paymentInfo.paymentFunc('real_pay_tail_cash',tenderConfig.detail.currentTender.real_pay_tail_cash)">确认支付</button>
+              <button class="tender-pay-btn" ng-if="!tenderConfig.detail.currentTender.real_pay_tail_cash_time"
+                      ng-click="paymentInfo.paymentFunc('real_pay_tail_cash',tenderConfig.detail.currentTender.real_pay_tail_cash)">
+                确认支付
+              </button>
             </div>
 
-            <div class="tender-sure-row">回单审核情况：{{tenderConfig.detail.currentTender.can_pay_last?('已审核, 需支付：'+tenderConfig.detail.currentTender.real_pay_last_cash+'元'):'未审核'}}</div>
+            <div class="tender-sure-row">回单审核情况：{{tenderConfig.detail.currentTender.can_pay_last?('已审核,
+              需支付：'+tenderConfig.detail.currentTender.real_pay_last_cash+'元'):'未审核'}}
+            </div>
             <div class="tender-pay-row" ng-if="tenderConfig.detail.currentTender.can_pay_last==true">
               <span class="tender-pay-text" ng-if="tenderConfig.detail.currentTender.real_pay_last_cash_time">{{'已支付'+tenderConfig.detail.currentTender.real_pay_last_cash+'元,支付时间：'+tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.real_pay_last_cash_time, 'yy/MM/dd hh:mm', '未填')}}</span>
-              <button class="tender-pay-btn" ng-if="!tenderConfig.detail.currentTender.real_pay_last_cash_time"  ng-click="paymentInfo.paymentFunc('real_pay_last_cash',tenderConfig.detail.currentTender.real_pay_last_cash)">确认支付</button>
+              <button class="tender-pay-btn" ng-if="!tenderConfig.detail.currentTender.real_pay_last_cash_time"
+                      ng-click="paymentInfo.paymentFunc('real_pay_last_cash',tenderConfig.detail.currentTender.real_pay_last_cash)">
+                确认支付
+              </button>
             </div>
 
-            <div class="tender-sure-row">押金审核情况：{{tenderConfig.detail.currentTender.can_pay_ya_jin?('已审核, 需支付：'+tenderConfig.detail.currentTender.real_pay_ya_jin+'元'):'未审核'}}</div>
+            <div class="tender-sure-row">押金审核情况：{{tenderConfig.detail.currentTender.can_pay_ya_jin?('已审核,
+              需支付：'+tenderConfig.detail.currentTender.real_pay_ya_jin+'元'):'未审核'}}
+            </div>
             <div class="tender-pay-row" ng-if="tenderConfig.detail.currentTender.can_pay_ya_jin==true">
               <span class="tender-pay-text" ng-if="tenderConfig.detail.currentTender.real_pay_ya_jin_time">{{'已支付'+tenderConfig.detail.currentTender.real_pay_ya_jin+'元,支付时间：'+tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.real_pay_ya_jin_time, 'yy/MM/dd hh:mm', '未填')}}</span>
-              <button class="tender-pay-btn" ng-if="!tenderConfig.detail.currentTender.real_pay_ya_jin_time"  ng-click="paymentInfo.paymentFunc('real_pay_ya_jin',tenderConfig.detail.currentTender.real_pay_ya_jin)">确认支付</button>
+              <button class="tender-pay-btn" ng-if="!tenderConfig.detail.currentTender.real_pay_ya_jin_time"
+                      ng-click="paymentInfo.paymentFunc('real_pay_ya_jin',tenderConfig.detail.currentTender.real_pay_ya_jin)">
+                确认支付
+              </button>
             </div>
-
-            <!--<div class="view unstarted" ng-show="tenderConfig.detail.currentTender.status==='unStarted'">-->
-            <!--<div class="view unstarted">-->
-            <!--<div class="header">-->
-            <!--<div class="left">-->
-            <!--<p class="time">-->
-            <!--<span class="tip">招标开始时间：</span>-->
-            <!--<span class="text">{{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.start_time, 'yy/MM/dd hh:mm', '未填')}}</span>-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--<div class="right">-->
-            <!--<p class="status">-->
-            <!--<span class="text">未开始</span>-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="content">-->
-            <!--<div class="info">-->
-            <!--<p class="tip-text">招标尚未开始，您现在可以：</p>-->
-            <!--</div>-->
-            <!--<div class="operation">-->
-            <!--<p class="button-item highlight left"-->
-            <!--ng-click="tenderConfig.detail.modifyTender()">修改标书</p>-->
-
-            <!--<p class="button-item unhighlight right"-->
-            <!--ng-click="tenderConfig.detail.deleteTender()">删除标书</p>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="view inprogress"-->
-            <!--ng-show="tenderConfig.detail.currentTender.status==='inProgress' || tenderConfig.detail.currentTender.status==='stop'">-->
-            <!--<div class="header">-->
-            <!--<div class="left">-->
-            <!--<p class="time">-->
-            <!--<span class="tip">距离招标结束还剩余：</span>-->
-            <!--<span class="text">{{tenderConfig.detail.currentTender.remainTime}}</span>-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--<div class="right">-->
-            <!--<p class="status">-->
-            <!--<span class="text number">{{tenderConfig.detail.currentTender.has_participate_bidders_count}}</span>-->
-            <!--<span class="text">人已报价</span>-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="content">-->
-
-            <!--<div class="all-bid-record">-->
-            <!--<ul class="all-header row">-->
-            <!--<li class="item col col-xs-4">手机号码</li>-->
-            <!--<li class="item col col-xs-4">昵称</li>-->
-            <!--<li class="item col col-xs-4">是否查看</li>-->
-            <!--</ul>-->
-            <!--<ul class="all-body row" ng-class="{preview: bidRecord.has_preview}"-->
-            <!--ng-repeat="bidRecord in tenderConfig.detail.allRecord">-->
-            <!--<li class="item col col-xs-4">{{bidRecord.bidder.username}}</li>-->
-            <!--<li class="item col col-xs-4">{{bidRecord.bidder.wechat_profile.nickname}}</li>-->
-            <!--<li class="item col col-xs-4">{{bidRecord.has_preview ? '是':'否'}}</li>-->
-            <!--</ul>-->
-            <!--</div>-->
-
-            <!--<div class="info">-->
-            <!--<p class="tip-text">以下是报价最低的前{{tenderConfig.detail.topRecord.length <-->
-            <!--tenderConfig.detail.limitRecordCount ? tenderConfig.detail.topRecord.length :-->
-            <!--tenderConfig.detail.limitRecordCount}}位，您可以选择一位完成招标：</p>-->
-
-            <!--<div class="top-bidders">-->
-            <!--<div class="row bidder-item"-->
-            <!--ng-class="{selected: bidRecord.bidder._id === tenderConfig.detail.bidderId}"-->
-            <!--ng-click="tenderConfig.detail.chooseBidder(bidRecord.bidder._id)"-->
-            <!--ng-repeat="bidRecord in tenderConfig.detail.topRecord | limitTo: tenderConfig.detail.currentLimitRecordCount">-->
-            <!--<p class="index">{{$index + 1}}</p>-->
-
-            <!--<p class="choice">√</p>-->
-
-            <!--<p class="col col-xs-3 username">{{bidRecord.bidder.username}}</p>-->
-
-            <!--<p class="col col-xs-7 time">于{{tenderConfig.detail.formatTime(bidRecord.updated, 'yy/MM/dd-->
-            <!--hh:mm')}}投标，报价</p>-->
-
-            <!--<p class="col col-xs-2 price">￥{{bidRecord.current_price | number:0}}</p>-->
-            <!--</div>-->
-            <!--<div class="clear-button" ng-class="{all: tenderConfig.detail.isShowAllRecord}"-->
-            <!--ng-show="tenderConfig.detail.topRecord.length > tenderConfig.detail.limitRecordCount">-->
-            <!--<p class="text" ng-click="tenderConfig.detail.showAllRecord()">-->
-            <!--{{tenderConfig.detail.isShowAllRecord ? '收起' : '展开'}}</p>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="operation">-->
-            <!--<p class="button-item left"-->
-            <!--ng-click="tenderConfig.detail.applyToBidder()"-->
-            <!--ng-class="{highlight: tenderConfig.detail.bidderId}">确认选择</p>-->
-
-            <!--<p class="button-item unhighlight right"-->
-            <!--ng-click="tenderConfig.detail.close($event);">取消</p>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="view completed" ng-show="tenderConfig.detail.currentTender.status==='completed'">-->
-            <!--<div class="header">-->
-            <!--<div class="left">-->
-            <!--<p class="time">-->
-            <!--<span class="tip">招标时间：</span>-->
-            <!--<span class="text">-->
-            <!--{{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.start_time, 'yy/MM/dd hh:mm', '未填')}}-->
-            <!--~-->
-            <!--{{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.end_time, 'yy/MM/dd hh:mm', '未填')}}-->
-            <!--</span>-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--<div class="right">-->
-            <!--<p class="status">-->
-            <!--<span class="text">已完成</span>-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="content">-->
-            <!--<div class="info">-->
-            <!--<p class="tip-text">以下是您的招标人信息</p>-->
-
-            <!--<div class="top-bidders">-->
-            <!--<div class="row bidder-item selected">-->
-            <!--<p class="choice">√</p>-->
-
-            <!--<p class="col col-xs-3 username">{{tenderConfig.detail.currentTender.driver_winner.username}}</p>-->
-
-            <!--<p class="col col-xs-7 time">于-->
-            <!--{{tenderConfig.detail.formatTime(tenderConfig.detail.currentTender.winner_time, 'yy/MM/dd-->
-            <!--hh:mm')}}-->
-            <!--中标，报价</p>-->
-
-            <!--<p class="col col-xs-2 price">￥{{tenderConfig.detail.currentTender.winner_price | number:0}}</p>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-
-            <!--</div>-->
-            <!--</div>-->
           </div>
         </div>
 

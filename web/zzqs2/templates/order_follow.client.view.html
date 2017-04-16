@@ -14,10 +14,6 @@
                ng-click="changeTab('map')">
             地图(GPS点数：{{orderDetailInfo.gpsCount}}，非GPS点数:{{orderDetailInfo.ungpsCount}})
           </div>
-          <!--<div class="col-xs-2 tab inner-btn" ng-click="exportOrderPdf()"-->
-          <!--ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status==='completed'">-->
-          <!--<span class="order-pdf-btn">导出PDF</span>-->
-          <!--</div>-->
         </div>
       </div>
       <div class="col-xs-2 close"><span ng-click="close($event);"></span></div>
@@ -190,6 +186,121 @@
           </div>
         </div>
         <p class="vertical-halving-border-one"></p>
+        <div class="col-xs-8 driver-orders order-tiaozhang">
+          <div class="tiaozhang-header-row">
+            <div class="tiaozhang-col width10">
+              状态
+            </div>
+            <div class="tiaozhang-col width10">
+              款项
+            </div>
+            <div class="tiaozhang-col width10">
+              金额（元）
+            </div>
+            <div class="tiaozhang-col width30">
+              调帐操作
+            </div>
+            <div class="tiaozhang-col width20">
+              调帐金额
+            </div>
+            <div class="tiaozhang-col width20">
+              调帐原因
+            </div>
+          </div>
+          <div class="tiaozhang-body-row">
+            <div class="tiaozhang-col width10">
+              状态
+            </div>
+            <div class="tiaozhang-col width10">
+              款项
+            </div>
+            <div class="tiaozhang-col width10">
+              金额（元）
+            </div>
+            <div class="tiaozhang-col width30">
+              <button class="verify-pass"
+                      ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==false&&showTopRaise==false"
+                      ng-click="showTopRaise=true">
+                添加调帐
+              </button>
+              <button class="verify-pass"
+                      ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==false&&showTopRaise==false"
+                      ng-click="showTopRaise=true">
+                审核通过
+              </button>
+            </div>
+            <div class="tiaozhang-col width40">
+              <div class="tiaozhang-col width10">
+                调帐金额
+              </div>
+              <div class="tiaozhang-col width10">
+                调帐原因
+              </div>
+            </div>
+          </div>
+          <div class="tiaozhang-body-row">
+            <div class="tiaozhang-col width10">
+              状态
+            </div>
+            <div class="tiaozhang-col width10">
+              款项
+            </div>
+            <div class="tiaozhang-col width10">
+              金额（元）
+            </div>
+            <div class="tiaozhang-col width30">
+              <button class="verify-pass"
+                      ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==false&&showTopRaise==false"
+                      ng-click="showTopRaise=true">
+                添加调帐
+              </button>
+              <button class="verify-pass"
+                      ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==false&&showTopRaise==false"
+                      ng-click="showTopRaise=true">
+                审核通过
+              </button>
+            </div>
+            <div class="tiaozhang-col width40">
+              <div class="tiaozhang-col width10">
+                调帐金额
+              </div>
+              <div class="tiaozhang-col width10">
+                调帐原因
+              </div>
+            </div>
+          </div>
+          <div class="tiaozhang-body-row">
+            <div class="tiaozhang-col width10">
+              状态
+            </div>
+            <div class="tiaozhang-col width10">
+              款项
+            </div>
+            <div class="tiaozhang-col width10">
+              金额（元）
+            </div>
+            <div class="tiaozhang-col width30">
+              <button class="verify-pass"
+                      ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==false&&showTopRaise==false"
+                      ng-click="showTopRaise=true">
+                添加调帐
+              </button>
+              <button class="verify-pass"
+                      ng-show="orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top==false&&showTopRaise==false"
+                      ng-click="showTopRaise=true">
+                审核通过
+              </button>
+            </div>
+            <div class="tiaozhang-col width40">
+              <div class="tiaozhang-col width10">
+                调帐金额
+              </div>
+              <div class="tiaozhang-col width10">
+                调帐原因
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col-xs-8 driver-orders"
              ng-init="showTopRaise=false"
              ng-show="orderDetailInfo.currentOrderDetail.orderDetail.status=='unDeliverySigned'||
@@ -424,25 +535,6 @@
             <span class="name">联系人固话:</span>
             <span class="value">{{orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.phone ? orderDetailInfo.currentOrderDetail.orderDetail.delivery_contacts.phone : '未填'}}</span>
           </div>
-
-          <!--<div class="halving-line"></div>-->
-
-          <!--<div class="item">-->
-          <!--<span class="name">投保状态:</span>-->
-          <!--<span class="value">已购买保险</span>-->
-          <!--</div>-->
-          <!--<div class="item">-->
-          <!--<span class="name">投保时间:</span>-->
-          <!--<span class="value">2015-10-25 14:20</span>-->
-          <!--</div>-->
-          <!--<div class="item">-->
-          <!--<span class="name">保额:</span>-->
-          <!--<span class="value">￥100000</span>-->
-          <!--</div>-->
-          <!--<div class="item">-->
-          <!--<span class="name">保费:</span>-->
-          <!--<span class="value">￥25</span>-->
-          <!--</div>-->
         </div>
 
         <div class="vertical-halving-border-one"></div>
@@ -505,23 +597,6 @@
                 <span class="address" ng-show="event.type !=='confirm'">{{event.address? event.address: ('坐标为('+ event.location[0]+','+event.location[1] +')')}}</span>
                 完成 {{generateEventTypeDescription(event)}}
               </div>
-
-              <!--<table class="pure-table pure-table-bordered" ng-show="event.type == 'pickup' || event.type == 'delivery'">-->
-              <!--<thead>-->
-              <!--<tr><th>货物名</th><th>计划货物数量</th>-->
-              <!--<th ng-show="event.type == 'pickup'">实际提货数量</th>-->
-              <!--<th ng-show="event.type == 'delivery'">实际交货数量</th><th>备注</th></tr>-->
-              <!--</thead>-->
-              <!--<tbody>-->
-              <!--<tr ng-repeat="a in event.compare_goods">-->
-              <!--<td><span>{{a.name}}</span></td>-->
-              <!--<td><span>{{a.planned}}</span></td>-->
-              <!--<td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.actual}}</span></td>-->
-              <!--<td><span class="{{a.compare == '缺货' ? 'insufficient' : ''}}">{{a.compare}}</span></td>-->
-              <!--</tr>-->
-              <!--</tbody>-->
-              <!--</table>-->
-
               <div class="item damaged"><strong>货损: </strong><span>{{(event.damaged == true || event.damaged == 'true')?'有': '无'}}</span>
               </div>
               <div class="item remark">

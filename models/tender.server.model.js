@@ -8,6 +8,32 @@ var mongoose = require('mongoose'),
   timestamps = require('mongoose-timestamp');
 
 module.exports = function (appDb) {
+  var TenderTiaoZhang = new Schema({
+    object: {
+      type: String,
+      default: 'TenderTiaoZhang '
+    },
+    price: {
+      type: Number,
+      default: 0
+    },
+    reason: {
+      type: String,
+      default: ''
+    },
+    username: {
+      type: String,
+      default: ''
+    }
+  });
+
+  TenderTiaoZhang.plugin(timestamps, {
+    createdAt: 'created',
+    updatedAt: 'updated'
+  });
+
+  appDb.model('TenderTiaoZhang', TenderTiaoZhang);
+
 
   var TenderRecorder = new Schema({
     object: {
@@ -249,6 +275,30 @@ module.exports = function (appDb) {
     can_pay_top: {
       type: Boolean,
       default: false
+    },
+    real_pay_top_tiaozhangs: {
+      type: [{
+        type: Schema.Types.Mixed
+      }],
+      default: []
+    },
+    real_pay_last_tiaozhangs: {
+      type: [{
+        type: Schema.Types.Mixed
+      }],
+      default: []
+    },
+    real_pay_tail_tiaozhangs: {
+      type: [{
+        type: Schema.Types.Mixed
+      }],
+      default: []
+    },
+    real_pay_ya_jin_tiaozhangs: {
+      type: [{
+        type: Schema.Types.Mixed
+      }],
+      default: []
     },
     //实际现金支付首款
     real_pay_top_cash: {

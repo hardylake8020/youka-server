@@ -19,6 +19,7 @@ var _ = require('lodash'),
   Detail = appDb.model('Detail'),
   Contact = appDb.model('Contact'),
   Group = appDb.model('Group'),
+  TenderTiaoZhang = appDb.model('TenderTiaoZhang'),
   Driver = appDb.model('Driver'),
   Company = appDb.model('Company'),
   CustomerContact = appDb.model('CustomerContact'),
@@ -2901,7 +2902,7 @@ exports.sendOrderMessage = function (type, order, driverPhone, plateNumber) {
 
 };
 
-exports.verifyOrder = function (order, type, price, raise,reason, callback) {
+exports.verifyOrder = function (user, order, type, tiaozhangs, callback) {
   if (type != 'can_pay_last' && type != 'can_pay_top' && type != 'can_pay_tail' && type != 'can_pay_ya_jin') {
     return callback({err: {type: 'invalid_type'}});
   }
@@ -2911,26 +2912,33 @@ exports.verifyOrder = function (order, type, price, raise,reason, callback) {
     if (err || !tender) {
       return callback({err: orderError.internal_system_error});
     }
-
+    var tenderTiaozhangs = [];
+    for (var i = 0; i < tiaozhangs.length; i++) {
+      tenderTiaozhangs.push(new TenderTiaoZhang({
+        price: tiaozhangs[i].price,
+        reason: tiaozhangs[i].reason,
+        username: user.username
+      }));
+    }
     if (type == 'can_pay_top') {
       tender.real_pay_top_cash = price;
-      tender.real_pay_top_cash_raise = raise;
-      tender.real_pay_top_cash_reason = reason;
+      tender.real_pay_top_tiaozhangs = tenderTiaozhangs;
+      tender.markModified('real_pay_top_tiaozhangs');
     }
     if (type == 'can_pay_tail') {
       tender.real_pay_tail_cash = price;
-      tender.real_pay_tail_cash_raise = raise;
-      tender.real_pay_tail_cash_reason = reason;
+      tender.real_pay_tail_tiaozhangs = tenderTiaozhangs;
+      tender.markModified('real_pay_tail_tiaozhangs');
     }
     if (type == 'can_pay_last') {
       tender.real_pay_last_cash = price;
-      tender.real_pay_last_cash_raise = raise;
-      tender.real_pay_last_cash_reason = reason;
+      tender.real_pay_last_tiaozhangs = tenderTiaozhangs;
+      tender.markModified('real_pay_last_tiaozhangs');
     }
     if (type == 'can_pay_ya_jin') {
       tender.real_pay_ya_jin = price;
-      tender.real_pay_ya_jin_raise = raise;
-      tender.real_pay_ya_jin_reason = reason;
+      tender.real_pay_ya_jin_tiaozhangs = tenderTiaozhangs;
+      tender.markModified('real_pay_ya_jin_tiaozhangs');
     }
 
     tender[type] = true;
