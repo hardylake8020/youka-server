@@ -221,10 +221,13 @@
             </div>
             <div class="tiaozhang-col width30">
               <button class="tiaozhang-btn"
+                      ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top}"
                       ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'top')">
                 添加调帐
               </button>
-              <button class="tiaozhang-btn" ng-click="verifyOrder(
+              <button class="tiaozhang-btn"
+                      ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_top}"
+                      ng-click="verifyOrder(
                   'top',
                   (orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_top_rate/100),
                   orderDetailInfo.currentOrderDetail.orderDetail)">
@@ -251,10 +254,13 @@
             </div>
             <div class="tiaozhang-col width30">
               <button class="tiaozhang-btn"
+                      ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail}"
                       ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'tail')">
                 添加调帐
               </button>
-              <button class="tiaozhang-btn" ng-click="verifyOrder(
+              <button class="tiaozhang-btn"
+                      ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_tail}"
+                      ng-click="verifyOrder(
                   'tail',
                   (orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_tail_rate/100),
                   orderDetailInfo.currentOrderDetail.orderDetail)">
@@ -282,10 +288,13 @@
             </div>
             <div class="tiaozhang-col width30">
               <button class="tiaozhang-btn"
+                      ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last}"
                       ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'last')">
                 添加调帐
               </button>
-              <button class="tiaozhang-btn" ng-click="verifyOrder(
+              <button class="tiaozhang-btn"
+                      ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_last}"
+                      ng-click="verifyOrder(
                   'last',
                   (orderDetailInfo.currentOrderDetail.orderDetail.tender.winner_price*orderDetailInfo.currentOrderDetail.orderDetail.tender.payment_last_rate/100),
                   orderDetailInfo.currentOrderDetail.orderDetail)">
@@ -314,10 +323,13 @@
             </div>
             <div class="tiaozhang-col width30">
               <button class="tiaozhang-btn"
+                      ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin}"
                       ng-click="addTiaoZhang(orderDetailInfo.currentOrderDetail.orderDetail.tender,'ya_jin')">
                 添加调帐
               </button>
-              <button class="tiaozhang-btn" ng-click="verifyOrder(
+              <button class="tiaozhang-btn"
+                      ng-class="{passed:orderDetailInfo.currentOrderDetail.orderDetail.tender.can_pay_ya_jin}"
+                      ng-click="verifyOrder(
                   'ya_jin',
                   (orderDetailInfo.currentOrderDetail.orderDetail.tender.ya_jin),
                   orderDetailInfo.currentOrderDetail.orderDetail)">
