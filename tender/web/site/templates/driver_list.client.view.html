@@ -38,7 +38,7 @@
           车牌号
         </div>
       </div>
-      <div class="driver-col width5">
+      <div class="driver-col width10">
         <div class="driver-item">
           车辆类型
         </div>
@@ -67,7 +67,7 @@
     <div class="driver-body-row" ng-repeat="driver in info.driverList">
       <div class="driver-col width10">
         <div class="driver-item">
-          <img class="driver-photo" ng-src="{{ getPhotos( driver.photo)}}">
+          <img class="driver-photo" ng-src="{{ getPhotos( driver.photo)}}"alt="未上传">
         </div>
       </div>
       <div class="driver-col width10">
@@ -87,12 +87,12 @@
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          <img class="driver-photo" ng-src="{{ getPhotos( driver.id_card_photo)}}">
+          <img class="driver-photo" ng-src="{{ getPhotos( driver.id_card_photo)}}"alt="未上传">
         </div>
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          <img class="driver-photo" ng-src="{{ getPhotos( driver.driving_id_photo)}}">
+          <img class="driver-photo" ng-src="{{ getPhotos( driver.driving_id_photo)}}"alt="未上传">
         </div>
       </div>
       <div class="driver-col width5">
@@ -101,19 +101,19 @@
 
         </div>
       </div>
-      <div class="driver-col width5">
+      <div class="driver-col width10">
         <div class="driver-item">
           {{driver.truck_type||'-'}}
         </div>
       </div>
       <div class="driver-col width5">
         <div class="driver-item">
-          <img class="driver-photo" ng-src="{{ getPhotos( driver.truck_photo)}}">
+          <img class="driver-photo" ng-src="{{ getPhotos( driver.truck_photo)}}"alt="未上传">
         </div>
       </div>
       <div class="driver-col width10">
         <div class="driver-item">
-          <img class="driver-photo" ng-src="{{ getPhotos( driver.travel_id_photo)}}">
+          <img class="driver-photo" ng-src="{{ getPhotos( driver.travel_id_photo)}}"alt="未上传">
         </div>
       </div>
       <div class="driver-col width5">
