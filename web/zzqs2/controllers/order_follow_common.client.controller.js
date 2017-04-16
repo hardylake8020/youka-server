@@ -1235,74 +1235,6 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
 
   function generateSelfButton(currentOrder) {
     var selfButtons = [];
-    // if (currentOrder.delete_status === true) {
-    //   return selfButtons;
-    // }
-    //
-    // if ($scope.searchModule.currentLabel === 'assign') {
-    //
-    //   // if (currentOrder.create_company._id === currentOrder.execute_company && currentOrder.status !== 'completed') {
-    //   //   selfButtons.push({
-    //   //     text: '',
-    //   //     clickHandle: modifyOrderInfo,
-    //   //     className: 'modify-order',
-    //   //     title: '修改运单'
-    //   //   });
-    //   // }
-    //
-    //   //已经分配的订单,已经签到
-    //   if (currentOrder.status === 'unPickupSigned' || currentOrder.status === 'assigning') {
-    //     var canAssignAgain = true;
-    //     if (currentOrder.assigned_infos && currentOrder.assigned_infos.length > 0) {
-    //       //for (var index = 0; index < currentOrder.assigned_infos.length; index++) {
-    //       //  if (!currentOrder.assigned_infos[index].order_id) {
-    //       //    canAssignAgain = false;
-    //       //    break;
-    //       //  }
-    //       //}
-    //
-    //       if (canAssignAgain) {
-    //         selfButtons.push({
-    //           text: '',
-    //           clickHandle: modifyAssignInfo,
-    //           className: 'modify-assign-info',
-    //           title: '重新分配'
-    //         });
-    //       }
-    //
-    //     }
-    //   }
-    // }
-    //
-    // selfButtons.push({
-    //   text: '',
-    //   clickHandle: shareOrderByEmail,
-    //   className: 'email-share',
-    //   title: '分享到邮件'
-    // });
-    // selfButtons.push({
-    //   text: '',
-    //   clickHandle: function (rowInfo, event) {
-    //     var orderInfo = generateWechatShareOrderInfos([rowInfo]);
-    //     shareOrderByWechat(orderInfo, event);
-    //   },
-    //   className: 'wechat-share',
-    //   title: '分享到微信'
-    // });
-    //
-    // if ($scope.searchModule.currentLabel === 'assign') {
-    //
-    //   //已经分配的订单,已经签到
-    //   // if (currentOrder.create_company._id === currentOrder.execute_company && (currentOrder.status === 'unAssigned' || currentOrder.status === 'assigning' || currentOrder.status === 'unPickupSigned')) {
-    //   //   selfButtons.push({
-    //   //     text: '',
-    //   //     clickHandle: deleteOrder,
-    //   //     className: 'delete-order',
-    //   //     title: '删除'
-    //   //   });
-    //   // }
-    // }
-
     return selfButtons;
   };
 
@@ -2328,6 +2260,13 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     fillDisplayFields();
     getOrderList(); //首次获取订单信息
   });
+
+  $scope.addTiaoZhang = function (tender, type) {
+    tender['real_pay_' + type + '_tiaozhangs'].push({
+      price: 0,
+      reason: ''
+    });
+  };
 
   $scope.verifyOrder = function (type, price, raise, reason, orderDetail) {
     if (orderDetail.tender[type]) {
