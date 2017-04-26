@@ -110,7 +110,25 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
           }
         ]
       ]
-    }
+    },
+    {
+      "title": "审核信息",
+      "subtitle": "财务审核",
+      "logo": "images/icon/icon_business.png",
+      "role": "user",
+      "handle": [
+        [
+          {
+            "label": "财务审核",
+            "type": "external_link",
+            "server": "tender",
+            "port": 3006,
+            "state": "finance_tender_list",
+            "url": "/finance_tender_list"
+          }
+        ]
+      ]
+    },
 
   ];
 

@@ -35,31 +35,36 @@ gulp.task('other-less', function () {
     .pipe(less())
     .pipe(gulp.dest('./web/global/css'));
 
+
+  gulp.src('./web/wechat2/lesses/*.less')
+    .pipe(less())
+    .pipe(gulp.dest('./web/wechat2/dist/css'));
+
   gulp.src('./web/wechat/bidder/lesses/*.less')
     .pipe(less())
     .pipe(gulp.dest('./web/wechat/bidder/css'));
 
 
   gulp.src([
-    'web/wechat/bidder/lesses/alert.client.style.less',
-    'web/wechat/bidder/lesses/loading.client.style.less'
-  ])
+      'web/wechat/bidder/lesses/alert.client.style.less',
+      'web/wechat/bidder/lesses/loading.client.style.less'
+    ])
     .pipe(jsconcat('support.less'))
     .pipe(less())
     .pipe(gulp.dest('./web/wechat/bidder/dist'));
 
   gulp.src([
-    'web/wechat/bidder/lesses/header.client.style.less',
-    'web/wechat/bidder/lesses/order_detail.client.style.less',
-    'web/wechat/bidder/lesses/order_list.client.style.less',
-    'web/wechat/bidder/lesses/order_map.client.style.less',
-    'web/wechat/bidder/lesses/tabs.client.style.less',
-    'web/wechat/bidder/lesses/tender_detail.client.style.less',
-    'web/wechat/bidder/lesses/tender_list.client.style.less',
-    'web/wechat/bidder/lesses/timeline.client.style.less',
-    'web/wechat/bidder/lesses/deposit_detail.client.style.less',
-    'web/wechat/bidder/lesses/deposit_log_list.client.style.less'
-  ])
+      'web/wechat/bidder/lesses/header.client.style.less',
+      'web/wechat/bidder/lesses/order_detail.client.style.less',
+      'web/wechat/bidder/lesses/order_list.client.style.less',
+      'web/wechat/bidder/lesses/order_map.client.style.less',
+      'web/wechat/bidder/lesses/tabs.client.style.less',
+      'web/wechat/bidder/lesses/tender_detail.client.style.less',
+      'web/wechat/bidder/lesses/tender_list.client.style.less',
+      'web/wechat/bidder/lesses/timeline.client.style.less',
+      'web/wechat/bidder/lesses/deposit_detail.client.style.less',
+      'web/wechat/bidder/lesses/deposit_log_list.client.style.less'
+    ])
     .pipe(jsconcat('business.less'))
     .pipe(less())
     .pipe(gulp.dest('./web/wechat/bidder/dist'));
@@ -69,15 +74,15 @@ gulp.task('other-less', function () {
 
 gulp.task('site-js', function () {
   gulp.src([
-    'web/site/app.js',
-    'web/site/config.js',
-    'web/site/interceptors/**/*.js',
-    'web/site/services/**/*.js',
-    'web/site/errors/**/*.js',
-    'web/site/event/**/*.js',
-    'web/site/controllers/**/*.js',
-    'web/site/directive/**/*.js'
-  ])
+      'web/site/app.js',
+      'web/site/config.js',
+      'web/site/interceptors/**/*.js',
+      'web/site/services/**/*.js',
+      'web/site/errors/**/*.js',
+      'web/site/event/**/*.js',
+      'web/site/controllers/**/*.js',
+      'web/site/directive/**/*.js'
+    ])
     .pipe(jsconcat('tender.js'))
     .pipe(gulp.dest('web/site/dist/js'));
 
@@ -86,24 +91,24 @@ gulp.task('site-js', function () {
 });
 gulp.task('bidder-js', function () {
   gulp.src([
-    'web/wechat/bidder/js/alert.client.controller.js',
-    'web/wechat/bidder/js/common.client.controller.js',
-    'web/wechat/bidder/js/loading.client.controller.js'
-  ])
+      'web/wechat/bidder/js/alert.client.controller.js',
+      'web/wechat/bidder/js/common.client.controller.js',
+      'web/wechat/bidder/js/loading.client.controller.js'
+    ])
     .pipe(jsconcat('support.js'))
     .pipe(gulp.dest('./web/wechat/bidder/dist'));
 
   gulp.src([
-    'web/wechat/bidder/js/order_detail.client.controller.js',
-    'web/wechat/bidder/js/order_list.client.controller.js',
-    'web/wechat/bidder/js/order_map.client.controller.js',
-    'web/wechat/bidder/js/tabs.client.controller.js',
-    'web/wechat/bidder/js/tender_detail.client.controller.js',
-    'web/wechat/bidder/js/tender_list.client.controller.js',
-    'web/wechat/bidder/js/timeline.client.controller.js',
-    'web/wechat/bidder/js/deposit_detail.client.controller.js',
-    'web/wechat/bidder/js/deposit_log_list.client.controller.js'
-  ])
+      'web/wechat/bidder/js/order_detail.client.controller.js',
+      'web/wechat/bidder/js/order_list.client.controller.js',
+      'web/wechat/bidder/js/order_map.client.controller.js',
+      'web/wechat/bidder/js/tabs.client.controller.js',
+      'web/wechat/bidder/js/tender_detail.client.controller.js',
+      'web/wechat/bidder/js/tender_list.client.controller.js',
+      'web/wechat/bidder/js/timeline.client.controller.js',
+      'web/wechat/bidder/js/deposit_detail.client.controller.js',
+      'web/wechat/bidder/js/deposit_log_list.client.controller.js'
+    ])
     .pipe(jsconcat('business.js'))
     .pipe(gulp.dest('./web/wechat/bidder/dist'));
 

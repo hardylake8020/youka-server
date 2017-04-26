@@ -1,0 +1,65 @@
+html {
+  height: 100%;
+}
+html body {
+  height: 100%;
+}
+html body .finance-view {
+  position: relative;
+  background-color: #333366;
+  width: 100%;
+  height: 100%;
+}
+html body .finance-view .view-title {
+  line-height: 40px;
+  color: white;
+  text-align: center;
+}
+html body .finance-view .view-tab {
+  overflow: hidden;
+}
+html body .finance-view .view-tab .view-tab-item {
+  float: left;
+  text-align: center;
+  line-height: 30px;
+  width: 50%;
+  color: #9696b0;
+  border-bottom: 1px solid #9696b0;
+}
+html body .finance-view .view-tab .view-tab-item.select {
+  color: white;
+  border-bottom: 3px solid white;
+}
+html body .finance-view .view-list {
+  position: absolute;
+  top: 71px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: auto;
+}
+html body .finance-view .view-list .list-item-wrapper {
+  overflow: hidden;
+  padding: 15px;
+}
+html body .finance-view .view-list .list-item-wrapper .list-item {
+  background-color: white;
+  border-radius: 3px;
+}
+html body .finance-view .view-list .list-item-wrapper .list-item .item-head {
+  background-color: #ffcc66;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+html body .finance-view .view-list .list-item-wrapper .list-item .item-body .body-title {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+html body .finance-view .view-list .list-item-wrapper .list-item .item-body .body-content {
+  padding-bottom: 20px;
+}
+html body .finance-view .view-list .list-item-wrapper .list-item .item-body .body-content .content-item {
+  font-size: 12px;
+  color: #999;
+  padding: 5px 10px;
+}

@@ -1,0 +1,105 @@
+html {
+  height: 100%;
+  body {
+    height: 100%;
+    .detail-view {
+      background-color: #333366;
+      width: 100%;
+      height: 100%;
+      .detail-header {
+        line-height: 40px;
+        color: white;
+        position: relative;
+        .detail-back {
+          position: absolute;
+          left: 10px;
+        }
+        .detail-title {
+          width: 100%;
+          text-align: center;
+        }
+      }
+      .detail-list {
+        font-size: 14px;
+        background-color: white;
+        .list-header {
+          border-bottom: 1px solid #cdcdcd;
+          color: #cdcdcd;
+          overflow: hidden;
+          padding: 10px;
+          .header-item {
+            float: left;
+            &.title {
+              width: 20%;
+            }
+            &.price {
+              width: 20%;
+
+            }
+            &.tiaozhang {
+              width: 30%;
+
+            }
+            &.description {
+              width: 30%;
+
+            }
+          }
+        }
+        .list-item {
+          padding: 10px;
+          overflow: hidden;
+          .item-row {
+            overflow: hidden;
+            .row-item {
+              margin-bottom: 10px;
+              float: left;
+              &.title-col {
+                width: 20%;
+              }
+              &.price-col {
+                width: 20%;
+
+              }
+              &.tiaozhang-col {
+                width: 60%;
+                overflow: hidden;
+                .tiaozhang-row{
+                  margin-bottom: 10px;
+                  width: 100%;
+                  overflow: hidden;
+                  .price{
+                    float: left;
+                    width: 50%;
+                  }
+                  .description{
+                    width: 50%;
+                    float: left;
+                  }
+
+                }
+              }
+
+            }
+
+          }
+          .verify-btn {
+            width: 100px;
+            background-color: #2dbf00;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            float: right;
+            margin-left: 10px;
+            &.pass{
+              background-color: white;
+              border: 1px solid #2dbf00;
+              color:#2dbf00
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

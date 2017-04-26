@@ -1525,7 +1525,25 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
           }
         ]
       ]
-    }
+    },
+    {
+      "title": "审核信息",
+      "subtitle": "财务审核",
+      "logo": "images/icon/icon_business.png",
+      "role": "user",
+      "handle": [
+        [
+          {
+            "label": "财务审核",
+            "type": "external_link",
+            "server": "tender",
+            "port": 3006,
+            "state": "finance_tender_list",
+            "url": "/finance_tender_list"
+          }
+        ]
+      ]
+    },
 
   ];
 
@@ -10226,74 +10244,6 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
 
   function generateSelfButton(currentOrder) {
     var selfButtons = [];
-    // if (currentOrder.delete_status === true) {
-    //   return selfButtons;
-    // }
-    //
-    // if ($scope.searchModule.currentLabel === 'assign') {
-    //
-    //   // if (currentOrder.create_company._id === currentOrder.execute_company && currentOrder.status !== 'completed') {
-    //   //   selfButtons.push({
-    //   //     text: '',
-    //   //     clickHandle: modifyOrderInfo,
-    //   //     className: 'modify-order',
-    //   //     title: '修改运单'
-    //   //   });
-    //   // }
-    //
-    //   //已经分配的订单,已经签到
-    //   if (currentOrder.status === 'unPickupSigned' || currentOrder.status === 'assigning') {
-    //     var canAssignAgain = true;
-    //     if (currentOrder.assigned_infos && currentOrder.assigned_infos.length > 0) {
-    //       //for (var index = 0; index < currentOrder.assigned_infos.length; index++) {
-    //       //  if (!currentOrder.assigned_infos[index].order_id) {
-    //       //    canAssignAgain = false;
-    //       //    break;
-    //       //  }
-    //       //}
-    //
-    //       if (canAssignAgain) {
-    //         selfButtons.push({
-    //           text: '',
-    //           clickHandle: modifyAssignInfo,
-    //           className: 'modify-assign-info',
-    //           title: '重新分配'
-    //         });
-    //       }
-    //
-    //     }
-    //   }
-    // }
-    //
-    // selfButtons.push({
-    //   text: '',
-    //   clickHandle: shareOrderByEmail,
-    //   className: 'email-share',
-    //   title: '分享到邮件'
-    // });
-    // selfButtons.push({
-    //   text: '',
-    //   clickHandle: function (rowInfo, event) {
-    //     var orderInfo = generateWechatShareOrderInfos([rowInfo]);
-    //     shareOrderByWechat(orderInfo, event);
-    //   },
-    //   className: 'wechat-share',
-    //   title: '分享到微信'
-    // });
-    //
-    // if ($scope.searchModule.currentLabel === 'assign') {
-    //
-    //   //已经分配的订单,已经签到
-    //   // if (currentOrder.create_company._id === currentOrder.execute_company && (currentOrder.status === 'unAssigned' || currentOrder.status === 'assigning' || currentOrder.status === 'unPickupSigned')) {
-    //   //   selfButtons.push({
-    //   //     text: '',
-    //   //     clickHandle: deleteOrder,
-    //   //     className: 'delete-order',
-    //   //     title: '删除'
-    //   //   });
-    //   // }
-    // }
-
     return selfButtons;
   };
 
@@ -11320,15 +11270,25 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
     getOrderList(); //首次获取订单信息
   });
 
-  $scope.verifyOrder = function (type, price, raise, reason, orderDetail) {
-    if (orderDetail.tender[type]) {
+  $scope.addTiaoZhang = function (tender, type) {
+    tender['real_pay_' + type + '_tiaozhangs'].push({
+      price: null,
+      reason: ''
+    });
+  };
+
+  $scope.verifyOrder = function (type, price, orderDetail) {
+    if (orderDetail.tender['can_pay_' + type]) {
       return;
     }
+    orderDetail.tender['real_pay_' + type + '_tiaozhangs'].forEach(function(item){
+      delete item.$$hashKey;
+    });
+    
     OrderService.verifyOrder({
-      type: type,
+      type: 'can_pay_' + type,
       price: price,
-      raise: raise,
-      reason: reason,
+      tender_tiaozhang: orderDetail.tender['real_pay_' + type + '_tiaozhangs'],
       order_id: orderDetail.order_id
     }).then(function (data) {
       console.log(data);
@@ -13136,6 +13096,16 @@ zhuzhuqs.directive('zzCustomizeDialog', function () {
         }
     }
 });
+zhuzhuqs.directive('zzExportDialog', function () {
+  return {
+    restrict:'A',
+    templateUrl:'directive/zz_export_dialog/order_export_dialog.client.directive.html',
+    replace:false,
+    scope:{
+    },
+    controller:'OrderExportController'
+  };
+});
 /**
  * Created by elinaguo on 15/5/20.
  */
@@ -13447,16 +13417,6 @@ zhuzhuqs.directive('zzList', ['GlobalEvent', function (GlobalEvent) {
   };
 }]);
 
-zhuzhuqs.directive('zzExportDialog', function () {
-  return {
-    restrict:'A',
-    templateUrl:'directive/zz_export_dialog/order_export_dialog.client.directive.html',
-    replace:false,
-    scope:{
-    },
-    controller:'OrderExportController'
-  };
-});
 /**
  * Created by elinaguo on 15/5/24.
  */

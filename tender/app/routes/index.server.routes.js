@@ -11,4 +11,6 @@ module.exports = function (app) {
   app.route('/site/index').get(index.indexSite);
   app.route('/external_link').get(index.externalLink);
   app.route('/back_home_page').get(index.backHomePage);
+
+  app.route('/wechat2_detial').get(index.wechat2Detail);
 };

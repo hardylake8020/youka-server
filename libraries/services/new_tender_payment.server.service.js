@@ -68,3 +68,38 @@ exports.payment = function (tender, user, type, number, callback) {
     return callback(null, saveTender);
   });
 };
+
+exports.getPaymentTenderList = function (created, type, callback) {
+  var query = {};
+  if (type == 'payment') {
+    query = {
+      $or: [
+        {'can_pay_top': true, real_pay_top_cash_time: {$exists: true}},
+        {'can_pay_tail': true, real_pay_tail_cash_time: {$exists: true}},
+        {'can_pay_last': true, real_pay_last_cash_time: {$exists: true}},
+        {'can_pay_ya_jin': true, real_pay_ya_jin_cash_time: {$exists: true}}
+      ]
+    };
+  }
+
+  if (type == 'unpayment') {
+    query = {
+      $or: [
+        {'can_pay_top': true, real_pay_top_cash_time: {$exists: false}},
+        {'can_pay_tail': true, real_pay_tail_cash_time: {$exists: false}},
+        {'can_pay_last': true, real_pay_last_cash_time: {$exists: false}},
+        {'can_pay_ya_jin': true, real_pay_ya_jin_cash_time: {$exists: false}}
+      ]
+    };
+  }
+
+  if (created) {
+    query.created = {$lte: new Date(created)};
+  }
+  Tender.find(query).sort({created: -1}).limit(10).exec(function (err, results) {
+    if (err || !saveTender) {
+      return callback({err: error.system.db_error});
+    }
+    return callback(null, results);
+  });
+};

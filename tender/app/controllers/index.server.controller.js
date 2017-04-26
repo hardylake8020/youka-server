@@ -21,9 +21,16 @@ exports.externalLink = function (req, res, next) {
 
   cookieLibrary.setCookie(res, 'access_token', accessToken);
 
+  if (state == 'finance_tender_list') {
+    return res.redirect('/wechat2/index.html');
+  }
   return res.redirect('/site/index#/' + state);
 };
 
 exports.backHomePage = function (req, res, next) {
-  return res.redirect(config.zzqsAddress+'zzqs2/index');
+  return res.redirect(config.zzqsAddress + 'zzqs2/index');
+};
+
+exports.wechat2Detail = function (req, res, next) {
+  return res.redirect('/wechat2/detail.html');
 };

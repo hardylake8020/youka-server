@@ -8604,3 +8604,73 @@ input:-ms-input-placeholder {
 .zz-charts-container .zz-charts-container-row .right-area .zz-chart-container .order-salesmen-body th {
   white-space: nowrap;
 }
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-header-row {
+  width: 100%;
+  overflow: hidden;
+  line-height: 40px;
+  color: #cdcdcd;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-header-row .tiaozhang-col {
+  float: left;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-header-row .tiaozhang-col.width10 {
+  width: 10%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-header-row .tiaozhang-col.width15 {
+  width: 15%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-header-row .tiaozhang-col.width20 {
+  width: 20%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-header-row .tiaozhang-col.width30 {
+  width: 30%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-header-row .tiaozhang-col.width50 {
+  width: 50%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row {
+  margin-bottom: 5px;
+  margin-top: 5px;
+  border-bottom: 1px solid #cdcdcd;
+  width: 100%;
+  overflow: hidden;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col {
+  float: left;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col.width50 {
+  width: 50%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col.width10 {
+  width: 10%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col.width15 {
+  width: 15%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col.width20 {
+  width: 20%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col.width30 {
+  width: 30%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col.width40 {
+  width: 40%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col.width50 {
+  width: 50%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col.width100 {
+  width: 100%;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col .tiaozhang-btn {
+  float: left;
+  background-color: #4186c9;
+  border: 0px;
+  padding: 2px 5px;
+  margin-bottom: 2px;
+  margin-right: 15px;
+  color: white;
+}
+.zz-order-follow-container .mask-container .content .evaluation .order-tiaozhang .tiaozhang-body-row .tiaozhang-col .tiaozhang-btn.passed {
+  background-color: gray;
+}

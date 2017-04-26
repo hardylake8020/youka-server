@@ -1,0 +1,97 @@
+html {
+  height: 100%;
+}
+html body {
+  height: 100%;
+}
+html body .detail-view {
+  background-color: #333366;
+  width: 100%;
+  height: 100%;
+}
+html body .detail-view .detail-header {
+  line-height: 40px;
+  color: white;
+  position: relative;
+}
+html body .detail-view .detail-header .detail-back {
+  position: absolute;
+  left: 10px;
+}
+html body .detail-view .detail-header .detail-title {
+  width: 100%;
+  text-align: center;
+}
+html body .detail-view .detail-list {
+  font-size: 14px;
+  background-color: white;
+}
+html body .detail-view .detail-list .list-header {
+  border-bottom: 1px solid #cdcdcd;
+  color: #cdcdcd;
+  overflow: hidden;
+  padding: 10px;
+}
+html body .detail-view .detail-list .list-header .header-item {
+  float: left;
+}
+html body .detail-view .detail-list .list-header .header-item.title {
+  width: 20%;
+}
+html body .detail-view .detail-list .list-header .header-item.price {
+  width: 20%;
+}
+html body .detail-view .detail-list .list-header .header-item.tiaozhang {
+  width: 30%;
+}
+html body .detail-view .detail-list .list-header .header-item.description {
+  width: 30%;
+}
+html body .detail-view .detail-list .list-item {
+  padding: 10px;
+  overflow: hidden;
+}
+html body .detail-view .detail-list .list-item .item-row {
+  overflow: hidden;
+}
+html body .detail-view .detail-list .list-item .item-row .row-item {
+  margin-bottom: 10px;
+  float: left;
+}
+html body .detail-view .detail-list .list-item .item-row .row-item.title-col {
+  width: 20%;
+}
+html body .detail-view .detail-list .list-item .item-row .row-item.price-col {
+  width: 20%;
+}
+html body .detail-view .detail-list .list-item .item-row .row-item.tiaozhang-col {
+  width: 60%;
+  overflow: hidden;
+}
+html body .detail-view .detail-list .list-item .item-row .row-item.tiaozhang-col .tiaozhang-row {
+  margin-bottom: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+html body .detail-view .detail-list .list-item .item-row .row-item.tiaozhang-col .tiaozhang-row .price {
+  float: left;
+  width: 50%;
+}
+html body .detail-view .detail-list .list-item .item-row .row-item.tiaozhang-col .tiaozhang-row .description {
+  width: 50%;
+  float: left;
+}
+html body .detail-view .detail-list .list-item .verify-btn {
+  width: 100px;
+  background-color: #2dbf00;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  float: right;
+  margin-left: 10px;
+}
+html body .detail-view .detail-list .list-item .verify-btn.pass {
+  background-color: white;
+  border: 1px solid #2dbf00;
+  color: #2dbf00;
+}
