@@ -26,3 +26,12 @@ exports.payment = function (req, res, next) {
     return res.send(err || result);
   });
 };
+
+exports.getPaymentTenderList = function (req, res, next) {
+  var created = req.body.created || '';
+  var type = req.body.type || 'unpayment';
+
+  newTenderService.payment(created, type, function (err, result) {
+    return res.send(err || result);
+  });
+};
