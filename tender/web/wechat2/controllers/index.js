@@ -63,7 +63,7 @@ $(function () {
       }
 
       var jq = $(
-        '<div class="list-item-wrapper">' +
+        '<div id="' + item._id + '" class="list-item-wrapper">' +
         '<div class="list-item">' +
         '<div class="item-head">' +
         item.order_number +
@@ -82,6 +82,10 @@ $(function () {
         '</div>' +
         '</div>'
       );
+
+      jq.click(function () {
+        window.location = '/wechat2_detial?tender_id' + $(this).id;
+      });
 
       list.append(jq);
     });
