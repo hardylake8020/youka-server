@@ -17,15 +17,15 @@ $(function () {
 
   unVerifiedBtn.click(function () {
     if (!unVerifiedBtn.hasClass('select')) {
-      var tenders = [];
+      list.children().remove();
       getTenders('unpayment');
       unVerifiedBtn.addClass('select');
       verifiedBtn.removeClass('select');
     }
   });
   verifiedBtn.click(function () {
-    var tenders = [];
     if (!verifiedBtn.hasClass('select')) {
+      list.children().remove();
       getTenders('payment');
       verifiedBtn.addClass('select');
       unVerifiedBtn.removeClass('select');
