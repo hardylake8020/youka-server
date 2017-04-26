@@ -5,4 +5,6 @@ $(function () {
   $('.detail-back').click(function () {
     window.history.back();
   });
+
+  console.log(window.localStorage.getItem('tender_id'));
 });

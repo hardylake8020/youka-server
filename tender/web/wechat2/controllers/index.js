@@ -4,6 +4,7 @@
 
 var baseUrl = 'http://' + window.location.host;
 var tenders = [];
+window.localStorage.setItem('tender_id', this.id);
 
 $(function () {
   $('.list-item-wrapper').click(function () {
@@ -84,6 +85,7 @@ $(function () {
       );
 
       jq.click(function () {
+        window.localStorage.setItem('tender_id', this.id);
         window.location = '/wechat2_detial?tender_id=' + this.id;
       });
 
