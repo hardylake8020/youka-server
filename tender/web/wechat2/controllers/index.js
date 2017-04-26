@@ -84,7 +84,7 @@ $(function () {
       );
 
       jq.click(function () {
-        window.location = '/wechat2_detial?tender_id=' + thisid;
+        window.location = '/wechat2_detial?tender_id=' + this.id;
       });
 
       list.append(jq);
