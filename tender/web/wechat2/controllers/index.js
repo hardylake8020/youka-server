@@ -1,6 +1,8 @@
 /**
  * Created by zenghong on 2017/4/26.
  */
+
+var baseUrl = 'http://' + window.location.host;
 $(function () {
   $('.list-item-wrapper').click(function () {
     window.location = '/wechat2_detial';
@@ -9,27 +11,39 @@ $(function () {
   var unVerifiedBtn = $('.un-verify');
   var verifiedBtn = $('.verified');
   unVerifiedBtn.click(function () {
-    unVerifiedBtn.addClass('select');
-    verifiedBtn.removeClass('select');
-
+    if (!unVerifiedBtn.hasClass('select')) {
+      getTenders('unpayment');
+      unVerifiedBtn.addClass('select');
+      verifiedBtn.removeClass('select');
+    }
   });
   verifiedBtn.click(function () {
-    verifiedBtn.addClass('select');
-    unVerifiedBtn.removeClass('select');
+    if (!verifiedBtn.hasClass('select')) {
+      getTenders('payment');
+      verifiedBtn.addClass('select');
+      unVerifiedBtn.removeClass('select');
+    }
   });
+
+  unVerifiedBtn.click();
 
   function getTenders(type) {
     $.ajax({
-      url: '',
+      url: baseUrl + '/tender/user/getPaymentTenderList',
+      method: 'post',
       data: {
         type: type
       },
-      success: function () {
-
+      success: function (data) {
+        console.log(data);
       },
       error: function () {
 
       }
     });
+  }
+
+  function appendTenderItem() {
+
   }
 });

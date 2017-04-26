@@ -97,7 +97,7 @@ exports.getPaymentTenderList = function (created, type, callback) {
     query.created = {$lte: new Date(created)};
   }
   Tender.find(query).sort({created: -1}).limit(10).exec(function (err, results) {
-    if (err || !saveTender) {
+    if (err || !results) {
       return callback({err: error.system.db_error});
     }
     return callback(null, results);
