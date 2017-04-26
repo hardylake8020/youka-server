@@ -15,7 +15,7 @@ $(function () {
   getTenderDetail();
   function getTenderDetail(){
     $.ajax({
-      url:baseUrl+'/tender/driver/getTenderByTenderId',
+      url:baseUrl+'/tender/user/getTenderByTenderId',
       method:'post',
       data:{tender_id:tenderId},
       success:function (data) {

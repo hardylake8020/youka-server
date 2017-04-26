@@ -42,9 +42,10 @@ module.exports = function (app) {
   app.route('/tender/user/examine').post(userFilter.requireUser, tenderFileter.requireById, tenderPayment.examine);
 
   app.route('/tender/user/getPaymentTenderList').post(tenderPayment.getPaymentTenderList);
-  
-  
-  
+  app.route('/tender/user/getTenderByTenderId').post( tenderFileter.requireById, tenderDriver.getTenderByTenderId);
+
+
+
   app.route('/tender/user/get/list').post(userFilter.requireUser, tender.getListByUser);
   app.route('/tender/user/get/one').get(userFilter.requireUser, tender.getOneByUser);
   app.route('/tender/user/delete').get(userFilter.requireUser, tender.deleteByUser);
