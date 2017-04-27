@@ -126,7 +126,7 @@ $(function () {
     });
   }
 
-  function payment(type, tenderId) {
+  function payment(type) {
     $.ajax({
       url: baseUrl + '/tender/user/newPayment',
       data: {
