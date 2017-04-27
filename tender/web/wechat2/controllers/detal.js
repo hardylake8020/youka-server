@@ -58,11 +58,8 @@ $(function () {
               '<div class="row-item tiaozhang-col">' +
               getTiaozhangStr(data.real_pay_tail_tiaozhangs) +
               '</div>' +
-              '<div class="verify-btn">' +
-              '通过' +
-              '</div>' +
               '<div class="verify-btn pass">' +
-              '通过' +
+              '已通过' +
               '</div>' +
               '</div>');
 
@@ -86,11 +83,8 @@ $(function () {
               '<div class="row-item tiaozhang-col">' +
               getTiaozhangStr(data.real_pay_last_tiaozhangs) +
               '</div>' +
-              '<div class="verify-btn">' +
-              '通过' +
-              '</div>' +
               '<div class="verify-btn pass">' +
-              '通过' +
+              '已通过' +
               '</div>' +
               '</div>');
 
@@ -114,11 +108,8 @@ $(function () {
               '<div class="row-item tiaozhang-col">' +
               getTiaozhangStr(data.real_pay_ya_jin_tiaozhangs) +
               '</div>' +
-              '<div class="verify-btn">' +
-              '通过' +
-              '</div>' +
               '<div class="verify-btn pass">' +
-              '通过' +
+              '已通过' +
               '</div>' +
               '</div>');
 
