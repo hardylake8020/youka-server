@@ -67,8 +67,8 @@ $(function () {
               '</div>');
 
           if (!data.real_pay_tail_cash_time) {
-            top.find('.verify-btn').removeClass('pass').text('通过');
-            top.find('.verify-btn').click(function () {
+            tail.find('.verify-btn').removeClass('pass').text('通过');
+            tail.find('.verify-btn').click(function () {
               payment('real_pay_tail_cash');
             });
           }
@@ -95,8 +95,8 @@ $(function () {
               '</div>');
 
           if (!data.real_pay_last_cash_time) {
-            top.find('.verify-btn').removeClass('pass').text('通过');
-            top.find('.verify-btn').click(function () {
+            last.find('.verify-btn').removeClass('pass').text('通过');
+            last.find('.verify-btn').click(function () {
               payment('real_pay_last_cash');
             });
           }
@@ -123,8 +123,8 @@ $(function () {
               '</div>');
 
           if (!data.real_pay_ya_jin_cash_time) {
-            top.find('.verify-btn').removeClass('pass').text('通过');
-            top.find('.verify-btn').click(function () {
+            ya_jin.find('.verify-btn').removeClass('pass').text('通过');
+            ya_jin.find('.verify-btn').click(function () {
               payment('real_pay_ya_jin_cash');
             });
           }
