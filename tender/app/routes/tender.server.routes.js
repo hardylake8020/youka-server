@@ -44,6 +44,8 @@ module.exports = function (app) {
   app.route('/tender/user/getPaymentTenderList').post(tenderPayment.getPaymentTenderList);
   app.route('/tender/user/getTenderByTenderId').post( tenderFileter.requireById, tenderDriver.getTenderByTenderId);
 
+  app.route('/tender/user/newPayment').post(tenderFileter.requireById, tenderPayment.payment);
+
 
 
   app.route('/tender/user/get/list').post(userFilter.requireUser, tender.getListByUser);

@@ -137,7 +137,7 @@ $(function () {
 
   function payment(type, tenderId) {
     $.ajax({
-      url: baseUrl + '/tender/user/payment',
+      url: baseUrl + '/tender/user/newPayment',
       data: {
         type: type,
         tender_id: tenderId
@@ -145,7 +145,7 @@ $(function () {
       method: 'post',
       success: function (data) {
         if (!data.err) {
-          alert('操作成功！')
+          alert('操作成功！');
           window.location = window.location;
         }
         else {

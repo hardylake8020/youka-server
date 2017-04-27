@@ -60,7 +60,7 @@ exports.payment = function (tender, user, type, number, callback) {
     return callback({err: {type: 'invalid_type'}});
   }
   tender[type + '_time'] = new Date();
-  tender[type + '_username'] = user.username;
+  tender[type + '_username'] = user?user.username:'';
   tender.save(function (err, saveTender) {
     if (err || !saveTender) {
       return callback({err: error.system.db_error});
