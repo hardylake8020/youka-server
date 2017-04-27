@@ -113,7 +113,7 @@ $(function () {
               '</div>' +
               '</div>');
 
-          if (!data.real_pay_ya_jin_cash_time) {
+          if (!data.real_pay_ya_jin_time) {
             ya_jin.find('.verify-btn').removeClass('pass').text('通过');
             ya_jin.find('.verify-btn').click(function () {
               payment('real_pay_ya_jin');
