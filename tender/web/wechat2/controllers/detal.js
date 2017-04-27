@@ -28,7 +28,7 @@ $(function () {
               '首款金额' +
               '</div>' +
               '<div class="row-item price-col">' +
-              data.real_pay_top_cash||0 +
+              data.real_pay_top_cash +
               '</div>' +
               '<div class="row-item tiaozhang-col">' +
               getTiaozhangStr(data.real_pay_top_tiaozhangs) +
@@ -53,7 +53,7 @@ $(function () {
               '尾款金额' +
               '</div>' +
               '<div class="row-item price-col">' +
-              data.real_pay_tail_cash||0 +
+              data.real_pay_tail_cash +
               '</div>' +
               '<div class="row-item tiaozhang-col">' +
               getTiaozhangStr(data.real_pay_tail_tiaozhangs) +
@@ -78,7 +78,7 @@ $(function () {
               '回单金额' +
               '</div>' +
               '<div class="row-item price-col">' +
-              data.real_pay_last_cash||0 +
+              data.real_pay_last_cash +
               '</div>' +
               '<div class="row-item tiaozhang-col">' +
               getTiaozhangStr(data.real_pay_last_tiaozhangs) +
@@ -103,7 +103,7 @@ $(function () {
               '押金金额' +
               '</div>' +
               '<div class="row-item price-col">' +
-              data.real_pay_ya_jin||0 +
+              data.real_pay_ya_jin +
               '</div>' +
               '<div class="row-item tiaozhang-col">' +
               getTiaozhangStr(data.real_pay_ya_jin_tiaozhangs) +
