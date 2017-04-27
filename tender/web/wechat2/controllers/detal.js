@@ -127,6 +127,17 @@ $(function () {
         '</div>' +
         '</div>';
     });
+
+    if(!str){
+      str='<div class="tiaozhang-row">' +
+        '<div class="price">' +
+        '无' +
+        '</div>' +
+        '<div class="description">' +
+        '无' +
+        '</div>' +
+        '</div>';
+    }
     return str;
   }
 });
