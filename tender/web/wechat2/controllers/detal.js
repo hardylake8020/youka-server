@@ -42,6 +42,69 @@ $(function () {
             '</div>';
 
           list.append(str);
+
+          var str =
+            '<div class="item-row">' +
+            '<div class="row-item title-col">' +
+            '尾款金额' +
+            '</div>' +
+            '<div class="row-item price-col">' +
+            data.real_pay_tail_cash +
+            '</div>' +
+            '<div class="row-item tiaozhang-col">' +
+            getTiaozhangStr(data.real_pay_tail_tiaozhangs) +
+            '</div>' +
+            '<div class="verify-btn">' +
+            '通过' +
+            '</div>' +
+            '<div class="verify-btn pass">' +
+            '通过' +
+            '</div>' +
+            '</div>';
+
+          list.append(str);
+
+          var str =
+            '<div class="item-row">' +
+            '<div class="row-item title-col">' +
+            '回单金额' +
+            '</div>' +
+            '<div class="row-item price-col">' +
+            data.real_pay_last_cash +
+            '</div>' +
+            '<div class="row-item tiaozhang-col">' +
+            getTiaozhangStr(data.real_pay_last_tiaozhangs) +
+            '</div>' +
+            '<div class="verify-btn">' +
+            '通过' +
+            '</div>' +
+            '<div class="verify-btn pass">' +
+            '通过' +
+            '</div>' +
+            '</div>';
+
+          list.append(str);
+
+          var str =
+            '<div class="item-row">' +
+            '<div class="row-item title-col">' +
+            '押金金额' +
+            '</div>' +
+            '<div class="row-item price-col">' +
+            data.real_pay_ya_jin_cash +
+            '</div>' +
+            '<div class="row-item tiaozhang-col">' +
+            getTiaozhangStr(data.real_pay_ya_jin_tiaozhangs) +
+            '</div>' +
+            '<div class="verify-btn">' +
+            '通过' +
+            '</div>' +
+            '<div class="verify-btn pass">' +
+            '通过' +
+            '</div>' +
+            '</div>';
+
+          list.append(str);
         }
         
         
