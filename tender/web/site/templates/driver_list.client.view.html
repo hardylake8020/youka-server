@@ -67,7 +67,8 @@
     <div class="driver-body-row" ng-repeat="driver in info.driverList">
       <div class="driver-col width10">
         <div class="driver-item">
-          <img class="driver-photo radus" ng-src="{{ getPhotos( driver.photo)}}" alt="未上传">
+          <img class="driver-photo radus" ng-click="showPhotos(driver.photo)" ng-src="{{ getPhotos( driver.photo)}}"
+               alt="未上传">
         </div>
       </div>
       <div class="driver-col width10">
@@ -130,5 +131,9 @@
       </div>
     </div>
   </div>
+</div>
+<div zz-photo-scan
+     photos="photoConfig.curPhotoList"
+     show="photoConfig.showPhotoScan">
 </div>
 </div>

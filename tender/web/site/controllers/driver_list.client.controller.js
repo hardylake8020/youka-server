@@ -35,6 +35,17 @@ tender.controller('DriverlistController', ['$rootScope', '$scope', '$stateParams
       });
     };
 
+    $scope.curPhotoList = [];
+    $scope.photoConfig = {
+      curPhotoList: [],
+      showPhotoScan: false
+    };
+
+    $scope.showPhotos = function (path) {
+      $scope.photoConfig.curPhotoList = [$scope.getPhotos(path)];
+      $scope.photoConfig.showPhotoScan = true;
+    };
+
     function init() {
       $scope.getAllDrivers();
     }
