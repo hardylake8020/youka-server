@@ -43,7 +43,9 @@ tender.controller('DriverlistController', ['$rootScope', '$scope', '$stateParams
     };
 
     $scope.showPhotos = function (path) {
-      $scope.photoConfig.curPhotoList = [$scope.getPhotos(path)];
+      $scope.photoConfig.curPhotoList = [{
+        url: $scope.getPhotos(path)
+      }];
       $scope.photoConfig.showPhotoScan = true;
     };
 
