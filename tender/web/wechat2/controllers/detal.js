@@ -9,6 +9,7 @@ $(function () {
   });
 
   var list = $('.list-item');
+  var tender = {};
 
 
   console.log(window.localStorage.getItem('tender_id'));
@@ -22,6 +23,7 @@ $(function () {
       success: function (data) {
         console.log(data);
         if (!data.err) {
+          tender = data;
           var top =
             $('<div class="item-row">' +
               '<div class="row-item title-col">' +
@@ -41,11 +43,12 @@ $(function () {
           if (!data.real_pay_top_cash_time) {
             top.find('.verify-btn').removeClass('pass').text('通过');
             top.find('.verify-btn').click(function () {
-              payment('real_pay_top_cash');
+                payment('real_pay_top_cash');
             });
           }
 
-          list.append(top);
+          if (tender.can_pay_top)
+            list.append(top);
 
           var tail =
             $('<div class="item-row">' +
@@ -66,11 +69,12 @@ $(function () {
           if (!data.real_pay_tail_cash_time) {
             tail.find('.verify-btn').removeClass('pass').text('通过');
             tail.find('.verify-btn').click(function () {
-              payment('real_pay_tail_cash');
+                payment('real_pay_tail_cash');
             });
           }
 
-          list.append(tail);
+          if (tender.can_pay_tail)
+            list.append(tail);
 
           var last =
             $('<div class="item-row">' +
@@ -91,11 +95,12 @@ $(function () {
           if (!data.real_pay_last_cash_time) {
             last.find('.verify-btn').removeClass('pass').text('通过');
             last.find('.verify-btn').click(function () {
-              payment('real_pay_last_cash');
+                payment('real_pay_last_cash');
             });
           }
 
-          list.append(last);
+          if (tender.can_pay_last)
+            list.append(last);
 
           var ya_jin =
             $('<div class="item-row">' +
@@ -119,14 +124,15 @@ $(function () {
               payment('real_pay_ya_jin');
             });
           }
-
-          list.append(ya_jin);
+          if (tender.can_pay_ya_jin)
+            list.append(ya_jin);
         }
       }
     });
   }
 
   function payment(type) {
+
     $.ajax({
       url: baseUrl + '/tender/user/newPayment',
       data: {
