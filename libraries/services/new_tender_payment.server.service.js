@@ -74,10 +74,10 @@ exports.getPaymentTenderList = function (created, type, callback) {
   if (type == 'payment') {
     query = {
       $or: [
-        {'can_pay_top': true, real_pay_top_cash_time: {$ne: true}},
-        {'can_pay_tail': true, real_pay_tail_cash_time: {$ne: true}},
-        {'can_pay_last': true, real_pay_last_cash_time: {$ne: true}},
-        {'can_pay_ya_jin': true, real_pay_ya_jin_time: {$ne: true}}
+        {'can_pay_top': true, real_pay_top_cash_time: {$ne: null}},
+        {'can_pay_tail': true, real_pay_tail_cash_time: {$ne: null}},
+        {'can_pay_last': true, real_pay_last_cash_time: {$ne: null}},
+        {'can_pay_ya_jin': true, real_pay_ya_jin_time: {$ne: null}}
       ]
     };
   }
