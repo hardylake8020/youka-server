@@ -44,22 +44,15 @@ var xml2js = require('xml2js');
 
 exports.testPreWechatPay = function (req, res, next) {
 
-  var mch_id = '755437000006';
-  var mch_create_ip = '123.58.128.254';
-  var nonce_str = new Date().getTime();
-  var out_trade_no = '123456789';
-  var sk = '7daa4babae15ae17eee90c9e';
-
-
-
   var body = '测试预付款';
-  var mch_create_ip = mch_create_ip;
-  var mch_id = mch_id;
-  var nonce_str = nonce_str;
+  var mch_create_ip = '123.58.128.254';
+  var mch_id = '755437000006';
+  var nonce_str = '1494863433292';
   var notify_url = 'http://' + mch_create_ip + ':3006/tender/driver/test_notifiy_url';
-  var out_trade_no = out_trade_no;
+  var out_trade_no = '123456789';
   var total_fee = 10;
   var service = 'unified.trade.pay';
+  var sk = '7daa4babae15ae17eee90c9e';
 
   var str = 'body=' + body +
     '&mch_create_ip=' + mch_create_ip +
@@ -72,7 +65,7 @@ exports.testPreWechatPay = function (req, res, next) {
     '&key=' + sk;
   console.log('str', str);
   var sign = crypto.createHash('md5').update(str).digest('hex').toUpperCase();
-
+  console.log(sign);
   var json = {
     "xml": {
       "service": service,
