@@ -41,7 +41,8 @@
     "validator": "^3.19.0",
     "webpack": "^1.12.14",
     "wkhtmltopdf": "^0.1.5",
-    "xlsx": "^0.8.0"
+    "xlsx": "^0.8.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "grunt-cli": "~0.1.13",
