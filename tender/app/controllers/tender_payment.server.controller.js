@@ -64,7 +64,8 @@ exports.testPreWechatPay = function (req, res, next) {
     '&total_fee=' +total_fee+
     '&key=' + sk;
   console.log('str', str);
-  var sign = crypto.createHash('md5').update(str).digest('hex').toUpperCase();
+  var sign = crypto.createHash('md5').update(str,'utf8').digest('hex').toUpperCase();
+
   console.log(sign);
   var json = {
     "xml": {
