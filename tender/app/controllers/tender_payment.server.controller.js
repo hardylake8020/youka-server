@@ -42,7 +42,7 @@ var xml2js = require('xml2js');
 
 
 
-exports.testPreWechatPay = function (req, res, next) {
+exports.getWechatPayToken = function (req, res, next) {
 
   var body = '测试预付款';
   var mch_create_ip = '123.58.128.254';
@@ -84,6 +84,8 @@ exports.testPreWechatPay = function (req, res, next) {
 
   var builder = new xml2js.Builder();
   var xml = builder.buildObject(json);
+  var parseString = xml2js.parseString;
+
 
   agent.post('https://pay.swiftpass.cn/pay/gateway')
     .set('Content-Type', 'application/xml')
@@ -96,7 +98,10 @@ exports.testPreWechatPay = function (req, res, next) {
       }
       console.log('testPreWechatPay res.body =================================================================>');
       console.log(result.text);
-      return res.send(result.text);
+
+      parseString(result.text,{ explicitArray : false, ignoreAttrs : true }, function (err, data) {
+        return res.send(data.xml);
+      });
     });
 };
 
@@ -165,5 +170,3 @@ exports.payTest = function () {
   // // var json = parser.toJson(xml);
   // console.log("to json -> %s", json);
 };
-//
-// exports.payTest();
