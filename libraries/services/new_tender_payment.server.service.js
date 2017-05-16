@@ -203,7 +203,7 @@ exports.test_notifiy_url = function (out_trade_no, total_fee, result, callback) 
     }
 
     result.is_valid = true;
-    result.data = data;
+    result.data = result;
     result.save(function (err, savePay) {
       if (err || !savePay) {
         return callback('err');
