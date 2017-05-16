@@ -5,7 +5,10 @@
 'use strict';
 
 var tender = require('../controllers/tender'),
+  driverFilter = require('../../../libraries/filters/driver'),
   tenderPayment = require('../controllers/tender_payment');
+
+
 module.exports = function (app) {
   app.route('/tender/driver/getWechatPayToken').post(tenderPayment.getWechatPayToken);
   app.route('/tender/driver/test_notifiy_url').get(tenderPayment.test_notifiy_url);

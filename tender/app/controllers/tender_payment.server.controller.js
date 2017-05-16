@@ -37,91 +37,19 @@ exports.getPaymentTenderList = function (req, res, next) {
   });
 };
 
-var crypto = require('crypto');
-var xml2js = require('xml2js');
-
-
 
 exports.getWechatPayToken = function (req, res, next) {
-
-  var body = '测试预付款';
-  var mch_create_ip = '123.58.128.254';
-  var mch_id = '755437000006';
-  var nonce_str = '1494863433292';
-  var notify_url = 'http://' + mch_create_ip + ':3006/tender/driver/test_notifiy_url';
-  var out_trade_no = '123456789';
-  var total_fee = 10;
-  var service = 'unified.trade.pay';
-  var sk = '7daa4babae15ae17eee90c9e';
-
-  var str = 'body=' + body +
-    '&mch_create_ip=' + mch_create_ip +
-    '&mch_id=' + mch_id +
-    '&nonce_str=' + nonce_str +
-    '&notify_url=' + notify_url +
-    '&out_trade_no=' + out_trade_no +
-    '&service=' + service +
-    '&total_fee=' +total_fee+
-    '&key=' + sk;
-  console.log('str', str);
-  var sign = crypto.createHash('md5').update(str,'utf8').digest('hex').toUpperCase();
-
-  console.log(sign);
-  var json = {
-    "xml": {
-      "service": service,
-      "body": body,
-      "notify_url": notify_url,
-      "mch_id": mch_id,
-      "nonce_str": nonce_str,
-      "total_fee":total_fee,
-      "out_trade_no": out_trade_no,
-      "mch_create_ip": mch_create_ip,
-      "sign": sign
-    }
-  };
-
-
-  var builder = new xml2js.Builder();
-  var xml = builder.buildObject(json);
-  var parseString = xml2js.parseString;
-
-
-  agent.post('https://pay.swiftpass.cn/pay/gateway')
-    .set('Content-Type', 'application/xml')
-    .send(xml)
-    .end(function (err, result) {
-      if (err) {
-        console.log('testPreWechatPay res.err =================================================================>');
-        console.log(err);
-        return res.send(err);
-      }
-      console.log('testPreWechatPay res.body =================================================================>');
-      console.log(result.text);
-
-      parseString(result.text,{ explicitArray : false, ignoreAttrs : true }, function (err, data) {
-        return res.send(data.xml);
-      });
-    });
+  newTenderService.getWechatPayToken(req.driver, function (err, result) {
+    return res.send(err || result);
+  });
 };
-
 
 exports.test_notifiy_url = function (req, res, next) {
-  console.log(req.body || {});
-  console.log(req.query || {});
-  return res.send('test_notifiy_url success');
+  console.log('test_notifiy_url success');
+  newTenderService.getWechatPayToken(req.body || req.query, function (err, result) {
+    return res.send(err || result);
+  });
 };
-
-// exports.payTest = function (req, res, next) {
-//
-//
-//   console.log('test  pay tEST ===============>');
-//   console.log('body');
-//   console.log(req.body || {});
-//   console.log('query');
-//   console.log(req.query || {});
-//   return res.send('success');
-// };
 
 exports.payTest = function () {
   console.log('test  pay tEST ===============>');

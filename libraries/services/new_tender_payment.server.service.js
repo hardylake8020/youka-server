@@ -16,6 +16,7 @@ var appDb = require('../mongoose').appDb,
   Driver = appDb.model('Driver'),
   Contact = appDb.model('Contact'),
   Order = appDb.model('Order'),
+  Pay = appDb.model('Pay'),
   TransportEvent = appDb.model('TransportEvent'),
   BidRecord = appDb.model('BidRecord');
 
@@ -60,7 +61,7 @@ exports.payment = function (tender, user, type, number, callback) {
     return callback({err: {type: 'invalid_type'}});
   }
   tender[type + '_time'] = new Date();
-  tender[type + '_username'] = user?user.username:'';
+  tender[type + '_username'] = user ? user.username : '';
   tender.save(function (err, saveTender) {
     if (err || !saveTender) {
       return callback({err: error.system.db_error});
@@ -102,4 +103,139 @@ exports.getPaymentTenderList = function (created, type, callback) {
     }
     return callback(null, results);
   });
+};
+
+var crypto = require('crypto');
+var xml2js = require('xml2js');
+var agent = require('superagent').agent();
+
+exports.getWechatPayToken = function (driver, callback) {
+  var pay = new Pay({
+    out_trade_no: 'trade' + new Date().getTime(),
+    driver: driver,
+    total_fee: 10,
+    nonce_str: new Date().getTime(),
+    is_valid: false
+  });
+
+  pay.save(function (err, savePay) {
+    if (err || !savePay) {
+      return callback({err: error.system.db_error});
+    }
+
+    var body = '测试预付款';
+    var mch_create_ip = '123.58.128.254';
+    var mch_id = '755437000006';
+    var nonce_str = savePay.nonce_str;
+    var notify_url = 'http://' + mch_create_ip + ':3006/tender/driver/test_notifiy_url';
+    var out_trade_no = savePay.out_trade_no;
+    var total_fee = savePay.total_fee;
+    var service = 'unified.trade.pay';
+    var sk = '7daa4babae15ae17eee90c9e';
+
+    var str = 'body=' + body +
+      '&mch_create_ip=' + mch_create_ip +
+      '&mch_id=' + mch_id +
+      '&nonce_str=' + nonce_str +
+      '&notify_url=' + notify_url +
+      '&out_trade_no=' + out_trade_no +
+      '&service=' + service +
+      '&total_fee=' + total_fee +
+      '&key=' + sk;
+    console.log('str', str);
+    var sign = crypto.createHash('md5').update(str, 'utf8').digest('hex').toUpperCase();
+
+    console.log(sign);
+    var json = {
+      "xml": {
+        "service": service,
+        "body": body,
+        "notify_url": notify_url,
+        "mch_id": mch_id,
+        "nonce_str": nonce_str,
+        "total_fee": total_fee,
+        "out_trade_no": out_trade_no,
+        "mch_create_ip": mch_create_ip,
+        "sign": sign
+      }
+    };
+
+
+    var builder = new xml2js.Builder();
+    var xml = builder.buildObject(json);
+    var parseString = xml2js.parseString;
+
+
+    agent.post('https://pay.swiftpass.cn/pay/gateway')
+      .set('Content-Type', 'application/xml')
+      .send(xml)
+      .end(function (err, result) {
+        if (err) {
+          console.log('testPreWechatPay res.err =================================================================>');
+          console.log(err);
+          return callback(err);
+        }
+        console.log('testPreWechatPay res.body =================================================================>');
+        console.log(result.text);
+
+        parseString(result.text, {explicitArray: false, ignoreAttrs: true}, function (err, data) {
+          return callback(null, data.xml);
+        });
+      });
+
+  });
+
+};
+
+exports.test_notifiy_url = function (data, callback) {
+  console.log(data || {});
+  return callback(null, {success: true});
+};
+
+exports.payTest = function () {
+  console.log('test  pay tEST ===============>');
+
+  var sk = '7daa4babae15ae17eee90c9e';
+  var appid = 'wx2a5538052969956e';
+
+
+  var str = 'body=测试支付&mch_create_ip=127.0.0.1&mch_id=755437000006&nonce_str=1409196838&notify_url=http://227.0.0.1:9001/tender/driver/test_notifiy_url&out_trade_no=141903606228&service=unified.trade.query';
+  str += '&key=7daa4babae15ae17eee90c9e';
+  var sign = crypto.createHash('md5').update(str).digest('hex').toUpperCase();
+  console.log(sign);
+
+
+  var json = {
+    "xml": {
+      "service": "unified.trade.query",
+      "body": "测试支付",
+      "notify_url": 'http://227.0.0.1:9001/tender/driver/test_notifiy_url',
+      "mch_id": "755437000006",
+      "nonce_str": "1409196838",
+      "out_trade_no": "141903606228",
+      "mch_create_ip": "127.0.0.1",
+      "sign": sign
+    }
+  };
+
+
+  console.log('json -> xml');
+  var builder = new xml2js.Builder();
+  var xml = builder.buildObject(json);
+
+  console.log(xml);
+
+  agent.post('https://pay.swiftpass.cn/pay/gateway')
+    .set('Content-Type', 'application/xml')
+    .send(xml)
+    .end(function (err, res) {
+      console.log('res.err =================================================================>');
+      console.log(err);
+      console.log('res.body =================================================================>');
+      console.log(res.text);
+    });
+
+
+  // // var json = parser.toJson(xml);
+  // console.log("to json -> %s", json);
 };

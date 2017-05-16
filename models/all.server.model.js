@@ -55,7 +55,7 @@ module.exports = function (appDb, logDb) {
 
   require('./deposit_log')(appDb);
   require('./payment_log')(appDb);
-  
   require('./card')(appDb);
+  require('./pay')(appDb);
 
 };
