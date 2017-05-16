@@ -14,6 +14,8 @@ var express = require('express'),
   path = require('path'),
   ejs = require('ejs'),
   async = require('async'),
+
+  middlewares = require('express-middlewares-js'),
   mongoose = require('mongoose');
 
 module.exports = function () {
@@ -58,6 +60,10 @@ module.exports = function () {
   // Request body parsing middleware should be above methodOverride
   app.use(bodyParser.urlencoded({
     extended: true
+  }));
+
+  app.use(middlewares.xmlBodyParser({
+    type: 'text/xml'
   }));
   app.use(bodyParser.json({limit: "50mb"}));
   app.use(methodOverride());
