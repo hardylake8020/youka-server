@@ -241,11 +241,20 @@ exports.wechatPayResult = function (driver, out_trade_no, callback) {
     if (err) {
       return callback({err: error.system.db_error});
     }
-    
-    if(!result){
+
+    if (!result) {
       return callback(null, {success: false});
     }
     return callback(null, {success: true});
+  })
+};
+
+exports.driverPayList = function (driver, callback) {
+  Pay.find({driver: driver._id}, function (err, results) {
+    if (err || !results) {
+      return callback({err: error.system.db_error});
+    }
+    return callback(null, {pay_list: results});
   })
 };
 

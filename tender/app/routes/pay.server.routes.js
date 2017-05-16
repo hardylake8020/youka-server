@@ -14,6 +14,5 @@ module.exports = function (app) {
   app.route('/tender/driver/test_notifiy_url').get(tenderPayment.test_notifiy_url);
   app.route('/tender/driver/test_notifiy_url').post(tenderPayment.test_notifiy_url);
   app.route('/tender/driver/wechatPayResult').post(driverFilter.requireDriver, tenderPayment.wechatPayResult);
-
-
+  app.route('/tender/driver/driverPayList').post(driverFilter.requireDriver, tenderPayment.driverPayList);
 };

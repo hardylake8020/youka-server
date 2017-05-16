@@ -69,6 +69,13 @@ exports.wechatPayResult = function (req, res, next) {
     return res.send(err || result);
   });
 };
+
+exports.driverPayList = function (req, res, next) {
+  var driver = req.driver;
+  newTenderService.payDriverList(driver, function (err, result) {
+    return res.send(err || result);
+  });
+};
 exports.payTest = function () {
   console.log('test  pay tEST ===============>');
 
