@@ -202,7 +202,6 @@ exports.test_notifiy_url = function (out_trade_no, total_fee, data, callback) {
       return callback(null, 'success');
     }
 
-
     result.is_valid = true;
     result.data = {
       "bank_type": data.bank_type[0],
