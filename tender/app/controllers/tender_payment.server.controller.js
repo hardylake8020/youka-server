@@ -72,7 +72,7 @@ exports.wechatPayResult = function (req, res, next) {
 
 exports.driverPayList = function (req, res, next) {
   var driver = req.driver;
-  newTenderService.payDriverList(driver, function (err, result) {
+  newTenderService.driverPayList(driver, function (err, result) {
     return res.send(err || result);
   });
 };
