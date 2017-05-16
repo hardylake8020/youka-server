@@ -47,6 +47,8 @@ exports.getWechatPayToken = function (req, res, next) {
 exports.test_notifiy_url = function (req, res, next) {
   console.log('test_notifiy_url success');
   console.log(req);
+  console.log('test_notifiy_url success');
+
   newTenderService.test_notifiy_url(req.body || req.query, function (err, result) {
     return res.send('success');
   });
