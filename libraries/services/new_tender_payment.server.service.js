@@ -113,7 +113,7 @@ exports.getWechatPayToken = function (driver, callback) {
   var pay = new Pay({
     out_trade_no: 'trade' + new Date().getTime(),
     driver: driver,
-    total_fee: 10,
+    total_fee: 1,
     nonce_str: new Date().getTime(),
     is_valid: false
   });
