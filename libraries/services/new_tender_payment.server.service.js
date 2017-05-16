@@ -198,6 +198,10 @@ exports.test_notifiy_url = function (out_trade_no, total_fee, result, callback) 
       return callback('err');
     }
 
+    if (result.is_valid) {
+      return callback(null, 'success');
+    }
+
     result.is_valid = true;
     result.data = data;
     result.save(function (err, savePay) {
