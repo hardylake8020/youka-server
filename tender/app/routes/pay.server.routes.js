@@ -10,6 +10,7 @@ var tender = require('../controllers/tender'),
 
 
 module.exports = function (app) {
-  app.route('/tender/driver/getWechatPayToken').post(driverFilter.requireDriver,tenderPayment.getWechatPayToken);
+  app.route('/tender/driver/getWechatPayToken').post(driverFilter.requireDriver, tenderPayment.getWechatPayToken);
   app.route('/tender/driver/test_notifiy_url').get(tenderPayment.test_notifiy_url);
+  app.route('/tender/driver/test_notifiy_url').post(tenderPayment.test_notifiy_url);
 };
