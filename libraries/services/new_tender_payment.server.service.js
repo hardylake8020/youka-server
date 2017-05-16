@@ -250,7 +250,7 @@ exports.wechatPayResult = function (driver, out_trade_no, callback) {
 };
 
 exports.driverPayList = function (driver, callback) {
-  Pay.find({driver: driver._id}, function (err, results) {
+  Pay.find({driver: driver._id,is_valid:true}, function (err, results) {
     if (err || !results) {
       return callback({err: error.system.db_error});
     }
