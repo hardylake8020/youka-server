@@ -179,6 +179,7 @@ exports.getWechatPayToken = function (driver, callback) {
         console.log(result.text);
 
         parseString(result.text, {explicitArray: false, ignoreAttrs: true}, function (err, data) {
+          data.xml.out_trade_no = out_trade_no;
           return callback(null, data.xml);
         });
       });
@@ -187,8 +188,37 @@ exports.getWechatPayToken = function (driver, callback) {
 
 };
 
-exports.test_notifiy_url = function (data, callback) {
+exports.test_notifiy_url = function (out_trade_no, total_fee, result, callback) {
+  Pay.findOne({
+    out_trade_no: out_trade_no,
+    total_fee: total_fee,
+
+  }, function (err, result) {
+    if (err || !result) {
+      return callback('err');
+    }
+
+    result.is_valid = true;
+    result.data = data;
+    result.save(function (err, savePay) {
+      if (err || !savePay) {
+        return callback('err');
+      }
+      return callback(null, 'success');
+    });
+
+  });
   return callback(null, {success: true});
+};
+
+exports.wechatPayResult = function (driver, out_trade_no, callback) {
+  Pay.findOne({out_trade_no: out_trade_no, is_valid: true, driver: driver._id}, function (err, result) {
+    if (err) {
+      return callback({err: error.system.db_error});
+    }
+
+    return callback(null, {success: true});
+  })
 };
 
 exports.payTest = function () {

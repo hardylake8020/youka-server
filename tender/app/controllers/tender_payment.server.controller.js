@@ -46,17 +46,29 @@ exports.getWechatPayToken = function (req, res, next) {
 
 exports.test_notifiy_url = function (req, res, next) {
   console.log('test_notifiy_url success');
+  var result = req.body.xml || {};
+  if (result.status[0] != '0' || result.result_code[0] != '0') {
+    console.log(result.status != '0');
+    return res.send('faild');
+  }
 
-  console.log(req);
+  var total_fee = parseInt(result.total_fee[0]) || 0;
+  var out_trade_no = result.out_trade_no[0] || '';
+
   console.log('test_notifiy_url success');
-  console.log('body', req.body || {});
-  console.log('query', req.query || {});
 
-  newTenderService.test_notifiy_url(req.body || req.query, function (err, result) {
+  newTenderService.test_notifiy_url(out_trade_no, total_fee, result, function (err, result) {
     return res.send('success');
   });
 };
 
+exports.wechatPayResult = function (req, res, next) {
+  var out_trade_no = req.body.out_trade_no || '';
+  var driver = req.driver;
+  newTenderService.wechatPayResult(driver, out_trade_no, function (err, result) {
+    return res.send(err || result);
+  });
+};
 exports.payTest = function () {
   console.log('test  pay tEST ===============>');
 

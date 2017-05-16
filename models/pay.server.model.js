@@ -38,6 +38,9 @@ module.exports = function (appDb) {
       is_valid:{
         type:Boolean,
         default:false
+      },
+      data:{
+        type:Schema.Types.Mixed
       }
     }
   );
