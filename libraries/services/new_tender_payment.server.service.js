@@ -188,7 +188,7 @@ exports.getWechatPayToken = function (driver, callback) {
 
 };
 
-exports.test_notifiy_url = function (out_trade_no, total_fee, result, callback) {
+exports.test_notifiy_url = function (out_trade_no, total_fee, data, callback) {
   Pay.findOne({
     out_trade_no: out_trade_no,
     total_fee: total_fee,
@@ -202,8 +202,32 @@ exports.test_notifiy_url = function (out_trade_no, total_fee, result, callback) 
       return callback(null, 'success');
     }
 
+
     result.is_valid = true;
-    result.data = result;
+    result.data = {
+      "bank_type": data.bank_type[0],
+      "charset": data.charset[0],
+      "fee_type": data.fee_type[0],
+      "is_subscribe": data.is_subscribe[0],
+      "mch_id": data.mch_id[0],
+      "nonce_str": data.nonce_str[0],
+      "openid": data.openid[0],
+      "out_trade_no": data.out_trade_no[0],
+      "out_transaction_id": data.out_transaction_id[0],
+      "pay_result": data.pay_result[0],
+      "result_code": data.result_code[0],
+      "sign": data.sign[0],
+      "sign_type": data.sign_type[0],
+      "status": data.status[0],
+      "sub_appid": data.sub_appid[0],
+      "sub_is_subscribe": data.sub_is_subscribe[0],
+      "sub_openid": data.sub_openid[0],
+      "time_end": data.time_end[0],
+      "total_fee": data.total_fee[0],
+      "trade_type": data.trade_type[0],
+      "transaction_id": data.transaction_id[0],
+      "version": data.version[0],
+    };
     result.save(function (err, savePay) {
       if (err || !savePay) {
         return callback('err');
