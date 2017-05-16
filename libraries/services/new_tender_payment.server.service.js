@@ -241,7 +241,10 @@ exports.wechatPayResult = function (driver, out_trade_no, callback) {
     if (err) {
       return callback({err: error.system.db_error});
     }
-
+    
+    if(!result){
+      return callback(null, {success: false});
+    }
     return callback(null, {success: true});
   })
 };
