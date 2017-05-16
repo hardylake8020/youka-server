@@ -234,9 +234,7 @@ exports.test_notifiy_url = function (out_trade_no, total_fee, data, callback) {
       }
       return callback(null, 'success');
     });
-
   });
-  return callback(null, {success: true});
 };
 
 exports.wechatPayResult = function (driver, out_trade_no, callback) {
