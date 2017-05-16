@@ -188,7 +188,6 @@ exports.getWechatPayToken = function (driver, callback) {
 };
 
 exports.test_notifiy_url = function (data, callback) {
-  console.log(data || {});
   return callback(null, {success: true});
 };
 
