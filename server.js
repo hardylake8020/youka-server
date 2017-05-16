@@ -24,3 +24,8 @@ app.listen(config.port);
 exports = module.exports = app;
 console.log('MEAN.JS application started on address ' + config.serverAddress);
 console.log('MEAN.JS application started on port ' + config.port);
+
+
+
+
+
