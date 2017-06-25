@@ -1033,9 +1033,6 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           return callback('请选择油卡');
         }
 
-        if (!$scope.SupplierInfo.cardConfig.currentTruck || !$scope.SupplierInfo.supplierConfig.currentTruck.key) {
-          return callback('请选择司机');
-        }
       }
 
       return callback('测试中，请稍后');
