@@ -954,7 +954,7 @@ exports.checkTenderInfo = function (tenderInfo, callback) {
     }
   }
 
-  return callback({err: {type: '正在测试，请稍后'}});
+  // return callback({err: {type: '正在测试，请稍后'}});
 
   return callback();
 };
