@@ -1310,7 +1310,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           data.forEach(function (item) {
             $scope.SupplierInfo.truckConfig.options.push({
               key: item._id,
-              value: (item.driver_name || '未知姓名' ) + ' ' + item.driver_number + ' ' + item.truck_type + ' ' + item.truck_number
+              value: (item.driver_name || '未知姓名' ) + ' - ' + item.driver_number + ' - ' + item.truck_type + ' - ' + item.truck_number
             });
           });
           console.log('trucks  : ', data);
