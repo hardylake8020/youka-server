@@ -797,7 +797,7 @@ exports.create = function (currentUser, tenderInfo, callback) {
               return callback({err: {type: 'card_not_exist'}});
             }
 
-            newTenderDriverService.grab(tenderInfo.driver_id, result.saveTender, function (err, result) {
+            newTenderDriverService.grab(tenderInfo.driver_id, result.saveTender, function (err, grabResult) {
               if (err) {
                 return callback(err);
               }
