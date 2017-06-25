@@ -1032,7 +1032,6 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         if (!$scope.SupplierInfo.currentCard || !$scope.SupplierInfo.currentCard.key) {
           return callback('请选择油卡');
         }
-
       }
 
 

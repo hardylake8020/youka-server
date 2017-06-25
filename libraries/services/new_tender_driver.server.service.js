@@ -30,7 +30,7 @@ var bidderService = require('./bidder'),
 var that = exports;
 
 
-exports.grab = function (currentDriver, tender, callback) {
+exports.grab = function (driverId, tender, callback) {
 
 
   Tender.update({
@@ -39,7 +39,7 @@ exports.grab = function (currentDriver, tender, callback) {
   }, {
     $set: {
       winner_price: tender.current_grab_price || 0,
-      driver_winner: currentDriver._id,
+      driver_winner: driverId,
       status: 'unAssigned',
       winner_time: new Date()
     }
@@ -53,8 +53,8 @@ exports.grab = function (currentDriver, tender, callback) {
         console.log(err);
         return callback({err: error.system.db_error});
       }
-      console.log('driver grab :' + currentDriver.username + ' tender :' + tender.order_number);
-      if (tender.driver_winner.toString() != currentDriver._id.toString()) {
+      console.log('driver grab :' + driverId + ' tender :' + tender.order_number);
+      if (tender.driver_winner.toString() != driverId.toString()) {
         console.log('failed');
         return callback({err: error.business.tender_grab_failed})
       }

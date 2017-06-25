@@ -19,6 +19,9 @@ var bidderService = require('./bidder'),
   bidRecordService = require('./bid_record'),
   groupService = require('./group'),
   orderService = require('./order'),
+  newTenderDriverService = require('./new_tender_driver'),
+  cardService = require('./card'),
+  truckService = require('./truck'),
   driverService = require('./driver');
 
 var that = exports;
@@ -775,28 +778,61 @@ exports.create = function (currentUser, tenderInfo, callback) {
           return saveCallback(null, tenderEntity);
         });
       }],
-      assignBidder: ['saveTender', function (assignCallback, result) {
-        var isAll = result.saveTender.assign_target === 'all';
-        bidderService.assignBidder(isAll, result.saveTender, function (err, bidders) {
-          return assignCallback(err, bidders);
-        });
-      }],
-      recordCount: ['saveTender', 'assignBidder', function (recordCallback, result) {
-        getOneByCondition({_id: result.saveTender._id}, function (err, tenderEntity) {
+      assignSupplier: ['saveTender', function (callback, result) {
+        if (tenderInfo.tender_type !== 'assign') {
+          return callback();
+        }
+        truckService.getbyId(tenderInfo.truck_id, function (err, truck) {
           if (err) {
-            return recordCallback(err);
+            return callback(err);
           }
-
-          tenderEntity.all_bidders = result.assignBidder;
-          tenderEntity.save(function (err, saveEntity) {
+          if (!truck) {
+            return callback({err: {type: 'truck_not_exist'}});
+          }
+          cardService.getOneById(tenderInfo.card_id, function (err, card) {
             if (err) {
-              console.log(err);
-              err = {err: error.system.db_error};
+              return callback(err);
             }
-            return recordCallback(err, saveEntity);
+            if (!card) {
+              return callback({err: {type: 'card_not_exist'}});
+            }
+
+            newTenderDriverService.grab(tenderInfo.driver_id, result.saveTender, function (err, result) {
+              if (err) {
+                return callback(err);
+              }
+
+              newTenderDriverService.assignDriver(result.saveTender, card, truck, function (err, result) {
+                return callback(err, result);
+              });
+            })
           });
         });
-      }]
+
+
+      }],
+      // assignBidder: ['saveTender', function (assignCallback, result) {
+      //   var isAll = result.saveTender.assign_target === 'all';
+      //   bidderService.assignBidder(isAll, result.saveTender, function (err, bidders) {
+      //     return assignCallback(err, bidders);
+      //   });
+      // }],
+      // recordCount: ['saveTender', 'assignBidder', function (recordCallback, result) {
+      //   getOneByCondition({_id: result.saveTender._id}, function (err, tenderEntity) {
+      //     if (err) {
+      //       return recordCallback(err);
+      //     }
+      //
+      //     tenderEntity.all_bidders = result.assignBidder;
+      //     tenderEntity.save(function (err, saveEntity) {
+      //       if (err) {
+      //         console.log(err);
+      //         err = {err: error.system.db_error};
+      //       }
+      //       return recordCallback(err, saveEntity);
+      //     });
+      //   });
+      // }]
     }, function (err, result) {
       return callback(err);
     });
