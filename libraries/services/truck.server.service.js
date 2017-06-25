@@ -102,7 +102,6 @@ exports.getbyId = function (id, callback) {
 
 exports.getAllSuppliers = function (keyword, callback) {
   Driver.find({
-    $or: [{username: keyword}, {nickname: keyword}]
   }).sort({nickname: -1}).exec(function (err, results) {
     if (err || !results) {
       return callback({err: error.system.db_error});
