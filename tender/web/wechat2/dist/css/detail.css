@@ -2,7 +2,9 @@ html {
   height: 100%;
 }
 html body {
+  background-color: #333366;
   height: 100%;
+  margin: 0px;
 }
 html body .detail-view {
   background-color: #333366;
@@ -10,7 +12,7 @@ html body .detail-view {
   height: 100%;
 }
 html body .detail-view .detail-header {
-  line-height: 40px;
+  line-height: 60px;
   color: white;
   position: relative;
 }
@@ -30,7 +32,7 @@ html body .detail-view .detail-list .list-header {
   border-bottom: 1px solid #cdcdcd;
   color: #cdcdcd;
   overflow: hidden;
-  padding: 10px;
+  padding: 15px 10px;
 }
 html body .detail-view .detail-list .list-header .header-item {
   float: left;
@@ -53,8 +55,12 @@ html body .detail-view .detail-list .list-item {
 }
 html body .detail-view .detail-list .list-item .item-row {
   overflow: hidden;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #cdcdcd;
 }
 html body .detail-view .detail-list .list-item .item-row .row-item {
+  line-height: 30px;
   margin-bottom: 10px;
   float: left;
 }

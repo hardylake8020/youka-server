@@ -80,7 +80,7 @@ exports.create = function (owner, truckInfo, callback) {
 
 
 exports.getListByDriver = function (curDriver, callback) {
-  Truck.find({owner: curDriver._id}).sort({created:-1}).populate('card driver').exec(function (err, trucks) {
+  Truck.find({owner: curDriver._id}).sort({created: -1}).populate('card driver').exec(function (err, trucks) {
     if (err || !trucks) {
       return callback({err: error.system.db_error});
     }
@@ -100,4 +100,26 @@ exports.getbyId = function (id, callback) {
   });
 };
 
+exports.getAllSuppliers = function (keyword, callback) {
+  Driver.find({
+    $or: [{username: keyword}, {nickname: keyword}]
+  }).sort({nickname: -1}).limit(10).exec(function (err, results) {
+    if (err || !results) {
+      return callback({err: error.system.db_error});
+    }
+    return callback(null, results);
+  });
+//
+};
 
+//params :driver供应商
+exports.getAllDriversBySupplier = function (driver, keyword, callback) {
+  Truck.find({
+    owner: driver
+  }).exec(function (err, results) {
+    if (err || !results) {
+      return callback({err: error.system.db_error});
+    }
+    return callback(null, results)
+  });
+};

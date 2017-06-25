@@ -2,7 +2,9 @@ html {
   height: 100%;
 }
 html body {
+  background-color: #333366;
   height: 100%;
+  margin: 0px;
 }
 html body .finance-view {
   position: relative;

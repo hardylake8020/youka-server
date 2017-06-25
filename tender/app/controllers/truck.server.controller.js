@@ -23,3 +23,18 @@ exports.getListByDriver = function (req, res, next) {
 exports.getById = function (req, res, next) {
   return res.send(req.truck);
 };
+
+exports.getAllSuppliers = function (req, res, next) {
+  truckService.getAllSuppliers(req.body.keyword, function (err, result) {
+    return res.send(err || result);
+  });
+//
+};
+
+
+exports.getAllDriversBySupplier = function (req, res, next) {
+  truckService.getAllDriversBySupplier(req.driver, req.body.keyword, function (err, result) {
+    return res.send(err || result);
+  });
+//
+};

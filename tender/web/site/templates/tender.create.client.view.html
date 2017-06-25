@@ -450,6 +450,8 @@
           <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="compare">
           <span>按吨比价</span>
           <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="compares_ton">
+          <span>直接分配</span>
+          <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="assign">
         </div>
         <div class="info-input-container">
           <span class="info-title">保证金额</span>
@@ -530,6 +532,28 @@
           <span class="info-title">运费递增值</span>
           <input class="info-input" type="number" ng-model="typeInfo.grabIncrementPrice" required>
           <span class="info-tip">元</span>
+        </div>
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='grab'">
+          <span class="info-title">运费价格</span>
+          <input class="info-input" type="number" ng-model="typeInfo.lowestGrabPrice" required>
+          <span class="info-tip">必填项</span>
+        </div>
+
+        <div class="info-input-container more-option" ng-show="typeInfo.tenderType=='assign'">
+          <span class="info-title">供应商</span>
+
+          <div class="info-input-keyword" ng-repeat="item in salesInfo.boxInfo">
+            <zz-select config="item"></zz-select>
+            <p class="remove" ng-show="item.canDelete" ng-click="salesInfo.removeBox($index)"></p>
+          </div>
+        </div>
+        <div class="info-input-container more-option" ng-show="typeInfo.tenderType=='assign'">
+          <span class="info-title">供应商司机</span>
+
+          <div class="info-input-keyword" ng-repeat="item in salesInfo.boxInfo">
+            <zz-select config="item"></zz-select>
+            <p class="remove" ng-show="item.canDelete" ng-click="salesInfo.removeBox($index)"></p>
+          </div>
         </div>
       </div>
     </div>

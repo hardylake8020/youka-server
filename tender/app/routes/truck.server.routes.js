@@ -14,5 +14,8 @@ var tender = require('../controllers/tender'),
 module.exports = function (app) {
   app.route('/tender/driver/truck/create').post(driverFilter.requireDriver, truckContr.create);
   app.route('/tender/driver/truck/getListByDriver').post(driverFilter.requireDriver, truckContr.getListByDriver);
-  app.route('/tender/driver/truck/getById').post(driverFilter.requireDriver,truckFileter.requireById, truckContr.getById);
+  app.route('/tender/driver/truck/getById').post(driverFilter.requireDriver, truckFileter.requireById, truckContr.getById);
+
+  app.route('/tender/driver/truck/getAllSuppliers').post(truckContr.getAllSuppliers);
+  app.route('/tender/driver/truck/getAllDriversBySupplier').post(driverFilter.requireDriver, truckContr.getAllDriversBySupplier);
 };

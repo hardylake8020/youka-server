@@ -509,8 +509,7 @@ module.exports = function (appDb) {
     //标书类型
     tender_type: {
       type: String,
-      enum: ['grab', 'compare', 'compares_ton']//抢单，竞价。
-
+      enum: ['grab', 'compare', 'compares_ton', 'assign']//抢单，竞价。
     },
     //最低保护价
     lowest_protect_price: {
