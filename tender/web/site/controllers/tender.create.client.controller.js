@@ -1333,7 +1333,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           data.cards.forEach(function (item) {
             $scope.SupplierInfo.cardConfig.options.push({
               key: item._id,
-              value: (item.type == 'etc' ? 'ETC卡 ：' : '油卡 ：') + ' - ' + item.number
+              value: (item.type == 'etc' ? 'ETC卡 ：' : '油卡 ：') + '  ' + item.number
             });
           });
           console.log('cards   : ', data);
