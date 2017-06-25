@@ -37,7 +37,7 @@ exports.bindTruck = function (req, res, next) {
 };
 
 exports.getAllCardsBySupplier = function (req, res, next) {
-  cardService.getAllCardsBySupplier(req.driverById, function (err, result) {
+  cardService.getAllCardsBySupplier(req.driverById, true, function (err, result) {
     return res.send(err || result);
   });
 //
