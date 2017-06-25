@@ -917,6 +917,9 @@ exports.checkTenderInfo = function (tenderInfo, callback) {
       return callback({err: {type: 'empty_truck_id'}});
     }
   }
+
+  return callback({err: {type: '正在测试，请稍后'}});
+
   return callback();
 };
 
