@@ -1273,8 +1273,10 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         options: [],
         onSelected: function (item) {
           this.currentSupplier = item;
-          if (this.currentSupplier)
+          if (this.currentSupplier) {
+            getAllCardsBySupplier(item.key);
             getAllDriversBySupplier(item.key);
+          }
         }
       },
       truckConfig: {
