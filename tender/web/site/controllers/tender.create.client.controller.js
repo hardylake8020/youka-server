@@ -1273,7 +1273,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       contactInfo.delivery.address.isShowRegion = false;
     });
 
-     var supplierInfo = {
+    var supplierInfo = {
       supplierConfig: {
         options: [],
         onSelected: function (item) {
@@ -1300,7 +1300,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       currentTruck: {},
       currentCard: {}
     };
-    $scope.SupplierInfo =supplierInfo
+    $scope.SupplierInfo = supplierInfo
 
     function getAllSuppliers(keyword) {
       HttpTender.getAllSuppliers($scope, {keyword: keyword}, function (err, data) {
@@ -1320,6 +1320,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
 
     function getAllDriversBySupplier(supplierId) {
       HttpTender.getAllDriversBySupplier($scope, {driver_id: supplierId, keyword: ''}, function (err, data) {
+        $scope.SupplierInfo.currentTruck = {};
         $scope.SupplierInfo.truckConfig.options = [];
         if (data) {
           data.forEach(function (item) {
@@ -1335,6 +1336,8 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
 
     function getAllCardsBySupplier(supplierId) {
       HttpTender.getAllCardsBySupplier($scope, {driver_id: supplierId, keyword: ''}, function (err, data) {
+        $scope.SupplierInfo.currentCard = {};
+
         $scope.SupplierInfo.cardConfig.options = [];
         if (data && data.cards) {
           data.cards.forEach(function (item) {
