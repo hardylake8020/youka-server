@@ -54,6 +54,9 @@ tender.factory('HttpTender', ['http',
       },
       getAllDriversBySupplier: function (scope, params, successCallback, errorCallback) {
         return http.sendRequest(scope, "post('/tender/driver/truck/getAllDriversBySupplier', params)", params, successCallback, errorCallback);
+      },
+      getAllCardsBySupplier: function (scope, params, successCallback, errorCallback) {
+        return http.sendRequest(scope, "post('/tender/driver/card/getAllCardsBySupplier', params)", params, successCallback, errorCallback);
       }
     };
   }]);

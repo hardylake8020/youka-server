@@ -22,7 +22,7 @@ exports.getListByDriver = function (req, res, next) {
   })
 };
 
-exports.getById = function(req,res,next){
+exports.getById = function (req, res, next) {
   return res.send(req.card);
 };
 
@@ -34,4 +34,11 @@ exports.bindTruck = function (req, res, next) {
   cardService.bindTruck(currentCard, truck, function (err, result) {
     return res.send(err || result);
   })
+};
+
+exports.getAllCardsBySupplier = function (req, res, next) {
+  cardService.getAllCardsBySupplier(req.driverById, function (err, result) {
+    return res.send(err || result);
+  });
+//
 };

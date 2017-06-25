@@ -450,7 +450,7 @@
           <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="compare">
           <span>按吨比价</span>
           <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="compares_ton">
-          <span>直接分配</span>
+          <span>派单模式</span>
           <input class="info-radio" type="radio" name="tenderType" ng-model="typeInfo.tenderType" value="assign">
         </div>
         <div class="info-input-container">
@@ -552,6 +552,15 @@
             <zz-select config="SupplierInfo.truckConfig"></zz-select>
           </div>
         </div>
+
+        <div class="info-input-container more-option" ng-show="typeInfo.tenderType=='assign'">
+          <span class="info-title">供应商油卡</span>
+
+          <div class="info-input-keyword">
+            <zz-select config="SupplierInfo.cardConfig"></zz-select>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="col-sm-3 right-area">

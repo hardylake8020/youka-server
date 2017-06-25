@@ -1283,6 +1283,12 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           this.currentTruck = item;
         }
       },
+      cardConfig: {
+        options: [],
+        onSelected: function (item) {
+          this.currentCard = item;
+        }
+      },
       currentSupplier: {},
       currentTruck: {}
     };
@@ -1314,6 +1320,21 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
             });
           });
           console.log('trucks  : ', data);
+        }
+      });
+    }
+
+    function getAllCardsBySupplier(supplierId) {
+      HttpTender.getAllCardsBySupplier($scope, {driver_id: supplierId, keyword: ''}, function (err, data) {
+        $scope.SupplierInfo.cardConfig.options = [];
+        if (data) {
+          data.forEach(function (item) {
+            $scope.SupplierInfo.cardConfig.options.push({
+              key: item._id,
+              value: (item.type == 'etc' ? 'ETC卡 ：' : '油卡 ：') + ' - ' + item.number
+            });
+          });
+          console.log('cards   : ', data);
         }
       });
     }

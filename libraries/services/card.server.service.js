@@ -66,6 +66,19 @@ exports.getListByDriver = function (curDriver, callback) {
   });
 };
 
+exports.getAllCardsBySupplier = function (curDriver, isUnUsed, callback) {
+  var query = {owner: curDriver._id};
+  if (isUnUsed) {
+    query.truck_number = ''
+  }
+  Card.find(query).sort({created: -1}).populate('truck').exec(function (err, cards) {
+    if (err || !cards) {
+      return callback({err: error.system.db_error});
+    }
+    return callback(err, {cards: cards});
+  });
+};
+
 exports.bindTruck = function (curCard, truck, callback) {
   curCard.truck = truck._id;
   curCard.truck_number = truck.truck_number;
@@ -83,5 +96,7 @@ exports.bindTruck = function (curCard, truck, callback) {
     });
   });
 };
+
+
 
 
