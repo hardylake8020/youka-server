@@ -533,12 +533,12 @@
           <input class="info-input" type="number" ng-model="typeInfo.grabIncrementPrice" required>
           <span class="info-tip">元</span>
         </div>
-        <div class="info-input-container" ng-show="typeInfo.tenderType=='grab'">
+
+        <div class="info-input-container" ng-show="typeInfo.tenderType=='assign'">
           <span class="info-title">运费价格</span>
           <input class="info-input" type="number" ng-model="typeInfo.lowestGrabPrice" required>
           <span class="info-tip">必填项</span>
         </div>
-
         <div class="info-input-container more-option" ng-show="typeInfo.tenderType=='assign'">
           <span class="info-title">供应商</span>
           <div class="info-input-keyword">
