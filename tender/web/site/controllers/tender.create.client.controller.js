@@ -1303,7 +1303,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           data.forEach(function (item) {
             $scope.SupplierInfo.supplierConfig.options.push({
               key: item._id,
-              value: item.nickname + ' ' + item.username
+              value: (item.nickname || '未知姓名') + ' ' + item.username
             });
           });
           console.log('suppliers : ', data);
@@ -1329,8 +1329,8 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
     function getAllCardsBySupplier(supplierId) {
       HttpTender.getAllCardsBySupplier($scope, {driver_id: supplierId, keyword: ''}, function (err, data) {
         $scope.SupplierInfo.cardConfig.options = [];
-        if (data) {
-          data.forEach(function (item) {
+        if (data && data.cards) {
+          data.cards.forEach(function (item) {
             $scope.SupplierInfo.cardConfig.options.push({
               key: item._id,
               value: (item.type == 'etc' ? 'ETC卡 ：' : '油卡 ：') + ' - ' + item.number
