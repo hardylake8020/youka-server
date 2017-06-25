@@ -1260,7 +1260,8 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         options: [],
         onSelected: function (item) {
           this.currentSupplier = item;
-          getAllDriversBySupplier(item.key);
+          if (this.currentSupplier)
+            getAllDriversBySupplier(item.key);
         }
       },
       truckConfig: {
