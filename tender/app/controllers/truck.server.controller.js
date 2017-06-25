@@ -33,7 +33,7 @@ exports.getAllSuppliers = function (req, res, next) {
 
 
 exports.getAllDriversBySupplier = function (req, res, next) {
-  truckService.getAllDriversBySupplier(req.driver, req.body.keyword, function (err, result) {
+  truckService.getAllDriversBySupplier(req.driverById, req.body.keyword, function (err, result) {
     return res.send(err || result);
   });
 //
