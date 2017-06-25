@@ -541,18 +541,15 @@
 
         <div class="info-input-container more-option" ng-show="typeInfo.tenderType=='assign'">
           <span class="info-title">供应商</span>
-
-          <div class="info-input-keyword" ng-repeat="item in salesInfo.boxInfo">
-            <zz-select config="item"></zz-select>
-            <p class="remove" ng-show="item.canDelete" ng-click="salesInfo.removeBox($index)"></p>
+          <div class="info-input-keyword">
+            <zz-select config="SupplierInfo.supplierConfig"></zz-select>
           </div>
         </div>
         <div class="info-input-container more-option" ng-show="typeInfo.tenderType=='assign'">
           <span class="info-title">供应商司机</span>
 
-          <div class="info-input-keyword" ng-repeat="item in salesInfo.boxInfo">
-            <zz-select config="item"></zz-select>
-            <p class="remove" ng-show="item.canDelete" ng-click="salesInfo.removeBox($index)"></p>
+          <div class="info-input-keyword">
+            <zz-select config="SupplierInfo.truckConfig"></zz-select>
           </div>
         </div>
       </div>

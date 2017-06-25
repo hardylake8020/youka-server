@@ -17,5 +17,5 @@ module.exports = function (app) {
   app.route('/tender/driver/truck/getById').post(driverFilter.requireDriver, truckFileter.requireById, truckContr.getById);
 
   app.route('/tender/driver/truck/getAllSuppliers').post(truckContr.getAllSuppliers);
-  app.route('/tender/driver/truck/getAllDriversBySupplier').post(driverFilter.requireDriver, truckContr.getAllDriversBySupplier);
+  app.route('/tender/driver/truck/getAllDriversBySupplier').post(driverFilter.requireDriverById, truckContr.getAllDriversBySupplier);
 };

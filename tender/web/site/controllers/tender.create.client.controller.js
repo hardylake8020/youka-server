@@ -454,8 +454,8 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       grabTimeDuration: null,
       grabIncrementPrice: null,
       currentGrabPrice: null,
-      highest_more_price_per_ton:null,
-      lowest_tons_count:null,
+      highest_more_price_per_ton: null,
+      lowest_tons_count: null,
       showGrab: true,
       ya_jin: null,
       changeGrabDuration: function () {
@@ -798,7 +798,6 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       }
     }
 
-
     getOldTender(function (oldTender) {
       StoreHelper.getCities(function (err, data) {
         contactInfo.provinceObject = data;
@@ -878,7 +877,6 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       $scope.goodsInfo.goods[0].canDelete = false;
       $scope.goodsInfo.updateAddStatus();
     });
-
 
     function compareTime(time1, time2) {
       return new Date(time1).valueOf() > new Date(time2).valueOf();
@@ -1086,8 +1084,8 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         grab_increment_price: typeInfo.grabIncrementPrice,
         current_grab_price: typeInfo.currentGrabPrice,
 
-        highest_more_price_per_ton:typeInfo.highest_more_price_per_ton,
-        lowest_tons_count:typeInfo.lowest_tons_count
+        highest_more_price_per_ton: typeInfo.highest_more_price_per_ton,
+        lowest_tons_count: typeInfo.lowest_tons_count
       };
 
       return callback(null, info);
@@ -1144,7 +1142,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       var info =
 
       {
-        tender_info:{
+        tender_info: {
           "tender_id": "",
           "order_number": "测试订单号1",
           "refer_order_number": "测试参考号1",
@@ -1216,87 +1214,9 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           "highest_grab_price": 2000,
           "grab_time_duration": 10,
           "grab_increment_price": 1,
-          "current_grab_price": 0    
+          "current_grab_price": 0
         }
-      
-      }
-
-
-      // var info = {
-      //   "tender_info": {
-      //     "tender_id": "",
-      //     "order_number": "283748399290-1",
-      //     "refer_order_number": "TestNUMBER-1",
-      //     "sender_company": "邦达龙飞",
-      //     "pay_approver": "13472423583",
-      //     "finance_officer": "13472423583",
-      //     "start_time": "2017-02-24T05:45:00.000Z",
-      //     "end_time": "2017-02-25T05:45:00.000Z",
-      //     "salesmen": ["13472423583"],
-      //     "truck_type": "金杯车",
-      //     "truck_count": 1,
-      //     "auto_close_duration": 10,
-      //     "goods": [{
-      //       "name": "苹果",
-      //       "count": 1,
-      //       "unit": "箱",
-      //       "count2": "11",
-      //       "unit2": "吨",
-      //       "count3": "1",
-      //       "unit3": "立方",
-      //       "price": "10"
-      //     }, {
-      //       "name": "栗子",
-      //       "count": 1,
-      //       "unit": "箱",
-      //       "count2": "",
-      //       "unit2": "吨",
-      //       "count3": "",
-      //       "unit3": "立方",
-      //       "price": "12"
-      //     }],
-      //     "remark": "小心放",
-      //     "pickup_contact_province": "上海",
-      //     "pickup_contact_city": "上海市市辖区",
-      //     "pickup_contact_region": "杨浦区",
-      //     "pickup_contact_region_location": [121.5357165996346, 31.304510479541904],
-      //     "pickup_contact_street": "测试地址1",
-      //     "pickup_contact_name": "13472423583",
-      //     "pickup_contact_phone": "",
-      //     "pickup_contact_mobile_phone": "13472423583",
-      //     "pickup_start_time": "2017-02-23T16:00:00.000Z",
-      //     "pickup_end_time": "2017-02-24T15:59:59.999Z",
-      //     "delivery_contact_province": "安徽",
-      //     "delivery_contact_city": "蚌埠市",
-      //     "delivery_contact_region": "禹会区",
-      //     "delivery_contact_region_location": [117.30551506350041, 32.88969636047627],
-      //     "delivery_contact_street": "测试地址2",
-      //     "delivery_contact_name": "13472423583",
-      //     "delivery_contact_phone": "",
-      //     "delivery_contact_mobile_phone": "13472423583",
-      //     "delivery_start_time": "2017-02-24T16:00:00.000Z",
-      //     "delivery_end_time": "2017-02-25T15:59:59.999Z",
-      //     "top_rate": 50,
-      //     "top_cash_rate": 60,
-      //     "top_card_rate": 40,
-      //     "tail_rate": 40,
-      //     "tail_cash_rate": 100,
-      //     "tail_card_rate": 0,
-      //     "last_rate": 10,
-      //     "last_cash_rate": 100,
-      //     "last_card_rate": 0,
-      //     "assign_target": "all",
-      //     "tender_type": "compare",
-      //     "lowest_protect_price": 10,
-      //     "highest_protect_price": 1000,
-      //     "deposit": 500,
-      //     "lowest_grab_price": 2000,
-      //     "highest_grab_price": 3000,
-      //     "grab_time_duration": 10,
-      //     "grab_increment_price": 10,
-      //     "current_grab_price": 0
-      //   }
-      // };
+      };
 
       HttpTender.createTender($scope, info, function (err, data) {
         if (data.success) {
@@ -1335,4 +1255,54 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       contactInfo.delivery.address.isShowRegion = false;
     });
 
+    $scope.SupplierInfo = {
+      supplierConfig: {
+        options: [],
+        onSelected: function (item) {
+          this.currentSupplier = item;
+          getAllDriversBySupplier(item.key);
+        }
+      },
+      truckConfig: {
+        options: [],
+        onSelected: function (item) {
+          this.currentTruck = item;
+        }
+      },
+      currentSupplier: {},
+      currentTruck: {}
+    };
+
+    function getAllSuppliers(keyword) {
+      HttpTender.getAllSuppliers($scope, {keyword: keyword}, function (err, data) {
+        $scope.SupplierInfo.supplierConfig.options = [];
+        if (data) {
+
+          data.forEach(function (item) {
+            $scope.SupplierInfo.supplierConfig.options.push({
+              key: item._id,
+              value: item.nickname + ' ' + item.username
+            });
+          });
+          console.log('suppliers : ', data);
+        }
+      });
+    }
+
+    function getAllDriversBySupplier(supplierId) {
+      HttpTender.getAllDriversBySupplier($scope, {driver_id: supplierId, keyword: ''}, function (err, data) {
+        $scope.SupplierInfo.truckConfig.options = [];
+        if (data) {
+          data.forEach(function (item) {
+            $scope.SupplierInfo.truckConfig.options.push({
+              key: item._id,
+              value: item.nickname + ' ' + item.username
+            });
+          });
+          console.log('trucks  : ', data);
+        }
+      });
+    }
+
+    getAllSuppliers('');
   }]);
