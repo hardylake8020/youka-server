@@ -28,9 +28,13 @@ var bidderService = require('./bidder'),
   driverService = require('./driver');
 
 var that = exports;
+exports.grabAndReturnTender = function (driverId, tender, callback) {
+  that.grab(driverId, tender, true, function (err, result) {
+    return callback(err, result);
+  })
+};
 
-
-exports.grab = function (driverId, tender, callback) {
+exports.grab = function (driverId, tender, isReturnTender, callback) {
 
 
   Tender.update({
@@ -59,7 +63,13 @@ exports.grab = function (driverId, tender, callback) {
         return callback({err: error.business.tender_grab_failed})
       }
       console.log('success');
-      return callback(null, {success: true});
+      if(isReturnTender){
+        return callback(null, tender);
+        
+      }
+      else {
+        return callback(null, {success: true});
+      }
     });
   });
 };

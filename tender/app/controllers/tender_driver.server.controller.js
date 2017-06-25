@@ -10,7 +10,7 @@ var newTenderService = require('../../../libraries/services/new_tender_driver'),
 exports.grab = function (req, res, next) {
   var currentDriver = req.driver;
   var tender = req.tender;
-  newTenderService.grab(currentDriver, tender, function (err, result) {
+  newTenderService.grab(currentDriver, tender, false, function (err, result) {
     return res.send(err || result);
   })
 };
@@ -182,7 +182,7 @@ exports.getAllDrivers = function (req, res, next) {
 exports.verifyDriver = function (req, res, next) {
   var status = req.body.verify_status || 'unVerifyPassed';
   var driver = req.driverById || {};
-  newTenderService.verifyDriver(driver,status, function (err, result) {
+  newTenderService.verifyDriver(driver, status, function (err, result) {
     return res.send(err || result);
   });
 };

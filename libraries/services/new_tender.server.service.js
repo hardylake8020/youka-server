@@ -796,13 +796,13 @@ exports.create = function (currentUser, tenderInfo, callback) {
             if (!card) {
               return callback({err: {type: 'card_not_exist'}});
             }
-
-            newTenderDriverService.grab(tenderInfo.driver_id, result.saveTender, function (err, grabResult) {
+            console.log(result.saveTender);
+            newTenderDriverService.grabAndReturnTender(tenderInfo.driver_id, result.saveTender, function (err, grabTender) {
               if (err) {
                 return callback(err);
               }
 
-              newTenderDriverService.assignDriver(result.saveTender, card, truck, function (err, result) {
+              newTenderDriverService.assignDriver(grabTender, card, truck, function (err, result) {
                 return callback(err, result);
               });
             })
@@ -811,28 +811,28 @@ exports.create = function (currentUser, tenderInfo, callback) {
 
 
       }],
-      // assignBidder: ['saveTender', function (assignCallback, result) {
-      //   var isAll = result.saveTender.assign_target === 'all';
-      //   bidderService.assignBidder(isAll, result.saveTender, function (err, bidders) {
-      //     return assignCallback(err, bidders);
-      //   });
-      // }],
-      // recordCount: ['saveTender', 'assignBidder', function (recordCallback, result) {
-      //   getOneByCondition({_id: result.saveTender._id}, function (err, tenderEntity) {
-      //     if (err) {
-      //       return recordCallback(err);
-      //     }
-      //
-      //     tenderEntity.all_bidders = result.assignBidder;
-      //     tenderEntity.save(function (err, saveEntity) {
-      //       if (err) {
-      //         console.log(err);
-      //         err = {err: error.system.db_error};
-      //       }
-      //       return recordCallback(err, saveEntity);
-      //     });
-      //   });
-      // }]
+      assignBidder: ['saveTender', function (assignCallback, result) {
+        var isAll = result.saveTender.assign_target === 'all';
+        bidderService.assignBidder(isAll, result.saveTender, function (err, bidders) {
+          return assignCallback(err, bidders);
+        });
+      }],
+      recordCount: ['saveTender', 'assignBidder', function (recordCallback, result) {
+        getOneByCondition({_id: result.saveTender._id}, function (err, tenderEntity) {
+          if (err) {
+            return recordCallback(err);
+          }
+
+          tenderEntity.all_bidders = result.assignBidder;
+          tenderEntity.save(function (err, saveEntity) {
+            if (err) {
+              console.log(err);
+              err = {err: error.system.db_error};
+            }
+            return recordCallback(err, saveEntity);
+          });
+        });
+      }]
     }, function (err, result) {
       return callback(err);
     });
