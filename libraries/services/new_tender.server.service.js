@@ -904,7 +904,19 @@ exports.checkTenderInfo = function (tenderInfo, callback) {
   tenderInfo.grab_increment_price = parseInt(tenderInfo.grab_increment_price) || 0;
 
   tenderInfo.current_grab_price = parseInt(tenderInfo.current_grab_price) || 0;
+  if (tenderInfo.tender_type == 'assign') {
+    if (!tenderInfo.driver_id) {
+      return callback({err: {type: 'empty_driver_id'}});
+    }
 
+    if (!tenderInfo.card_id) {
+      return callback({err: {type: 'empty_card_id'}});
+    }
+
+    if (!tenderInfo.truck_id) {
+      return callback({err: {type: 'empty_truck_id'}});
+    }
+  }
   return callback();
 };
 

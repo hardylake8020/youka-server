@@ -1112,9 +1112,6 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
 
       console.log(info);
 
-      return callback('测试中，请稍后');
-
-
       return callback(null, info);
     }
 
