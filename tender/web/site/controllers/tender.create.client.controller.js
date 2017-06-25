@@ -1035,8 +1035,6 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
 
       }
 
-      return callback('测试中，请稍后');
-
 
       var info = {
         tender_id: $stateParams.tender_id,
@@ -1103,8 +1101,19 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         current_grab_price: typeInfo.currentGrabPrice,
 
         highest_more_price_per_ton: typeInfo.highest_more_price_per_ton,
-        lowest_tons_count: typeInfo.lowest_tons_count
+        lowest_tons_count: typeInfo.lowest_tons_count,
+        //供应商id
+        driver_id: $scope.SupplierInfo.currentSupplier.key,
+        //供应商车队id
+        truck_id: $scope.SupplierInfo.currentTruck.key,
+        //供应商油卡id
+        card_id: $scope.SupplierInfo.currentCard.key
       };
+
+      console.log(info);
+
+      return callback('测试中，请稍后');
+
 
       return callback(null, info);
     }
