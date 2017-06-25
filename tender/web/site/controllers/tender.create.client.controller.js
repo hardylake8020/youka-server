@@ -1020,6 +1020,19 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         return callback('支付方式设置不正确');
       }
 
+      if (typeInfo.tenderType == 'assign') {
+        if (!$scope.SupplierInfo.supplierConfig.currentSupplier || !$scope.SupplierInfo.supplierConfig.currentSupplier.key) {
+          return callback('请选择供应商');
+        }
+
+        if (!$scope.SupplierInfo.supplierConfig.currentTruck || !$scope.SupplierInfo.supplierConfig.currentTruck.key) {
+          return callback('请选择司机');
+        }
+      }
+
+      return;
+
+
       var info = {
         tender_id: $stateParams.tender_id,
         order_number: basicInfo.orderNumber.text,
@@ -1297,7 +1310,7 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           data.forEach(function (item) {
             $scope.SupplierInfo.truckConfig.options.push({
               key: item._id,
-              value: item.driver_name || '未知姓名' + ' ' + item.driver_number
+              value: item.driver_name || '未知姓名' + ' ' + item.driver_number + ' ' + item.truck_type + ' ' + item.truck_number
             });
           });
           console.log('trucks  : ', data);
