@@ -1273,12 +1273,12 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       contactInfo.delivery.address.isShowRegion = false;
     });
 
-    $scope.SupplierInfo = {
+     var supplierInfo = {
       supplierConfig: {
         options: [],
         onSelected: function (item) {
-          this.currentSupplier = item;
-          if (this.currentSupplier) {
+          supplierInfo.currentSupplier = item;
+          if (supplierInfo.currentSupplier) {
             getAllCardsBySupplier(item.key);
             getAllDriversBySupplier(item.key);
           }
@@ -1287,19 +1287,20 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       truckConfig: {
         options: [],
         onSelected: function (item) {
-          this.currentTruck = item;
+          supplierInfo.currentTruck = item;
         }
       },
       cardConfig: {
         options: [],
         onSelected: function (item) {
-          this.currentCard = item;
+          supplierInfo.currentCard = item;
         }
       },
       currentSupplier: {},
       currentTruck: {},
       currentCard: {}
     };
+    $scope.SupplierInfo =supplierInfo
 
     function getAllSuppliers(keyword) {
       HttpTender.getAllSuppliers($scope, {keyword: keyword}, function (err, data) {
