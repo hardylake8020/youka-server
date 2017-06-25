@@ -1021,11 +1021,19 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
       }
 
       if (typeInfo.tenderType == 'assign') {
-        if (!$scope.SupplierInfo.supplierConfig.currentSupplier || !$scope.SupplierInfo.supplierConfig.currentSupplier.key) {
+        if (!$scope.SupplierInfo.currentSupplier || !$scope.SupplierInfo.currentSupplier.key) {
           return callback('请选择供应商');
         }
 
-        if (!$scope.SupplierInfo.supplierConfig.currentTruck || !$scope.SupplierInfo.supplierConfig.currentTruck.key) {
+        if (!$scope.SupplierInfo.currentTruck || !$scope.SupplierInfo.currentTruck.key) {
+          return callback('请选择司机');
+        }
+
+        if (!$scope.SupplierInfo.currentCard || !$scope.SupplierInfo.currentCard.key) {
+          return callback('请选择供应商');
+        }
+
+        if (!$scope.SupplierInfo.cardConfig.currentTruck || !$scope.SupplierInfo.supplierConfig.currentTruck.key) {
           return callback('请选择司机');
         }
       }
@@ -1292,7 +1300,8 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         }
       },
       currentSupplier: {},
-      currentTruck: {}
+      currentTruck: {},
+      currentCard: {}
     };
 
     function getAllSuppliers(keyword) {
