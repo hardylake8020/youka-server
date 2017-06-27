@@ -78,53 +78,6 @@ exports.driverPayList = function (req, res, next) {
 };
 
 
-//测试卡号：622909443442019514
-//银行行号： 309391000011
-//账户类型：储蓄卡
-//姓名：惠举
-//
-//测试卡号：4512906000064106
-//银行行号： 309391000011
-//账户类型：信用卡
-//姓名：胡兰
-//
-//测试卡号：6222801234567888953
-//银行行号：105100000017
-//账户类型：储蓄卡
-//姓名：张三
-//
-//测试账号：117010100100316139
-//银行行号：309391000011
-//账户类型：对公账户
-//企业名称：X的测试账户
-
-
-//银行付款测试
-exports.bankPayTest = function () {
-  var Timestamp = getBankTimeStamp();
-  var Appid = '28053608';
-  var Service = 'cib.epay.payment.pay';
-  var Ver = '02';
-  var sign_type = 'RSA';
-  // var sub_mrch = '';
-  var order_no = new Date().getMilliseconds();
-  var to_bank_no = '309391000011';
-  var to_acct_no = '622909443442019514';
-  var to_acct_name = '惠举';
-  var acct_type = '0';
-  var Cur = 'CNY';
-  var trans_amt = '0.01';
-  var trans_usage = '运费';
-  var Mac = '';
-
-
-};
-
-function getBankTimeStamp() {
-  var d = new Date();
-  return '' + d.getFullYear() + (d.getMonth() + 1) + d.getDate() + d.getHours() + d.getMinutes() + d.seconds();
-}
-
 
 // exports.payTest = function () {
 //   console.log('test  pay tEST ===============>');

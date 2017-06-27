@@ -305,3 +305,102 @@ exports.payTest = function () {
   // // var json = parser.toJson(xml);
   // console.log("to json -> %s", json);
 };
+
+
+
+
+
+//测试卡号：622909443442019514
+//银行行号： 309391000011
+//账户类型：储蓄卡
+//姓名：惠举
+//
+//测试卡号：4512906000064106
+//银行行号： 309391000011
+//账户类型：信用卡
+//姓名：胡兰
+//
+//测试卡号：6222801234567888953
+//银行行号：105100000017
+//账户类型：储蓄卡
+//姓名：张三
+//
+//测试账号：117010100100316139
+//银行行号：309391000011
+//账户类型：对公账户
+//企业名称：X的测试账户
+
+
+var crypto = require('crypto');
+var fs = require('fs');
+
+//银行付款测试
+exports.bankPayTest = function () {
+
+  var params = {
+    acct_type: '0',
+    Appid: '28053608',
+    Cur: 'CNY',
+    order_no: new Date().getMilliseconds(),
+    Timestamp: getBankTimeStamp(),
+    to_acct_name: '惠举',
+    Service: 'cib.epay.payment.pay',
+    Ver: '02',
+    sign_type: 'RSA',
+    sub_mrch: '',
+    to_bank_no: '309391000011',
+    to_acct_no: '622909443442019514',
+    trans_amt: '0.01',
+    trans_usage: '运费',
+    mac : ''
+  };
+
+  var paramsList = [];
+  var paramString = '';
+  for (var pro in params) {
+    if(pro!='mac')
+      paramsList.push(pro + '=' + params[pro]);
+  }
+  paramsList.sort();
+  console.log(paramsList);
+
+  for (var i = 0; i < paramsList.length; i++) {
+    paramString += (i == 0 ? paramsList[i] : ('&' + paramsList[i]));
+  }
+  console.log(paramString);
+
+  var sign = crypto.createSign('RSA-SHA1').update(paramString);
+  var signKey = fs.readFileSync('./key/privkey.pem').toString();
+  var mac = sign.sign(signKey, 'base64');
+  params.mac = mac;
+
+  console.log(params);
+
+  agent.post('https://3gtest.cib.com.cn:37031/payment/api')
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .send(params)
+    .end(function (err, result) {
+      if (err) {
+        console.log('银行代付测试 res.err =================================================================>');
+        console.log(err);
+      }
+      console.log('银行代付测试 res=================================================================>');
+      console.log(result);
+    });
+};
+
+exports.bankPayTest();
+
+function getBankTimeStamp() {
+  var d = new Date();
+  return '' + d.getFullYear() + (d.getMonth() + 1) + d.getDate() + d.getHours() + d.getMinutes() + d.getSeconds();
+}
+
+
+
+
+
+
+
+
+
