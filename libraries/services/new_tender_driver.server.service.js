@@ -36,7 +36,6 @@ exports.grabAndReturnTender = function (driverId, tender, callback) {
 
 exports.grab = function (driverId, tender, isReturnTender, callback) {
 
-
   Tender.update({
     _id: tender._id,
     status: 'unStarted'
