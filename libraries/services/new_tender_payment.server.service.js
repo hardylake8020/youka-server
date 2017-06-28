@@ -373,7 +373,7 @@ exports.bankPayTest = function () {
   console.log(params);
 
   agent.post('https://3gtest.cib.com.cn:37031/payment/api')
-  // agent.post('https://pay.cib.com.cn/payment/api')
+    // agent.post('https://pay.cib.com.cn/payment/api')
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .send(params)
     .end(function (err, result) {
@@ -382,7 +382,8 @@ exports.bankPayTest = function () {
         console.log(err);
       }
       console.log('银行代付测试 res=================================================================>');
-      console.log(result.text);
+      if (result)
+        console.log(result.text);
     });
 };
 
