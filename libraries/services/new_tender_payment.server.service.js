@@ -336,13 +336,13 @@ exports.bankPayTest = function () {
 
   var params = {
     acct_type: '0',
-    Appid: '28053608',
-    Cur: 'CNY',
+    appid: 'Q0000954',
+    cur: 'CNY',
     order_no: new Date().getMilliseconds(),
-    Timestamp: getBankTimeStamp(),
+    timestamp: getBankTimeStamp(),
     to_acct_name: '惠举',
-    Service: 'cib.epay.payment.pay',
-    Ver: '02',
+    service: 'cib.epay.payment.pay',
+    ver: '02',
     sign_type: 'RSA',
     to_bank_no: '309391000011',
     to_acct_no: '622909443442019514',
@@ -372,8 +372,8 @@ exports.bankPayTest = function () {
 
   console.log(params);
 
-  // agent.post('https://3gtest.cib.com.cn:37031/payment/api')
-  agent.post('https://pay.cib.com.cn/payment/api')
+  agent.post('https://3gtest.cib.com.cn:37031/payment/api')
+  // agent.post('https://pay.cib.com.cn/payment/api')
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .send(params)
     .end(function (err, result) {
