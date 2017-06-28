@@ -1120,10 +1120,10 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
 
     var publishInfo = {
       assign: [
-        {
-          name: '合作中介',
-          type: 'cooperation'
-        },
+        // {
+        //   name: '合作中介',
+        //   type: 'cooperation'
+        // },
         {
           name: '所有中介',
           type: 'all'
