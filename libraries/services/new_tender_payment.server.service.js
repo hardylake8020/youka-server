@@ -250,7 +250,7 @@ exports.wechatPayResult = function (driver, out_trade_no, callback) {
 };
 
 exports.driverPayList = function (driver, callback) {
-  Pay.find({driver: driver._id,is_valid:true}, function (err, results) {
+  Pay.find({driver: driver._id, is_valid: true}, function (err, results) {
     if (err || !results) {
       return callback({err: error.system.db_error});
     }
@@ -307,9 +307,6 @@ exports.payTest = function () {
 };
 
 
-
-
-
 //测试卡号：622909443442019514
 //银行行号： 309391000011
 //账户类型：储蓄卡
@@ -352,13 +349,13 @@ exports.bankPayTest = function () {
     to_acct_no: '622909443442019514',
     trans_amt: '0.01',
     trans_usage: '运费',
-    mac : ''
+    mac: ''
   };
 
   var paramsList = [];
   var paramString = '';
   for (var pro in params) {
-    if(pro!='mac')
+    if (pro != 'mac')
       paramsList.push(pro + '=' + params[pro]);
   }
   paramsList.sort();
@@ -376,7 +373,7 @@ exports.bankPayTest = function () {
 
   console.log(params);
 
-    // agent.post('https://3gtest.cib.com.cn:37031/payment/api')
+  // agent.post('https://3gtest.cib.com.cn:37031/payment/api')
   agent.post('https://pay.cib.com.cn/payment/api')
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .send(params)
@@ -386,7 +383,7 @@ exports.bankPayTest = function () {
         console.log(err);
       }
       console.log('银行代付测试 res=================================================================>');
-      console.log(result);
+      console.log(result.text);
     });
 };
 
