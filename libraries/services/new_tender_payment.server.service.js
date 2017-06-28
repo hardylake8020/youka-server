@@ -344,7 +344,6 @@ exports.bankPayTest = function () {
     Service: 'cib.epay.payment.pay',
     Ver: '02',
     sign_type: 'RSA',
-    sub_mrch: '',
     to_bank_no: '309391000011',
     to_acct_no: '622909443442019514',
     trans_amt: '0.01',
