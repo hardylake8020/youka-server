@@ -62,9 +62,9 @@ exports.grab = function (driverId, tender, isReturnTender, callback) {
         return callback({err: error.business.tender_grab_failed})
       }
       console.log('success');
-      if(isReturnTender){
+      if (isReturnTender) {
         return callback(null, tender);
-        
+
       }
       else {
         return callback(null, {success: true});
@@ -424,21 +424,28 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
 }
 
 exports.getDashboardData = function (driver, callback) {
-  var query = {
+
+  var tenderQuery = {
     $or: [
-      {driver_winner: driver._id, status: {$ne: 'completed'}},
+      {driver_winner: driver._id, status: {$in: ['comparing', 'compareEnd', 'unAssigned']}},
       {
         status: 'comparing',
         'tender_records.driver': driver._id
       }
     ]
   };
-  Tender.count(query, function (err, tenderCount) {
+
+  var orderQuery = {
+    execute_driver: driver._id,
+    status: {$ne: 'completed'}
+
+  };
+  Tender.count(tenderQuery, function (err, tenderCount) {
     if (err) {
       return callback({err: error.system.db_error});
     }
 
-    Order.count(query, function (err, orderCount) {
+    Order.count(orderQuery, function (err, orderCount) {
       if (err) {
         return callback({err: error.system.db_error});
       }
