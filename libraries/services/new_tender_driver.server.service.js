@@ -494,6 +494,16 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
     currentDriver.truck_photo = profile.truck_photo;
   if (profile.bank_number_photo)
     currentDriver.bank_number_photo = profile.bank_number_photo;
+
+  if (profile.bank_number)
+    currentDriver.bank_number = profile.bank_number;
+
+  if (profile.bank_name)
+    currentDriver.bank_name = profile.bank_name;
+
+  if (profile.bank_username)
+    currentDriver.bank_username = profile.bank_username;
+
   if (profile.driving_id_photo)
     currentDriver.driving_id_photo = profile.driving_id_photo;
   if (profile.travel_id_photo)
@@ -504,6 +514,7 @@ exports.updateDriverProfile = function (currentDriver, profile, callback) {
     currentDriver.truck_list_photo = profile.truck_list_photo;
   if (profile.truck_number)
     currentDriver.truck_number = profile.truck_number;
+  
 
   if (profile.nickname)
     currentDriver.nickname = profile.nickname;

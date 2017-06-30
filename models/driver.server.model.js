@@ -84,6 +84,16 @@ module.exports = function (appDb) {
         type: String,
         default: ''
       },
+      //银行名称
+      bank_name: {
+        type: String,
+        default: ''
+      },
+      //开户姓名
+      bank_username: {
+        type: String,
+        default: ''
+      },
       // 驾驶证
       driving_id_number: {
         type: String,
