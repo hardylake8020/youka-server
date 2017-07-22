@@ -97,10 +97,10 @@ gulp.task('js-concat', function () {
     .pipe(jsconcat('zhuzhuqs.js'))
     .pipe(gulp.dest('web/zzqs2/dist/js'))
     .on('finish',function(){
-      gulp.src('web/zzqs2/dist/js/zhuzhuqs.js')
-        .pipe(ngAnnotate())
-        .pipe(uglify({outSourceMap: false}))
-        .pipe(gulp.dest('web/zzqs2/dist/js/min'));
+      // gulp.src('web/zzqs2/dist/js/zhuzhuqs.js')
+      //   .pipe(ngAnnotate())
+      //   .pipe(uglify({outSourceMap: false}))
+      //   .pipe(gulp.dest('web/zzqs2/dist/js/min'));
 
       return gulp.src(['web/api/controllers/api.order_detail.client.controller.js', 'web/wechat/zz_receiver_sender/js/order_detail.template.client.controller.js'])
         .pipe(ngAnnotate())

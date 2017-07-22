@@ -45,6 +45,11 @@ zhuzhuqs.config(['$stateProvider', '$urlRouterProvider', function ($stateProvide
       templateUrl: 'templates/order_follow.client.view.html',
       controller: "OrderFollowController"
     })
+    .state('order_action', {
+      url: '/order_action',
+      templateUrl: 'templates/order_action.client.view.html',
+      controller: "OrderActionController"
+    })
     .state('map_for_order_trace', {
       url: '/mapForOrderTrace',
       templateUrl: 'templates/map_for_order_trace.client.view.html',

@@ -1,0 +1,32 @@
+<div class="zz-order-action-view">
+
+  <div class="menu-header">
+    <div class="left">
+      <p class="menu-item" ng-class="{'current': pageConfig.currentMenu==='on_way'}"
+         ng-click="pageConfig.changeMenu('on_way')">在途 ({{orderCount.onway}})</p>
+      <p class="menu-item" ng-class="{'current': pageConfig.currentMenu==='completed'}"
+         ng-click="pageConfig.changeMenu('completed')">已完成</p>
+    </div>
+
+    <div class="search-view">
+      <input class="content" placeholder="输入运单号/参考单号" />
+      <span class="search-button">搜索</span>
+    </div>
+  </div>
+
+  <div class="page-list-view" fix-list-header>
+
+    <div class="list-header fix-list-header">
+
+    </div>
+    <div class="list-body">
+
+    </div>
+
+  </div>
+
+  <div class="page-footer-view">
+
+  </div>
+
+</div>
