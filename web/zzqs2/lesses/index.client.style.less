@@ -1,12 +1,34 @@
 @import "../directive/zz_dialog/zz_dialog.client.directive.style.less";
 @import "button.client.style.less";
 
+
+@color-blue: #0078c6;
+
 .ellipsis() {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
+.multi-ellipsis(@line-count: 2){
+  width: 100%;
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  -webkit-line-clamp: @line-count;
+  -webkit-box-orient: vertical;
+}
+
+.fix-list-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  background-color: #fff;
+}
 .zz-toolbar {
 
 }
@@ -357,3 +379,4 @@
 @import "online_report_config.client.style.less";
 @import "charts.client.style.less";
 @import "order_verify.client.style.less";
+@import "order.action.client.style.less";

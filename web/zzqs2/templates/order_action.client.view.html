@@ -1,32 +1,52 @@
-<div class="zz-order-action-view">
+<div class="zz-order-action-view" layout-fill>
 
-  <div class="menu-header">
-    <div class="left">
+  <div class="menu-header" layout="row" layout-align="space-between center">
+    <div class="left" layout="row" layout-align="start center">
       <p class="menu-item" ng-class="{'current': pageConfig.currentMenu==='on_way'}"
+         layout="row" layout-align="center center"
          ng-click="pageConfig.changeMenu('on_way')">在途 ({{orderCount.onway}})</p>
       <p class="menu-item" ng-class="{'current': pageConfig.currentMenu==='completed'}"
+         layout="row" layout-align="center center"
          ng-click="pageConfig.changeMenu('completed')">已完成</p>
     </div>
 
-    <div class="search-view">
+    <div class="search-view" layout="row" layout-align="start center">
       <input class="content" placeholder="输入运单号/参考单号" />
-      <span class="search-button">搜索</span>
+      <p class="search-button"
+         layout="row" layout-align="center center">搜索</p>
     </div>
   </div>
 
-  <div class="page-list-view" fix-list-header>
-
+  <div class="page-list-view" fix-list-header layout-fill>
     <div class="list-header fix-list-header">
-
+      <div class="list-item" layout="row" layout-align="start center">
+        <p class="column-item" flex="5">序号</p>
+        <p class="column-item" flex="10">运单号</p>
+        <p class="column-item" flex="10">参考单号</p>
+        <p class="column-item" flex="10">货物名称</p>
+        <p class="column-item" flex="10">承运商</p>
+        <p class="column-item" flex="20">司机(车牌／电话)</p>
+        <p class="column-item" flex="10">收货方</p>
+        <p class="column-item" flex="10">状态</p>
+      </div>
     </div>
     <div class="list-body">
-
+      <div class="list-item" layout="row" layout-align="start center" ng-repeat="poiItem in pageConfig.orderList">
+        <p class="column-item" flex="5">{{pageConfig.pagination.skipCount+$index+1}}</p>
+        <p class="column-item" flex="10">1</p>
+        <p class="column-item" flex="10">2</p>
+        <p class="column-item" flex="10">3</p>
+        <p class="column-item" flex="10">4</p>
+        <p class="column-item" flex="20">5</p>
+        <p class="column-item" flex="10">6</p>
+        <p class="column-item" flex="10">7</p>
+      </div>
     </div>
 
   </div>
 
-  <div class="page-footer-view">
-
+  <div class="page-footer-view" layout="row" layout-align="start center">
+    <zz-pagination config="pageConfig.pagination"></zz-pagination>
   </div>
 
 </div>

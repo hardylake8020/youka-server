@@ -10,8 +10,16 @@ var zhuzhuqs = angular.module('zhuzhuqs', [
   'daterangepicker',
   //'highcharts-ng',
   'ng-echarts',
-  'ae-datetimepicker'
+  'ae-datetimepicker',
+  'ngMaterial'
 ]);
+
+zhuzhuqs.config(function ($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('blue')
+    .accentPalette('green')
+    .warnPalette('red');
+});
 
 zhuzhuqs.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
   $stateProvider
