@@ -290,11 +290,13 @@ exports.assignDriver = function (currentTender, card, truck, callback) {
 };
 
 function assignDriver(tender, driverNumber, card, truck, callback) {
+  console.log('assignDriver');
   //提货收获的联系人必须由外界传进来
   async.auto({
       driver: function (autoCallback) {
         Driver.findOne({username: driverNumber}, function (err, driver) {
           if (err) {
+            console.log('Driver.findOne',err);
             return autoCallback({err: error.system.db_error});
           }
           if (!driver) {
@@ -308,6 +310,8 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
         card.truck_number = truck.truck_number;
         card.save(function (err, card) {
           if (err || !card) {
+            console.log('card.save',err);
+
             return autoCallback({err: error.system.db_error});
           }
           return autoCallback();
@@ -317,6 +321,8 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
         truck.card = card._id;
         truck.card_number = card.number;
         truck.save(function (err, truck) {
+          console.log('truck.save',err);
+
           if (err || !card) {
             return autoCallback({err: error.system.db_error});
           }
@@ -395,21 +401,13 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
         });
 
         newOrder.save(function (err, driverOrder) {
+          console.log('newOrder.save',err);
+
           console.log(JSON.stringify(err));
           console.log(driverOrder);
           if (err || !driverOrder) {
             return callback({err: error.system.db_error});
           }
-
-          // if (driverOrder.is_wechat) {
-          //   wechatLib.pushNewOrderMessageToWechat(driver.wechat_profile.openid, driver._id, driverOrder);
-          // }
-          // else if (driver.device_id || driver.device_id_ios) {
-          //   driverOrder._doc.order_detail = order.order_details;
-          //   driverOrder._doc.pickup_contact = pickupContact;
-          //   driverOrder._doc.delivery_contact = deliveryContact;
-          //   pushSingleAssignToDriver(driver, driverOrder);
-          // }
           return autoCallback(err, {order: driverOrder, driver: driver});
         });
       }]
