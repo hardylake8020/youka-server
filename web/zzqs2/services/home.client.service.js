@@ -47,11 +47,11 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
           {
             "label": "运单操作",
             "type": "link",//按钮标题
-            // "state": "order_operation",
-            // "url": "/order_operation"
+            "state": "order_operation",
+            "url": "/order_operation"
 
-            "state": "order_action",
-            "url": "/order_action"
+            // "state": "order_action",
+            // "url": "/order_action"
           }//,
           // {
           //   "label": "分配运单",
