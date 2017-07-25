@@ -130,6 +130,8 @@ angular.module('zhuzhuqs').controller('OrderActionController',
           pageConfig.pagination.limit, '', '', pageConfig.getSearchKeys()).then(function (data) {
           pageConfig.orderList = [];
 
+          console.log(data);
+
           if (data.totalCount >= 0) {
             pageConfig.pagination.currentPage = parseInt(data.currentPage);
             pageConfig.pagination.limit = parseInt(data.limit);
