@@ -780,10 +780,20 @@ exports.create = function (currentUser, tenderInfo, callback) {
       }],
       assignSupplier: ['saveTender', function (callback, result) {
         //现在先不直接分配
-        return callback()
-        // if (tenderInfo.tender_type !== 'assign') {
-        //   return callback();
-        // }
+        // return callback()
+        if (tenderInfo.tender_type !== 'assign') {
+          return callback();
+        }
+
+        newTenderDriverService.grabAndReturnTender(tenderInfo.driver_id, result.saveTender, function (err, grabTender) {
+          if (err) {
+            return callback(err);
+          }
+          return callback(err, grabTender);
+          // newTenderDriverService.assignDriver(grabTender, card, truck, function (err, result) {
+          //   return callback(err, result);
+          // });
+        })
         // truckService.getbyId(tenderInfo.truck_id, function (err, truck) {
         //   if (err) {
         //     return callback(err);
@@ -799,15 +809,7 @@ exports.create = function (currentUser, tenderInfo, callback) {
         //       return callback({err: {type: 'card_not_exist'}});
         //     }
         //     console.log(result.saveTender);
-        //     newTenderDriverService.grabAndReturnTender(tenderInfo.driver_id, result.saveTender, function (err, grabTender) {
-        //       if (err) {
-        //         return callback(err);
-        //       }
-        //
-        //       newTenderDriverService.assignDriver(grabTender, card, truck, function (err, result) {
-        //         return callback(err, result);
-        //       });
-        // //     })
+        //   
         //   });
         // });
 
@@ -947,13 +949,13 @@ exports.checkTenderInfo = function (tenderInfo, callback) {
       return callback({err: {type: 'empty_driver_id'}});
     }
 
-    if (!tenderInfo.card_id) {
-      return callback({err: {type: 'empty_card_id'}});
-    }
-
-    if (!tenderInfo.truck_id) {
-      return callback({err: {type: 'empty_truck_id'}});
-    }
+    // if (!tenderInfo.card_id) {
+    //   return callback({err: {type: 'empty_card_id'}});
+    // }
+    //
+    // if (!tenderInfo.truck_id) {
+    //   return callback({err: {type: 'empty_truck_id'}});
+    // }
   }
 
   // return callback({err: {type: '正在测试，请稍后'}});
