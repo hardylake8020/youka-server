@@ -169,5 +169,12 @@ angular.module('zhuzhuqs').controller('OrderDetailInfoController',
       };
 
       $scope.pageConfig = pageConfig;
+
+      function getOrderDetail() {
+        OrderService.getOrderById().then(function (data) {
+
+        });
+      }
+
     }
   ]);

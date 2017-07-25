@@ -89,27 +89,27 @@ zhuzhuqs.config(['$stateProvider', '$urlRouterProvider', function ($stateProvide
       controller: "OrderDetailController"
     })
     .state('order_detail.info', {
-      url: '/order_detail_info',
+      url: '/order_detail_info/:order_id',
       templateUrl: 'templates/order_detail_info.client.view.html',
       controller: "OrderDetailInfoController"
     })
     .state('order_detail.timeline', {
-      url: '/order_detail_timeline',
+      url: '/order_detail_timeline/:order_id',
       templateUrl: 'templates/order_detail_timeline.client.view.html',
       controller: "OrderDetailTimelineController"
     })
     .state('order_detail.map', {
-      url: '/order_detail_map',
+      url: '/order_detail_map/:order_id',
       templateUrl: 'templates/order_detail_map.client.view.html',
       controller: "OrderDetailMapController"
     })
     .state('order_detail.adjustment', {
-      url: '/order_detail_adjustment',
+      url: '/order_detail_adjustment/:order_id',
       templateUrl: 'templates/order_detail_adjustment.client.view.html',
       controller: "OrderDetailAdjustmentController"
     })
     .state('order_detail.confirm', {
-      url: '/order_detail_confirm',
+      url: '/order_detail_confirm/:order_id',
       templateUrl: 'templates/order_detail_confirm.client.view.html',
       controller: "OrderDetailConfirmController"
     })

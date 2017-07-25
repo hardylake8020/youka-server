@@ -943,7 +943,7 @@ exports.getOrderById = function (req, res, next) {
   var currentUser = req.user || {};
   var order_id = req.body.order_id || '';
 
-  Order.findOne({_id: order_id}).populate('order_detail pickup_contact delivery_contact').exec(function (err, orderEntity) {
+  Order.findOne({_id: order_id}).populate('order_detail pickup_contact delivery_contact tender').exec(function (err, orderEntity) {
     if (err) {
       return res.send({err: orderError.internal_system_error});
     }
@@ -1583,7 +1583,7 @@ exports.getOrderDetailById = function (req, res, next) {
   var orderId = req.body.order_id || req.query.order_id || '';
 
   Order.findOne({_id: orderId})
-    .populate('order_detail pickup_contact delivery_contact create_company execute_company execute_group create_group execute_driver')
+    .populate('order_detail pickup_contact delivery_contact create_company execute_company execute_group create_group execute_driver tender')
     .exec(function (err, order) {
       if (err) {
         return res.send({err: orderError.internal_system_error});

@@ -882,7 +882,7 @@ exports.getOrderById = function (orderId, callback) {
       _id: orderId,
       $or: [{delete_status: {$exists: false}}, {delete_status: false}]
     })
-    .populate('execute_group create_group create_user create_company').exec(function (err, order) {
+    .populate('execute_group create_group create_user create_company tender').exec(function (err, order) {
     if (err) {
       return callback({err: orderError.internal_system_error});
     }
