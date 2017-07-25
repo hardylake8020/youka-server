@@ -4,6 +4,34 @@
 zhuzhuqs.factory('OrderHelper',
   ['config', function (config) {
 
+    var currentPlayAudio;
+
+    function onAudioPlay(element) {
+      if (element === currentPlayAudio) {
+        return;
+      }
+
+      if (currentPlayAudio) {
+        currentPlayAudio.pause();
+      }
+
+      currentPlayAudio = element;
+    }
+
+    function getAudioConfig(voiceKey) {
+      voiceKey = voiceKey || '';
+      var voiceUrl = voiceKey;
+      if (voiceUrl.indexOf('http') === -1) {
+        voiceUrl = config.qiniuServerAddress + voiceKey;
+      }
+
+      return {
+        audioKey: voiceKey,
+        audioSrc: voiceUrl,
+        onPlay: onAudioPlay
+      };
+    }
+
     function getOrderGoodsName(order) {
       var goodsName = '';
       if (order.goods && order.goods.length > 0) {
@@ -47,14 +75,14 @@ zhuzhuqs.factory('OrderHelper',
       }
 
       var itemDetail = '';
-      if(goodsItem.count){
+      if (goodsItem.count) {
         itemDetail += myFixed(goodsItem.count) + goodsItem.unit;
       }
-      if(goodsItem.count2){
+      if (goodsItem.count2) {
         itemDetail += '/';
         itemDetail += myFixed(goodsItem.count2) + goodsItem.unit2;
       }
-      if(goodsItem.count3){
+      if (goodsItem.count3) {
         itemDetail += '/';
         itemDetail += myFixed(goodsItem.count3) + goodsItem.unit3;
       }
@@ -109,6 +137,7 @@ zhuzhuqs.factory('OrderHelper',
       getOrderCountVolumeWeight: getOrderCountVolumeWeight,
       getCompanyAssignOption: getCompanyAssignOption,
       getDriverAssignOption: getDriverAssignOption,
-      getWechatDriverAssignOption: getWechatDriverAssignOption
+      getWechatDriverAssignOption: getWechatDriverAssignOption,
+      getAudioConfig: getAudioConfig
     };
   }]);

@@ -31,8 +31,11 @@ angular.module('zhuzhuqs').controller('OrderActionController',
               pageConfig.pagination.currentLimit = pageConfig.pagination.limit;
               // onSaveMaxPageCount('max_page_count_follow', pageConfig.pagination.limit);
             }
-            getOrderList();
+            // getOrderList();
           }
+        },
+        clickOrder: function (order, event) {
+          $state.go('order_detail.info');
         }
       };
 

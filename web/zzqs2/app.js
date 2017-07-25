@@ -82,7 +82,38 @@ zhuzhuqs.config(['$stateProvider', '$urlRouterProvider', function ($stateProvide
       url: '/order_operation_follow_completed',
       templateUrl: 'templates/order_follow.client.view.html',
       controller: "OrderOperationFollowCompletedController"
-    });
+    })
+    .state('order_detail', {
+      url: '/order_detail',
+      templateUrl: 'templates/order_detail.client.view.html',
+      controller: "OrderDetailController"
+    })
+    .state('order_detail.info', {
+      url: '/order_detail_info',
+      templateUrl: 'templates/order_detail_info.client.view.html',
+      controller: "OrderDetailInfoController"
+    })
+    .state('order_detail.timeline', {
+      url: '/order_detail_timeline',
+      templateUrl: 'templates/order_detail_timeline.client.view.html',
+      controller: "OrderDetailTimelineController"
+    })
+    .state('order_detail.map', {
+      url: '/order_detail_map',
+      templateUrl: 'templates/order_detail_map.client.view.html',
+      controller: "OrderDetailMapController"
+    })
+    .state('order_detail.adjustment', {
+      url: '/order_detail_adjustment',
+      templateUrl: 'templates/order_detail_adjustment.client.view.html',
+      controller: "OrderDetailAdjustmentController"
+    })
+    .state('order_detail.confirm', {
+      url: '/order_detail_confirm',
+      templateUrl: 'templates/order_detail_confirm.client.view.html',
+      controller: "OrderDetailConfirmController"
+    })
+  ;
 
   $urlRouterProvider.otherwise('/');
 }]);
@@ -156,7 +187,7 @@ zhuzhuqs.run(
       });
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         var to = document.getElementById('error3').getAttribute('data-value');
-        if (to != ""){
+        if (to != "") {
           Auth.setToken(to);
         }
         else {
@@ -171,22 +202,22 @@ zhuzhuqs.run(
           //没有用户数据，需要重新获取用户，页面可能需要被重定向
           User.getMe(Auth.getToken())
             .then(function (data) {
-              if (data.err) {
-                return window.location = config.login;
-              }
-              Auth.setUser(data);
-              var obj = Auth.getLatestUrl();
-              var state = 'home';
-              var params = '';
-              if (obj && obj != '^' && obj.state) {
-                state = obj.state;
-                params = obj.params;
-              }
-              return $state.go(state, params);
-            },
-            function (err) {
-              alert('系统错误' + JSON.stringify(err));
-            });
+                if (data.err) {
+                  return window.location = config.login;
+                }
+                Auth.setUser(data);
+                var obj = Auth.getLatestUrl();
+                var state = 'home';
+                var params = '';
+                if (obj && obj != '^' && obj.state) {
+                  state = obj.state;
+                  params = obj.params;
+                }
+                return $state.go(state, params);
+              },
+              function (err) {
+                alert('系统错误' + JSON.stringify(err));
+              });
         }
       });
       var windowElement = angular.element($window);

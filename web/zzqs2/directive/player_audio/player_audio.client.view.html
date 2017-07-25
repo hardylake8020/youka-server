@@ -1,0 +1,8 @@
+<div class="target-item-audio">
+    <div class="image"></div>
+    <div class="audio-item">
+        <audio controls id="{{'audioKey' + config.audioKey}}" onplay="angular.element(this).scope().onPlay(this)">
+            <source ng-src="{{config.audioSrc | trustUrl}}"/>
+        </audio>
+    </div>
+</div>

@@ -82,7 +82,38 @@ zhuzhuqs.config(['$stateProvider', '$urlRouterProvider', function ($stateProvide
       url: '/order_operation_follow_completed',
       templateUrl: 'templates/order_follow.client.view.html',
       controller: "OrderOperationFollowCompletedController"
-    });
+    })
+    .state('order_detail', {
+      url: '/order_detail',
+      templateUrl: 'templates/order_detail.client.view.html',
+      controller: "OrderDetailController"
+    })
+    .state('order_detail.info', {
+      url: '/order_detail_info',
+      templateUrl: 'templates/order_detail_info.client.view.html',
+      controller: "OrderDetailInfoController"
+    })
+    .state('order_detail.timeline', {
+      url: '/order_detail_timeline',
+      templateUrl: 'templates/order_detail_timeline.client.view.html',
+      controller: "OrderDetailTimelineController"
+    })
+    .state('order_detail.map', {
+      url: '/order_detail_map',
+      templateUrl: 'templates/order_detail_map.client.view.html',
+      controller: "OrderDetailMapController"
+    })
+    .state('order_detail.adjustment', {
+      url: '/order_detail_adjustment',
+      templateUrl: 'templates/order_detail_adjustment.client.view.html',
+      controller: "OrderDetailAdjustmentController"
+    })
+    .state('order_detail.confirm', {
+      url: '/order_detail_confirm',
+      templateUrl: 'templates/order_detail_confirm.client.view.html',
+      controller: "OrderDetailConfirmController"
+    })
+  ;
 
   $urlRouterProvider.otherwise('/');
 }]);
@@ -156,7 +187,7 @@ zhuzhuqs.run(
       });
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         var to = document.getElementById('error3').getAttribute('data-value');
-        if (to != ""){
+        if (to != "") {
           Auth.setToken(to);
         }
         else {
@@ -171,22 +202,22 @@ zhuzhuqs.run(
           //没有用户数据，需要重新获取用户，页面可能需要被重定向
           User.getMe(Auth.getToken())
             .then(function (data) {
-              if (data.err) {
-                return window.location = config.login;
-              }
-              Auth.setUser(data);
-              var obj = Auth.getLatestUrl();
-              var state = 'home';
-              var params = '';
-              if (obj && obj != '^' && obj.state) {
-                state = obj.state;
-                params = obj.params;
-              }
-              return $state.go(state, params);
-            },
-            function (err) {
-              alert('系统错误' + JSON.stringify(err));
-            });
+                if (data.err) {
+                  return window.location = config.login;
+                }
+                Auth.setUser(data);
+                var obj = Auth.getLatestUrl();
+                var state = 'home';
+                var params = '';
+                if (obj && obj != '^' && obj.state) {
+                  state = obj.state;
+                  params = obj.params;
+                }
+                return $state.go(state, params);
+              },
+              function (err) {
+                alert('系统错误' + JSON.stringify(err));
+              });
         }
       });
       var windowElement = angular.element($window);
@@ -1838,6 +1869,34 @@ zhuzhuqs.factory('OnlineReportConfigService', ['$http', '$q', 'config', function
 zhuzhuqs.factory('OrderHelper',
   ['config', function (config) {
 
+    var currentPlayAudio;
+
+    function onAudioPlay(element) {
+      if (element === currentPlayAudio) {
+        return;
+      }
+
+      if (currentPlayAudio) {
+        currentPlayAudio.pause();
+      }
+
+      currentPlayAudio = element;
+    }
+
+    function getAudioConfig(voiceKey) {
+      voiceKey = voiceKey || '';
+      var voiceUrl = voiceKey;
+      if (voiceUrl.indexOf('http') === -1) {
+        voiceUrl = config.qiniuServerAddress + voiceKey;
+      }
+
+      return {
+        audioKey: voiceKey,
+        audioSrc: voiceUrl,
+        onPlay: onAudioPlay
+      };
+    }
+
     function getOrderGoodsName(order) {
       var goodsName = '';
       if (order.goods && order.goods.length > 0) {
@@ -1881,14 +1940,14 @@ zhuzhuqs.factory('OrderHelper',
       }
 
       var itemDetail = '';
-      if(goodsItem.count){
+      if (goodsItem.count) {
         itemDetail += myFixed(goodsItem.count) + goodsItem.unit;
       }
-      if(goodsItem.count2){
+      if (goodsItem.count2) {
         itemDetail += '/';
         itemDetail += myFixed(goodsItem.count2) + goodsItem.unit2;
       }
-      if(goodsItem.count3){
+      if (goodsItem.count3) {
         itemDetail += '/';
         itemDetail += myFixed(goodsItem.count3) + goodsItem.unit3;
       }
@@ -1943,7 +2002,8 @@ zhuzhuqs.factory('OrderHelper',
       getOrderCountVolumeWeight: getOrderCountVolumeWeight,
       getCompanyAssignOption: getCompanyAssignOption,
       getDriverAssignOption: getDriverAssignOption,
-      getWechatDriverAssignOption: getWechatDriverAssignOption
+      getWechatDriverAssignOption: getWechatDriverAssignOption,
+      getAudioConfig: getAudioConfig
     };
   }]);
 zhuzhuqs.factory('OrderService',
@@ -2759,6 +2819,24 @@ zhuzhuqs.constant('GlobalEvent',
 //    }
 //  }
 //});
+/**
+ * Created by elinaguo on 16/6/12.
+ */
+'use strict';
+
+zhuzhuqs.filter('trustUrl', ['$sce', function ($sce) {
+  return function (recordingUrl) {
+    return $sce.trustAsResourceUrl(recordingUrl);
+  };
+}]);
+
+zhuzhuqs.filter('trustHtml', ['$sce', function ($sce) {
+  return function (text) {
+    return $sce.trustAsHtml(text);
+  };
+}]);
+
+
 angular.module('zhuzhuqs').controller('AlertController',
     ['$rootScope', '$scope', 'GlobalEvent', '$element', '$attrs', '$transclude',
         function ($rootScope, $scope, GlobalEvent, $element, $attrs, $transclude) {
@@ -4876,8 +4954,11 @@ angular.module('zhuzhuqs').controller('OrderActionController',
               pageConfig.pagination.currentLimit = pageConfig.pagination.limit;
               // onSaveMaxPageCount('max_page_count_follow', pageConfig.pagination.limit);
             }
-            getOrderList();
+            // getOrderList();
           }
+        },
+        clickOrder: function (order, event) {
+          $state.go('order_detail.info');
         }
       };
 
@@ -8741,6 +8822,2400 @@ angular.module('zhuzhuqs').controller('OrderCreateController',
 
     }])
 ;
+
+/**
+ * Created by Wayne on 15/6/1.
+ */
+angular.module('zhuzhuqs').controller('OrderDetailController',
+  ['$state', '$scope', '$timeout', 'OrderService',
+    function ($state, $scope, $timeout, OrderService) {
+
+      var pageConfig = {
+        menuList: [],
+        resetMenuList: function (order) {
+          this.menuList = [];
+          this.menuList.push({
+            state: 'order_detail.info',
+            url: 'order_detail_info',
+            text: '运单详情'
+          });
+          this.menuList.push({
+            state: 'order_detail.timeline',
+            url: 'order_detail_timeline',
+            text: '时间轴'
+          });
+          this.menuList.push({
+            state: 'order_detail.map',
+            url: 'order_detail_map',
+            text: '地图'
+          });
+          this.menuList.push({
+            state: 'order_detail.adjustment',
+            url: 'order_detail_adjustment',
+            text: '调帐'
+          });
+          this.menuList.push({
+            state: 'order_detail.confirm',
+            url: 'order_detail_confirm',
+            text: '财务确认'
+          });
+
+        },
+        isMenuSelected: function (url) {
+          return window.location.href.indexOf(url) !== -1;
+        },
+        changeMenu: function (state) {
+          $state.go(state);
+        }
+      };
+
+      $scope.pageConfig = pageConfig;
+
+      pageConfig.resetMenuList({});
+    }
+  ]);
+
+/**
+ * Created by Wayne on 15/6/1.
+ */
+angular.module('zhuzhuqs').controller('OrderDetailAdjustmentController',
+  ['$state', '$scope', '$timeout', 'OrderService',
+    function ($state, $scope, $timeout, OrderService) {
+
+      var pageConfig = {
+      };
+
+      $scope.pageConfig = pageConfig;
+    }
+  ]);
+
+/**
+ * Created by Wayne on 15/6/1.
+ */
+angular.module('zhuzhuqs').controller('OrderDetailConfirmController',
+  ['$state', '$scope', '$timeout', 'OrderService',
+    function ($state, $scope, $timeout, OrderService) {
+
+      var pageConfig = {
+      };
+
+      $scope.pageConfig = pageConfig;
+    }
+  ]);
+
+/**
+ * Created by Wayne on 15/6/1.
+ */
+angular.module('zhuzhuqs').controller('OrderDetailInfoController',
+  ['$state', '$scope', '$timeout', 'OrderService',
+    function ($state, $scope, $timeout, OrderService) {
+
+      var pageConfig = {
+        detailInfos: [
+          [
+            {
+              key: 'status',
+              text: '运单状态',
+              value: '未提货'
+            },
+            {
+              key: 'order_number',
+              text: '运单号',
+              value: 'WJ20170524'
+            },
+            {
+              key: 'ref_number',
+              text: '参考单号',
+              value: 'HM_WJ20170524'
+            },
+            {
+              key: 'sales_number',
+              text: '订单号',
+              value: 'OD_0000'
+            },
+            {
+              key: 'sender_company',
+              text: '发货方',
+              value: '大昌商贸有限公司'
+            },
+            {
+              key: 'receiver_company',
+              text: '收货方',
+              value: '万达售后服务部'
+            },
+            {
+              key: 'goods',
+              text: '货物',
+              value: '家具／纸箱'
+            },
+            {
+              key: 'fee',
+              text: '运费',
+              value: '5000'
+            },
+            {
+              key: 'damaged',
+              text: '货损信息',
+              value: '无货损'
+            },
+            {
+              key: 'remark',
+              text: '备注',
+              value: ''
+            },
+
+
+          ],
+          [
+            {
+              key: '',
+              text: '中标价格',
+              value: '5000元'
+            },
+            {
+              key: '',
+              text: '保底吨数',
+              value: ''
+            },
+            {
+              key: '',
+              text: '中标超出单价／吨',
+              value: ''
+            },
+            {
+              key: '',
+              text: '实际提货吨数',
+              value: ''
+            },
+            {
+              key: '',
+              text: '实际超出吨数',
+              value: ''
+            },
+            {
+              key: '',
+              text: '首单应支付',
+              value: '3000元'
+            },
+            {
+              key: '',
+              text: '尾单应支付',
+              value: '1000元'
+            },
+            {
+              key: '',
+              text: '回单应支付',
+              value: '1000元'
+            },
+            {
+              key: '',
+              text: '押金应支付',
+              value: '1000元'
+            }
+          ],
+          [
+            {
+              key: 'pickup_address',
+              text: '提货地址',
+              value: '江苏省镇江市开发区檀山路于312国道交汇处向西100米'
+            },
+            {
+              key: 'pickup_time',
+              text: '提货时间',
+              value: new Date().toLocaleString()
+            },
+            {
+              key: 'pickup_contact',
+              text: '提货联系人',
+              value: '王师傅'
+            },
+            {
+              key: 'pickup_mobile',
+              text: '联系人手机',
+              value: '13122223333'
+            },
+            {
+              key: 'pickup_tel',
+              text: '联系人固话',
+              value: ''
+            }
+          ],
+          [
+            {
+              key: 'delivery_address',
+              text: '交货地址',
+              value: '江苏省镇江市开发区檀山路于312国道交汇处向西100米'
+            },
+            {
+              key: 'delivery_time',
+              text: '交货时间',
+              value: new Date().toLocaleString()
+            },
+            {
+              key: 'delivery_contact',
+              text: '交货联系人',
+              value: '王师傅'
+            },
+            {
+              key: 'delivery_mobile',
+              text: '联系人手机',
+              value: '13122223333'
+            },
+            {
+              key: 'delivery_tel',
+              text: '联系人固话',
+              value: ''
+            }
+          ]
+        ],
+        setDetailInfos: function (order) {
+
+        }
+      };
+
+      $scope.pageConfig = pageConfig;
+    }
+  ]);
+
+/**
+ * Created by Wayne on 15/6/1.
+ */
+angular.module('zhuzhuqs').controller('OrderDetailMapController',
+  ['$state', '$scope', '$timeout', 'OrderService',
+    function ($state, $scope, $timeout, OrderService) {
+
+      var pageConfig = {
+      };
+
+      $scope.pageConfig = pageConfig;
+    }
+  ]);
+
+/**
+ * Created by Wayne on 15/6/1.
+ */
+angular.module('zhuzhuqs').controller('OrderDetailTimelineController',
+  ['$state', '$scope', '$timeout', 'OrderService', 'OrderHelper', 'config',
+    function ($state, $scope, $timeout, OrderService, OrderHelper, config) {
+
+      var pageConfig = {
+        events: [],
+        order: {},
+        init: function () {
+          var result = getDetail();
+          this.events = result.events;
+          this.order = result.order;
+
+          this.events.forEach(function (event) {
+            if (event.voice_file) {
+              event.audio_config = OrderHelper.getAudioConfig(event.voice_file);
+            }
+          })
+
+        },
+        generateEventTypeDescription: function (event) {
+          if (event.order.type === 'warehouse') {
+            return '仓储收货';
+          }
+          return getStatusString(event.type);
+        },
+        generatePhoto: function (photoKey) {
+          return photoKey ? generatePhotoUrl(photoKey) : 'images/icon/order_follow/error.jpg';
+        }
+      };
+
+      $scope.pageConfig = pageConfig;
+
+      function getDetail() {
+        return {
+          "order": {
+            "createUserNickname": "wayne",
+            "createUserPhone": "13918429709",
+            "createUsername": "541149886@qq.com",
+            "create_time": "2016-11-17T12:13:24.629Z",
+            "pickup_time": "2016-11-17T12:14:34.958Z",
+            "delivery_time": "2016-11-17T12:18:27.369Z"
+          },
+          "events": [
+            {
+              "_id": "582d9f1cacebfbfe451ec18c",
+              "created": "2016-11-17T12:14:20.062Z",
+              "updated": "2016-11-17T12:14:20.062Z",
+              "event_id": "582d9f1cacebfbfe451ec18d",
+              "order": {
+                "_id": "582d9f12b27e61a90b0f6969",
+                "un_confirm_second_inform_time": "2016-11-17T14:14:10.775Z",
+                "un_confirm_first_inform_time": "2016-11-17T13:14:10.775Z",
+                "order_numbers_for_search": "582d9f120f6969",
+                "created": "2016-11-17T12:14:10.777Z",
+                "updated": "2016-11-17T12:18:27.374Z",
+                "order_detail": "582d9ee4b27e61a90b0f6947",
+                "order_details": {
+                  "__v": 0,
+                  "created": "2016-11-17T12:13:24.621Z",
+                  "updated": "2016-11-17T12:13:24.621Z",
+                  "order_number": "测试扫码签收",
+                  "refer_order_number": "aa",
+                  "original_order_number": "乐山大佛老师",
+                  "goods_name": "山东等省",
+                  "count_unit": "箱",
+                  "weight_unit": "吨",
+                  "volume_unit": "立方",
+                  "freight_charge": null,
+                  "_id": "582d9ee4b27e61a90b0f6947",
+                  "goods": [{
+                    "count": 1,
+                    "unit": "箱",
+                    "count2": null,
+                    "unit2": "吨",
+                    "count3": null,
+                    "unit3": "立方",
+                    "price": null,
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "name": "山东等省"
+                  }, {
+                    "count": 1,
+                    "unit": "箱",
+                    "count2": null,
+                    "unit2": "吨",
+                    "count3": null,
+                    "unit3": "立方",
+                    "price": null,
+                    "_id": "582d9ee4b27e61a90b0f6946",
+                    "name": "是短发"
+                  }],
+                  "details": [],
+                  "update_time": "2016-11-17T12:13:24.618Z",
+                  "create_time": "2016-11-17T12:13:24.618Z",
+                  "volume": null,
+                  "weight": null,
+                  "count": 1,
+                  "order_number_search": ""
+                },
+                "parent_order": "582d9ee4b27e61a90b0f694a",
+                "create_user": "559f6f75eebd7b24242f0790",
+                "create_company": "55b383d77eb2249f4c19758f",
+                "create_group": "55b383d77eb2249f4c197590",
+                "execute_driver": "55d0f0c8c7e487e853a961a7",
+                "pickup_start_time": "2016-11-17T14:11:00.006Z",
+                "pickup_end_time": "2016-11-17T14:11:00.006Z",
+                "delivery_start_time": "2016-11-19T12:11:00.000Z",
+                "delivery_end_time": "2016-11-19T12:11:00.000Z",
+                "pickup_contact": "582d9f12b27e61a90b0f6967",
+                "delivery_contact": "582d9f12b27e61a90b0f6968",
+                "pickup_contacts": {
+                  "object": "contact",
+                  "location": [],
+                  "_id": "582d9f12b27e61a90b0f6967",
+                  "brief": "",
+                  "email": "",
+                  "address": "上海",
+                  "mobile_phone": "13918429709",
+                  "phone": "",
+                  "name": "家具街",
+                  "updated": "2016-11-17T12:14:10.772Z",
+                  "created": "2016-11-17T12:14:10.772Z",
+                  "__v": 0
+                },
+                "delivery_contacts": {
+                  "object": "contact",
+                  "location": [],
+                  "_id": "582d9f12b27e61a90b0f6968",
+                  "brief": "",
+                  "email": "",
+                  "address": "北京",
+                  "mobile_phone": "13918429709",
+                  "phone": "",
+                  "name": "iii",
+                  "updated": "2016-11-17T12:14:10.773Z",
+                  "created": "2016-11-17T12:14:10.773Z",
+                  "__v": 0
+                },
+                "type": "driver",
+                "company_configuration": {
+                  "_id": "56a5f3ddea0f950f536c540d",
+                  "created": "2016-01-25T10:07:25.796Z",
+                  "updated": "2016-11-17T12:11:37.683Z",
+                  "delivery_option": {
+                    "must_entrance": false,
+                    "must_entrance_photo": false,
+                    "entrance_photos": [],
+                    "must_take_photo": false,
+                    "take_photos": [],
+                    "must_confirm_detail": true,
+                    "_id": "582d9e79b27e61a90b0f691b"
+                  },
+                  "pickup_option": {
+                    "must_entrance": false,
+                    "must_entrance_photo": false,
+                    "entrance_photos": [],
+                    "must_take_photo": false,
+                    "take_photos": [],
+                    "must_confirm_detail": false,
+                    "_id": "582d9e79b27e61a90b0f691a"
+                  },
+                  "update_id": "582d9e79b27e61a90b0f6919",
+                  "company": "55b383d77eb2249f4c19758f",
+                  "__v": 0,
+                  "push_option": {
+                    "abnormal_push": true,
+                    "pickup_push": true,
+                    "delivery_push": true,
+                    "pickup_deferred_duration": 1,
+                    "delivery_early_duration": 1
+                  },
+                  "admin_option": {"send_salesman_sms": true},
+                  "object": "CompanyConfiguration"
+                },
+                "__v": 4,
+                "pickup_time": "2016-11-17T12:14:34.958Z",
+                "delivery_sign_time": "2016-11-17T12:15:41.594Z",
+                "delivery_time": "2016-11-17T12:18:27.369Z",
+                "evaluation_users": [],
+                "order_transport_type": "ltl",
+                "delivery_early_push_status": false,
+                "delivery_early_push": false,
+                "pickup_deferred_push_status": false,
+                "pickup_deferred_push": false,
+                "abnormal_push": false,
+                "delivery_push": false,
+                "pickup_push": false,
+                "delivery_sign_push": false,
+                "create_push": false,
+                "delivery_breach": false,
+                "pickup_breach": false,
+                "transport_plate_difference": false,
+                "delivery_driver_plate_difference": false,
+                "pickup_driver_plate_difference": false,
+                "is_wechat": false,
+                "actual_delivery_goods": [],
+                "salesmen": [],
+                "insurance": {
+                  "object": "insurance",
+                  "order_number": "测试扫码签收",
+                  "sender_name": "",
+                  "goods_name": "",
+                  "count": 0,
+                  "weight": 0,
+                  "volume": 0,
+                  "count_unit": "箱",
+                  "weight_unit": "吨",
+                  "volume_unit": "立方",
+                  "delivery_address": "",
+                  "pickup_address": "",
+                  "coverage_unit": 0,
+                  "coverage_total": 0,
+                  "price_unit": 0,
+                  "price_total": 0,
+                  "buy_count": 0,
+                  "pay_status": "unpay",
+                  "_id": "582c1811b27e61a90b0f08c4",
+                  "order_id": "582d9f12b27e61a90b0f6969"
+                },
+                "halfway_events": [],
+                "delivery_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:18:27.369Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "",
+                  "delivery_by_qrcode": true,
+                  "actual_more_goods_record": [{
+                    "count": "1",
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "unit": "箱",
+                    "name": "山东等省"
+                  }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582da013b27e61a90b0f69a8",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "delivery",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969delivery5966",
+                  "updated": "2016-11-17T12:18:27.370Z",
+                  "created": "2016-11-17T12:18:27.370Z",
+                  "__v": 0
+                }],
+                "delivery_sign_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:15:41.594Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [{
+                    "name": "交货进场",
+                    "url": "/storage/emulated/0/zzqs/pics/582d9f12b27e61a90b0f6969deliverySign20161117201527.jpg"
+                  }],
+                  "voice_file": "",
+                  "delivery_by_qrcode": false,
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f6dacebfbfe451ec1ae",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "deliverySign",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969deliverySign0172",
+                  "updated": "2016-11-17T12:15:41.595Z",
+                  "created": "2016-11-17T12:15:41.595Z",
+                  "__v": 0
+                }],
+                "pickup_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:14:34.958Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "/storage/emulated/0/zzqs/sounds/582d9f12b27e61a90b0f69691479384866969.mp3",
+                  "delivery_by_qrcode": false,
+                  "actual_more_goods_record": [{
+                    "count": "1",
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "unit": "箱",
+                    "name": "山东等省"
+                  }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f2aacebfbfe451ec199",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "pickup",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969pickup3413",
+                  "updated": "2016-11-17T12:14:34.959Z",
+                  "created": "2016-11-17T12:14:34.959Z",
+                  "__v": 0
+                }],
+                "pickup_sign_events": [],
+                "confirm_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:14:20.061Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "",
+                  "delivery_by_qrcode": false,
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f1cacebfbfe451ec18c",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "confirm",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "582d9f1cacebfbfe451ec18d",
+                  "updated": "2016-11-17T12:14:20.062Z",
+                  "created": "2016-11-17T12:14:20.062Z",
+                  "__v": 0
+                }],
+                "delivery_by_qrcode": false,
+                "source": "waynecompany",
+                "abnormal_handle_user_ids": [],
+                "driver_evaluations": [],
+                "update_time": "2016-11-17T12:14:10.775Z",
+                "create_time": "2016-11-17T12:14:10.775Z",
+                "remark": "",
+                "description": "",
+                "delivery_photo_force": true,
+                "delivery_entrance_force": false,
+                "pickup_photo_force": false,
+                "pickup_entrance_force": false,
+                "execute_drivers": [{
+                  "_id": "55d0f0c8c7e487e853a961a7",
+                  "created": "2015-08-16T20:21:28.523Z",
+                  "updated": "2016-11-10T15:34:47.294Z",
+                  "username": "13918429709",
+                  "__v": 842,
+                  "phone_id": "00000000-400a-9197-c73e-f49c17f6421c",
+                  "wechat_profile": {
+                    "openid": "ooIh5sx8HybmkUw3y3fycoml0a0A",
+                    "nickname": "梅志威",
+                    "sex": 1,
+                    "language": "zh_CN",
+                    "city": "宝山",
+                    "province": "上海",
+                    "country": "中国",
+                    "headimgurl": "http://wx.qlogo.cn/mmopen/JvvcUm1qIPbicBKs1eoscI2bJmNkCAVzs4rnAHxKsng0qoDsGeB8ICibJIBEIhPoROznmdsojyHhVASk3RVtnge53XsFDjJNAX/0",
+                    "privilege": [],
+                    "unionid": "oulzjslRVVVpTZn69bdm3sY4Na9Y"
+                  },
+                  "ios_version": "2009",
+                  "android_version": "1029",
+                  "current_location": [121.61961, 31.218153],
+                  "temporary": false,
+                  "operating_permits_photo": "",
+                  "truck_photo": "",
+                  "plate_photos": ["/storage/emulated/0/zzqs/info/13918429709plate_id_photo1440135529324.jpg"],
+                  "plate_numbers": ["皖HFGFGHHG"],
+                  "travel_id_photo": "",
+                  "travel_id_number": "",
+                  "driving_id_photo": "",
+                  "update_time": "2015-08-16T20:21:28.456Z",
+                  "create_time": "2015-08-16T20:21:28.456Z",
+                  "phone": "",
+                  "nickname": "梅志威",
+                  "email": "",
+                  "device_id_ios": null,
+                  "device_id": "caf83ec61a893b82e3261d18b8ef9a4a",
+                  "photo": "/storage/emulated/0/zzqs/info/13918429709photo1439756552280.jpg",
+                  "object": "driver",
+                  "id": "55d0f0c8c7e487e853a961a7"
+                }],
+                "execute_companies": [],
+                "delivery_end_time_format": "2016-11-19 20:11:00",
+                "delivery_start_time_format": "2016-11-19 20:11:00",
+                "pickup_end_time_format": "2016-11-17 22:11:00",
+                "pickup_start_time_format": "2016-11-17 22:11:00",
+                "delivery_address_difference": false,
+                "pickup_address_difference": false,
+                "has_halfway": false,
+                "delivery_deferred": false,
+                "delivery_sign_deferred": false,
+                "pickup_deferred": false,
+                "pickup_sign_deferred": false,
+                "delivery_missing_packages": false,
+                "pickup_missing_packages": false,
+                "missing_packages": false,
+                "damaged": false,
+                "customer_name": "",
+                "assigned_infos": [{
+                  "object": "assignInfo",
+                  "is_assigned": false,
+                  "pickup_contact_name": "家具街",
+                  "pickup_contact_phone": "",
+                  "pickup_contact_mobile_phone": "13918429709",
+                  "pickup_contact_email": "",
+                  "pickup_contact_address": "上海",
+                  "pickup_contact_brief": "",
+                  "pickup_contact_location": [],
+                  "delivery_contact_name": "iii",
+                  "delivery_contact_phone": "",
+                  "delivery_contact_mobile_phone": "13918429709",
+                  "delivery_contact_address": "北京",
+                  "delivery_contact_brief": "",
+                  "delivery_contact_location": [],
+                  "delivery_contact_email": "",
+                  "road_order_name": "",
+                  "partner_name": "梅志威(32单)/皖HFGFGHHG/13918429709",
+                  "is_wechat": false,
+                  "_id": "582d9f12b27e61a90b0f6966",
+                  "delivery_end_time": "2016-11-19T12:11:00.000Z",
+                  "delivery_start_time": "2016-11-19T12:11:00.000Z",
+                  "pickup_end_time": "2016-11-17T14:11:00.006Z",
+                  "pickup_start_time": "2016-11-17T14:11:00.006Z",
+                  "order_id": "",
+                  "company_id": "",
+                  "driver_id": "55d0f0c8c7e487e853a961a7",
+                  "driver_username": "",
+                  "type": "driver"
+                }],
+                "assigned_count": 0,
+                "total_assign_count": 0,
+                "delete_status": false,
+                "un_confirm_second_inform": false,
+                "un_confirm_first_inform": false,
+                "confirm_status": "confirmed",
+                "assign_status": "unAssigned",
+                "status": "completed",
+                "receiver_name": "宝贝宝贝",
+                "sender_name": "啊啊啊啊",
+                "object": "order"
+              },
+              "driver": {
+                "_id": "55d0f0c8c7e487e853a961a7",
+                "created": "2015-08-16T20:21:28.523Z",
+                "updated": "2017-06-05T17:17:55.982Z",
+                "username": "13918429709",
+                "__v": 855,
+                "phone_id": "00000000-400a-9197-c73e-f49c17f6421c",
+                "wechat_profile": {
+                  "openid": "ooIh5sx8HybmkUw3y3fycoml0a0A",
+                  "nickname": "梅志威",
+                  "sex": 1,
+                  "language": "zh_CN",
+                  "city": "宝山",
+                  "province": "上海",
+                  "country": "中国",
+                  "headimgurl": "http://wx.qlogo.cn/mmopen/JvvcUm1qIPbicBKs1eoscI2bJmNkCAVzs4rnAHxKsng0qoDsGeB8ICibJIBEIhPoROznmdsojyHhVASk3RVtnge53XsFDjJNAX/0",
+                  "privilege": [],
+                  "unionid": "oulzjslRVVVpTZn69bdm3sY4Na9Y"
+                },
+                "ios_version": "2009",
+                "android_version": "1029",
+                "current_location": [121.61967764333, 31.21810463712],
+                "temporary": false,
+                "salt": "abcdefg",
+                "operating_permits_photo": "",
+                "truck_photo": "",
+                "plate_photos": ["/storage/emulated/0/zzqs/info/13918429709plate_id_photo1440135529324.jpg"],
+                "plate_numbers": ["皖HFGFGHHG"],
+                "travel_id_photo": "",
+                "travel_id_number": "",
+                "driving_id_photo": "",
+                "update_time": "2015-08-16T20:21:28.456Z",
+                "create_time": "2015-08-16T20:21:28.456Z",
+                "phone": "",
+                "nickname": "梅志威",
+                "email": "",
+                "device_id_ios": null,
+                "device_id": "f12fdc1cb8f77a6b8fffb7771478e766",
+                "photo": "/storage/emulated/0/zzqs/info/13918429709photo1439756552280.jpg",
+                "password": "sXomC/kSQwFi/GbtMcVLZOa97AoQ4CaZXaoNuwQ7TITfZKCJSwuwYNNAchIwSsWW0Xfq7eNlknOc5FQE3sbL4g==",
+                "object": "driver",
+                "is_signup": true,
+                "id": "55d0f0c8c7e487e853a961a7"
+              },
+              "driver_name": "梅志威",
+              "driver_phone": "13918429709",
+              "type": "confirm",
+              "address": "中国上海市浦东新区香楠路",
+              "__v": 0,
+              "transport_plate_difference": false,
+              "driver_plate_difference": false,
+              "recognize_plates": [],
+              "is_wechat": false,
+              "actual_more_goods_record": [],
+              "delivery_by_qrcode": false,
+              "order_codes": [],
+              "voice_file": "",
+              "photos": [],
+              "halfway_photos": [],
+              "goods_photos": [],
+              "credential_photos": [],
+              "location": [121.619594, 31.21812],
+              "address_difference": false,
+              "delivery_deferred": false,
+              "pickup_deferred": false,
+              "delivery_missing_packages": false,
+              "pickup_missing_packages": false,
+              "damaged": false,
+              "description": "",
+              "time": "2016-11-17T12:14:20.061Z",
+              "driver_plate_numbers": ["皖HFGFGHHG"],
+              "object": "transport",
+              "barcodes": "",
+              "actualGoods": [],
+              "actualShowing": false
+            },
+            {
+              "_id": "582d9f2aacebfbfe451ec199",
+              "created": "2016-11-17T12:14:34.959Z",
+              "updated": "2016-11-17T12:14:34.959Z",
+              "event_id": "139184297096969pickup3413",
+              "order": {
+                "_id": "582d9f12b27e61a90b0f6969",
+                "un_confirm_second_inform_time": "2016-11-17T14:14:10.775Z",
+                "un_confirm_first_inform_time": "2016-11-17T13:14:10.775Z",
+                "order_numbers_for_search": "582d9f120f6969",
+                "created": "2016-11-17T12:14:10.777Z",
+                "updated": "2016-11-17T12:18:27.374Z",
+                "order_detail": "582d9ee4b27e61a90b0f6947",
+                "order_details": {
+                  "__v": 0,
+                  "created": "2016-11-17T12:13:24.621Z",
+                  "updated": "2016-11-17T12:13:24.621Z",
+                  "order_number": "测试扫码签收",
+                  "refer_order_number": "aa",
+                  "original_order_number": "乐山大佛老师",
+                  "goods_name": "山东等省",
+                  "count_unit": "箱",
+                  "weight_unit": "吨",
+                  "volume_unit": "立方",
+                  "freight_charge": null,
+                  "_id": "582d9ee4b27e61a90b0f6947",
+                  "goods": [{
+                    "count": 1,
+                    "unit": "箱",
+                    "count2": null,
+                    "unit2": "吨",
+                    "count3": null,
+                    "unit3": "立方",
+                    "price": null,
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "name": "山东等省"
+                  }, {
+                    "count": 1,
+                    "unit": "箱",
+                    "count2": null,
+                    "unit2": "吨",
+                    "count3": null,
+                    "unit3": "立方",
+                    "price": null,
+                    "_id": "582d9ee4b27e61a90b0f6946",
+                    "name": "是短发"
+                  }],
+                  "details": [],
+                  "update_time": "2016-11-17T12:13:24.618Z",
+                  "create_time": "2016-11-17T12:13:24.618Z",
+                  "volume": null,
+                  "weight": null,
+                  "count": 1,
+                  "order_number_search": ""
+                },
+                "parent_order": "582d9ee4b27e61a90b0f694a",
+                "create_user": "559f6f75eebd7b24242f0790",
+                "create_company": "55b383d77eb2249f4c19758f",
+                "create_group": "55b383d77eb2249f4c197590",
+                "execute_driver": "55d0f0c8c7e487e853a961a7",
+                "pickup_start_time": "2016-11-17T14:11:00.006Z",
+                "pickup_end_time": "2016-11-17T14:11:00.006Z",
+                "delivery_start_time": "2016-11-19T12:11:00.000Z",
+                "delivery_end_time": "2016-11-19T12:11:00.000Z",
+                "pickup_contact": "582d9f12b27e61a90b0f6967",
+                "delivery_contact": "582d9f12b27e61a90b0f6968",
+                "pickup_contacts": {
+                  "object": "contact",
+                  "location": [],
+                  "_id": "582d9f12b27e61a90b0f6967",
+                  "brief": "",
+                  "email": "",
+                  "address": "上海",
+                  "mobile_phone": "13918429709",
+                  "phone": "",
+                  "name": "家具街",
+                  "updated": "2016-11-17T12:14:10.772Z",
+                  "created": "2016-11-17T12:14:10.772Z",
+                  "__v": 0
+                },
+                "delivery_contacts": {
+                  "object": "contact",
+                  "location": [],
+                  "_id": "582d9f12b27e61a90b0f6968",
+                  "brief": "",
+                  "email": "",
+                  "address": "北京",
+                  "mobile_phone": "13918429709",
+                  "phone": "",
+                  "name": "iii",
+                  "updated": "2016-11-17T12:14:10.773Z",
+                  "created": "2016-11-17T12:14:10.773Z",
+                  "__v": 0
+                },
+                "type": "driver",
+                "company_configuration": {
+                  "_id": "56a5f3ddea0f950f536c540d",
+                  "created": "2016-01-25T10:07:25.796Z",
+                  "updated": "2016-11-17T12:11:37.683Z",
+                  "delivery_option": {
+                    "must_entrance": false,
+                    "must_entrance_photo": false,
+                    "entrance_photos": [],
+                    "must_take_photo": false,
+                    "take_photos": [],
+                    "must_confirm_detail": true,
+                    "_id": "582d9e79b27e61a90b0f691b"
+                  },
+                  "pickup_option": {
+                    "must_entrance": false,
+                    "must_entrance_photo": false,
+                    "entrance_photos": [],
+                    "must_take_photo": false,
+                    "take_photos": [],
+                    "must_confirm_detail": false,
+                    "_id": "582d9e79b27e61a90b0f691a"
+                  },
+                  "update_id": "582d9e79b27e61a90b0f6919",
+                  "company": "55b383d77eb2249f4c19758f",
+                  "__v": 0,
+                  "push_option": {
+                    "abnormal_push": true,
+                    "pickup_push": true,
+                    "delivery_push": true,
+                    "pickup_deferred_duration": 1,
+                    "delivery_early_duration": 1
+                  },
+                  "admin_option": {"send_salesman_sms": true},
+                  "object": "CompanyConfiguration"
+                },
+                "__v": 4,
+                "pickup_time": "2016-11-17T12:14:34.958Z",
+                "delivery_sign_time": "2016-11-17T12:15:41.594Z",
+                "delivery_time": "2016-11-17T12:18:27.369Z",
+                "evaluation_users": [],
+                "order_transport_type": "ltl",
+                "delivery_early_push_status": false,
+                "delivery_early_push": false,
+                "pickup_deferred_push_status": false,
+                "pickup_deferred_push": false,
+                "abnormal_push": false,
+                "delivery_push": false,
+                "pickup_push": false,
+                "delivery_sign_push": false,
+                "create_push": false,
+                "delivery_breach": false,
+                "pickup_breach": false,
+                "transport_plate_difference": false,
+                "delivery_driver_plate_difference": false,
+                "pickup_driver_plate_difference": false,
+                "is_wechat": false,
+                "actual_delivery_goods": [],
+                "salesmen": [],
+                "insurance": {
+                  "object": "insurance",
+                  "order_number": "测试扫码签收",
+                  "sender_name": "",
+                  "goods_name": "",
+                  "count": 0,
+                  "weight": 0,
+                  "volume": 0,
+                  "count_unit": "箱",
+                  "weight_unit": "吨",
+                  "volume_unit": "立方",
+                  "delivery_address": "",
+                  "pickup_address": "",
+                  "coverage_unit": 0,
+                  "coverage_total": 0,
+                  "price_unit": 0,
+                  "price_total": 0,
+                  "buy_count": 0,
+                  "pay_status": "unpay",
+                  "_id": "582c1811b27e61a90b0f08c4",
+                  "order_id": "582d9f12b27e61a90b0f6969"
+                },
+                "halfway_events": [],
+                "delivery_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:18:27.369Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "",
+                  "delivery_by_qrcode": true,
+                  "actual_more_goods_record": [{
+                    "count": "1",
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "unit": "箱",
+                    "name": "山东等省"
+                  }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582da013b27e61a90b0f69a8",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "delivery",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969delivery5966",
+                  "updated": "2016-11-17T12:18:27.370Z",
+                  "created": "2016-11-17T12:18:27.370Z",
+                  "__v": 0
+                }],
+                "delivery_sign_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:15:41.594Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [{
+                    "name": "交货进场",
+                    "url": "/storage/emulated/0/zzqs/pics/582d9f12b27e61a90b0f6969deliverySign20161117201527.jpg"
+                  }],
+                  "voice_file": "",
+                  "delivery_by_qrcode": false,
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f6dacebfbfe451ec1ae",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "deliverySign",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969deliverySign0172",
+                  "updated": "2016-11-17T12:15:41.595Z",
+                  "created": "2016-11-17T12:15:41.595Z",
+                  "__v": 0
+                }],
+                "pickup_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:14:34.958Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "/storage/emulated/0/zzqs/sounds/582d9f12b27e61a90b0f69691479384866969.mp3",
+                  "delivery_by_qrcode": false,
+                  "actual_more_goods_record": [{
+                    "count": "1",
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "unit": "箱",
+                    "name": "山东等省"
+                  }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f2aacebfbfe451ec199",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "pickup",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969pickup3413",
+                  "updated": "2016-11-17T12:14:34.959Z",
+                  "created": "2016-11-17T12:14:34.959Z",
+                  "__v": 0
+                }],
+                "pickup_sign_events": [],
+                "confirm_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:14:20.061Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "",
+                  "delivery_by_qrcode": false,
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f1cacebfbfe451ec18c",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "confirm",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "582d9f1cacebfbfe451ec18d",
+                  "updated": "2016-11-17T12:14:20.062Z",
+                  "created": "2016-11-17T12:14:20.062Z",
+                  "__v": 0
+                }],
+                "delivery_by_qrcode": false,
+                "source": "waynecompany",
+                "abnormal_handle_user_ids": [],
+                "driver_evaluations": [],
+                "update_time": "2016-11-17T12:14:10.775Z",
+                "create_time": "2016-11-17T12:14:10.775Z",
+                "remark": "",
+                "description": "",
+                "delivery_photo_force": true,
+                "delivery_entrance_force": false,
+                "pickup_photo_force": false,
+                "pickup_entrance_force": false,
+                "execute_drivers": [{
+                  "_id": "55d0f0c8c7e487e853a961a7",
+                  "created": "2015-08-16T20:21:28.523Z",
+                  "updated": "2016-11-10T15:34:47.294Z",
+                  "username": "13918429709",
+                  "__v": 842,
+                  "phone_id": "00000000-400a-9197-c73e-f49c17f6421c",
+                  "wechat_profile": {
+                    "openid": "ooIh5sx8HybmkUw3y3fycoml0a0A",
+                    "nickname": "梅志威",
+                    "sex": 1,
+                    "language": "zh_CN",
+                    "city": "宝山",
+                    "province": "上海",
+                    "country": "中国",
+                    "headimgurl": "http://wx.qlogo.cn/mmopen/JvvcUm1qIPbicBKs1eoscI2bJmNkCAVzs4rnAHxKsng0qoDsGeB8ICibJIBEIhPoROznmdsojyHhVASk3RVtnge53XsFDjJNAX/0",
+                    "privilege": [],
+                    "unionid": "oulzjslRVVVpTZn69bdm3sY4Na9Y"
+                  },
+                  "ios_version": "2009",
+                  "android_version": "1029",
+                  "current_location": [121.61961, 31.218153],
+                  "temporary": false,
+                  "operating_permits_photo": "",
+                  "truck_photo": "",
+                  "plate_photos": ["/storage/emulated/0/zzqs/info/13918429709plate_id_photo1440135529324.jpg"],
+                  "plate_numbers": ["皖HFGFGHHG"],
+                  "travel_id_photo": "",
+                  "travel_id_number": "",
+                  "driving_id_photo": "",
+                  "update_time": "2015-08-16T20:21:28.456Z",
+                  "create_time": "2015-08-16T20:21:28.456Z",
+                  "phone": "",
+                  "nickname": "梅志威",
+                  "email": "",
+                  "device_id_ios": null,
+                  "device_id": "caf83ec61a893b82e3261d18b8ef9a4a",
+                  "photo": "/storage/emulated/0/zzqs/info/13918429709photo1439756552280.jpg",
+                  "object": "driver",
+                  "id": "55d0f0c8c7e487e853a961a7"
+                }],
+                "execute_companies": [],
+                "delivery_end_time_format": "2016-11-19 20:11:00",
+                "delivery_start_time_format": "2016-11-19 20:11:00",
+                "pickup_end_time_format": "2016-11-17 22:11:00",
+                "pickup_start_time_format": "2016-11-17 22:11:00",
+                "delivery_address_difference": false,
+                "pickup_address_difference": false,
+                "has_halfway": false,
+                "delivery_deferred": false,
+                "delivery_sign_deferred": false,
+                "pickup_deferred": false,
+                "pickup_sign_deferred": false,
+                "delivery_missing_packages": false,
+                "pickup_missing_packages": false,
+                "missing_packages": false,
+                "damaged": false,
+                "customer_name": "",
+                "assigned_infos": [{
+                  "object": "assignInfo",
+                  "is_assigned": false,
+                  "pickup_contact_name": "家具街",
+                  "pickup_contact_phone": "",
+                  "pickup_contact_mobile_phone": "13918429709",
+                  "pickup_contact_email": "",
+                  "pickup_contact_address": "上海",
+                  "pickup_contact_brief": "",
+                  "pickup_contact_location": [],
+                  "delivery_contact_name": "iii",
+                  "delivery_contact_phone": "",
+                  "delivery_contact_mobile_phone": "13918429709",
+                  "delivery_contact_address": "北京",
+                  "delivery_contact_brief": "",
+                  "delivery_contact_location": [],
+                  "delivery_contact_email": "",
+                  "road_order_name": "",
+                  "partner_name": "梅志威(32单)/皖HFGFGHHG/13918429709",
+                  "is_wechat": false,
+                  "_id": "582d9f12b27e61a90b0f6966",
+                  "delivery_end_time": "2016-11-19T12:11:00.000Z",
+                  "delivery_start_time": "2016-11-19T12:11:00.000Z",
+                  "pickup_end_time": "2016-11-17T14:11:00.006Z",
+                  "pickup_start_time": "2016-11-17T14:11:00.006Z",
+                  "order_id": "",
+                  "company_id": "",
+                  "driver_id": "55d0f0c8c7e487e853a961a7",
+                  "driver_username": "",
+                  "type": "driver"
+                }],
+                "assigned_count": 0,
+                "total_assign_count": 0,
+                "delete_status": false,
+                "un_confirm_second_inform": false,
+                "un_confirm_first_inform": false,
+                "confirm_status": "confirmed",
+                "assign_status": "unAssigned",
+                "status": "completed",
+                "receiver_name": "宝贝宝贝",
+                "sender_name": "啊啊啊啊",
+                "object": "order"
+              },
+              "driver": {
+                "_id": "55d0f0c8c7e487e853a961a7",
+                "created": "2015-08-16T20:21:28.523Z",
+                "updated": "2017-06-05T17:17:55.982Z",
+                "username": "13918429709",
+                "__v": 855,
+                "phone_id": "00000000-400a-9197-c73e-f49c17f6421c",
+                "wechat_profile": {
+                  "openid": "ooIh5sx8HybmkUw3y3fycoml0a0A",
+                  "nickname": "梅志威",
+                  "sex": 1,
+                  "language": "zh_CN",
+                  "city": "宝山",
+                  "province": "上海",
+                  "country": "中国",
+                  "headimgurl": "http://wx.qlogo.cn/mmopen/JvvcUm1qIPbicBKs1eoscI2bJmNkCAVzs4rnAHxKsng0qoDsGeB8ICibJIBEIhPoROznmdsojyHhVASk3RVtnge53XsFDjJNAX/0",
+                  "privilege": [],
+                  "unionid": "oulzjslRVVVpTZn69bdm3sY4Na9Y"
+                },
+                "ios_version": "2009",
+                "android_version": "1029",
+                "current_location": [121.61967764333, 31.21810463712],
+                "temporary": false,
+                "salt": "abcdefg",
+                "operating_permits_photo": "",
+                "truck_photo": "",
+                "plate_photos": ["/storage/emulated/0/zzqs/info/13918429709plate_id_photo1440135529324.jpg"],
+                "plate_numbers": ["皖HFGFGHHG"],
+                "travel_id_photo": "",
+                "travel_id_number": "",
+                "driving_id_photo": "",
+                "update_time": "2015-08-16T20:21:28.456Z",
+                "create_time": "2015-08-16T20:21:28.456Z",
+                "phone": "",
+                "nickname": "梅志威",
+                "email": "",
+                "device_id_ios": null,
+                "device_id": "f12fdc1cb8f77a6b8fffb7771478e766",
+                "photo": "/storage/emulated/0/zzqs/info/13918429709photo1439756552280.jpg",
+                "password": "sXomC/kSQwFi/GbtMcVLZOa97AoQ4CaZXaoNuwQ7TITfZKCJSwuwYNNAchIwSsWW0Xfq7eNlknOc5FQE3sbL4g==",
+                "object": "driver",
+                "is_signup": true,
+                "id": "55d0f0c8c7e487e853a961a7"
+              },
+              "driver_name": "梅志威",
+              "driver_phone": "13918429709",
+              "type": "pickup",
+              "address": "中国上海市浦东新区香楠路",
+              "__v": 0,
+              "transport_plate_difference": false,
+              "driver_plate_difference": false,
+              "recognize_plates": [],
+              "is_wechat": false,
+              "actual_more_goods_record": [{
+                "count": "1",
+                "_id": "582d9ee4b27e61a90b0f6945",
+                "unit": "箱",
+                "name": "山东等省"
+              }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+              "delivery_by_qrcode": false,
+              "order_codes": [],
+              "voice_file": "http://7xiwrb.com1.z0.glb.clouddn.com/@/storage/emulated/0/zzqs/sounds/582d9f12b27e61a90b0f69691479384866969.mp3",
+              "photos": [],
+              "halfway_photos": [],
+              "goods_photos": [],
+              "credential_photos": [],
+              "location": [121.619594, 31.21812],
+              "address_difference": false,
+              "delivery_deferred": false,
+              "pickup_deferred": false,
+              "delivery_missing_packages": false,
+              "pickup_missing_packages": false,
+              "damaged": false,
+              "description": "",
+              "time": "2016-11-17T12:14:34.958Z",
+              "driver_plate_numbers": ["皖HFGFGHHG"],
+              "object": "transport",
+              "compare_goods": [{"name": "山东等省", "planned": "1箱", "actual": "1箱", "compare": "正常"}, {
+                "name": "是短发",
+                "planned": "1箱",
+                "actual": "1箱",
+                "compare": "正常"
+              }, {"name": "合计", "planned": "2箱", "actual": "2箱", "compare": "正常"}],
+              "audioPlayer": {"duration": 0, "currentTime": 0, "status": "unknown"},
+              "barcodes": "",
+              "actualGoods": [{"title": "实收货物1", "name": "山东等省", "count": "1", "unit": "箱"}, {
+                "title": "实收货物2",
+                "name": "是短发",
+                "count": "1",
+                "unit": "箱"
+              }],
+              "actualShowing": true
+            },
+            {
+              "_id": "582d9f6dacebfbfe451ec1ae",
+              "created": "2016-11-17T12:15:41.595Z",
+              "updated": "2016-11-17T12:15:41.595Z",
+              "event_id": "139184297096969deliverySign0172",
+              "order": {
+                "_id": "582d9f12b27e61a90b0f6969",
+                "un_confirm_second_inform_time": "2016-11-17T14:14:10.775Z",
+                "un_confirm_first_inform_time": "2016-11-17T13:14:10.775Z",
+                "order_numbers_for_search": "582d9f120f6969",
+                "created": "2016-11-17T12:14:10.777Z",
+                "updated": "2016-11-17T12:18:27.374Z",
+                "order_detail": "582d9ee4b27e61a90b0f6947",
+                "order_details": {
+                  "__v": 0,
+                  "created": "2016-11-17T12:13:24.621Z",
+                  "updated": "2016-11-17T12:13:24.621Z",
+                  "order_number": "测试扫码签收",
+                  "refer_order_number": "aa",
+                  "original_order_number": "乐山大佛老师",
+                  "goods_name": "山东等省",
+                  "count_unit": "箱",
+                  "weight_unit": "吨",
+                  "volume_unit": "立方",
+                  "freight_charge": null,
+                  "_id": "582d9ee4b27e61a90b0f6947",
+                  "goods": [{
+                    "count": 1,
+                    "unit": "箱",
+                    "count2": null,
+                    "unit2": "吨",
+                    "count3": null,
+                    "unit3": "立方",
+                    "price": null,
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "name": "山东等省"
+                  }, {
+                    "count": 1,
+                    "unit": "箱",
+                    "count2": null,
+                    "unit2": "吨",
+                    "count3": null,
+                    "unit3": "立方",
+                    "price": null,
+                    "_id": "582d9ee4b27e61a90b0f6946",
+                    "name": "是短发"
+                  }],
+                  "details": [],
+                  "update_time": "2016-11-17T12:13:24.618Z",
+                  "create_time": "2016-11-17T12:13:24.618Z",
+                  "volume": null,
+                  "weight": null,
+                  "count": 1,
+                  "order_number_search": ""
+                },
+                "parent_order": "582d9ee4b27e61a90b0f694a",
+                "create_user": "559f6f75eebd7b24242f0790",
+                "create_company": "55b383d77eb2249f4c19758f",
+                "create_group": "55b383d77eb2249f4c197590",
+                "execute_driver": "55d0f0c8c7e487e853a961a7",
+                "pickup_start_time": "2016-11-17T14:11:00.006Z",
+                "pickup_end_time": "2016-11-17T14:11:00.006Z",
+                "delivery_start_time": "2016-11-19T12:11:00.000Z",
+                "delivery_end_time": "2016-11-19T12:11:00.000Z",
+                "pickup_contact": "582d9f12b27e61a90b0f6967",
+                "delivery_contact": "582d9f12b27e61a90b0f6968",
+                "pickup_contacts": {
+                  "object": "contact",
+                  "location": [],
+                  "_id": "582d9f12b27e61a90b0f6967",
+                  "brief": "",
+                  "email": "",
+                  "address": "上海",
+                  "mobile_phone": "13918429709",
+                  "phone": "",
+                  "name": "家具街",
+                  "updated": "2016-11-17T12:14:10.772Z",
+                  "created": "2016-11-17T12:14:10.772Z",
+                  "__v": 0
+                },
+                "delivery_contacts": {
+                  "object": "contact",
+                  "location": [],
+                  "_id": "582d9f12b27e61a90b0f6968",
+                  "brief": "",
+                  "email": "",
+                  "address": "北京",
+                  "mobile_phone": "13918429709",
+                  "phone": "",
+                  "name": "iii",
+                  "updated": "2016-11-17T12:14:10.773Z",
+                  "created": "2016-11-17T12:14:10.773Z",
+                  "__v": 0
+                },
+                "type": "driver",
+                "company_configuration": {
+                  "_id": "56a5f3ddea0f950f536c540d",
+                  "created": "2016-01-25T10:07:25.796Z",
+                  "updated": "2016-11-17T12:11:37.683Z",
+                  "delivery_option": {
+                    "must_entrance": false,
+                    "must_entrance_photo": false,
+                    "entrance_photos": [],
+                    "must_take_photo": false,
+                    "take_photos": [],
+                    "must_confirm_detail": true,
+                    "_id": "582d9e79b27e61a90b0f691b"
+                  },
+                  "pickup_option": {
+                    "must_entrance": false,
+                    "must_entrance_photo": false,
+                    "entrance_photos": [],
+                    "must_take_photo": false,
+                    "take_photos": [],
+                    "must_confirm_detail": false,
+                    "_id": "582d9e79b27e61a90b0f691a"
+                  },
+                  "update_id": "582d9e79b27e61a90b0f6919",
+                  "company": "55b383d77eb2249f4c19758f",
+                  "__v": 0,
+                  "push_option": {
+                    "abnormal_push": true,
+                    "pickup_push": true,
+                    "delivery_push": true,
+                    "pickup_deferred_duration": 1,
+                    "delivery_early_duration": 1
+                  },
+                  "admin_option": {"send_salesman_sms": true},
+                  "object": "CompanyConfiguration"
+                },
+                "__v": 4,
+                "pickup_time": "2016-11-17T12:14:34.958Z",
+                "delivery_sign_time": "2016-11-17T12:15:41.594Z",
+                "delivery_time": "2016-11-17T12:18:27.369Z",
+                "evaluation_users": [],
+                "order_transport_type": "ltl",
+                "delivery_early_push_status": false,
+                "delivery_early_push": false,
+                "pickup_deferred_push_status": false,
+                "pickup_deferred_push": false,
+                "abnormal_push": false,
+                "delivery_push": false,
+                "pickup_push": false,
+                "delivery_sign_push": false,
+                "create_push": false,
+                "delivery_breach": false,
+                "pickup_breach": false,
+                "transport_plate_difference": false,
+                "delivery_driver_plate_difference": false,
+                "pickup_driver_plate_difference": false,
+                "is_wechat": false,
+                "actual_delivery_goods": [],
+                "salesmen": [],
+                "insurance": {
+                  "object": "insurance",
+                  "order_number": "测试扫码签收",
+                  "sender_name": "",
+                  "goods_name": "",
+                  "count": 0,
+                  "weight": 0,
+                  "volume": 0,
+                  "count_unit": "箱",
+                  "weight_unit": "吨",
+                  "volume_unit": "立方",
+                  "delivery_address": "",
+                  "pickup_address": "",
+                  "coverage_unit": 0,
+                  "coverage_total": 0,
+                  "price_unit": 0,
+                  "price_total": 0,
+                  "buy_count": 0,
+                  "pay_status": "unpay",
+                  "_id": "582c1811b27e61a90b0f08c4",
+                  "order_id": "582d9f12b27e61a90b0f6969"
+                },
+                "halfway_events": [],
+                "delivery_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:18:27.369Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "",
+                  "delivery_by_qrcode": true,
+                  "actual_more_goods_record": [{
+                    "count": "1",
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "unit": "箱",
+                    "name": "山东等省"
+                  }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582da013b27e61a90b0f69a8",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "delivery",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969delivery5966",
+                  "updated": "2016-11-17T12:18:27.370Z",
+                  "created": "2016-11-17T12:18:27.370Z",
+                  "__v": 0
+                }],
+                "delivery_sign_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:15:41.594Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [{
+                    "name": "交货进场",
+                    "url": "/storage/emulated/0/zzqs/pics/582d9f12b27e61a90b0f6969deliverySign20161117201527.jpg"
+                  }],
+                  "voice_file": "",
+                  "delivery_by_qrcode": false,
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f6dacebfbfe451ec1ae",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "deliverySign",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969deliverySign0172",
+                  "updated": "2016-11-17T12:15:41.595Z",
+                  "created": "2016-11-17T12:15:41.595Z",
+                  "__v": 0
+                }],
+                "pickup_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:14:34.958Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "/storage/emulated/0/zzqs/sounds/582d9f12b27e61a90b0f69691479384866969.mp3",
+                  "delivery_by_qrcode": false,
+                  "actual_more_goods_record": [{
+                    "count": "1",
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "unit": "箱",
+                    "name": "山东等省"
+                  }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f2aacebfbfe451ec199",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "pickup",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969pickup3413",
+                  "updated": "2016-11-17T12:14:34.959Z",
+                  "created": "2016-11-17T12:14:34.959Z",
+                  "__v": 0
+                }],
+                "pickup_sign_events": [],
+                "confirm_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:14:20.061Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "",
+                  "delivery_by_qrcode": false,
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f1cacebfbfe451ec18c",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "confirm",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "582d9f1cacebfbfe451ec18d",
+                  "updated": "2016-11-17T12:14:20.062Z",
+                  "created": "2016-11-17T12:14:20.062Z",
+                  "__v": 0
+                }],
+                "delivery_by_qrcode": false,
+                "source": "waynecompany",
+                "abnormal_handle_user_ids": [],
+                "driver_evaluations": [],
+                "update_time": "2016-11-17T12:14:10.775Z",
+                "create_time": "2016-11-17T12:14:10.775Z",
+                "remark": "",
+                "description": "",
+                "delivery_photo_force": true,
+                "delivery_entrance_force": false,
+                "pickup_photo_force": false,
+                "pickup_entrance_force": false,
+                "execute_drivers": [{
+                  "_id": "55d0f0c8c7e487e853a961a7",
+                  "created": "2015-08-16T20:21:28.523Z",
+                  "updated": "2016-11-10T15:34:47.294Z",
+                  "username": "13918429709",
+                  "__v": 842,
+                  "phone_id": "00000000-400a-9197-c73e-f49c17f6421c",
+                  "wechat_profile": {
+                    "openid": "ooIh5sx8HybmkUw3y3fycoml0a0A",
+                    "nickname": "梅志威",
+                    "sex": 1,
+                    "language": "zh_CN",
+                    "city": "宝山",
+                    "province": "上海",
+                    "country": "中国",
+                    "headimgurl": "http://wx.qlogo.cn/mmopen/JvvcUm1qIPbicBKs1eoscI2bJmNkCAVzs4rnAHxKsng0qoDsGeB8ICibJIBEIhPoROznmdsojyHhVASk3RVtnge53XsFDjJNAX/0",
+                    "privilege": [],
+                    "unionid": "oulzjslRVVVpTZn69bdm3sY4Na9Y"
+                  },
+                  "ios_version": "2009",
+                  "android_version": "1029",
+                  "current_location": [121.61961, 31.218153],
+                  "temporary": false,
+                  "operating_permits_photo": "",
+                  "truck_photo": "",
+                  "plate_photos": ["/storage/emulated/0/zzqs/info/13918429709plate_id_photo1440135529324.jpg"],
+                  "plate_numbers": ["皖HFGFGHHG"],
+                  "travel_id_photo": "",
+                  "travel_id_number": "",
+                  "driving_id_photo": "",
+                  "update_time": "2015-08-16T20:21:28.456Z",
+                  "create_time": "2015-08-16T20:21:28.456Z",
+                  "phone": "",
+                  "nickname": "梅志威",
+                  "email": "",
+                  "device_id_ios": null,
+                  "device_id": "caf83ec61a893b82e3261d18b8ef9a4a",
+                  "photo": "/storage/emulated/0/zzqs/info/13918429709photo1439756552280.jpg",
+                  "object": "driver",
+                  "id": "55d0f0c8c7e487e853a961a7"
+                }],
+                "execute_companies": [],
+                "delivery_end_time_format": "2016-11-19 20:11:00",
+                "delivery_start_time_format": "2016-11-19 20:11:00",
+                "pickup_end_time_format": "2016-11-17 22:11:00",
+                "pickup_start_time_format": "2016-11-17 22:11:00",
+                "delivery_address_difference": false,
+                "pickup_address_difference": false,
+                "has_halfway": false,
+                "delivery_deferred": false,
+                "delivery_sign_deferred": false,
+                "pickup_deferred": false,
+                "pickup_sign_deferred": false,
+                "delivery_missing_packages": false,
+                "pickup_missing_packages": false,
+                "missing_packages": false,
+                "damaged": false,
+                "customer_name": "",
+                "assigned_infos": [{
+                  "object": "assignInfo",
+                  "is_assigned": false,
+                  "pickup_contact_name": "家具街",
+                  "pickup_contact_phone": "",
+                  "pickup_contact_mobile_phone": "13918429709",
+                  "pickup_contact_email": "",
+                  "pickup_contact_address": "上海",
+                  "pickup_contact_brief": "",
+                  "pickup_contact_location": [],
+                  "delivery_contact_name": "iii",
+                  "delivery_contact_phone": "",
+                  "delivery_contact_mobile_phone": "13918429709",
+                  "delivery_contact_address": "北京",
+                  "delivery_contact_brief": "",
+                  "delivery_contact_location": [],
+                  "delivery_contact_email": "",
+                  "road_order_name": "",
+                  "partner_name": "梅志威(32单)/皖HFGFGHHG/13918429709",
+                  "is_wechat": false,
+                  "_id": "582d9f12b27e61a90b0f6966",
+                  "delivery_end_time": "2016-11-19T12:11:00.000Z",
+                  "delivery_start_time": "2016-11-19T12:11:00.000Z",
+                  "pickup_end_time": "2016-11-17T14:11:00.006Z",
+                  "pickup_start_time": "2016-11-17T14:11:00.006Z",
+                  "order_id": "",
+                  "company_id": "",
+                  "driver_id": "55d0f0c8c7e487e853a961a7",
+                  "driver_username": "",
+                  "type": "driver"
+                }],
+                "assigned_count": 0,
+                "total_assign_count": 0,
+                "delete_status": false,
+                "un_confirm_second_inform": false,
+                "un_confirm_first_inform": false,
+                "confirm_status": "confirmed",
+                "assign_status": "unAssigned",
+                "status": "completed",
+                "receiver_name": "宝贝宝贝",
+                "sender_name": "啊啊啊啊",
+                "object": "order"
+              },
+              "driver": {
+                "_id": "55d0f0c8c7e487e853a961a7",
+                "created": "2015-08-16T20:21:28.523Z",
+                "updated": "2017-06-05T17:17:55.982Z",
+                "username": "13918429709",
+                "__v": 855,
+                "phone_id": "00000000-400a-9197-c73e-f49c17f6421c",
+                "wechat_profile": {
+                  "openid": "ooIh5sx8HybmkUw3y3fycoml0a0A",
+                  "nickname": "梅志威",
+                  "sex": 1,
+                  "language": "zh_CN",
+                  "city": "宝山",
+                  "province": "上海",
+                  "country": "中国",
+                  "headimgurl": "http://wx.qlogo.cn/mmopen/JvvcUm1qIPbicBKs1eoscI2bJmNkCAVzs4rnAHxKsng0qoDsGeB8ICibJIBEIhPoROznmdsojyHhVASk3RVtnge53XsFDjJNAX/0",
+                  "privilege": [],
+                  "unionid": "oulzjslRVVVpTZn69bdm3sY4Na9Y"
+                },
+                "ios_version": "2009",
+                "android_version": "1029",
+                "current_location": [121.61967764333, 31.21810463712],
+                "temporary": false,
+                "salt": "abcdefg",
+                "operating_permits_photo": "",
+                "truck_photo": "",
+                "plate_photos": ["/storage/emulated/0/zzqs/info/13918429709plate_id_photo1440135529324.jpg"],
+                "plate_numbers": ["皖HFGFGHHG"],
+                "travel_id_photo": "",
+                "travel_id_number": "",
+                "driving_id_photo": "",
+                "update_time": "2015-08-16T20:21:28.456Z",
+                "create_time": "2015-08-16T20:21:28.456Z",
+                "phone": "",
+                "nickname": "梅志威",
+                "email": "",
+                "device_id_ios": null,
+                "device_id": "f12fdc1cb8f77a6b8fffb7771478e766",
+                "photo": "/storage/emulated/0/zzqs/info/13918429709photo1439756552280.jpg",
+                "password": "sXomC/kSQwFi/GbtMcVLZOa97AoQ4CaZXaoNuwQ7TITfZKCJSwuwYNNAchIwSsWW0Xfq7eNlknOc5FQE3sbL4g==",
+                "object": "driver",
+                "is_signup": true,
+                "id": "55d0f0c8c7e487e853a961a7"
+              },
+              "driver_name": "梅志威",
+              "driver_phone": "13918429709",
+              "type": "deliverySign",
+              "address": "中国上海市浦东新区香楠路",
+              "__v": 0,
+              "transport_plate_difference": false,
+              "driver_plate_difference": false,
+              "recognize_plates": [],
+              "is_wechat": false,
+              "actual_more_goods_record": [],
+              "delivery_by_qrcode": false,
+              "order_codes": [],
+              "voice_file": "",
+              "photos": [{
+                "name": "交货进场",
+                "url": "/storage/emulated/0/zzqs/pics/582d9f12b27e61a90b0f6969deliverySign20161117201527.jpg"
+              }],
+              "halfway_photos": [],
+              "goods_photos": [],
+              "credential_photos": [],
+              "location": [121.619594, 31.21812],
+              "address_difference": false,
+              "delivery_deferred": false,
+              "pickup_deferred": false,
+              "delivery_missing_packages": false,
+              "pickup_missing_packages": false,
+              "damaged": false,
+              "description": "",
+              "time": "2016-11-17T12:15:41.594Z",
+              "driver_plate_numbers": ["皖HFGFGHHG"],
+              "object": "transport",
+              "barcodes": "",
+              "actualGoods": [],
+              "actualShowing": false
+            },
+            {
+              "_id": "582da013b27e61a90b0f69a8",
+              "created": "2016-11-17T12:18:27.370Z",
+              "updated": "2016-11-17T12:18:27.370Z",
+              "event_id": "139184297096969delivery5966",
+              "order": {
+                "_id": "582d9f12b27e61a90b0f6969",
+                "un_confirm_second_inform_time": "2016-11-17T14:14:10.775Z",
+                "un_confirm_first_inform_time": "2016-11-17T13:14:10.775Z",
+                "order_numbers_for_search": "582d9f120f6969",
+                "created": "2016-11-17T12:14:10.777Z",
+                "updated": "2016-11-17T12:18:27.374Z",
+                "order_detail": "582d9ee4b27e61a90b0f6947",
+                "order_details": {
+                  "__v": 0,
+                  "created": "2016-11-17T12:13:24.621Z",
+                  "updated": "2016-11-17T12:13:24.621Z",
+                  "order_number": "测试扫码签收",
+                  "refer_order_number": "aa",
+                  "original_order_number": "乐山大佛老师",
+                  "goods_name": "山东等省",
+                  "count_unit": "箱",
+                  "weight_unit": "吨",
+                  "volume_unit": "立方",
+                  "freight_charge": null,
+                  "_id": "582d9ee4b27e61a90b0f6947",
+                  "goods": [{
+                    "count": 1,
+                    "unit": "箱",
+                    "count2": null,
+                    "unit2": "吨",
+                    "count3": null,
+                    "unit3": "立方",
+                    "price": null,
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "name": "山东等省"
+                  }, {
+                    "count": 1,
+                    "unit": "箱",
+                    "count2": null,
+                    "unit2": "吨",
+                    "count3": null,
+                    "unit3": "立方",
+                    "price": null,
+                    "_id": "582d9ee4b27e61a90b0f6946",
+                    "name": "是短发"
+                  }],
+                  "details": [],
+                  "update_time": "2016-11-17T12:13:24.618Z",
+                  "create_time": "2016-11-17T12:13:24.618Z",
+                  "volume": null,
+                  "weight": null,
+                  "count": 1,
+                  "order_number_search": ""
+                },
+                "parent_order": "582d9ee4b27e61a90b0f694a",
+                "create_user": "559f6f75eebd7b24242f0790",
+                "create_company": "55b383d77eb2249f4c19758f",
+                "create_group": "55b383d77eb2249f4c197590",
+                "execute_driver": "55d0f0c8c7e487e853a961a7",
+                "pickup_start_time": "2016-11-17T14:11:00.006Z",
+                "pickup_end_time": "2016-11-17T14:11:00.006Z",
+                "delivery_start_time": "2016-11-19T12:11:00.000Z",
+                "delivery_end_time": "2016-11-19T12:11:00.000Z",
+                "pickup_contact": "582d9f12b27e61a90b0f6967",
+                "delivery_contact": "582d9f12b27e61a90b0f6968",
+                "pickup_contacts": {
+                  "object": "contact",
+                  "location": [],
+                  "_id": "582d9f12b27e61a90b0f6967",
+                  "brief": "",
+                  "email": "",
+                  "address": "上海",
+                  "mobile_phone": "13918429709",
+                  "phone": "",
+                  "name": "家具街",
+                  "updated": "2016-11-17T12:14:10.772Z",
+                  "created": "2016-11-17T12:14:10.772Z",
+                  "__v": 0
+                },
+                "delivery_contacts": {
+                  "object": "contact",
+                  "location": [],
+                  "_id": "582d9f12b27e61a90b0f6968",
+                  "brief": "",
+                  "email": "",
+                  "address": "北京",
+                  "mobile_phone": "13918429709",
+                  "phone": "",
+                  "name": "iii",
+                  "updated": "2016-11-17T12:14:10.773Z",
+                  "created": "2016-11-17T12:14:10.773Z",
+                  "__v": 0
+                },
+                "type": "driver",
+                "company_configuration": {
+                  "_id": "56a5f3ddea0f950f536c540d",
+                  "created": "2016-01-25T10:07:25.796Z",
+                  "updated": "2016-11-17T12:11:37.683Z",
+                  "delivery_option": {
+                    "must_entrance": false,
+                    "must_entrance_photo": false,
+                    "entrance_photos": [],
+                    "must_take_photo": false,
+                    "take_photos": [],
+                    "must_confirm_detail": true,
+                    "_id": "582d9e79b27e61a90b0f691b"
+                  },
+                  "pickup_option": {
+                    "must_entrance": false,
+                    "must_entrance_photo": false,
+                    "entrance_photos": [],
+                    "must_take_photo": false,
+                    "take_photos": [],
+                    "must_confirm_detail": false,
+                    "_id": "582d9e79b27e61a90b0f691a"
+                  },
+                  "update_id": "582d9e79b27e61a90b0f6919",
+                  "company": "55b383d77eb2249f4c19758f",
+                  "__v": 0,
+                  "push_option": {
+                    "abnormal_push": true,
+                    "pickup_push": true,
+                    "delivery_push": true,
+                    "pickup_deferred_duration": 1,
+                    "delivery_early_duration": 1
+                  },
+                  "admin_option": {"send_salesman_sms": true},
+                  "object": "CompanyConfiguration"
+                },
+                "__v": 4,
+                "pickup_time": "2016-11-17T12:14:34.958Z",
+                "delivery_sign_time": "2016-11-17T12:15:41.594Z",
+                "delivery_time": "2016-11-17T12:18:27.369Z",
+                "evaluation_users": [],
+                "order_transport_type": "ltl",
+                "delivery_early_push_status": false,
+                "delivery_early_push": false,
+                "pickup_deferred_push_status": false,
+                "pickup_deferred_push": false,
+                "abnormal_push": false,
+                "delivery_push": false,
+                "pickup_push": false,
+                "delivery_sign_push": false,
+                "create_push": false,
+                "delivery_breach": false,
+                "pickup_breach": false,
+                "transport_plate_difference": false,
+                "delivery_driver_plate_difference": false,
+                "pickup_driver_plate_difference": false,
+                "is_wechat": false,
+                "actual_delivery_goods": [],
+                "salesmen": [],
+                "insurance": {
+                  "object": "insurance",
+                  "order_number": "测试扫码签收",
+                  "sender_name": "",
+                  "goods_name": "",
+                  "count": 0,
+                  "weight": 0,
+                  "volume": 0,
+                  "count_unit": "箱",
+                  "weight_unit": "吨",
+                  "volume_unit": "立方",
+                  "delivery_address": "",
+                  "pickup_address": "",
+                  "coverage_unit": 0,
+                  "coverage_total": 0,
+                  "price_unit": 0,
+                  "price_total": 0,
+                  "buy_count": 0,
+                  "pay_status": "unpay",
+                  "_id": "582c1811b27e61a90b0f08c4",
+                  "order_id": "582d9f12b27e61a90b0f6969"
+                },
+                "halfway_events": [],
+                "delivery_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:18:27.369Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "",
+                  "delivery_by_qrcode": true,
+                  "actual_more_goods_record": [{
+                    "count": "1",
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "unit": "箱",
+                    "name": "山东等省"
+                  }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582da013b27e61a90b0f69a8",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "delivery",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969delivery5966",
+                  "updated": "2016-11-17T12:18:27.370Z",
+                  "created": "2016-11-17T12:18:27.370Z",
+                  "__v": 0
+                }],
+                "delivery_sign_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:15:41.594Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [{
+                    "name": "交货进场",
+                    "url": "/storage/emulated/0/zzqs/pics/582d9f12b27e61a90b0f6969deliverySign20161117201527.jpg"
+                  }],
+                  "voice_file": "",
+                  "delivery_by_qrcode": false,
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f6dacebfbfe451ec1ae",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "deliverySign",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969deliverySign0172",
+                  "updated": "2016-11-17T12:15:41.595Z",
+                  "created": "2016-11-17T12:15:41.595Z",
+                  "__v": 0
+                }],
+                "pickup_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:14:34.958Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "/storage/emulated/0/zzqs/sounds/582d9f12b27e61a90b0f69691479384866969.mp3",
+                  "delivery_by_qrcode": false,
+                  "actual_more_goods_record": [{
+                    "count": "1",
+                    "_id": "582d9ee4b27e61a90b0f6945",
+                    "unit": "箱",
+                    "name": "山东等省"
+                  }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f2aacebfbfe451ec199",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "pickup",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "139184297096969pickup3413",
+                  "updated": "2016-11-17T12:14:34.959Z",
+                  "created": "2016-11-17T12:14:34.959Z",
+                  "__v": 0
+                }],
+                "pickup_sign_events": [],
+                "confirm_events": [{
+                  "object": "transport",
+                  "driver_plate_numbers": ["皖HFGFGHHG"],
+                  "time": "2016-11-17T12:14:20.061Z",
+                  "damaged": false,
+                  "pickup_missing_packages": false,
+                  "delivery_missing_packages": false,
+                  "pickup_deferred": false,
+                  "delivery_deferred": false,
+                  "address_difference": false,
+                  "location": [121.619594, 31.21812],
+                  "photos": [],
+                  "voice_file": "",
+                  "delivery_by_qrcode": false,
+                  "is_wechat": false,
+                  "driver_plate_difference": false,
+                  "transport_plate_difference": false,
+                  "_id": "582d9f1cacebfbfe451ec18c",
+                  "address": "中国上海市浦东新区香楠路",
+                  "type": "confirm",
+                  "driver_phone": "13918429709",
+                  "driver_name": "梅志威",
+                  "driver": "55d0f0c8c7e487e853a961a7",
+                  "order": "582d9f12b27e61a90b0f6969",
+                  "event_id": "582d9f1cacebfbfe451ec18d",
+                  "updated": "2016-11-17T12:14:20.062Z",
+                  "created": "2016-11-17T12:14:20.062Z",
+                  "__v": 0
+                }],
+                "delivery_by_qrcode": false,
+                "source": "waynecompany",
+                "abnormal_handle_user_ids": [],
+                "driver_evaluations": [],
+                "update_time": "2016-11-17T12:14:10.775Z",
+                "create_time": "2016-11-17T12:14:10.775Z",
+                "remark": "",
+                "description": "",
+                "delivery_photo_force": true,
+                "delivery_entrance_force": false,
+                "pickup_photo_force": false,
+                "pickup_entrance_force": false,
+                "execute_drivers": [{
+                  "_id": "55d0f0c8c7e487e853a961a7",
+                  "created": "2015-08-16T20:21:28.523Z",
+                  "updated": "2016-11-10T15:34:47.294Z",
+                  "username": "13918429709",
+                  "__v": 842,
+                  "phone_id": "00000000-400a-9197-c73e-f49c17f6421c",
+                  "wechat_profile": {
+                    "openid": "ooIh5sx8HybmkUw3y3fycoml0a0A",
+                    "nickname": "梅志威",
+                    "sex": 1,
+                    "language": "zh_CN",
+                    "city": "宝山",
+                    "province": "上海",
+                    "country": "中国",
+                    "headimgurl": "http://wx.qlogo.cn/mmopen/JvvcUm1qIPbicBKs1eoscI2bJmNkCAVzs4rnAHxKsng0qoDsGeB8ICibJIBEIhPoROznmdsojyHhVASk3RVtnge53XsFDjJNAX/0",
+                    "privilege": [],
+                    "unionid": "oulzjslRVVVpTZn69bdm3sY4Na9Y"
+                  },
+                  "ios_version": "2009",
+                  "android_version": "1029",
+                  "current_location": [121.61961, 31.218153],
+                  "temporary": false,
+                  "operating_permits_photo": "",
+                  "truck_photo": "",
+                  "plate_photos": ["/storage/emulated/0/zzqs/info/13918429709plate_id_photo1440135529324.jpg"],
+                  "plate_numbers": ["皖HFGFGHHG"],
+                  "travel_id_photo": "",
+                  "travel_id_number": "",
+                  "driving_id_photo": "",
+                  "update_time": "2015-08-16T20:21:28.456Z",
+                  "create_time": "2015-08-16T20:21:28.456Z",
+                  "phone": "",
+                  "nickname": "梅志威",
+                  "email": "",
+                  "device_id_ios": null,
+                  "device_id": "caf83ec61a893b82e3261d18b8ef9a4a",
+                  "photo": "/storage/emulated/0/zzqs/info/13918429709photo1439756552280.jpg",
+                  "object": "driver",
+                  "id": "55d0f0c8c7e487e853a961a7"
+                }],
+                "execute_companies": [],
+                "delivery_end_time_format": "2016-11-19 20:11:00",
+                "delivery_start_time_format": "2016-11-19 20:11:00",
+                "pickup_end_time_format": "2016-11-17 22:11:00",
+                "pickup_start_time_format": "2016-11-17 22:11:00",
+                "delivery_address_difference": false,
+                "pickup_address_difference": false,
+                "has_halfway": false,
+                "delivery_deferred": false,
+                "delivery_sign_deferred": false,
+                "pickup_deferred": false,
+                "pickup_sign_deferred": false,
+                "delivery_missing_packages": false,
+                "pickup_missing_packages": false,
+                "missing_packages": false,
+                "damaged": false,
+                "customer_name": "",
+                "assigned_infos": [{
+                  "object": "assignInfo",
+                  "is_assigned": false,
+                  "pickup_contact_name": "家具街",
+                  "pickup_contact_phone": "",
+                  "pickup_contact_mobile_phone": "13918429709",
+                  "pickup_contact_email": "",
+                  "pickup_contact_address": "上海",
+                  "pickup_contact_brief": "",
+                  "pickup_contact_location": [],
+                  "delivery_contact_name": "iii",
+                  "delivery_contact_phone": "",
+                  "delivery_contact_mobile_phone": "13918429709",
+                  "delivery_contact_address": "北京",
+                  "delivery_contact_brief": "",
+                  "delivery_contact_location": [],
+                  "delivery_contact_email": "",
+                  "road_order_name": "",
+                  "partner_name": "梅志威(32单)/皖HFGFGHHG/13918429709",
+                  "is_wechat": false,
+                  "_id": "582d9f12b27e61a90b0f6966",
+                  "delivery_end_time": "2016-11-19T12:11:00.000Z",
+                  "delivery_start_time": "2016-11-19T12:11:00.000Z",
+                  "pickup_end_time": "2016-11-17T14:11:00.006Z",
+                  "pickup_start_time": "2016-11-17T14:11:00.006Z",
+                  "order_id": "",
+                  "company_id": "",
+                  "driver_id": "55d0f0c8c7e487e853a961a7",
+                  "driver_username": "",
+                  "type": "driver"
+                }],
+                "assigned_count": 0,
+                "total_assign_count": 0,
+                "delete_status": false,
+                "un_confirm_second_inform": false,
+                "un_confirm_first_inform": false,
+                "confirm_status": "confirmed",
+                "assign_status": "unAssigned",
+                "status": "completed",
+                "receiver_name": "宝贝宝贝",
+                "sender_name": "啊啊啊啊",
+                "object": "order"
+              },
+              "driver": {
+                "_id": "55d0f0c8c7e487e853a961a7",
+                "created": "2015-08-16T20:21:28.523Z",
+                "updated": "2017-06-05T17:17:55.982Z",
+                "username": "13918429709",
+                "__v": 855,
+                "phone_id": "00000000-400a-9197-c73e-f49c17f6421c",
+                "wechat_profile": {
+                  "openid": "ooIh5sx8HybmkUw3y3fycoml0a0A",
+                  "nickname": "梅志威",
+                  "sex": 1,
+                  "language": "zh_CN",
+                  "city": "宝山",
+                  "province": "上海",
+                  "country": "中国",
+                  "headimgurl": "http://wx.qlogo.cn/mmopen/JvvcUm1qIPbicBKs1eoscI2bJmNkCAVzs4rnAHxKsng0qoDsGeB8ICibJIBEIhPoROznmdsojyHhVASk3RVtnge53XsFDjJNAX/0",
+                  "privilege": [],
+                  "unionid": "oulzjslRVVVpTZn69bdm3sY4Na9Y"
+                },
+                "ios_version": "2009",
+                "android_version": "1029",
+                "current_location": [121.61967764333, 31.21810463712],
+                "temporary": false,
+                "salt": "abcdefg",
+                "operating_permits_photo": "",
+                "truck_photo": "",
+                "plate_photos": ["/storage/emulated/0/zzqs/info/13918429709plate_id_photo1440135529324.jpg"],
+                "plate_numbers": ["皖HFGFGHHG"],
+                "travel_id_photo": "",
+                "travel_id_number": "",
+                "driving_id_photo": "",
+                "update_time": "2015-08-16T20:21:28.456Z",
+                "create_time": "2015-08-16T20:21:28.456Z",
+                "phone": "",
+                "nickname": "梅志威",
+                "email": "",
+                "device_id_ios": null,
+                "device_id": "f12fdc1cb8f77a6b8fffb7771478e766",
+                "photo": "/storage/emulated/0/zzqs/info/13918429709photo1439756552280.jpg",
+                "password": "sXomC/kSQwFi/GbtMcVLZOa97AoQ4CaZXaoNuwQ7TITfZKCJSwuwYNNAchIwSsWW0Xfq7eNlknOc5FQE3sbL4g==",
+                "object": "driver",
+                "is_signup": true,
+                "id": "55d0f0c8c7e487e853a961a7"
+              },
+              "driver_name": "梅志威",
+              "driver_phone": "13918429709",
+              "type": "delivery",
+              "address": "中国上海市浦东新区香楠路",
+              "__v": 0,
+              "transport_plate_difference": false,
+              "driver_plate_difference": false,
+              "recognize_plates": [],
+              "is_wechat": false,
+              "actual_more_goods_record": [{
+                "count": "1",
+                "_id": "582d9ee4b27e61a90b0f6945",
+                "unit": "箱",
+                "name": "山东等省"
+              }, {"count": "1", "_id": "582d9ee4b27e61a90b0f6946", "unit": "箱", "name": "是短发"}],
+              "delivery_by_qrcode": true,
+              "order_codes": [],
+              "voice_file": "",
+              "photos": [],
+              "halfway_photos": [],
+              "goods_photos": [],
+              "credential_photos": [],
+              "location": [121.619594, 31.21812],
+              "address_difference": false,
+              "delivery_deferred": false,
+              "pickup_deferred": false,
+              "delivery_missing_packages": false,
+              "pickup_missing_packages": false,
+              "damaged": false,
+              "description": "",
+              "time": "2016-11-17T12:18:27.369Z",
+              "driver_plate_numbers": ["皖HFGFGHHG"],
+              "object": "transport",
+              "compare_goods": [{"name": "山东等省", "planned": "1箱", "actual": "1箱", "compare": "正常"}, {
+                "name": "是短发",
+                "planned": "1箱",
+                "actual": "1箱",
+                "compare": "正常"
+              }, {"name": "合计", "planned": "2箱", "actual": "2箱", "compare": "正常"}],
+              "barcodes": "",
+              "actualGoods": [{"title": "实收货物1", "name": "山东等省", "count": "1", "unit": "箱"}, {
+                "title": "实收货物2",
+                "name": "是短发",
+                "count": "1",
+                "unit": "箱"
+              }],
+              "actualShowing": true
+            }]
+        };
+      }
+
+      function getStatusString(status) {
+        var statusString = '';
+
+        switch (status) {
+          case 'unAssigned':
+            statusString = '未分配';
+            break;
+          case 'assigning':
+            statusString = '分配中';
+            break;
+          case 'unPickupSigned':
+          case 'unPickuped':
+            statusString = '未提货';
+            break;
+          case 'unDeliverySigned':
+          case 'unDeliveried':
+            statusString = '未交货';
+            break;
+          case 'confirm':
+            statusString = '确认接单';
+            break;
+          case 'pickupSign':
+            statusString = '提货签到';
+            break;
+          case 'pickup':
+            statusString = '提货';
+            break;
+          case 'deliverySign':
+            statusString = '交货签到';
+            break;
+          case 'delivery':
+            statusString = '交货';
+            break;
+          case 'halfway':
+            statusString = '中途事件';
+            break;
+          case 'completed':
+            statusString = '已完成';
+            break;
+          default:
+            break;
+        }
+
+        return statusString;
+      }
+      function generatePhotoUrl(photoKey) {
+        return config.qiniuServerAddress + photoKey;
+      }
+
+      pageConfig.init();
+    }
+  ]);
 
 angular.module('zhuzhuqs').controller('OrderExportController',
   ['$scope', '$rootScope', 'OrderService', 'GlobalEvent', 'CompanyService', 'OnlineReportConfigService', 'Auth',
@@ -13075,6 +15550,47 @@ zhuzhuqs.directive('zzplacehold', function() {
     }
   };
 });
+/**
+ * Created by Wayne on 16/1/14.
+ */
+
+zhuzhuqs.directive('adjustFee', ['GlobalEvent', function (GlobalEvent) {
+  return {
+    restrict: 'EA',
+    templateUrl: 'directive/adjust_fee/adjust_fee.client.directive.view.html',
+    replace: true,
+    transclude: true,
+    scope: {
+      config: '='
+    },
+    link: function (scope, element, attributes) {
+
+    }
+  };
+}]);
+
+/**
+ * Created by elinaguo on 16/6/13.
+ */
+'use strict';
+zhuzhuqs.directive('playerAudio', [function () {
+  return {
+    restrict: 'E',
+    templateUrl: 'directive/player_audio/player_audio.client.view.html',
+    replace: true,
+    scope: {
+      config: '='
+    },
+    controller: function ($scope, $element) {
+      $scope.onPlay = function (element) {
+        if ($scope.config.onPlay) {
+          $scope.config.onPlay(element);
+        }
+      };
+    }
+  };
+}]);
+
 zhuzhuqs.directive('zzAlertDialog', function () {
   return {
     restrict: 'A',

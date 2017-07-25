@@ -3,14 +3,22 @@ body {
   font-family: "微软雅黑,华文细黑";
   margin: 0;
   height: 100%;
-
+  cursor: default;
   //文本双击后不被选中，因为很多的点击按钮是用<p> / <span>等元素实现的，点击是文本会被选中
-  -moz-user-select:none; /*火狐*/
-  -webkit-user-select:none; /*webkit浏览器*/
-  -ms-user-select:none; /*IE10*/
-  -khtml-user-select:none; /*早期浏览器*/
-  user-select:none;
-  overflow-x: hidden;
+  //-moz-user-select:none; /*火狐*/
+  //-webkit-user-select:none; /*webkit浏览器*/
+  //-ms-user-select:none; /*IE10*/
+  //-khtml-user-select:none; /*早期浏览器*/
+  //user-select:none;
+  //overflow-x: hidden;
+
+  input, button, textarea {
+    outline: none;
+  }
+  * {
+    outline: none;
+    margin:0;
+  }
 }
 
 html {

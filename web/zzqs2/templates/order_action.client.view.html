@@ -11,7 +11,7 @@
     </div>
 
     <div class="search-view" layout="row" layout-align="start center">
-      <input class="content" placeholder="输入运单号/参考单号" />
+      <input class="content" placeholder="输入运单号/参考单号"/>
       <p class="search-button"
          layout="row" layout-align="center center">搜索</p>
     </div>
@@ -31,7 +31,10 @@
       </div>
     </div>
     <div class="list-body">
-      <div class="list-item" layout="row" layout-align="start center" ng-repeat="poiItem in pageConfig.orderList">
+      <div class="list-item"
+           layout="row" layout-align="start center"
+           ng-repeat="order in pageConfig.orderList"
+           ng-click="pageConfig.clickOrder(order, $event)">
         <p class="column-item" flex="5">{{pageConfig.pagination.skipCount+$index+1}}</p>
         <p class="column-item" flex="10">1</p>
         <p class="column-item" flex="10">2</p>
