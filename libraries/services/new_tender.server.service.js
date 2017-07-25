@@ -779,35 +779,37 @@ exports.create = function (currentUser, tenderInfo, callback) {
         });
       }],
       assignSupplier: ['saveTender', function (callback, result) {
-        if (tenderInfo.tender_type !== 'assign') {
-          return callback();
-        }
-        truckService.getbyId(tenderInfo.truck_id, function (err, truck) {
-          if (err) {
-            return callback(err);
-          }
-          if (!truck) {
-            return callback({err: {type: 'truck_not_exist'}});
-          }
-          cardService.getOneById(tenderInfo.card_id, function (err, card) {
-            if (err) {
-              return callback(err);
-            }
-            if (!card) {
-              return callback({err: {type: 'card_not_exist'}});
-            }
-            console.log(result.saveTender);
-            newTenderDriverService.grabAndReturnTender(tenderInfo.driver_id, result.saveTender, function (err, grabTender) {
-              if (err) {
-                return callback(err);
-              }
-
-              newTenderDriverService.assignDriver(grabTender, card, truck, function (err, result) {
-                return callback(err, result);
-              });
-            })
-          });
-        });
+        //现在先不直接分配
+        return callback()
+        // if (tenderInfo.tender_type !== 'assign') {
+        //   return callback();
+        // }
+        // truckService.getbyId(tenderInfo.truck_id, function (err, truck) {
+        //   if (err) {
+        //     return callback(err);
+        //   }
+        //   if (!truck) {
+        //     return callback({err: {type: 'truck_not_exist'}});
+        //   }
+        //   cardService.getOneById(tenderInfo.card_id, function (err, card) {
+        //     if (err) {
+        //       return callback(err);
+        //     }
+        //     if (!card) {
+        //       return callback({err: {type: 'card_not_exist'}});
+        //     }
+        //     console.log(result.saveTender);
+        //     newTenderDriverService.grabAndReturnTender(tenderInfo.driver_id, result.saveTender, function (err, grabTender) {
+        //       if (err) {
+        //         return callback(err);
+        //       }
+        //
+        //       newTenderDriverService.assignDriver(grabTender, card, truck, function (err, result) {
+        //         return callback(err, result);
+        //       });
+        // //     })
+        //   });
+        // });
 
 
       }],

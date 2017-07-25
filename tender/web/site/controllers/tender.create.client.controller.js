@@ -1025,13 +1025,13 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
           return callback('请选择供应商');
         }
 
-        if (!$scope.SupplierInfo.currentTruck || !$scope.SupplierInfo.currentTruck.key) {
-          return callback('请选择司机');
-        }
-
-        if (!$scope.SupplierInfo.currentCard || !$scope.SupplierInfo.currentCard.key) {
-          return callback('请选择油卡');
-        }
+        // if (!$scope.SupplierInfo.currentTruck || !$scope.SupplierInfo.currentTruck.key) {
+        //   return callback('请选择司机');
+        // }
+        //
+        // if (!$scope.SupplierInfo.currentCard || !$scope.SupplierInfo.currentCard.key) {
+        //   return callback('请选择油卡');
+        // }
       }
 
 
@@ -1104,9 +1104,9 @@ tender.controller('TenderCreateController', ['$rootScope', '$scope', '$statePara
         //供应商id
         driver_id: $scope.SupplierInfo.currentSupplier.key,
         //供应商车队id
-        truck_id: $scope.SupplierInfo.currentTruck.key,
+        // truck_id: $scope.SupplierInfo.currentTruck.key,
         //供应商油卡id
-        card_id: $scope.SupplierInfo.currentCard.key
+        // card_id: $scope.SupplierInfo.currentCard.key
       };
 
       console.log(info);

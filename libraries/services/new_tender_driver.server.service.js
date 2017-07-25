@@ -400,16 +400,6 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
           if (err || !driverOrder) {
             return callback({err: error.system.db_error});
           }
-
-          // if (driverOrder.is_wechat) {
-          //   wechatLib.pushNewOrderMessageToWechat(driver.wechat_profile.openid, driver._id, driverOrder);
-          // }
-          // else if (driver.device_id || driver.device_id_ios) {
-          //   driverOrder._doc.order_detail = order.order_details;
-          //   driverOrder._doc.pickup_contact = pickupContact;
-          //   driverOrder._doc.delivery_contact = deliveryContact;
-          //   pushSingleAssignToDriver(driver, driverOrder);
-          // }
           return autoCallback(err, {order: driverOrder, driver: driver});
         });
       }]
