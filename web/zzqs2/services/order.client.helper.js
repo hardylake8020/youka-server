@@ -2,7 +2,7 @@
  * Created by Wayne on 15/12/11.
  */
 zhuzhuqs.factory('OrderHelper',
-  ['config', function (config) {
+  ['$rootScope', 'config', 'OrderError', function ($rootScope, config,OrderError) {
 
     var currentPlayAudio;
 
@@ -176,6 +176,18 @@ zhuzhuqs.factory('OrderHelper',
       return option;
     }
 
+    function generatePhotoUrl(photoKey) {
+      return config.qiniuServerAddress + photoKey;
+    }
+    function handleError(errType) {
+      if (OrderError[errType]) {
+        $rootScope.$emit(GlobalEvent.onShowAlert, OrderError[errType]);
+      }
+      else {
+        $rootScope.$emit(GlobalEvent.onShowAlert, errType + " 未知错误！请联系管理员");
+      }
+    }
+
     return {
       getGoodsNameString: getOrderGoodsName,
       getCountDetail: getOrderCountDetail,
@@ -185,6 +197,8 @@ zhuzhuqs.factory('OrderHelper',
       getDriverAssignOption: getDriverAssignOption,
       getWechatDriverAssignOption: getWechatDriverAssignOption,
       getAudioConfig: getAudioConfig,
-      getStatusString: getStatusString
+      getStatusString: getStatusString,
+      generatePhotoUrl:generatePhotoUrl,
+      handleError:handleError
     };
   }]);
