@@ -3,14 +3,18 @@
     <div class="action-view" ng-repeat="paymentInfo in pageConfig.paymentList">
       <div class="brief" layout="row" layout-align="start center">
         <p class="title space">{{paymentInfo.text}}</p>
-        <p class="rate space">{{paymentInfo.rate}}%</p>
-        <p class="amount">{{paymentInfo.amount}}元</p>
+        <p class="rate space" ng-hide="paymentInfo.rate===null">{{paymentInfo.rate}}%</p>
+        <p class="amount space">{{paymentInfo.amount|number:2}}元</p>
+        <p class="">合计: {{paymentInfo.actual_amount|number:2}}元</p>
       </div>
 
       <div class="action-list">
-        <div class="action-item" layout="row" layout-align="start center">
-          <adjust-fee ng-repeat="item in paymentInfo.tiaozhangs" config="item" flex></adjust-fee>
-          <div class="remove" layout="row" layout-align="center center">X</div>
+        <div class="action-item" layout="row" layout-align="start center" ng-repeat="item in paymentInfo.tiaozhangs">
+          <adjust-fee config="item" flex></adjust-fee>
+          <div class="remove" layout="row" layout-align="center center"
+               ng-click="pageConfig.removeTiaoZhang(paymentInfo, $index)"
+               ng-show="paymentInfo.can_tiaozhang">X
+          </div>
         </div>
       </div>
 
@@ -31,11 +35,11 @@
     <div class="summary-view">
       <div class="amount-summary" layout="row" layout-align="start center">
         <p class="text">总金额</p>
-        <p class="value" flex>1500.00元</p>
+        <p class="value" flex>{{pageConfig.amount|number:2}}元</p>
       </div>
       <div class="amount-summary" layout="row" layout-align="start center">
         <p class="text">实际金额</p>
-        <p class="value" flex>1520.00元</p>
+        <p class="value" flex>{{pageConfig.actual_amount|number:2}}元</p>
       </div>
     </div>
 

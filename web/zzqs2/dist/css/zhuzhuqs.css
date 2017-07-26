@@ -8808,11 +8808,18 @@ input:-ms-input-placeholder {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+.zz-order-action-view .page-list-view .list-item:hover .detail {
+  color: #0078c6;
+}
 .zz-order-action-view .page-list-view .list-item:nth-child(2n) {
   background-color: #fff;
 }
 .zz-order-action-view .page-list-view .list-header {
+  color: #999;
   border-bottom: 1px solid #e4e4e4;
+}
+.zz-order-action-view .page-list-view .list-body .list-item {
+  height: 50px;
 }
 .zz-order-action-view .page-footer-view {
   position: absolute;
@@ -8870,6 +8877,7 @@ input:-ms-input-placeholder {
 }
 .zz-order-detail-parent-view .zz-order-detail-info-view .detail-info-view .first-layer .second-layer {
   min-height: 30px;
+  word-break: break-all;
 }
 .zz-order-detail-parent-view .zz-order-detail-info-view .detail-info-view .first-layer .second-layer .label-key {
   width: 150px;
@@ -8886,7 +8894,7 @@ input:-ms-input-placeholder {
 }
 .zz-order-detail-parent-view .zz-order-detail-timeline-view .timeline {
   position: relative;
-  padding-right: 50px;
+  padding: 0 50px 50px 0;
 }
 .zz-order-detail-parent-view .zz-order-detail-timeline-view .timeline .line {
   position: absolute;
@@ -9106,12 +9114,19 @@ input:-ms-input-placeholder {
   background-color: #0078c6;
   cursor: pointer;
 }
+.zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-button.disabled {
+  background-color: #ccc;
+}
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-item {
   margin-bottom: 20px;
 }
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-item .remove {
   width: 40px;
   height: 40px;
+}
+.zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-item .remove:hover {
+  background-color: #ccc;
+  color: #fff;
 }
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .summary-view {
   margin-top: 20px;
