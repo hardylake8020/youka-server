@@ -1,7 +1,7 @@
 <div class="zz-order-detail-info-view" layout-fill layout="row" layout-align="center start">
   <div class="detail-info-view detail-center-view" layout-fill>
     <div class="first-layer" ng-repeat="firstLayer in pageConfig.detailInfos">
-      <div class="second-layer" layout="row" layout-align="start center"
+      <div class="second-layer" layout="row" layout-align="start start"
            ng-repeat="secondLayer in firstLayer"
            ng-hide="secondLayer.isHide">
         <p class="label-key">{{secondLayer.text}}</p>

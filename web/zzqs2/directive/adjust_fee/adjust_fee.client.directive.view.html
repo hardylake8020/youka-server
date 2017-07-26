@@ -1,7 +1,7 @@
 <div class="adjust-order-fee" layout="row" layout-align="start center">
   <div class="left space" layout="row" layout-align="start center">
     <p class="text border"
-       ng-click="pageConfig.showOption(true)">{{pageConfig.selectOption.text}}</p>
+       ng-click="pageConfig.clickCurrentOption()">{{pageConfig.selectOption.text}}</p>
     <ul class="select-view" ng-show="pageConfig.isShowOption">
       <li class="select-item"
           ng-repeat="option in pageConfig.options"
@@ -18,6 +18,7 @@
     </div>
     <input class="amount"
            ng-readonly="config.disabled"
+           ng-change="pageConfig.changePrice()"
            placeholder="输入金额" input-real-number ng-model="config.price">
   </div>
   <div class="right border" flex layout="row" layout-align="start center">

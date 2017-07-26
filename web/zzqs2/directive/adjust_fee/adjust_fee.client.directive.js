@@ -30,6 +30,11 @@ zhuzhuqs.directive('adjustFee', ['GlobalEvent', function (GlobalEvent) {
             this.isShowOption = isShow;
           }
         },
+        clickCurrentOption: function () {
+          if (!scope.config.disabled) {
+            this.isShowOption = !this.isShowOption;
+          }
+        },
         clickOption: function (item) {
           if (scope.config.disabled) {
             return;
@@ -41,6 +46,9 @@ zhuzhuqs.directive('adjustFee', ['GlobalEvent', function (GlobalEvent) {
             scope.config.changePrice();
           }
           this.showOption(false);
+        },
+        changePrice: function () {
+          scope.config.changePrice();
         },
         init: function () {
           for (var i = 0; i < this.options.length; i++) {

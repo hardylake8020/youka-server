@@ -59,6 +59,7 @@
         margin-top: 30px;
         .second-layer {
           min-height: 30px;
+          word-break: break-all;
           .label-key {
             width: 150px;
             color: #666;
@@ -330,6 +331,10 @@
           color: #fff;
           background-color: @color-blue;
           cursor: pointer;
+
+          &.disabled {
+            background-color: #ccc;
+          }
         }
 
         .action-item {
@@ -337,6 +342,10 @@
           .remove {
             width: 40px;
             height: 40px;
+            &:hover {
+              background-color: #ccc;
+              color: #fff;
+            }
           }
         }
       }

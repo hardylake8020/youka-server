@@ -35,23 +35,19 @@ angular.module('zhuzhuqs').controller('OrderDetailInfoController',
               },
               {
                 key: 'sender_company',
-                text: '发货方',
+                text: '发标单位',
                 value: tender.sender_company
-              },
-              {
-                key: 'receiver_company',
-                text: '收货方',
-                value: tender.receiver_company
               },
               {
                 key: 'goods',
                 text: '货物',
-                value: OrderHelper.getGoodsNameString(tender.goods)
+                value: OrderHelper.getGoodsNameString(tender)
               },
               {
                 key: 'fee',
                 text: '运费',
-                value: order.freight_charge
+                value: tender.winner_price,
+                unit: '元'
               },
               {
                 key: 'damaged',
@@ -133,7 +129,7 @@ angular.module('zhuzhuqs').controller('OrderDetailInfoController',
               {
                 key: 'pickup_time',
                 text: '提货时间',
-                value: new Date(tender.pickup_start_time).Format('yyyy.MM.dd HH:mm') + ' ~ ' + new Date(tender.pickup_end_time).Format('yyyy.MM.dd HH:mm')
+                value: new Date(tender.pickup_start_time).Format('yyyy.MM.dd hh:mm') + ' ~ ' + new Date(tender.pickup_end_time).Format('yyyy.MM.dd hh:mm')
               },
               {
                 key: 'pickup_name',
@@ -162,7 +158,7 @@ angular.module('zhuzhuqs').controller('OrderDetailInfoController',
               {
                 key: 'delivery_time',
                 text: '提货时间',
-                value: new Date(tender.delivery_start_time).Format('yyyy.MM.dd HH:mm') + ' ~ ' + new Date(tender.delivery_end_time).Format('yyyy.MM.dd HH:mm')
+                value: new Date(tender.delivery_start_time).Format('yyyy.MM.dd hh:mm') + ' ~ ' + new Date(tender.delivery_end_time).Format('yyyy.MM.dd hh:mm')
               },
               {
                 key: 'delivery_name',

@@ -8870,6 +8870,7 @@ input:-ms-input-placeholder {
 }
 .zz-order-detail-parent-view .zz-order-detail-info-view .detail-info-view .first-layer .second-layer {
   min-height: 30px;
+  word-break: break-all;
 }
 .zz-order-detail-parent-view .zz-order-detail-info-view .detail-info-view .first-layer .second-layer .label-key {
   width: 150px;
@@ -9106,12 +9107,19 @@ input:-ms-input-placeholder {
   background-color: #0078c6;
   cursor: pointer;
 }
+.zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-button.disabled {
+  background-color: #ccc;
+}
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-item {
   margin-bottom: 20px;
 }
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-item .remove {
   width: 40px;
   height: 40px;
+}
+.zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-item .remove:hover {
+  background-color: #ccc;
+  color: #fff;
 }
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .summary-view {
   margin-top: 20px;
