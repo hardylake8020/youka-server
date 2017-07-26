@@ -1,15 +1,28 @@
 <div class="adjust-order-fee" layout="row" layout-align="start center">
   <div class="left space" layout="row" layout-align="start center">
-    <p class="text border">付款</p>
-    <ul class="select-view">
-      <li class="select-item">付款</li>
+    <p class="text border"
+       ng-click="pageConfig.showOption(true)">{{pageConfig.selectOption.text}}</p>
+    <ul class="select-view" ng-show="pageConfig.isShowOption">
+      <li class="select-item"
+          ng-repeat="option in pageConfig.options"
+          ng-click="pageConfig.clickOption(option)">{{option.text}}
+      </li>
     </ul>
   </div>
   <div class="center border space" layout="row" layout-align="start center">
-    <div class="symbol" layout="row" layout-align="center center">+</div>
-    <input class="amount" placeholder="输入金额" value="">
+    <div class="symbol" layout="row" layout-align="center center"
+         ng-show="pageConfig.selectOption.type==='increase'">+
+    </div>
+    <div class="symbol" layout="row" layout-align="center center"
+         ng-show="pageConfig.selectOption.type==='decrease'">-
+    </div>
+    <input class="amount"
+           ng-readonly="config.disabled"
+           placeholder="输入金额" input-real-number ng-model="config.price">
   </div>
   <div class="right border" flex layout="row" layout-align="start center">
-    <input class="remark" placeholder="请输入调帐原因">
+    <input class="remark"
+           ng-readonly="config.disabled"
+           placeholder="请输入调帐原因" ng-model="config.reason">
   </div>
 </div>

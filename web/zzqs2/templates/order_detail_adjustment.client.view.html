@@ -1,89 +1,32 @@
 <div class="zz-order-detail-adjustment-view" layout-fill layout="row" layout-align="center start">
   <div class="adjustment-view detail-center-view" layout-fill>
-    <div class="action-view">
+    <div class="action-view" ng-repeat="paymentInfo in pageConfig.paymentList">
       <div class="brief" layout="row" layout-align="start center">
-        <p class="title space">首单支付</p>
-        <p class="rate space">50%</p>
-        <p class="amount">750.00元</p>
+        <p class="title space">{{paymentInfo.text}}</p>
+        <p class="rate space">{{paymentInfo.rate}}%</p>
+        <p class="amount">{{paymentInfo.amount}}元</p>
       </div>
 
       <div class="action-list">
-        <adjust-fee ng-repeat="item in [0,1]"></adjust-fee>
+        <div class="action-item" layout="row" layout-align="start center">
+          <adjust-fee ng-repeat="item in paymentInfo.tiaozhangs" config="item" flex></adjust-fee>
+          <div class="remove" layout="row" layout-align="center center">X</div>
+        </div>
       </div>
 
-      <div class="add-action">
+      <div class="add-action" ng-click="pageConfig.addTiaoZhang(paymentInfo)"
+           ng-show="paymentInfo.can_tiaozhang">
         添加调帐
       </div>
 
-      <div class="action-button"layout="row" layout-align="center center">
-        审核通过
+      <div class="action-button" layout="row" layout-align="center center"
+           ng-class="{disabled: paymentInfo.has_tiaozhang}"
+           ng-show="paymentInfo.can_tiaozhang||paymentInfo.has_tiaozhang"
+           ng-click="pageConfig.reviewTiaoZhang(paymentInfo)">
+        {{paymentInfo.has_tiaozhang ? '已通过':'审核通过'}}
       </div>
 
     </div>
-
-    <div class="action-view">
-      <div class="brief" layout="row" layout-align="start center">
-        <p class="title space">尾单支付</p>
-        <p class="rate space">40%</p>
-        <p class="amount">600.00元</p>
-      </div>
-
-      <div class="action-list">
-        <adjust-fee ng-repeat="item in [0,1]"></adjust-fee>
-      </div>
-
-      <div class="add-action">
-        添加调帐
-      </div>
-
-      <div class="action-button"layout="row" layout-align="center center">
-        审核通过
-      </div>
-
-    </div>
-
-
-    <div class="action-view">
-      <div class="brief" layout="row" layout-align="start center">
-        <p class="title space">回单支付</p>
-        <p class="rate space">10%</p>
-        <p class="amount">150.00元</p>
-      </div>
-
-      <div class="action-list">
-        <adjust-fee ng-repeat="item in [0,1]"></adjust-fee>
-      </div>
-
-      <div class="add-action">
-        添加调帐
-      </div>
-
-      <div class="action-button"layout="row" layout-align="center center">
-        审核通过
-      </div>
-
-    </div>
-
-    <div class="action-view">
-      <div class="brief" layout="row" layout-align="start center">
-        <p class="title space">押金支付</p>
-        <p class="amount">200.00元</p>
-      </div>
-
-      <div class="action-list">
-        <adjust-fee ng-repeat="item in [0,1]"></adjust-fee>
-      </div>
-
-      <div class="add-action">
-        添加调帐
-      </div>
-
-      <div class="action-button"layout="row" layout-align="center center">
-        审核通过
-      </div>
-
-    </div>
-
 
     <div class="summary-view">
       <div class="amount-summary" layout="row" layout-align="start center">

@@ -1,5 +1,4 @@
 .adjust-order-fee {
-  margin-bottom: 20px;
   .border {
     border: 1px solid #e4e4e4;
     background-color: #fff;
@@ -17,16 +16,22 @@
       width: 100%;
       height: 40px;
       line-height: 40px;
+
+      background: url("/zzqs2/images/global/filter_default.png") no-repeat right center;
+
+      &:hover {
+        background-image: url("/zzqs2/images/global/filter_hover.png");
+      }
     }
     .select-view {
       position: absolute;
       top: 41px;
       left: 0;
+      z-index: 1;
       padding: 0;
       width: 100%;
       background-color: #fff;
       border: 1px solid #e4e4e4;
-      visibility: hidden;
 
       .select-item {
         list-style: none;

@@ -98,3 +98,35 @@ zhuzhuqs.directive('zzValidation', function ($parse) {
     }
   }
 });
+
+//正实数（包括整数，小数，分数）
+zhuzhuqs.directive('inputRealNumber', ['$timeout', function ($timeout) {
+  return {
+    restrict: 'A',
+    scope: {},
+    link: function ($scope, $element) {
+      $element.keyup(function (e) {
+        var inputNumber = $(this).val();
+        if (!inputNumber) {
+          return;
+        }
+        if (/^([0-9]+)\.{0,1}([0-9]{0,})$/.test(inputNumber)) {
+          return;
+        }
+
+        var numberRegex = /[^\d{1}\.\d{1}|\d{1}]/g;
+        inputNumber = inputNumber.toString().replace(numberRegex, '');
+
+        if (inputNumber.indexOf('.') == 0) {
+          inputNumber = '';
+        }
+        else if (inputNumber.indexOf('.') < inputNumber.lastIndexOf('.')) {
+          inputNumber = inputNumber.slice(0, inputNumber.lastIndexOf('.'));
+        }
+
+        $(this).val(inputNumber);
+        $(this).change(); //触发变化，才能绑定数据成功
+      });
+    }
+  };
+}]);

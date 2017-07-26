@@ -9031,13 +9031,57 @@ angular.module('zhuzhuqs').controller('OrderDetailController',
  * Created by Wayne on 15/6/1.
  */
 angular.module('zhuzhuqs').controller('OrderDetailAdjustmentController',
-  ['$state', '$scope', '$timeout', 'OrderService',
-    function ($state, $scope, $timeout, OrderService) {
+  ['$state', '$scope', '$stateParams', '$timeout', 'OrderService',
+    function ($state, $scope, $stateParams, $timeout, OrderService) {
 
       var pageConfig = {
+        paymentList: [
+          {
+            key: 'top',
+            text: '首单支付',
+            rate: 50,
+            amount: 100,
+            can_tiaozhang: true,
+            has_tiaozhang: false,
+            tiaozhangs: []
+          }
+        ],
+        addTiaoZhang: function (paymentInfo) {
+          paymentInfo.tiaozhangs.push({
+            key: paymentInfo.key,
+            type: 'increase',//increase,decrease
+            price: 0,
+            reason: '',
+            disabled: false,
+            changePrice: this.changeTiaoZhangPrice
+          });
+        },
+        changeTiaoZhangPrice: function () {
+          var tiaozhang = this;
+          tiaozhang.price = parseFloat(tiaozhang.price);
+          if (tiaozhang.price) {
+            tiaozhang.price = Math.abs(tiaozhang.price) * (type === 'increase' ? 1 : -1);
+          }
+          //修改实际支付金额
+        },
+        reviewTiaoZhang: function (paymentInfo) {
+
+        }
       };
 
       $scope.pageConfig = pageConfig;
+
+      pageConfig.addTiaoZhang(pageConfig.paymentList[0]);
+
+      function getOrderInfo() {
+        OrderService.getOrderById($stateParams.order_id).then(function (data) {
+          console.log(data);
+          if (data && data._id && data.tender) {
+
+          }
+        });
+      }
+
     }
   ]);
 
@@ -13523,6 +13567,38 @@ zhuzhuqs.directive('zzValidation', function ($parse) {
     }
   }
 });
+
+//正实数（包括整数，小数，分数）
+zhuzhuqs.directive('inputRealNumber', ['$timeout', function ($timeout) {
+  return {
+    restrict: 'A',
+    scope: {},
+    link: function ($scope, $element) {
+      $element.keyup(function (e) {
+        var inputNumber = $(this).val();
+        if (!inputNumber) {
+          return;
+        }
+        if (/^([0-9]+)\.{0,1}([0-9]{0,})$/.test(inputNumber)) {
+          return;
+        }
+
+        var numberRegex = /[^\d{1}\.\d{1}|\d{1}]/g;
+        inputNumber = inputNumber.toString().replace(numberRegex, '');
+
+        if (inputNumber.indexOf('.') == 0) {
+          inputNumber = '';
+        }
+        else if (inputNumber.indexOf('.') < inputNumber.lastIndexOf('.')) {
+          inputNumber = inputNumber.slice(0, inputNumber.lastIndexOf('.'));
+        }
+
+        $(this).val(inputNumber);
+        $(this).change(); //触发变化，才能绑定数据成功
+      });
+    }
+  };
+}]);
 angular.module('zhuzhuqs').directive('zzLoading', function () {
   return {
     restrict: 'A',
@@ -13894,7 +13970,47 @@ zhuzhuqs.directive('adjustFee', ['GlobalEvent', function (GlobalEvent) {
       config: '='
     },
     link: function (scope, element, attributes) {
+      scope.pageConfig = {
+        isShowOption: false,
+        options: [
+          {
+            type: 'increase',
+            text: '付款'
+          },
+          {
+            type: 'decrease',
+            text: '扣款'
+          }
+        ],
+        selectOption: {},
+        showOption: function (isShow) {
+          if (!scope.config.disabled) {
+            this.isShowOption = isShow;
+          }
+        },
+        clickOption: function (item) {
+          if (scope.config.disabled) {
+            return;
+          }
 
+          if (scope.config.type !== item.type) {
+            this.selectOption = item;
+            scope.config.type = item.type;
+            scope.config.changePrice();
+          }
+          this.showOption(false);
+        },
+        init: function () {
+          for (var i = 0; i < this.options.length; i++) {
+            if (this.options[i].type === scope.config.type) {
+              this.selectOption = this.options[i];
+              break;
+            }
+          }
+        }
+      };
+
+      scope.pageConfig.init();
     }
   };
 }]);
