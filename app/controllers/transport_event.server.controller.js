@@ -1008,7 +1008,8 @@ exports.getEventByOrderId = function (req, res, next) {
           createUsername: '',//order.create_user.username,
           create_time: order.create_time,
           pickup_time: order.pickup_time,
-          delivery_time: order.delivery_time
+          delivery_time: order.delivery_time,
+          status: order.status
         }, events: transportEvents
       });
     });

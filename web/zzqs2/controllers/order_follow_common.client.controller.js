@@ -1481,7 +1481,6 @@ function OrderFollow($state, $scope, OrderService, BMapService, GlobalEvent, con
         if (currentOrderDetail.status != 'completed' && currentOrderDetail.status != 'unAssigned') {
           if (latestPoint.trace) {
             removeCurrentMarkers();
-
             startGetTheCurrentDriverLocation(new BMap.Point(latestPoint.trace.location[0], latestPoint.trace.location[1]));
           }
         }

@@ -9069,6 +9069,12 @@ input:-ms-input-placeholder {
   height: 90px;
   cursor: pointer;
 }
+.zz-order-detail-parent-view .zz-order-detail-map-view .gps-count {
+  height: 40px;
+}
+.zz-order-detail-parent-view .zz-order-detail-map-view .map-view {
+  min-height: auto;
+}
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view {
   overflow-y: auto;
 }
