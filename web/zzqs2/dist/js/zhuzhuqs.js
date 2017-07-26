@@ -5054,6 +5054,10 @@ angular.module('zhuzhuqs').controller('OrderActionController',
       $scope.pageConfig = pageConfig;
 
 
+      function getDriverInfo(driver) {
+        return (driver.nickname || '未知') + '(' + [driver.truck_number || '未知', driver.username].join('/') + ')';
+      }
+
       function getOrderList() {
         pageConfig.orderList = [];
 
@@ -5077,7 +5081,7 @@ angular.module('zhuzhuqs').controller('OrderActionController',
                 ref_order_number: orderItem.tender.ref_order_number || '',
                 goods_name: OrderHelper.getGoodsNameString(orderItem.tender),
                 driver_winner: orderItem.tender.driver_winner, //承运商
-                driver_info: [orderItem.tender.execute_driver.truck_number || '未知', orderItem.tender.execute_driver.username].join('/'),
+                driver_info: getDriverInfo(orderItem.tender.execute_driver),
                 delivery_name: orderItem.tender.delivery_name || '',
                 status: orderItem.status,
                 status_string: OrderHelper.getStatusString(orderItem.status),
@@ -14173,16 +14177,6 @@ zhuzhuqs.directive('playerAudio', [function () {
   };
 }]);
 
-zhuzhuqs.directive('zzExportDialog', function () {
-  return {
-    restrict:'A',
-    templateUrl:'directive/zz_export_dialog/order_export_dialog.client.directive.html',
-    replace:false,
-    scope:{
-    },
-    controller:'OrderExportController'
-  };
-});
 zhuzhuqs.directive('zzAlertDialog', function () {
   return {
     restrict: 'A',
@@ -14303,6 +14297,16 @@ zhuzhuqs.directive('zzCustomizeDialog', function () {
             };
         }
     }
+});
+zhuzhuqs.directive('zzExportDialog', function () {
+  return {
+    restrict:'A',
+    templateUrl:'directive/zz_export_dialog/order_export_dialog.client.directive.html',
+    replace:false,
+    scope:{
+    },
+    controller:'OrderExportController'
+  };
 });
 /**
  * Created by elinaguo on 15/5/20.

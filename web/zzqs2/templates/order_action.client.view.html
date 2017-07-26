@@ -44,7 +44,9 @@
         <p class="column-item" flex="20">{{order.driver_info}}</p>
         <p class="column-item" flex="10">{{order.delivery_name}}</p>
         <p class="column-item" flex="10">{{order.status_string}}</p>
-        <p class="column-item" flex="10" ng-click="pageConfig.clickOrder(order, $event)">{{'详情'}}</p>
+        <div class="column-item" flex="10">
+          <p class="detail" ng-click="pageConfig.clickOrder(order, $event)">{{'详情'}}</p>
+        </div>
       </div>
     </div>
 

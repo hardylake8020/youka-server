@@ -58,6 +58,9 @@
         .multi-ellipsis();
       }
       &:hover {
+        .detail {
+          color: @color-blue;
+        }
       }
       &:nth-child(2n) {
         background-color: #fff;
@@ -65,7 +68,13 @@
     }
 
     .list-header{
+      color: #999;
       border-bottom: 1px solid #e4e4e4;
+    }
+    .list-body {
+      .list-item {
+        height: 50px;
+      }
     }
   }
 
