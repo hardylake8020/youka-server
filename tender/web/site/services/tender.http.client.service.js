@@ -57,6 +57,10 @@ tender.factory('HttpTender', ['http',
       },
       getAllCardsBySupplier: function (scope, params, successCallback, errorCallback) {
         return http.sendRequest(scope, "post('/tender/driver/card/getAllCardsBySupplier', params)", params, successCallback, errorCallback);
+      },
+      getTenderByTenderId: function (scope, params, successCallback, errorCallback) {
+        return http.sendRequest(scope, "post('/tender/user/getTenderByTenderId', params)", params, successCallback, errorCallback);
       }
+
     };
   }]);

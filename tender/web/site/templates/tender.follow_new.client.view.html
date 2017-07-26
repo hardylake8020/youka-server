@@ -1,0 +1,56 @@
+<div class="zz-order-action-view" layout-fill>
+  <div class="menu-header" layout="row" layout-align="space-between center">
+    <div class="left" layout="row" layout-align="start center">
+      <p class="menu-item" ng-class="{'current': pageConfig.currentMenu==='processing'}"
+         layout="row" layout-align="center center"
+         ng-click="pageConfig.changeMenu('processing')">进行中</p>
+      <p class="menu-item" ng-class="{'current': pageConfig.currentMenu==='completed'}"
+         layout="row" layout-align="center center"
+         ng-click="pageConfig.changeMenu('completed')">已完成</p>
+    </div>
+
+    <div class="search-view" layout="row" layout-align="start center">
+      <input class="content" ng-model="pageConfig.searchKey" placeholder="输入运单号/参考单号"/>
+      <p class="search-button"
+         layout="row" layout-align="center center"
+         ng-click="pageConfig.searchOrder()">搜索</p>
+    </div>
+  </div>
+
+  <div class="page-list-view" fix-list-header layout-fill>
+    <div class="list-header fix-list-header">
+      <div class="list-item" layout="row" layout-align="start center">
+        <p class="column-item" flex="5">序号</p>
+        <p class="column-item" flex="10">运单号</p>
+        <p class="column-item" flex="10">参考单号</p>
+        <p class="column-item" flex="10">货物名称</p>
+        <p class="column-item" flex="10">承运商</p>
+        <p class="column-item" flex="20">司机(车牌／电话)</p>
+        <p class="column-item" flex="10">收货方</p>
+        <p class="column-item" flex="10">状态</p>
+        <p class="column-item" flex="10">操作</p>
+      </div>
+    </div>
+    <div class="list-body">
+      <div class="list-item"
+           layout="row" layout-align="start center"
+           ng-repeat="order in pageConfig.tenderList">
+        <p class="column-item" flex="5">{{$index+1}}</p>
+        <p class="column-item" flex="10">{{order.order_number}}</p>
+        <p class="column-item" flex="10">{{order.ref_order_number}}</p>
+        <p class="column-item" flex="10">{{order.goods_name}}</p>
+        <p class="column-item" flex="10">{{order.driver_winner}}</p>
+        <p class="column-item" flex="20">{{order.driver_info}}</p>
+        <p class="column-item" flex="10">{{order.delivery_name}}</p>
+        <p class="column-item" flex="10">{{order.status_string}}</p>
+        <p class="column-item" flex="10" ng-click="pageConfig.clickOrder(order, $event)">{{'详情'}}</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer-view" layout="row" layout-align="start center">
+    <zz-pagination config="pageConfig.pagination"></zz-pagination>
+  </div>
+
+</div>

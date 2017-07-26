@@ -1,0 +1,26 @@
+tender.constant('OrderError',
+  {
+    internal_system_error: "系统错误",
+    order_not_exist: "订单不存在",
+    order_number_null_error: "订单号为空",
+    order_number_unique_error: "订单号不唯一",
+    incomplete_pickup_contact_info:"",
+    incomplete_delivery_contact_info: "",
+    group_id_null:"组ID为空",
+    driver_not_exist: "司机不存在",
+    company_not_exist: "公司不存在",
+    order_has_assigned: "订单已分配",
+    order_not_assigning: "order_not_assigning",
+    order_not_visible:"订单不可见",
+    assign_infos_null: '分配信息为空',
+    order_info_null: '订单信息为空',
+    orders_to_share_null: '没有指定分享订单',
+    recipients_to_share_null: '没有指定分享收件人',
+    recipients_to_share_invalid: '分享收件人不合法',
+    must_self_company_order: '只能操作自己公司的订单',
+    params_null: '服务端参数为空',
+    post_data_empty: '上传的数据有空值',
+    assign_info_can_not_modify: '订单分配信息不能修改',
+    user_not_in_company:'当前用户不存在公司'
+  }
+);

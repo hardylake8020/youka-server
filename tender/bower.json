@@ -31,7 +31,8 @@
     "angular-daterangepicker": "~0.1.12",
     "bootstrap-datepicker": "~1.5.1",
     "react": "~0.14.7",
-    "venturocket-angular-slider": "~0.3.2"
+    "venturocket-angular-slider": "~0.3.2",
+    "angular-material": "^1.1.1"
   },
   "devDependencies": {},
   "resolutions": {
