@@ -2,8 +2,8 @@
  * Created by Wayne on 15/6/1.
  */
 angular.module('zhuzhuqs').controller('OrderDetailController',
-  ['$state', '$scope', '$timeout', 'OrderService',
-    function ($state, $scope, $timeout, OrderService) {
+  ['$state', '$scope', '$stateParams', '$timeout', 'OrderService',
+    function ($state, $scope, $stateParams, $timeout, OrderService) {
 
       var pageConfig = {
         menuList: [],
@@ -40,11 +40,17 @@ angular.module('zhuzhuqs').controller('OrderDetailController',
           return window.location.href.indexOf(url) !== -1;
         },
         changeMenu: function (state) {
-          $state.go(state);
+          console.log($stateParams);
+          $state.go(state, {order_id: $stateParams.order_id});
+        },
+        goBack: function () {
+          $state.go('order_action');
         }
       };
 
       $scope.pageConfig = pageConfig;
+
+      console.log($stateParams);
 
       pageConfig.resetMenuList({});
     }

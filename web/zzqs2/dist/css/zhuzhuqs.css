@@ -8846,6 +8846,10 @@ input:-ms-input-placeholder {
   color: #fff;
   background-color: #0078c6;
 }
+.zz-order-detail-parent-view .menu-header .left .menu-item.back {
+  margin-right: 50px;
+  width: 50px;
+}
 .zz-order-detail-parent-view .detail-center-view {
   margin: auto;
   width: auto;

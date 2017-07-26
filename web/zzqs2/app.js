@@ -84,7 +84,7 @@ zhuzhuqs.config(['$stateProvider', '$urlRouterProvider', function ($stateProvide
       controller: "OrderOperationFollowCompletedController"
     })
     .state('order_detail', {
-      url: '/order_detail',
+      url: '/order_detail/:order_id',
       templateUrl: 'templates/order_detail.client.view.html',
       controller: "OrderDetailController"
     })

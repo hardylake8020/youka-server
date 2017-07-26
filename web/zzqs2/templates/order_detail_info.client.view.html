@@ -2,9 +2,12 @@
   <div class="detail-info-view detail-center-view" layout-fill>
     <div class="first-layer" ng-repeat="firstLayer in pageConfig.detailInfos">
       <div class="second-layer" layout="row" layout-align="start center"
-           ng-repeat="secondLayer in firstLayer">
+           ng-repeat="secondLayer in firstLayer"
+           ng-hide="secondLayer.isHide">
         <p class="label-key">{{secondLayer.text}}</p>
-        <p class="label-value" ng-class="{empty: !secondLayer.value}" flex>{{secondLayer.value||'无'}}</p>
+        <p class="label-value"
+           ng-class="{empty: !secondLayer.value}"
+           flex>{{secondLayer.value||'无'}}{{secondLayer.unit}}</p>
       </div>
     </div>
   </div>

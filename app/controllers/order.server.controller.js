@@ -53,7 +53,7 @@ exports.verifyOrder = function (req, res, next) {
 
   var tiaozhangs = req.body.tender_tiaozhang || [];
 
-  orderService.verifyOrder(user, order, type,price, tiaozhangs, function (err, results) {
+  orderService.verifyOrder(user, order, type, price, tiaozhangs, function (err, results) {
     if (err) {
       req.err = err;
       return next();
@@ -733,7 +733,7 @@ exports.getUserOrders = function (req, res, next) {
     value: req.query.searchValue || ''
   };
 
-  if (!res.logs)res.logs = [];
+  if (!res.logs) res.logs = [];
   userService.getGroupIdsByUser(currentUser, function (err, groupIds) {
     if (err) {
       req.err = err;
@@ -795,7 +795,7 @@ exports.getUnassignedOrders = function (req, res, next) {
 
   var searchArray = req.body.searchArray || req.query.searchArray || [];
 
-  if (!res.logs)res.logs = [];
+  if (!res.logs) res.logs = [];
 
   searchArray.push({key: 'isDeleted', value: 'false'});
   searchArray.push({key: 'assign_status', value: ['unAssigned', 'assigning']});
@@ -835,7 +835,7 @@ exports.getUserAllOrders = function (req, res, next) {
   };
   var searchArray = req.body.searchArray || req.query.searchArray || [];
 
-  if (!res.logs)res.logs = [];
+  if (!res.logs) res.logs = [];
 
   orderService.getUserAllOrders(currentUser, currentPage, limit, sort, searchArray, function (err, result) {
     if (err) {
@@ -1591,6 +1591,10 @@ exports.getOrderDetailById = function (req, res, next) {
 
       if (!order) {
         return res.send({err: orderError.order_not_exist});
+      }
+
+      if (!order.create_group || !order.execute_group) {
+        return res.send(order);
       }
 
       userService.getGroups(currentUser._id, function (err, userGroups) {

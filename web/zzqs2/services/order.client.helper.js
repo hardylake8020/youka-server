@@ -46,6 +46,52 @@ zhuzhuqs.factory('OrderHelper',
       return goodsName;
     }
 
+    function getStatusString(status) {
+      var statusString = '';
+
+      switch (status) {
+        case 'unAssigned':
+          statusString = '未分配';
+          break;
+        case 'assigning':
+          statusString = '分配中';
+          break;
+        case 'unPickupSigned':
+        case 'unPickuped':
+          statusString = '未提货';
+          break;
+        case 'unDeliverySigned':
+        case 'unDeliveried':
+          statusString = '未交货';
+          break;
+        case 'confirm':
+          statusString = '确认接单';
+          break;
+        case 'pickupSign':
+          statusString = '提货签到';
+          break;
+        case 'pickup':
+          statusString = '提货';
+          break;
+        case 'deliverySign':
+          statusString = '交货签到';
+          break;
+        case 'delivery':
+          statusString = '交货';
+          break;
+        case 'halfway':
+          statusString = '中途事件';
+          break;
+        case 'completed':
+          statusString = '已完成';
+          break;
+        default:
+          break;
+      }
+
+      return statusString;
+    }
+
     function getOrderCountVolumeWeight(orderDetail) {
       var sText = '';
       sText += (orderDetail.count ? orderDetail.count : '未填') + '/';//(orderDetail.count_unit ? orderDetail.count_unit : '件') + '/';
@@ -138,6 +184,7 @@ zhuzhuqs.factory('OrderHelper',
       getCompanyAssignOption: getCompanyAssignOption,
       getDriverAssignOption: getDriverAssignOption,
       getWechatDriverAssignOption: getWechatDriverAssignOption,
-      getAudioConfig: getAudioConfig
+      getAudioConfig: getAudioConfig,
+      getStatusString: getStatusString
     };
   }]);

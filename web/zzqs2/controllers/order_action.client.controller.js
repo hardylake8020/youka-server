@@ -66,62 +66,6 @@ angular.module('zhuzhuqs').controller('OrderActionController',
 
       $scope.pageConfig = pageConfig;
 
-      function getStatusString(status) {
-        var statusString = '';
-
-        switch (status) {
-          case 'unAssigned':
-            statusString = '未分配';
-            break;
-          case 'assigning':
-            statusString = '分配中';
-            break;
-          case 'unPickupSigned':
-          case 'unPickuped':
-            statusString = '未提货';
-            break;
-          case 'unDeliverySigned':
-          case 'unDeliveried':
-            statusString = '未交货';
-            break;
-          case 'confirm':
-            statusString = '确认接单';
-            break;
-          case 'pickupSign':
-            statusString = '提货签到';
-            break;
-          case 'pickup':
-            statusString = '提货';
-            break;
-          case 'deliverySign':
-            statusString = '交货签到';
-            break;
-          case 'delivery':
-            statusString = '交货';
-            break;
-          case 'halfway':
-            statusString = '中途事件';
-            break;
-          case 'completed':
-            statusString = '已完成';
-            break;
-          default:
-            break;
-        }
-
-        return statusString;
-      }
-
-      function getGoodsName(goods) {
-        goods = goods || [];
-
-        return goods.filter(function (item) {
-          return !!item.name;
-        }).map(function (item) {
-          return item.name;
-        }).join(',');
-      }
-
 
       function getOrderList() {
         pageConfig.orderList = [];
@@ -144,12 +88,12 @@ angular.module('zhuzhuqs').controller('OrderActionController',
               var newOrder = {
                 order_number: orderItem.tender.order_number,
                 ref_order_number: orderItem.tender.ref_order_number || '',
-                goods_name: getGoodsName(orderItem.tender.goods),
+                goods_name: OrderHelper.getGoodsNameString(orderItem.tender),
                 driver_winner: orderItem.tender.driver_winner, //承运商
                 driver_info: [orderItem.tender.execute_driver.truck_number || '未知', orderItem.tender.execute_driver.username].join('/'),
                 delivery_name: orderItem.tender.delivery_name || '',
                 status: orderItem.status,
-                status_string: getStatusString(orderItem.status),
+                status_string: OrderHelper.getStatusString(orderItem.status),
                 order_id: orderItem._id,
                 tender_id: orderItem.tender._id
               };

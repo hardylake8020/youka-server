@@ -2,6 +2,9 @@
 
   <div class="menu-header" layout="row" layout-align="space-between center">
     <div class="left" layout="row" layout-align="start center">
+      <p class="menu-item back" layout="row" layout-align="center center"
+         ng-click="pageConfig.goBack()">返回</p>
+
       <p class="menu-item"
          layout="row" layout-align="center center"
          ng-repeat="menuItem in pageConfig.menuList"
