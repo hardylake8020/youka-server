@@ -1,6 +1,7 @@
 .zz-order-detail-parent-view {
   @padding-edge: 15px;
-  @color-blue: #0078C6;
+  @color-blue: #0078c6;
+
   position: relative;
   padding-top: 80px;
   .menu-header {
@@ -19,7 +20,7 @@
         border-right: 1px solid #f5f5f5;
         &.current {
           color: #fff;
-          background-color: #0078C6;
+          background-color: @color-blue;
         }
 
         &.back {
@@ -61,6 +62,7 @@
         margin-top: 30px;
         .second-layer {
           min-height: 30px;
+          word-break: break-all;
           .label-key {
             width: 150px;
             color: #666;
@@ -80,7 +82,8 @@
     overflow-y: auto;
     .timeline {
       position: relative;
-      padding-right: 50px;
+      padding: 0 50px 50px 0;
+
       @trace-height: 60px;
       .line {
         position: absolute;
@@ -184,13 +187,13 @@
                 margin-right: 5px;
               }
               .time {
-                color: #0078C6;
+                color: @color_blue;
                 font-size: @font-small;
                 margin-left: 5px;
               }
 
               .address {
-                color: #0078C6;
+                color: @color_blue;
                 font-size: @font-small;
               }
             }
@@ -332,6 +335,10 @@
           color: #fff;
           background-color: @color-blue;
           cursor: pointer;
+
+          &.disabled {
+            background-color: #ccc;
+          }
         }
 
         .action-item {
@@ -339,6 +346,10 @@
           .remove {
             width: 40px;
             height: 40px;
+            &:hover {
+              background-color: #ccc;
+              color: #fff;
+            }
           }
         }
       }

@@ -29,11 +29,11 @@ angular.module('zhuzhuqs').controller('OrderDetailController',
             url: 'order_detail_adjustment',
             text: '调帐'
           });
-          this.menuList.push({
-            state: 'order_detail.confirm',
-            url: 'order_detail_confirm',
-            text: '财务确认'
-          });
+          // this.menuList.push({
+          //   state: 'order_detail.confirm',
+          //   url: 'order_detail_confirm',
+          //   text: '财务确认'
+          // });
 
         },
         isMenuSelected: function (url) {
