@@ -5078,7 +5078,7 @@ angular.module('zhuzhuqs').controller('OrderActionController',
             data.orders.forEach(function (orderItem) {
               var newOrder = {
                 order_number: orderItem.tender.order_number,
-                ref_order_number: orderItem.tender.ref_order_number || '',
+                refer_order_number: orderItem.tender.refer_order_number || '',
                 goods_name: OrderHelper.getGoodsNameString(orderItem.tender),
                 driver_winner: orderItem.tender.driver_winner, //承运商
                 driver_info: getDriverInfo(orderItem.tender.execute_driver),
