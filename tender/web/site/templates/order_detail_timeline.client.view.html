@@ -1,0 +1,76 @@
+<div class="zz-order-detail-timeline-view" layout-fill layout="row" layout-align="center start">
+  <div class="timeline detail-center-view" layout-fill>
+    <div class="line"></div>
+    <div class="traces">
+      <div class="trace"
+           ng-repeat="event in pageConfig.events | orderBy:'created':true">
+        <div class="trace-type"><span ng-class="event.type"></span></div>
+        <div class="detail" ng-class="{'qrcode-delivery': event.delivery_by_qrcode}">
+          <div class="event-name">{{pageConfig.generateEventTypeDescription(event)}}</div>
+          <div class="description">
+            <span class="username">{{event.driver.nickname? event.driver.nickname : event.driver.username}}{{event.driver.phone?'('+event.driver.phone+'':''}}</span>于
+            <span class="time">{{event.created | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+            <span ng-show="event.type !=='confirm'">在</span>
+            <span class="address" ng-show="event.type !=='confirm'">{{event.address? event.address: ('坐标为('+ event.location[0]+','+event.location[1] +')')}}</span>
+            完成 {{generateEventTypeDescription(event)}}
+          </div>
+          <div class="item damaged"><strong>货损: </strong><span>{{(event.damaged == true || event.damaged == 'true')?'有': '无'}}</span>
+          </div>
+          <div class="item remark">
+            <strong>备注: </strong>
+            <player-audio ng-if="!!event.voice_file" config="event.audio_config"></player-audio>
+            <span ng-if="!event.voice_file">{{event.description || '无'}}</span>
+          </div>
+          <div class="item barcode" ng-show="event.barcodes !== ''">
+            <strong>扫码: </strong>
+            <span>{{event.barcodes}}</span>
+          </div>
+
+          <div class="photos"
+               ng-show="event.goods_photos||event.halfway_photos||event.credential_photos">
+            <div class="photo goods" ng-repeat="photo in event.goods_photos">
+              <div class="tag"><img src="images/icon/order_follow/tag_goods.png"/></div>
+              <img
+                  ng-src='{{pageConfig.generatePhoto(photo)}}'
+                  ng-click="showPhotos(photo)"
+                  onerror="this.src='images/icon/order_follow/error.jpg'"/>
+            </div>
+            <div class="photo" ng-repeat="photo in event.halfway_photos">
+              <img ng-src='{{pageConfig.generatePhoto(photo)}}'
+                   ng-click="showPhotos(photo)"
+                   onerror="this.src='images/icon/order_follow/error.jpg'">
+            </div>
+            <div class="photo credential" ng-repeat="photo in event.credential_photos">
+              <div class="tag"><img src="images/icon/order_follow/tag_credential.png"/></div>
+              <img
+                  ng-src='{{pageConfig.generatePhoto(photo)}}'
+                  ng-click="showPhotos(photo)"
+                  onerror="this.src='images/icon/order_follow/error.jpg'"/>
+            </div>
+
+            <div class="photo photos" ng-repeat="photo in event.photos">
+              <div class="tag"><span class="name">{{photo.name}}</span></div>
+              <img
+                  ng-src='{{pageConfig.generatePhoto(photo.url)}}'
+                  ng-click="showPhotos(photo.url)"
+                  onerror="this.src='images/icon/order_follow/error.jpg'"/>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="trace">
+        <div class="trace-type"><span class="create"></span></div>
+        <div class="detail">
+          <div class="event-name">创建运单</div>
+          <div class="description">
+                            <span class="username">{{pageConfig.order.createUserNickname||pageConfig.order.createUsername}}
+                                    ({{pageConfig.order.createUserPhone||''}})
+                            </span>于
+            <span class="time">{{pageConfig.order.create_time | date: 'yyyy-MM-dd HH:mm:ss'}} 创建</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

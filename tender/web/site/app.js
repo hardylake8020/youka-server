@@ -3,13 +3,14 @@
 var tender = angular.module('tender', [
   'ngAnimate',
   'ui.router',
-  'ngMessages',
+  // 'ngMessages',
   'pasvaz.bindonce',
   'angularytics',
   'LocalStorageModule',
   'ui.bootstrap.datetimepicker',
   'vr.directives.slider',
-  'daterangepicker'
+  'daterangepicker',
+  'ngMaterial'
 ]);
 
 tender.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -18,6 +19,41 @@ tender.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,
       url: '/tender_follow',
       templateUrl: 'templates/tender.follow.client.view.html',
       controller: 'TenderFollowController'
+    })
+    .state('tender_follow_new', {
+      url: '/tender_follow_new',
+      templateUrl: 'templates/tender.follow_new.client.view.html',
+      controller: 'TenderFollowNewController'
+    })
+    .state('order_detail', {
+      url: '/order_detail/:tender_id',
+      templateUrl: 'templates/order_detail.client.view.html',
+      controller: "OrderDetailController"
+    })
+    .state('order_detail.info', {
+      url: '/order_detail_info/:tender_id',
+      templateUrl: 'templates/order_detail_info.client.view.html',
+      controller: "OrderDetailInfoController"
+    })
+    .state('order_detail.timeline', {
+      url: '/order_detail_timeline/:tender_id',
+      templateUrl: 'templates/order_detail_timeline.client.view.html',
+      controller: "OrderDetailTimelineController"
+    })
+    .state('order_detail.map', {
+      url: '/order_detail_map/:tender_id',
+      templateUrl: 'templates/order_detail_map.client.view.html',
+      controller: "OrderDetailMapController"
+    })
+    .state('order_detail.adjustment', {
+      url: '/order_detail_adjustment/:tender_id',
+      templateUrl: 'templates/order_detail_adjustment.client.view.html',
+      controller: "OrderDetailAdjustmentController"
+    })
+    .state('order_detail.confirm', {
+      url: '/order_detail_confirm/:order_id',
+      templateUrl: 'templates/order_detail_confirm.client.view.html',
+      controller: "OrderDetailConfirmController"
     })
     .state('driver_list', {
       url: '/driver_list',
@@ -110,15 +146,16 @@ tender.config(function () {
   // 此时浏览器没有log输出，如果打开了调试器，则console对象存在，可正常输出log，不过需要刷新。
   if (!window.console) {
     window.console = {
-      log: function () {}
+      log: function () {
+      }
     };
   }
 
 });
 
-tender.filter('replace', function(){
-  return function(input, target, replacement, attributes){
-    if(input){
+tender.filter('replace', function () {
+  return function (input, target, replacement, attributes) {
+    if (input) {
       var pattern = new RegExp(target, attributes);
       return input.replace(pattern, replacement);
     }

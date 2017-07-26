@@ -92,6 +92,14 @@ zhuzhuqs.factory('HomeService', ['Auth', 'OrderService', function (Auth, OrderSe
             "port": 3006,
             "state": "tender_follow",
             "url": "/tender_follow"
+          },
+          {
+            "label": "招标信息",
+            "type": "external_link",
+            "server": "tender",
+            "port": 3006,
+            "state": "tender_follow_new",
+            "url": "/tender_follow_new"
           }
         ]
       ]
