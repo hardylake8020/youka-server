@@ -261,14 +261,6 @@ exports.assignDriver = function (currentTender, card, truck, callback) {
     return callback({err: {type: 'truck_not_assigned_driver'}});
   }
 
-  if (truck.card) {
-    return callback({err: {type: 'truck_is_in_use'}});
-  }
-
-  if (card.truck) {
-    return callback({err: {type: 'card_is_in_use'}});
-  }
-
   assignDriver(currentTender, truck.driver_number, card, truck, function (err, result) {
     if (err) {
       return callback(err);
