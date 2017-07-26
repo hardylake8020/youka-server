@@ -25,7 +25,7 @@
         <p class="column-item" flex="10">运单号</p>
         <p class="column-item" flex="10">参考单号</p>
         <p class="column-item" flex="10">货物名称</p>
-        <p class="column-item" flex="10">承运商</p>
+        <!--<p class="column-item" flex="10">承运商</p>-->
         <p class="column-item" flex="20">司机(车牌／电话)</p>
         <p class="column-item" flex="10">收货方</p>
         <p class="column-item" flex="10">状态</p>
@@ -38,9 +38,9 @@
            ng-repeat="order in pageConfig.orderList">
         <p class="column-item" flex="5">{{pageConfig.pagination.skipCount+$index+1}}</p>
         <p class="column-item" flex="10">{{order.order_number}}</p>
-        <p class="column-item" flex="10">{{order.ref_order_number}}</p>
+        <p class="column-item" flex="10">{{order.refer_order_number}}</p>
         <p class="column-item" flex="10">{{order.goods_name}}</p>
-        <p class="column-item" flex="10">{{order.driver_winner}}</p>
+        <!--<p class="column-item" flex="10">{{order.driver_winner}}</p>-->
         <p class="column-item" flex="20">{{order.driver_info}}</p>
         <p class="column-item" flex="10">{{order.delivery_name}}</p>
         <p class="column-item" flex="10">{{order.status_string}}</p>

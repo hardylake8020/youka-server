@@ -9097,6 +9097,7 @@ input:-ms-input-placeholder {
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .brief {
   margin-bottom: 20px;
   font-size: 16px;
+  color: #000;
 }
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .brief .space {
   margin-right: 20px;
@@ -9105,6 +9106,7 @@ input:-ms-input-placeholder {
   display: inline-block;
   margin-bottom: 20px;
   color: #0078c6;
+  font-size: 12px;
   cursor: pointer;
 }
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-button {
@@ -9112,6 +9114,7 @@ input:-ms-input-placeholder {
   height: 40px;
   color: #fff;
   background-color: #0078c6;
+  font-size: 12px;
   cursor: pointer;
 }
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-button.disabled {
@@ -9119,6 +9122,7 @@ input:-ms-input-placeholder {
 }
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-item {
   margin-bottom: 20px;
+  font-size: 12px;
 }
 .zz-order-detail-parent-view .zz-order-detail-adjustment-view .adjustment-view .action-view .action-item .remove {
   width: 40px;
