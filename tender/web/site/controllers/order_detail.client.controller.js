@@ -19,16 +19,16 @@ tender.controller('OrderDetailController',
             url: 'order_detail_timeline',
             text: '时间轴'
           });
-          this.menuList.push({
-            state: 'order_detail.map',
-            url: 'order_detail_map',
-            text: '地图'
-          });
-          this.menuList.push({
-            state: 'order_detail.adjustment',
-            url: 'order_detail_adjustment',
-            text: '调帐'
-          });
+          // this.menuList.push({
+          //   state: 'order_detail.map',
+          //   url: 'order_detail_map',
+          //   text: '地图'
+          // });
+          // this.menuList.push({
+          //   state: 'order_detail.adjustment',
+          //   url: 'order_detail_adjustment',
+          //   text: '调帐'
+          // });
           this.menuList.push({
             state: 'order_detail.confirm',
             url: 'order_detail_confirm',
@@ -44,7 +44,7 @@ tender.controller('OrderDetailController',
           $state.go(state, {order_id: $stateParams.tender_id});
         },
         goBack: function () {
-          $state.go('order_action');
+          $state.go('tender_follow_new');
         }
       };
 

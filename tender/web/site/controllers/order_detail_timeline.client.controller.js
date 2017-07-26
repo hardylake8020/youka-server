@@ -117,32 +117,6 @@ tender.controller('OrderDetailTimelineController',
         });
       }
 
-      // function getOrderEvent() {
-      //   HttpTender.getEventsByOrderId($stateParams.order_id)
-      //     .then(function (result) {
-      //       console.log('events--', result);
-      //       if (result.err) {
-      //         return OrderHelper.handleError(result.err.type);
-      //       }
-      //       if (result.events && result.order) {
-      //         initBarcode(result.events);
-      //         initActualInfo(result.events);
-      //         result.events.forEach(function (event) {
-      //           if (event.voice_file) {
-      //             event.audio_config = OrderHelper.getAudioConfig(event.voice_file);
-      //           }
-      //         });
-      //
-      //         pageConfig.events = result.events;
-      //         pageConfig.order = result.order;
-      //       }
-      //
-      //     }, function (err) {
-      //       console.log(err);
-      //       return handleError(err.err.type);
-      //     });
-      // }
-
       pageConfig.init();
     }
   ]);

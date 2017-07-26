@@ -14177,317 +14177,6 @@ zhuzhuqs.directive('zzExportDialog', function () {
   };
 });
 /**
- * Created by elinaguo on 15/5/20.
- */
-/**
- * Created by elinaguo on 15/5/16.
- */
-/**
- * function: 分页UI
- * author: elina
- *
- *  html代码
- *  <zz-list config="listConfig"></zz-list>
- *  angularjs代码
- *
- */
-
-
-zhuzhuqs.directive('zzList', ['GlobalEvent', function (GlobalEvent) {
-  return {
-    restrict: 'EA',
-    templateUrl: 'directive/zz_list/zz_list.client.directive.view.html',
-    replace: true,
-    transclude: true,
-    scope: {
-      config: '='
-    },
-    link: function (scope, element, attributes) {
-      scope.enableOptionalCount = 0;
-      scope.isSelectedAll = false;
-      scope.isShowFieldOption = false;
-      scope.selectedRows = [];
-
-      //<editor-fold desc="Interface for parent">
-      scope.config.load = function (callback) {
-        refreshDisplay();
-        if (!callback) {
-          return;
-        }
-
-        callback();
-        return;
-      };
-
-      scope.config.reLoad = function (callback) {
-        scope.config.isSelectedAll = false;
-        refreshDisplay();
-        if (!callback)
-          return;
-
-        return callback();
-      };
-      //</editor-fold>
-
-      //<editor-fold desc="Row Event Relation">
-
-      scope.toggleSelectAll = function () {
-        scope.isSelectedAll = !scope.isSelectedAll;
-
-        scope.selectedRows.splice(0, scope.selectedRows.length);
-
-        for (var i = 0; i < scope.config.rows.length; i++) {
-          var currentRow = scope.config.rows[i];
-          if (!currentRow.rowConfig.notOptional) {
-            currentRow.selected = scope.isSelectedAll;
-
-            if (scope.isSelectedAll) {
-              scope.selectedRows.push(currentRow);
-            }
-          }
-        }
-
-        notify('selectedHandler', scope.selectedRows);
-      };
-
-      scope.onRowSelected = function (currentRow, event) {
-        if (currentRow.rowConfig.notOptional) {
-          return;
-        }
-
-        currentRow.selected = !currentRow.selected;
-        if (currentRow.selected) {
-          scope.selectedRows.push(currentRow);
-        } else {
-          for (var i = 0; i < scope.selectedRows.length; i++) {
-            if (scope.selectedRows[i]._id === currentRow._id) {
-              scope.selectedRows.splice(i, 1);
-            }
-          }
-        }
-
-        //update selected all
-        if (scope.selectedRows.length === scope.enableOptionalCount) {
-          scope.isSelectedAll = true;
-        }
-        else {
-          scope.isSelectedAll = false;
-        }
-
-        notify('selectedHandler', scope.selectedRows, event);
-      };
-
-      scope.onRowClick = function (currentRow) {
-        notify('rowClickHandler', currentRow);
-      };
-
-      scope.onRowInfoEdit = function (currentRow) {
-        notify('rowInfoEditHandler', currentRow);
-      };
-
-      scope.onRowDelete = function (currentRow) {
-        notify('rowDeleteHandler', currentRow);
-      };
-
-      scope.onRowExpand = function (currentRow) {
-        closeAllRowExpand();
-        currentRow.isExpand = !currentRow.isExpand;
-      };
-
-      scope.onSortItemClick = function (field, item) {
-        field.curSort = item;
-        field.isExpanded = false;
-        notify('headerSortChangedHandler', field);
-      };
-
-      scope.onSearchItemSubmit = function (field) {
-        field.isExpanded = false;
-        notify('headerKeywordsChangedHandler', field);
-      };
-
-      scope.onHeaderFieldClick = function (field, event) {
-        field.isExpanded = !field.isExpanded;
-        event.stopPropagation();
-      };
-
-      scope.$on(GlobalEvent.onBodyClick, function () {
-        for (var i = 0; i < scope.config.fields.length; i++) {
-          scope.config.fields[i].isExpanded = false;
-        }
-
-        if (scope.isShowFieldOption) {
-          scope.isShowFieldOption = false;
-          notify('saveDisplayFields');
-        }
-
-      });
-
-      scope.onFieldSettingAreaClick = function(event) {
-        stopBubble(event);
-      };
-
-      scope.onFieldOptionButtonClick = function (event) {
-        scope.isShowFieldOption = !scope.isShowFieldOption;
-
-        if (!scope.isShowFieldOption) {
-          notify('saveDisplayFields');
-        }
-
-        stopBubble(event);
-      };
-      scope.onFiledOptionColumnClick = function (fieldItem, event) {
-        stopBubble(event);
-
-        if (!scope.config.selectOptions || scope.config.selectOptions.length <= 0) {
-          return;
-        }
-
-        if (fieldItem.isSelected) {
-          fieldItem.isSelected = false;
-
-          notify('updateDisplayFields');
-        }
-        else {
-          var selectedCount = 0;
-          scope.config.selectOptions.forEach(function (optionItem) {
-            if (optionItem.isSelected) {
-              selectedCount += 1;
-            }
-          });
-
-          if (selectedCount < scope.config.fields_length) {
-            fieldItem.isSelected = !fieldItem.isSelected;
-
-            notify('updateDisplayFields');
-          }
-
-          //超过最大长度，则选不中。
-        }
-      };
-
-      //</editor-fold>
-
-      //<editor-fold desc="Private function">
-      function closeAllRowExpand() {
-        for (var i = 0; i < scope.config.rows.length; i++) {
-          scope.config.rows[i].isExpand = false;
-        }
-      }
-
-      function stopBubble(e) {
-        if (e && e.stopPropagation)
-          e.stopPropagation(); //非IE
-        else
-          window.event.cancelBubble = true; //IE
-      }
-
-      function initConfig() {
-        if (scope.config.isOptional === undefined || scope.config.isOptional === null) {
-          scope.config.isOptional = true;
-        }
-        if (scope.config.selectionOption === undefined || scope.config.selectionOption === null) {
-          scope.config.selectionOption = {columnWidth: 1};
-        }
-        if (scope.config.handleOption === undefined || scope.config.handleOption === null) {
-          scope.config.handleOption = {columnWidth: 2};
-        }
-        if (scope.config.isFieldSetting === undefined || scope.config.isFieldSetting === null) {
-          scope.config.isFieldSetting = true;
-        }
-
-        if (scope.config.rowExpand === undefined || scope.config.rowExpand === null) {
-          scope.config.rowExpand = {
-            isSupport: false,
-            text: '展开'
-          };
-        }
-        if (scope.config.rowExpand.enable === undefined || scope.config.rowExpand.enable === null) {
-          scope.config.rowExpand.enable = false;
-        }
-        if (scope.config.rowExpand.expandText === undefined || scope.config.rowExpand.expandText === '') {
-          scope.config.rowExpand.expandText = '展开';
-        }
-        if (scope.config.rowExpand.cancelText === undefined || scope.config.rowExpand.cancelText === '') {
-          scope.config.rowExpand.cancelText = '取消';
-        }
-
-        if (scope.config.rowExpand.selfCloseButton === undefined || scope.config.rowExpand.selfCloseButton === '') {
-          scope.config.rowExpand.selfCloseButton = false;
-        }
-
-        if (scope.config.isSelectedAll === undefined || scope.config.isSelectedAll === null) {
-          scope.config.isSelectedAll = false;
-        }
-
-        if (!scope.config.selectedRows) {
-          scope.config.selectedRows = [];
-        }
-
-        if (!scope.config.fields_length) {
-          scope.config.fields_length = 7; //默认显示7个字段
-        }
-
-        refreshDisplay();
-      };
-
-      function refreshDisplay() {
-        scope.enableOptionalCount = 0;
-        scope.selectedRows.splice(0, scope.selectedRows.length);
-        scope.isSelectedAll = false;
-
-        if (scope.config.fields && scope.config.fields.length > 0) {
-          for (var i = 0; i < scope.config.fields.length; i++) {
-            if (!scope.config.fields[i].columnWidth) scope.config.fields[i].columnWidth = 1;
-
-            scope.config.fields[i].columnWidthStyle = 'zz-list-col-' + scope.config.fields[i].columnWidth;
-
-            if (scope.config.fields[i].self_column_class) {
-              scope.config.fields[i].columnWidthStyle += (' ' + scope.config.fields[i].self_column_class);
-            }
-
-            scope.config.fields[i].isExpanded = false;
-          }
-          for (var i = 0; i < scope.config.rows.length; i++) {
-            scope.config.rows[i].selected = false;
-            scope.config.rows[i].isExpand = false;
-
-            if (!scope.config.rows[i].disabled) {
-              scope.enableOptionalCount++;
-            }
-          }
-        }
-        if (!scope.config.selectionOption.columnWidth) {
-          scope.config.selectionOption.columnWidth = 1;
-        }
-        scope.config.selectionOptionColumnWidthStyle = 'zz-list-col-' + scope.config.selectionOption.columnWidth;
-        if (!scope.config.handleOption.columnWidth) {
-          scope.config.handleOption.columnWidth = 2;
-        }
-        scope.config.handleOptionColumnWidthStyle = 'zz-list-col-' + scope.config.handleOption.columnWidth;
-
-      }
-
-      //</editor-fold>
-
-      function notify(notifyType, params, event) {
-        if (scope.config.events) {
-          if (scope.config.events[notifyType] && scope.config.events[notifyType].length > 0) {
-            for (var i = 0; i < scope.config.events[notifyType].length; i++) {
-              var currentEvent = scope.config.events[notifyType][i];
-              if (currentEvent && typeof(currentEvent) === 'function') {
-                currentEvent(params, event);
-              }
-            }
-          }
-        }
-      };
-
-      initConfig();
-    }
-  };
-}]);
-
-/**
  * Created by elinaguo on 15/5/24.
  */
 zhuzhuqs.directive('zzOrderAssign', ['OrderHelper', function (OrderHelper) {
@@ -14877,6 +14566,317 @@ zhuzhuqs.directive('zzOrderAssign', ['OrderHelper', function (OrderHelper) {
 }]);
 
 /**
+ * Created by elinaguo on 15/5/20.
+ */
+/**
+ * Created by elinaguo on 15/5/16.
+ */
+/**
+ * function: 分页UI
+ * author: elina
+ *
+ *  html代码
+ *  <zz-list config="listConfig"></zz-list>
+ *  angularjs代码
+ *
+ */
+
+
+zhuzhuqs.directive('zzList', ['GlobalEvent', function (GlobalEvent) {
+  return {
+    restrict: 'EA',
+    templateUrl: 'directive/zz_list/zz_list.client.directive.view.html',
+    replace: true,
+    transclude: true,
+    scope: {
+      config: '='
+    },
+    link: function (scope, element, attributes) {
+      scope.enableOptionalCount = 0;
+      scope.isSelectedAll = false;
+      scope.isShowFieldOption = false;
+      scope.selectedRows = [];
+
+      //<editor-fold desc="Interface for parent">
+      scope.config.load = function (callback) {
+        refreshDisplay();
+        if (!callback) {
+          return;
+        }
+
+        callback();
+        return;
+      };
+
+      scope.config.reLoad = function (callback) {
+        scope.config.isSelectedAll = false;
+        refreshDisplay();
+        if (!callback)
+          return;
+
+        return callback();
+      };
+      //</editor-fold>
+
+      //<editor-fold desc="Row Event Relation">
+
+      scope.toggleSelectAll = function () {
+        scope.isSelectedAll = !scope.isSelectedAll;
+
+        scope.selectedRows.splice(0, scope.selectedRows.length);
+
+        for (var i = 0; i < scope.config.rows.length; i++) {
+          var currentRow = scope.config.rows[i];
+          if (!currentRow.rowConfig.notOptional) {
+            currentRow.selected = scope.isSelectedAll;
+
+            if (scope.isSelectedAll) {
+              scope.selectedRows.push(currentRow);
+            }
+          }
+        }
+
+        notify('selectedHandler', scope.selectedRows);
+      };
+
+      scope.onRowSelected = function (currentRow, event) {
+        if (currentRow.rowConfig.notOptional) {
+          return;
+        }
+
+        currentRow.selected = !currentRow.selected;
+        if (currentRow.selected) {
+          scope.selectedRows.push(currentRow);
+        } else {
+          for (var i = 0; i < scope.selectedRows.length; i++) {
+            if (scope.selectedRows[i]._id === currentRow._id) {
+              scope.selectedRows.splice(i, 1);
+            }
+          }
+        }
+
+        //update selected all
+        if (scope.selectedRows.length === scope.enableOptionalCount) {
+          scope.isSelectedAll = true;
+        }
+        else {
+          scope.isSelectedAll = false;
+        }
+
+        notify('selectedHandler', scope.selectedRows, event);
+      };
+
+      scope.onRowClick = function (currentRow) {
+        notify('rowClickHandler', currentRow);
+      };
+
+      scope.onRowInfoEdit = function (currentRow) {
+        notify('rowInfoEditHandler', currentRow);
+      };
+
+      scope.onRowDelete = function (currentRow) {
+        notify('rowDeleteHandler', currentRow);
+      };
+
+      scope.onRowExpand = function (currentRow) {
+        closeAllRowExpand();
+        currentRow.isExpand = !currentRow.isExpand;
+      };
+
+      scope.onSortItemClick = function (field, item) {
+        field.curSort = item;
+        field.isExpanded = false;
+        notify('headerSortChangedHandler', field);
+      };
+
+      scope.onSearchItemSubmit = function (field) {
+        field.isExpanded = false;
+        notify('headerKeywordsChangedHandler', field);
+      };
+
+      scope.onHeaderFieldClick = function (field, event) {
+        field.isExpanded = !field.isExpanded;
+        event.stopPropagation();
+      };
+
+      scope.$on(GlobalEvent.onBodyClick, function () {
+        for (var i = 0; i < scope.config.fields.length; i++) {
+          scope.config.fields[i].isExpanded = false;
+        }
+
+        if (scope.isShowFieldOption) {
+          scope.isShowFieldOption = false;
+          notify('saveDisplayFields');
+        }
+
+      });
+
+      scope.onFieldSettingAreaClick = function(event) {
+        stopBubble(event);
+      };
+
+      scope.onFieldOptionButtonClick = function (event) {
+        scope.isShowFieldOption = !scope.isShowFieldOption;
+
+        if (!scope.isShowFieldOption) {
+          notify('saveDisplayFields');
+        }
+
+        stopBubble(event);
+      };
+      scope.onFiledOptionColumnClick = function (fieldItem, event) {
+        stopBubble(event);
+
+        if (!scope.config.selectOptions || scope.config.selectOptions.length <= 0) {
+          return;
+        }
+
+        if (fieldItem.isSelected) {
+          fieldItem.isSelected = false;
+
+          notify('updateDisplayFields');
+        }
+        else {
+          var selectedCount = 0;
+          scope.config.selectOptions.forEach(function (optionItem) {
+            if (optionItem.isSelected) {
+              selectedCount += 1;
+            }
+          });
+
+          if (selectedCount < scope.config.fields_length) {
+            fieldItem.isSelected = !fieldItem.isSelected;
+
+            notify('updateDisplayFields');
+          }
+
+          //超过最大长度，则选不中。
+        }
+      };
+
+      //</editor-fold>
+
+      //<editor-fold desc="Private function">
+      function closeAllRowExpand() {
+        for (var i = 0; i < scope.config.rows.length; i++) {
+          scope.config.rows[i].isExpand = false;
+        }
+      }
+
+      function stopBubble(e) {
+        if (e && e.stopPropagation)
+          e.stopPropagation(); //非IE
+        else
+          window.event.cancelBubble = true; //IE
+      }
+
+      function initConfig() {
+        if (scope.config.isOptional === undefined || scope.config.isOptional === null) {
+          scope.config.isOptional = true;
+        }
+        if (scope.config.selectionOption === undefined || scope.config.selectionOption === null) {
+          scope.config.selectionOption = {columnWidth: 1};
+        }
+        if (scope.config.handleOption === undefined || scope.config.handleOption === null) {
+          scope.config.handleOption = {columnWidth: 2};
+        }
+        if (scope.config.isFieldSetting === undefined || scope.config.isFieldSetting === null) {
+          scope.config.isFieldSetting = true;
+        }
+
+        if (scope.config.rowExpand === undefined || scope.config.rowExpand === null) {
+          scope.config.rowExpand = {
+            isSupport: false,
+            text: '展开'
+          };
+        }
+        if (scope.config.rowExpand.enable === undefined || scope.config.rowExpand.enable === null) {
+          scope.config.rowExpand.enable = false;
+        }
+        if (scope.config.rowExpand.expandText === undefined || scope.config.rowExpand.expandText === '') {
+          scope.config.rowExpand.expandText = '展开';
+        }
+        if (scope.config.rowExpand.cancelText === undefined || scope.config.rowExpand.cancelText === '') {
+          scope.config.rowExpand.cancelText = '取消';
+        }
+
+        if (scope.config.rowExpand.selfCloseButton === undefined || scope.config.rowExpand.selfCloseButton === '') {
+          scope.config.rowExpand.selfCloseButton = false;
+        }
+
+        if (scope.config.isSelectedAll === undefined || scope.config.isSelectedAll === null) {
+          scope.config.isSelectedAll = false;
+        }
+
+        if (!scope.config.selectedRows) {
+          scope.config.selectedRows = [];
+        }
+
+        if (!scope.config.fields_length) {
+          scope.config.fields_length = 7; //默认显示7个字段
+        }
+
+        refreshDisplay();
+      };
+
+      function refreshDisplay() {
+        scope.enableOptionalCount = 0;
+        scope.selectedRows.splice(0, scope.selectedRows.length);
+        scope.isSelectedAll = false;
+
+        if (scope.config.fields && scope.config.fields.length > 0) {
+          for (var i = 0; i < scope.config.fields.length; i++) {
+            if (!scope.config.fields[i].columnWidth) scope.config.fields[i].columnWidth = 1;
+
+            scope.config.fields[i].columnWidthStyle = 'zz-list-col-' + scope.config.fields[i].columnWidth;
+
+            if (scope.config.fields[i].self_column_class) {
+              scope.config.fields[i].columnWidthStyle += (' ' + scope.config.fields[i].self_column_class);
+            }
+
+            scope.config.fields[i].isExpanded = false;
+          }
+          for (var i = 0; i < scope.config.rows.length; i++) {
+            scope.config.rows[i].selected = false;
+            scope.config.rows[i].isExpand = false;
+
+            if (!scope.config.rows[i].disabled) {
+              scope.enableOptionalCount++;
+            }
+          }
+        }
+        if (!scope.config.selectionOption.columnWidth) {
+          scope.config.selectionOption.columnWidth = 1;
+        }
+        scope.config.selectionOptionColumnWidthStyle = 'zz-list-col-' + scope.config.selectionOption.columnWidth;
+        if (!scope.config.handleOption.columnWidth) {
+          scope.config.handleOption.columnWidth = 2;
+        }
+        scope.config.handleOptionColumnWidthStyle = 'zz-list-col-' + scope.config.handleOption.columnWidth;
+
+      }
+
+      //</editor-fold>
+
+      function notify(notifyType, params, event) {
+        if (scope.config.events) {
+          if (scope.config.events[notifyType] && scope.config.events[notifyType].length > 0) {
+            for (var i = 0; i < scope.config.events[notifyType].length; i++) {
+              var currentEvent = scope.config.events[notifyType][i];
+              if (currentEvent && typeof(currentEvent) === 'function') {
+                currentEvent(params, event);
+              }
+            }
+          }
+        }
+      };
+
+      initConfig();
+    }
+  };
+}]);
+
+/**
  * Created by Wayne on 16/1/14.
  */
 
@@ -15095,138 +15095,6 @@ zhuzhuqs.directive('zzOrderOption', ['GlobalEvent', function (GlobalEvent) {
 }]);
 
 /**
- * 货物照片预览
- * author: louisha
- * 参数：数组
- * 数组成员：图片对象
- * {
- *     order:'订单号'
- *     title:'照片信息 例：提货货物照片',
- *     warning:'需要突出显示的信息,字体会变成红色',
- *     url:'图片url地址',
- *     remark:'图片备注'}
- */
-
-zhuzhuqs.directive('zzPhotoScan', ['$document', function ($document) {
-    return {
-        restrict: 'EA',
-        template: '<div class="zz-photo-scan-mask" ng-show="show">' +
-        '<div class="zz-photo-scan-top">' +
-        '<span>{{photoShow.currentPhoto.order}}</span>' +
-        '<span>{{photoShow.currentPhoto.title}}</span>' +
-        '<span class="warning">{{photoShow.currentPhoto.warning}}</span>' +
-        '</div>' +
-        '<div class="row zz-photo-scan-wrap">' +
-        '<div class="col-xs-12 col-sm-10 col-sm-offset-1 container" ng-mouseover="showRemark(true)" ng-mouseleave="showRemark(false)">' +
-        '<img ng-src="{{photoShow.currentPhoto.url}}" class="photo-info"/>' +
-        '<div class="zz-photo-scan-remark" ng-show="photoShow.showRemark">' +
-        '<div class="remark-info">{{photoShow.currentPhoto.remark}}</div>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
-        '<div class="zz-photo-scan-close"  ng-click="close()">' +
-        '<img src="images/global/close_white.png" />' +
-        '</div>' +
-        '<div class="zz-photo-scan-arrow-left-warp">' +
-        '<div class="zz-photo-scan-arrow-left"  ng-class="{\'disable\':!photoShow.pre_enable}" ng-click="preClick()">' +
-        '<img src="images/global/arrow_left.png" />' +
-        '</div>' +
-        '<div class="btn-mask" ng-show="!photoShow.pre_enable"></div>' +
-        '</div>' +
-        '<div class="zz-photo-scan-arrow-right-warp">' +
-        '<div class="zz-photo-scan-arrow-right" ng-class="{\'disable\':!photoShow.next_enable}" ng-click="nextClick()">' +
-        '<img src="images/global/arrow_right.png" />' +
-        '</div> ' +
-        '<div class="btn-mask" ng-show="!photoShow.next_enable"></div>' +
-        '</div>' +
-        '</div>',
-        replace: true,
-        scope: {
-            photos: '=',
-            show: '=',
-            startIndex: '='
-        },
-        link: function (scope, element, attributes) {
-
-            //$document.bind("keypress", function(event) {
-            //    $scope.$apply(function (){
-            //        if(event.keyCode == 38){
-            //            $scope.selectNum--;
-            //        }
-            //        if(event.keyCode == 40){
-            //            $scope.selectNum++;
-            //        }
-            //    })
-            //});
-
-            //$document.on("keypress", function (event) {
-            //    switch (event.keyCode) {
-            //        default:
-            //            console.log(event.keyCode);
-            //    }
-            //
-            //});
-            if (!scope.photos) {
-                scope.photos = [];
-            }
-            if (!scope.show) {
-                scope.show = false;
-            }
-            if (!scope.startIndex) {
-                scope.startIndex = 0;
-            }
-            scope.photoShow = {
-                currentPhoto: scope.photos.length > 0 ? scope.photos[scope.startIndex] : null,
-                current_index: scope.startIndex,
-                next_enable: true,
-                pre_enable: false,
-                showRemark: false
-            };
-            scope.preClick = function () {
-                if (scope.photoShow.current_index == 0 || scope.photos.length == 0) {
-                    return;
-                }
-                scope.photoShow.current_index--;
-                scope.photoShow.currentPhoto = scope.photos[scope.photoShow.current_index];
-                initNavState();
-            };
-            scope.nextClick = function () {
-                if (scope.photos.length == 0 || scope.photoShow.current_index == scope.photos.length - 1) {
-                    return;
-                }
-                scope.photoShow.current_index++;
-                scope.photoShow.currentPhoto = scope.photos[scope.photoShow.current_index];
-                initNavState();
-            };
-            scope.close = function () {
-                scope.show = false;
-            };
-
-            scope.initShow = function () {
-                scope.photoShow.current_index = scope.startIndex;
-                scope.photoShow.currentPhoto = scope.photos[scope.photoShow.current_index];
-                initNavState();
-            };
-
-            scope.showRemark = function (bo) {
-                if (!scope.photoShow.currentPhoto.remark || scope.photoShow.currentPhoto.remark == '') {
-                    return;
-                }
-                scope.photoShow.showRemark = bo;
-            };
-
-            function initNavState() {
-                scope.photoShow.pre_enable = scope.photoShow.current_index <= 0 ? false : true;
-                scope.photoShow.next_enable = scope.photoShow.current_index >= scope.photos.length - 1 ? false : true
-            }
-
-            scope.$watch('show', function (newVal, oldVal) {
-                scope.initShow();
-            });
-        }
-    }
-}]);
-/**
  * Created by elinaguo on 15/5/16.
  */
 /**
@@ -15430,75 +15298,138 @@ zhuzhuqs.directive('zzPagination',[function(){
   };
 }]);
 
-  zhuzhuqs.controller('ProgressBarController', ['$scope', '$attrs', function($scope, $attrs) {
-    var self = this,
-      animate = angular.isDefined($attrs.animate) ? $scope.$parent.$eval($attrs.animate) : true;
+/**
+ * 货物照片预览
+ * author: louisha
+ * 参数：数组
+ * 数组成员：图片对象
+ * {
+ *     order:'订单号'
+ *     title:'照片信息 例：提货货物照片',
+ *     warning:'需要突出显示的信息,字体会变成红色',
+ *     url:'图片url地址',
+ *     remark:'图片备注'}
+ */
 
-    this.bars = [];
-    $scope.max = angular.isDefined($scope.max) ? $scope.max : 100;
-
-    this.addBar = function(bar, element, attrs) {
-      if (!animate) {
-        element.css({'transition': 'none'});
-      }
-
-      this.bars.push(bar);
-
-      bar.max = $scope.max;
-      bar.title = attrs && angular.isDefined(attrs.title) ? attrs.title : 'progressbar';
-
-      bar.$watch('value', function(value) {
-        bar.recalculatePercentage();
-      });
-
-      bar.recalculatePercentage = function() {
-        var totalPercentage = self.bars.reduce(function(total, bar) {
-          bar.percent = +(100 * bar.value / bar.max).toFixed(2);
-          return total + bar.percent;
-        }, 0);
-
-        if (totalPercentage > 100) {
-          bar.percent -= totalPercentage - 100;
-        }
-      };
-
-      bar.$on('$destroy', function() {
-        element = null;
-        self.removeBar(bar);
-      });
-    };
-
-    this.removeBar = function(bar) {
-      this.bars.splice(this.bars.indexOf(bar), 1);
-      this.bars.forEach(function (bar) {
-        bar.recalculatePercentage();
-      });
-    };
-
-    $scope.$watch('max', function(max) {
-      self.bars.forEach(function(bar) {
-        bar.max = $scope.max;
-        bar.recalculatePercentage();
-      });
-    });
-  }])
-  .directive('progressbar', function() {
+zhuzhuqs.directive('zzPhotoScan', ['$document', function ($document) {
     return {
-      replace: true,
-      transclude: true,
-      controller: 'ProgressBarController',
-      scope: {
-        value: '=',
-        max: '=?',
-        type: '@'
-      },
-      templateUrl: 'directive/zz_progressbar/zz_progressbar.client.directive.view.html',
-      link: function(scope, element, attrs, progressCtrl) {
-        progressCtrl.addBar(scope, angular.element(element.children()[0]), {title: attrs.title});
-      }
-    };
-  });
+        restrict: 'EA',
+        template: '<div class="zz-photo-scan-mask" ng-show="show">' +
+        '<div class="zz-photo-scan-top">' +
+        '<span>{{photoShow.currentPhoto.order}}</span>' +
+        '<span>{{photoShow.currentPhoto.title}}</span>' +
+        '<span class="warning">{{photoShow.currentPhoto.warning}}</span>' +
+        '</div>' +
+        '<div class="row zz-photo-scan-wrap">' +
+        '<div class="col-xs-12 col-sm-10 col-sm-offset-1 container" ng-mouseover="showRemark(true)" ng-mouseleave="showRemark(false)">' +
+        '<img ng-src="{{photoShow.currentPhoto.url}}" class="photo-info"/>' +
+        '<div class="zz-photo-scan-remark" ng-show="photoShow.showRemark">' +
+        '<div class="remark-info">{{photoShow.currentPhoto.remark}}</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="zz-photo-scan-close"  ng-click="close()">' +
+        '<img src="images/global/close_white.png" />' +
+        '</div>' +
+        '<div class="zz-photo-scan-arrow-left-warp">' +
+        '<div class="zz-photo-scan-arrow-left"  ng-class="{\'disable\':!photoShow.pre_enable}" ng-click="preClick()">' +
+        '<img src="images/global/arrow_left.png" />' +
+        '</div>' +
+        '<div class="btn-mask" ng-show="!photoShow.pre_enable"></div>' +
+        '</div>' +
+        '<div class="zz-photo-scan-arrow-right-warp">' +
+        '<div class="zz-photo-scan-arrow-right" ng-class="{\'disable\':!photoShow.next_enable}" ng-click="nextClick()">' +
+        '<img src="images/global/arrow_right.png" />' +
+        '</div> ' +
+        '<div class="btn-mask" ng-show="!photoShow.next_enable"></div>' +
+        '</div>' +
+        '</div>',
+        replace: true,
+        scope: {
+            photos: '=',
+            show: '=',
+            startIndex: '='
+        },
+        link: function (scope, element, attributes) {
 
+            //$document.bind("keypress", function(event) {
+            //    $scope.$apply(function (){
+            //        if(event.keyCode == 38){
+            //            $scope.selectNum--;
+            //        }
+            //        if(event.keyCode == 40){
+            //            $scope.selectNum++;
+            //        }
+            //    })
+            //});
+
+            //$document.on("keypress", function (event) {
+            //    switch (event.keyCode) {
+            //        default:
+            //            console.log(event.keyCode);
+            //    }
+            //
+            //});
+            if (!scope.photos) {
+                scope.photos = [];
+            }
+            if (!scope.show) {
+                scope.show = false;
+            }
+            if (!scope.startIndex) {
+                scope.startIndex = 0;
+            }
+            scope.photoShow = {
+                currentPhoto: scope.photos.length > 0 ? scope.photos[scope.startIndex] : null,
+                current_index: scope.startIndex,
+                next_enable: true,
+                pre_enable: false,
+                showRemark: false
+            };
+            scope.preClick = function () {
+                if (scope.photoShow.current_index == 0 || scope.photos.length == 0) {
+                    return;
+                }
+                scope.photoShow.current_index--;
+                scope.photoShow.currentPhoto = scope.photos[scope.photoShow.current_index];
+                initNavState();
+            };
+            scope.nextClick = function () {
+                if (scope.photos.length == 0 || scope.photoShow.current_index == scope.photos.length - 1) {
+                    return;
+                }
+                scope.photoShow.current_index++;
+                scope.photoShow.currentPhoto = scope.photos[scope.photoShow.current_index];
+                initNavState();
+            };
+            scope.close = function () {
+                scope.show = false;
+            };
+
+            scope.initShow = function () {
+                scope.photoShow.current_index = scope.startIndex;
+                scope.photoShow.currentPhoto = scope.photos[scope.photoShow.current_index];
+                initNavState();
+            };
+
+            scope.showRemark = function (bo) {
+                if (!scope.photoShow.currentPhoto.remark || scope.photoShow.currentPhoto.remark == '') {
+                    return;
+                }
+                scope.photoShow.showRemark = bo;
+            };
+
+            function initNavState() {
+                scope.photoShow.pre_enable = scope.photoShow.current_index <= 0 ? false : true;
+                scope.photoShow.next_enable = scope.photoShow.current_index >= scope.photos.length - 1 ? false : true
+            }
+
+            scope.$watch('show', function (newVal, oldVal) {
+                scope.initShow();
+            });
+        }
+    }
+}]);
 /**
 * Created by elinaguo on 15/5/24.
 */
@@ -15809,3 +15740,72 @@ zhuzhuqs.directive('zzSwitch', ['GlobalEvent', function (GlobalEvent) {
     }
   };
 }]);
+
+  zhuzhuqs.controller('ProgressBarController', ['$scope', '$attrs', function($scope, $attrs) {
+    var self = this,
+      animate = angular.isDefined($attrs.animate) ? $scope.$parent.$eval($attrs.animate) : true;
+
+    this.bars = [];
+    $scope.max = angular.isDefined($scope.max) ? $scope.max : 100;
+
+    this.addBar = function(bar, element, attrs) {
+      if (!animate) {
+        element.css({'transition': 'none'});
+      }
+
+      this.bars.push(bar);
+
+      bar.max = $scope.max;
+      bar.title = attrs && angular.isDefined(attrs.title) ? attrs.title : 'progressbar';
+
+      bar.$watch('value', function(value) {
+        bar.recalculatePercentage();
+      });
+
+      bar.recalculatePercentage = function() {
+        var totalPercentage = self.bars.reduce(function(total, bar) {
+          bar.percent = +(100 * bar.value / bar.max).toFixed(2);
+          return total + bar.percent;
+        }, 0);
+
+        if (totalPercentage > 100) {
+          bar.percent -= totalPercentage - 100;
+        }
+      };
+
+      bar.$on('$destroy', function() {
+        element = null;
+        self.removeBar(bar);
+      });
+    };
+
+    this.removeBar = function(bar) {
+      this.bars.splice(this.bars.indexOf(bar), 1);
+      this.bars.forEach(function (bar) {
+        bar.recalculatePercentage();
+      });
+    };
+
+    $scope.$watch('max', function(max) {
+      self.bars.forEach(function(bar) {
+        bar.max = $scope.max;
+        bar.recalculatePercentage();
+      });
+    });
+  }])
+  .directive('progressbar', function() {
+    return {
+      replace: true,
+      transclude: true,
+      controller: 'ProgressBarController',
+      scope: {
+        value: '=',
+        max: '=?',
+        type: '@'
+      },
+      templateUrl: 'directive/zz_progressbar/zz_progressbar.client.directive.view.html',
+      link: function(scope, element, attrs, progressCtrl) {
+        progressCtrl.addBar(scope, angular.element(element.children()[0]), {title: attrs.title});
+      }
+    };
+  });

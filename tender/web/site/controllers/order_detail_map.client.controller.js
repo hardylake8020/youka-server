@@ -2,8 +2,8 @@
  * Created by Wayne on 15/6/1.
  */
 tender.controller('OrderDetailMapController',
-  ['$state', '$scope', '$stateParams', '$timeout', 'OrderService', 'BMapService', 'OrderHelper', 'config',
-    function ($state, $scope, $stateParams, $timeout, OrderService, BMapService, OrderHelper, config) {
+  ['$state', '$scope', '$stateParams', '$timeout', 'BMapService', 'OrderHelper', 'config', 'HttpTender',
+    function ($state, $scope, $stateParams, $timeout, BMapService, OrderHelper, config, HttpTender) {
 
       var pageConfig = {
         bMap: null,
@@ -25,32 +25,58 @@ tender.controller('OrderDetailMapController',
           this.ungpsCount = 0;
           this.clearMap();
 
-          getOrderEvent(function (err, result) {
+          getTenderDetail(function (err, orderId) {
             if (err) {
-              return;
+              console.log(err);
             }
-            result.events.forEach(function (event) {
-              BMapService.drawDriverEvent(that.bMap, event, generateTipHtml(event));
-            });
 
-            getOrderTraces(function (err, data) {
-              if (err) {
-                return;
-              }
-              that.gpsCount = data.gpsCount;
-              that.ungpsCount = data.ungpsCount;
+            getOrderEvent(orderId, function (err, result) {
+              result.events.forEach(function (event) {
+                BMapService.drawDriverEvent(that.bMap, event, generateTipHtml(event));
+              });
 
-              if (data.latestPoint.trace && result.order.status !== 'completed' && result.order.status !== 'unAssigned') {
-                that.addMarker(new BMap.Point(data.latestPoint.trace.location[0], data.latestPoint.trace.location[1]),
-                  new BMap.Icon(config.serverWebAddress + "/images/icon/order_follow/map_current.gif", that.iconSize, {anchor: that.iconAnchorSize}));
+              getOrderTraces(orderId, function (err, data) {
+                that.gpsCount = data.gpsCount;
+                that.ungpsCount = data.ungpsCount;
 
-              }
+                if (data.latestPoint.trace && result.order.status !== 'completed' && result.order.status !== 'unAssigned') {
+                  that.addMarker(new BMap.Point(data.latestPoint.trace.location[0], data.latestPoint.trace.location[1]),
+                    new BMap.Icon(config.serverWebAddress + "/images/icon/order_follow/map_current.gif", that.iconSize, {anchor: that.iconAnchorSize}));
+                }
 
-              setTimeout(function () {
-                that.bMap.setViewport(data.allPoints);
-              }, 1000);
+                setTimeout(function () {
+                  that.bMap.setViewport(data.allPoints);
+                }, 1000);
+              })
             });
           });
+
+          // getOrderEvent(function (err, result) {
+          //   if (err) {
+          //     return;
+          //   }
+          //   result.events.forEach(function (event) {
+          //     BMapService.drawDriverEvent(that.bMap, event, generateTipHtml(event));
+          //   });
+          //
+          //   getOrderTraces(function (err, data) {
+          //     if (err) {
+          //       return;
+          //     }
+          //     that.gpsCount = data.gpsCount;
+          //     that.ungpsCount = data.ungpsCount;
+          //
+          //     if (data.latestPoint.trace && result.order.status !== 'completed' && result.order.status !== 'unAssigned') {
+          //       that.addMarker(new BMap.Point(data.latestPoint.trace.location[0], data.latestPoint.trace.location[1]),
+          //         new BMap.Icon(config.serverWebAddress + "/images/icon/order_follow/map_current.gif", that.iconSize, {anchor: that.iconAnchorSize}));
+          //
+          //     }
+          //
+          //     setTimeout(function () {
+          //       that.bMap.setViewport(data.allPoints);
+          //     }, 1000);
+          //   });
+          // });
         },
         addMarker: function (bmapPoint, myIcon) {
           if (bmapPoint) {
@@ -64,59 +90,59 @@ tender.controller('OrderDetailMapController',
 
       pageConfig.initMap();
       pageConfig.resetData();
-
-      function getOrderTraces(callback) {
-        OrderService.getTracesByOrderId($stateParams.order_id).then(function (data) {
-          console.log('order traces--', data);
-
-          if (data.err) {
-            OrderService.handleError(data.err.type);
-            return callback(data.err);
-          }
-
-          var allDriverPoints = [], gpsCount = 0, ungpsCount = 0;
-          var latestPoint = {
-            trace: '',
-            time: new Date('1988/1/10')
-          };
-
-          data.forEach(function (driverTraceObject) {
-            var drawLineResult = BMapService.drawLine(pageConfig.bMap, driverTraceObject.traces, latestPoint, false);
-            gpsCount += drawLineResult.gpsCount;
-            ungpsCount += drawLineResult.ungpsCount;
-            allDriverPoints = allDriverPoints.concat(drawLineResult.points);
-          });
-          return callback(null, {
-            allPoints: allDriverPoints,
-            gpsCount: gpsCount,
-            ungpsCount: ungpsCount,
-            latestPoint: latestPoint
-          });
-
-        }, function (err) {
-          console.log(err);
-          OrderService.handleError(err);
-          return callback(err);
-        });
-      }
-
-      function getOrderEvent(callback) {
-        OrderService.getEventsByOrderId($stateParams.order_id)
-          .then(function (result) {
-            console.log('events--', result);
-            if (result.err) {
-              OrderHelper.handleError(result.err.type);
-              return callback(result.err);
-            }
-            if (result.events) {
-              return callback(null, result);
-            }
-          }, function (err) {
-            console.log(err);
-            handleError(err.err.type);
-            return callback(err);
-          });
-      }
+      //
+      // function getOrderTraces(callback) {
+      //   OrderService.getTracesByOrderId($stateParams.order_id).then(function (data) {
+      //     console.log('order traces--', data);
+      //
+      //     if (data.err) {
+      //       OrderService.handleError(data.err.type);
+      //       return callback(data.err);
+      //     }
+      //
+      //     var allDriverPoints = [], gpsCount = 0, ungpsCount = 0;
+      //     var latestPoint = {
+      //       trace: '',
+      //       time: new Date('1988/1/10')
+      //     };
+      //
+      //     data.forEach(function (driverTraceObject) {
+      //       var drawLineResult = BMapService.drawLine(pageConfig.bMap, driverTraceObject.traces, latestPoint, false);
+      //       gpsCount += drawLineResult.gpsCount;
+      //       ungpsCount += drawLineResult.ungpsCount;
+      //       allDriverPoints = allDriverPoints.concat(drawLineResult.points);
+      //     });
+      //     return callback(null, {
+      //       allPoints: allDriverPoints,
+      //       gpsCount: gpsCount,
+      //       ungpsCount: ungpsCount,
+      //       latestPoint: latestPoint
+      //     });
+      //
+      //   }, function (err) {
+      //     console.log(err);
+      //     OrderService.handleError(err);
+      //     return callback(err);
+      //   });
+      // }
+      //
+      // function getOrderEvent(callback) {
+      //   OrderService.getEventsByOrderId($stateParams.order_id)
+      //     .then(function (result) {
+      //       console.log('events--', result);
+      //       if (result.err) {
+      //         OrderHelper.handleError(result.err.type);
+      //         return callback(result.err);
+      //       }
+      //       if (result.events) {
+      //         return callback(null, result);
+      //       }
+      //     }, function (err) {
+      //       console.log(err);
+      //       handleError(err.err.type);
+      //       return callback(err);
+      //     });
+      // }
 
       function generatePhotoHtml(event) {
         var displayPhotos = [];
@@ -169,5 +195,58 @@ tender.controller('OrderDetailMapController',
           + '</div>';
         return html;
       }
+
+
+      function getTenderDetail(callback) {
+        HttpTender.getTenderByTenderId($scope, {
+          tender_id: $stateParams.tender_id
+        }, function (err, data) {
+          if (data && data.order)
+            callback(err,data.order._id);
+        });
+      }
+
+
+      function getOrderEvent(orderId, callback) {
+        HttpTender.getOrderEvent($scope, {order_id: orderId}, function (err, result) {
+          console.log('events--', result);
+          if (result.err) {
+            OrderHelper.handleError(result.err.type);
+            return callback(result.err);
+          }
+          if (result.events) {
+            return callback(null, result);
+          }
+        });
+      }
+
+      function getOrderTraces(orderId, callback) {
+        HttpTender.getOrderTrace($scope, {order_id: orderId}, function (err, traces) {
+          console.log(traces, '====driverTraces====');
+          if (err) {
+            return callback(err);
+          }
+
+          var allDriverPoints = [], gpsCount = 0, ungpsCount = 0;
+          var latestPoint = {
+            trace: '',
+            time: new Date('1988/1/10')
+          };
+
+          traces.forEach(function (driverTraceObject) {
+            var drawLineResult = BMapService.drawLine(pageConfig.bMap, driverTraceObject.traces, latestPoint, false);
+            gpsCount += drawLineResult.gpsCount;
+            ungpsCount += drawLineResult.ungpsCount;
+            allDriverPoints = allDriverPoints.concat(drawLineResult.points);
+          });
+          return callback(null, {
+            allPoints: allDriverPoints,
+            gpsCount: gpsCount,
+            ungpsCount: ungpsCount,
+            latestPoint: latestPoint
+          });
+        })
+      }
+
     }
   ]);
