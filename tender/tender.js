@@ -37,11 +37,11 @@ if (process.env.NODE_ENV !== 'development') {
     });
 }
 else{
-pp.listen(config.port,function () {
+app.listen(config.port,function () {
     	console.log('tender listen  :',3006);
 });
 }
-a// Start the app by listening on <port>
+// Start the app by listening on <port>
 
 console.log('Tender application started on address ' + config.serverAddress);
 console.log('Tender application started on port ' + config.port);
