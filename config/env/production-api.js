@@ -17,7 +17,7 @@ module.exports = {
   app_download_ios_url: 'app-release.ipa',
   app_download_ios_redirect_url: 'itms-services://?action=download-manifest&url=https://www.cvs001.com/zhuzhuqs/ios/release/plist',
   app_barcode_url: 'barcode_zhuzhu56.png',
-  port: process.env.PORT || 3002,
+  port: process.env.PORT || 80,
   serverAddress:'http://api.zhuzhu56.com/',
   pushAddress:'http://push.zhuzhu56.com/',
   tenderAddress:'http://tender.zhuzhu56.com/',
