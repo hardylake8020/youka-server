@@ -1,7 +1,7 @@
 /**
  * Created by zenghong on 2017/4/26.
  */
-var baseUrl = 'http://' + window.location.host;
+var baseUrl = 'https://' + window.location.host;
 
 $(function () {
   $('.detail-back').click(function () {
