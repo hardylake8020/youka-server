@@ -30,11 +30,11 @@ var httpsOptions = {
 };
 
 
-if (process.env.NODE_ENV !== 'development') {
-    var server = https.createServer(httpsOptions, app).listen(443,function(){
-    	console.log('listen 443 :');
-    });
-}
+// if (process.env.NODE_ENV !== 'development') {
+//     var server = https.createServer(httpsOptions, app).listen(443,function(){
+//     	console.log('listen 443 :');
+//     });
+// }
 app.listen(config.port,function () {
     	console.log('listen  :',config.port);
 });
@@ -43,8 +43,8 @@ app.listen(config.port,function () {
 // Start the app by listening on <port>
 
 exports = module.exports = app;
-console.log('MEAN.JS application started on address ' + config.serverAddress);
-console.log('MEAN.JS application started on port ' + config.port);
+console.log('server application started on address ' + config.serverAddress);
+console.log('server application started on port ' + config.port);
 
 
 
