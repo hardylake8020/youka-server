@@ -18,6 +18,18 @@ if (process.env.NODE_ENV === 'development'|| process.env.NODE_ENV ==='production
   require('./config/auto')();
 }
 
+var fs = require('fs');
+var https = require('https');
+var key = fs.readFileSync('./certification/server.crt');
+var cert = fs.readFileSync('./certification/server.key');
+
+
+var httpsOptions = {
+  key: key,
+  cert: cert
+};
+
+
 // Start the app by listening on <port>
 app.listen(config.port);
 

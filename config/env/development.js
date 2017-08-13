@@ -13,7 +13,7 @@ module.exports = {
   app_download_ios_url: 'app-release.ipa',
   app_download_ios_redirect_url: 'itms-services://?action=download-manifest&url=https://www.cvs001.com/zhuzhuqs/ios/debug/plist',
   app_barcode_url: 'barcode_zhuzhu56.png',
-  serverAddress: 'http://www.zzuka.com.cn/',
+  serverAddress: 'http://localhost:3002/',
   pushAddress:'http://localhost:3005/',
   tenderAddress:'http://localhost:3006/',
   paymentAddress:'http://localhost:3004/',
