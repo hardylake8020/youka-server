@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development'|| process.env.NODE_ENV ==='production
 var fs = require('fs');
 var https = require('https');
 var key = fs.readFileSync('./certification/server.key');
-var cert = fs.readFileSync('./certification/server.cert');
+var cert = fs.readFileSync('./certification/server.crt');
 
 
 var httpsOptions = {
