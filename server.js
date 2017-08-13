@@ -30,8 +30,15 @@ var httpsOptions = {
 };
 
 
-// Start the app by listening on <port>
+if (process.env.NODE_ENV !== 'development') {
+    var server = https.createServer(httpsOptions, app).listen(443);
+}
+else{
 app.listen(config.port);
+}
+
+
+// Start the app by listening on <port>
 
 exports = module.exports = app;
 console.log('MEAN.JS application started on address ' + config.serverAddress);
