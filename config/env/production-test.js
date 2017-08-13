@@ -15,7 +15,7 @@ module.exports = {
   app_barcode_url: 'barcode_zhuzhu56.png',
   serverAddress: 'http://183.131.76.178:80/',
   pushAddress:'http://localhost:3005/',
-  tenderAddress:'https://www.zzuka.com.cn:3007/',
+  tenderAddress:'https://www.zzuka.com.cn/',
   paymentAddress:'http://localhost:3004/',
   port: process.env.PORT || 80,
   email: {
