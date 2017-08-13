@@ -35,11 +35,9 @@ if (process.env.NODE_ENV !== 'development') {
     	console.log('listen 443 :');
     });
 }
-else{
 app.listen(config.port,function () {
     	console.log('listen  :',config.port);
 });
-}
 
 
 // Start the app by listening on <port>
