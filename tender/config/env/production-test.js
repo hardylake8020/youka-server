@@ -10,8 +10,8 @@ module.exports = {
   app: {
     title: 'tender - Development Environment'
   },
-  serverAddress: 'https://www.zzuka.com.cn:3007/',
-  zzqsAddress:'https://www.zzuka.com.cn/',
+  serverAddress: 'https://www.zzuka.com.cn/',
+  zzqsAddress:'http://www.zzuka.com.cn/',
   port: process.env.PORT || 3007,
   depositAmount: 200,
   email: {

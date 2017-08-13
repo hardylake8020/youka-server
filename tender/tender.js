@@ -33,12 +33,12 @@ var httpsOptions = {
 
 if (process.env.NODE_ENV !== 'development') {
     var server = https.createServer(httpsOptions, app).listen(443,function(){
-    	console.log('tender listen 3007 :');
+    	console.log('tender listen 443 :');
     });
 }
 else{
 app.listen(config.port,function () {
-    	console.log('tender listen  :',3006);
+    	console.log('tender listen  :',3007);
 });
 }
 // Start the app by listening on <port>
