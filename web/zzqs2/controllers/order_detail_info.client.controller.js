@@ -61,6 +61,165 @@ angular.module('zhuzhuqs').controller('OrderDetailInfoController',
               }
             ]
           );
+
+
+          if (tender.tender_type === 'grab') {
+            this.detailInfos.push(
+              [
+                {
+                  key: '',
+                  text: '保证金额',
+                  value: tender.deposit,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '押金',
+                  value: tender.ya_jin,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '最低抢单价',
+                  value: tender.lowest_grab_price,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '最高抢单价',
+                  value: tender.highest_grab_price,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '抢单时间窗',
+                  value: tender.grab_time_duration,
+                  unit: '分钟'
+                },
+                {
+                  key: '',
+                  text: '运费递增值',
+                  value: tender.grab_increment_price,
+                  unit: '元'
+                }
+              ]
+            );
+          } else if (tender.tender_type === 'compare') {
+            this.detailInfos.push(
+              [
+                {
+                  key: '',
+                  text: '保证金额',
+                  value: tender.deposit,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '押金',
+                  value: tender.ya_jin,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '最低保护价',
+                  value: tender.lowest_protect_price,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '最高保护价',
+                  value: tender.highest_protect_price,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '自动截标',
+                  value: tender.auto_close_duration,
+                  unit: '分钟'
+                }
+              ]
+            )
+          } else if (tender.tender_type === 'compares_ton') {
+            this.detailInfos.push(
+              [
+                {
+                  key: '',
+                  text: '保证金额',
+                  value: tender.deposit,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '押金',
+                  value: tender.ya_jin,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '最高保护价',
+                  value: tender.highest_protect_price,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '最高超额单价',
+                  value: tender.highest_more_price_per_ton,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '保底吨数',
+                  value: tender.lowest_tons_count,
+                  unit: ''
+                },
+                {
+                  key: 'winner_price_per_ton',
+                  text: '中标超出单价／吨',
+                  value: tender.winner_price_per_ton
+                },
+                {
+                  key: 'pickup_real_tons',
+                  text: '实际提货吨数',
+                  value: tender.pickup_real_tons
+                },
+                {
+                  key: '',
+                  text: '实际超出吨数',
+                  value: ''
+                }
+              ]
+            )
+          } else if (tender.tender_type === 'assign') {
+            this.detailInfos.push(
+              [
+                {
+                  key: '',
+                  text: '保证金额',
+                  value: tender.deposit,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '押金',
+                  value: tender.ya_jin,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '运费价格',
+                  value: tender.lowest_grab_price,
+                  unit: '元'
+                },
+                {
+                  key: '',
+                  text: '供应商',
+                  value: tender.sender_company,
+                  unit: ''
+                }
+              ]
+            )
+          }
+
           this.detailInfos.push(
             [
               {
@@ -68,30 +227,6 @@ angular.module('zhuzhuqs').controller('OrderDetailInfoController',
                 text: '中标价格',
                 value: tender.winner_price,
                 unit: '元'
-              },
-              {
-                key: 'lowest_tons_count',
-                text: '保底吨数',
-                value: tender.lowest_tons_count,
-                isHide: tender.tender_type !== 'compares_ton'
-              },
-              {
-                key: 'winner_price_per_ton',
-                text: '中标超出单价／吨',
-                value: tender.winner_price_per_ton,
-                isHide: tender.tender_type !== 'compares_ton'
-              },
-              {
-                key: 'pickup_real_tons',
-                text: '实际提货吨数',
-                value: tender.pickup_real_tons,
-                isHide: tender.tender_type !== 'compares_ton'
-              },
-              {
-                key: '',
-                text: '实际超出吨数',
-                value: '',
-                isHide: tender.tender_type !== 'compares_ton'
               },
               {
                 key: '',
