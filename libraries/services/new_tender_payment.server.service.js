@@ -142,10 +142,10 @@ exports.getWechatPayToken = function (driver, callback) {
       '&service=' + service +
       '&total_fee=' + total_fee +
       '&key=' + sk;
-    console.log('str', str);
+    // console.log('str', str);
     var sign = crypto.createHash('md5').update(str, 'utf8').digest('hex').toUpperCase();
 
-    console.log(sign);
+    // console.log(sign);
     var json = {
       "xml": {
         "service": service,
@@ -166,23 +166,23 @@ exports.getWechatPayToken = function (driver, callback) {
     var parseString = xml2js.parseString;
 
 
-    agent.post('https://pay.swiftpass.cn/pay/gateway')
-      .set('Content-Type', 'application/xml')
-      .send(xml)
-      .end(function (err, result) {
-        if (err) {
-          console.log('testPreWechatPay res.err =================================================================>');
-          console.log(err);
-          return callback(err);
-        }
-        console.log('testPreWechatPay res.body =================================================================>');
-        console.log(result.text);
+    // agent.post('https://pay.swiftpass.cn/pay/gateway')
+    //   .set('Content-Type', 'application/xml')
+    //   .send(xml)
+    //   .end(function (err, result) {
+    //     if (err) {
+    //       // console.log('testPreWechatPay res.err =================================================================>');
+    //       // console.log(err);
+    //       return callback(err);
+    //     }
+    //     console.log('testPreWechatPay res.body =================================================================>');
+    //     console.log(result.text);
 
-        parseString(result.text, {explicitArray: false, ignoreAttrs: true}, function (err, data) {
-          data.xml.out_trade_no = out_trade_no;
-          return callback(null, data.xml);
-        });
-      });
+    //     parseString(result.text, {explicitArray: false, ignoreAttrs: true}, function (err, data) {
+    //       data.xml.out_trade_no = out_trade_no;
+    //       return callback(null, data.xml);
+    //     });
+    //   });
 
   });
 
@@ -259,7 +259,7 @@ exports.driverPayList = function (driver, callback) {
 };
 
 exports.payTest = function () {
-  console.log('test  pay tEST ===============>');
+  // console.log('test  pay tEST ===============>');
 
   var sk = '7daa4babae15ae17eee90c9e';
   var appid = 'wx2a5538052969956e';
@@ -268,7 +268,7 @@ exports.payTest = function () {
   var str = 'body=测试支付&mch_create_ip=127.0.0.1&mch_id=755437000006&nonce_str=1409196838&notify_url=http://227.0.0.1:9001/tender/driver/test_notifiy_url&out_trade_no=141903606228&service=unified.trade.query';
   str += '&key=7daa4babae15ae17eee90c9e';
   var sign = crypto.createHash('md5').update(str).digest('hex').toUpperCase();
-  console.log(sign);
+  // console.log(sign);
 
 
   var json = {
@@ -285,20 +285,20 @@ exports.payTest = function () {
   };
 
 
-  console.log('json -> xml');
+  // console.log('json -> xml');
   var builder = new xml2js.Builder();
   var xml = builder.buildObject(json);
 
-  console.log(xml);
+  // console.log(xml);
 
   agent.post('https://pay.swiftpass.cn/pay/gateway')
     .set('Content-Type', 'application/xml')
     .send(xml)
     .end(function (err, res) {
-      console.log('res.err =================================================================>');
-      console.log(err);
-      console.log('res.body =================================================================>');
-      console.log(res.text);
+      // console.log('res.err =================================================================>');
+      // console.log(err);
+      // console.log('res.body =================================================================>');
+      // console.log(res.text);
     });
 
 
@@ -358,33 +358,32 @@ exports.bankPayTest = function () {
       paramsList.push(pro + '=' + params[pro]);
   }
   paramsList.sort();
-  console.log(paramsList);
+  // console.log(paramsList);
 
   for (var i = 0; i < paramsList.length; i++) {
     paramString += (i == 0 ? paramsList[i] : ('&' + paramsList[i]));
   }
-  console.log(paramString);
+  // console.log(paramString);
 
   var sign = crypto.createSign('RSA-SHA1').update(paramString);
   var signKey = fs.readFileSync('./key/privkey.pem').toString();
   var mac = sign.sign(signKey, 'base64');
   params.mac = mac;
 
-  console.log(params);
+  // console.log(params);
 
-  agent.post('https://3gtest.cib.com.cn:37031/payment/api')
-    // agent.post('https://pay.cib.com.cn/payment/api')
-    .set('Content-Type', 'application/x-www-form-urlencoded')
-    .send(params)
-    .end(function (err, result) {
-      if (err) {
-        console.log('银行代付测试 res.err =================================================================>');
-        console.log(err);
-      }
-      console.log('银行代付测试 res=================================================================>');
-      if (result)
-        console.log(result.text);
-    });
+  // agent.post('https://3gtest.cib.com.cn:37031/payment/api')
+  //   // agent.post('https://pay.cib.com.cn/payment/api')
+  //   .set('Content-Type', 'application/x-www-form-urlencoded')
+  //   .send(params)
+  //   .end(function (err, result) {
+  //     if (err) {
+  //       console.log(err);
+  //     }
+  //     console.log('银行代付测试 res=================================================================>');
+  //     if (result)
+  //       console.log(result.text);
+  //   });
 };
 
 exports.bankPayTest();

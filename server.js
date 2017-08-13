@@ -31,10 +31,14 @@ var httpsOptions = {
 
 
 if (process.env.NODE_ENV !== 'development') {
-    var server = https.createServer(httpsOptions, app).listen(443);
+    var server = https.createServer(httpsOptions, app).listen(443,function(){
+    	console.log('listen 443 :');
+    });
 }
 else{
-app.listen(config.port);
+app.listen(config.port,function () {
+    	console.log('listen  :',config.port);
+});
 }
 
 
