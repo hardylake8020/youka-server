@@ -17,8 +17,31 @@ var init = require('./config/init')(),
 
 
 
-// Start the app by listening on <port>
-app.listen(config.port);
+
+
+var fs = require('fs');
+var https = require('https');
+var key = fs.readFileSync('./certification/server.key');
+var cert = fs.readFileSync('./certification/server.crt');
+
+
+var httpsOptions = {
+  key: key,
+  cert: cert
+};
+
+
+if (process.env.NODE_ENV !== 'development') {
+    var server = https.createServer(httpsOptions, app).listen(3007,function(){
+    	console.log('tender listen 3007 :');
+    });
+}
+else{
+pp.listen(config.port,function () {
+    	console.log('tender listen  :',3006);
+});
+}
+a// Start the app by listening on <port>
 
 console.log('Tender application started on address ' + config.serverAddress);
 console.log('Tender application started on port ' + config.port);
