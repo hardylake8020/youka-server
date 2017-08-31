@@ -1282,7 +1282,7 @@ exports.getUserAllOrders = function (user, currentPage, limit, sort, searchArray
   }
 
   orderQuery.$and.push({ create_user: user._id })
-
+  console.log('orderQuery', JSON.stringify(orderQuery));
   sort = getSortConditions(sort);
   Order.count(orderQuery, function (err, totalCount) {
     if (!limit) {
