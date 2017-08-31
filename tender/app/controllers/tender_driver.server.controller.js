@@ -26,7 +26,7 @@ exports.getUnStartedListByDriver = function (req, res, next) {
   var condition = {
     currentCount: currentCount,
     limit: limit,
-    sort: {created: -1},
+    sort: { created: -1 },
     tenderType: tenderType,
     pickupAddress: pickupAddress,
     deliveryAddress: deliveryAddress
@@ -47,7 +47,7 @@ exports.getStartedListByDriver = function (req, res, next) {
   var condition = {
     currentCount: currentCount,
     limit: limit,
-    sort: {created: -1},
+    sort: { created: -1 },
     status: status
   };
 
@@ -186,6 +186,13 @@ exports.verifyDriver = function (req, res, next) {
   var status = req.body.verify_status || 'unVerifyPassed';
   var driver = req.driverById || {};
   newTenderService.verifyDriver(driver, status, function (err, result) {
+    return res.send(err || result);
+  });
+};
+
+exports.updatePassword = function (req, res, next) {
+  var driver = req.driverById || {};
+  newTenderService.updatePassword(driver, req.body.password || '', function (err, result) {
     return res.send(err || result);
   });
 };

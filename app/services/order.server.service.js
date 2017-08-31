@@ -51,7 +51,7 @@ function checkReceiverCompany(orderInfo, callback) {
   }
 
   if (!orderInfo.receiver_company_id && orderInfo.receiver_name) {
-    Company.findOne({name: orderInfo.receiver_name}, function (err, companyEntity) {
+    Company.findOne({ name: orderInfo.receiver_name }, function (err, companyEntity) {
       if (err) {
         return callback(err);
       }
@@ -78,7 +78,7 @@ function checkSenderCompany(orderInfo, callback) {
   }
 
   if (!orderInfo.sender_company_id && orderInfo.sender_name) {
-    Company.findOne({name: orderInfo.sender_name}, function (err, companyEntity) {
+    Company.findOne({ name: orderInfo.sender_name }, function (err, companyEntity) {
       if (err) {
         return callback(err);
       }
@@ -127,7 +127,7 @@ function checkGoodsDetail(orderInfo, callback) {
 function createOrUpdateOrder(createUserId, createCompanyId, orderSource, groupId, orderInfo, callback) {
   //运单号必须有
   if (!orderInfo.order_number) {
-    return callback({err: orderError.order_number_null_error}, null);
+    return callback({ err: orderError.order_number_null_error }, null);
   }
   else {
     async.auto({
@@ -150,7 +150,7 @@ function createOrUpdateOrder(createUserId, createCompanyId, orderSource, groupId
           });
           newOrderDetail.save(function (err, orderDetailEntity) {
             if (err || !orderDetailEntity) {
-              return asyncCallback({err: orderError.internal_system_error, stack: err}, null);
+              return asyncCallback({ err: orderError.internal_system_error, stack: err }, null);
             }
             return asyncCallback(null, orderDetailEntity);
           });
@@ -191,7 +191,7 @@ function createOrUpdateOrder(createUserId, createCompanyId, orderSource, groupId
 
           pickupContact.save(function (err, updateContact) {
             if (err) {
-              return asyncCallback({err: orderError.internal_system_error, stack: err});
+              return asyncCallback({ err: orderError.internal_system_error, stack: err });
             }
             return asyncCallback(null, updateContact);
           });
@@ -231,7 +231,7 @@ function createOrUpdateOrder(createUserId, createCompanyId, orderSource, groupId
 
           deliveryContact.save(function (err, updateContact) {
             if (err) {
-              return asyncCallback({err: orderError.internal_system_error, stack: err});
+              return asyncCallback({ err: orderError.internal_system_error, stack: err });
             }
             return asyncCallback(null, updateContact);
           });
@@ -305,12 +305,12 @@ function createOrUpdateOrder(createUserId, createCompanyId, orderSource, groupId
 
       checkReceiverCompany(orderInfo, function (err) {
         if (err) {
-          return callback({err: err});
+          return callback({ err: err });
         }
 
         checkSenderCompany(orderInfo, function (err) {
           if (err) {
-            return callback({err: err});
+            return callback({ err: err });
           }
           else {
             var orderDetailEntity = results.saveOrderDetail;
@@ -373,7 +373,7 @@ function createOrUpdateOrder(createUserId, createCompanyId, orderSource, groupId
 
             oldOrder.save(function (err, orderEntity) {
               if (err || !orderEntity) {
-                return callback({err: orderError.internal_system_error, stack: err}, null);
+                return callback({ err: orderError.internal_system_error, stack: err }, null);
               }
 
               orderEntity.create_company.name = orderSource;
@@ -414,24 +414,24 @@ exports.create = function (createUserId, createCompanyId, orderSource, groupId, 
 
 exports.update = function (createUserId, createCompanyId, orderSourceCompanyName, groupId, orderInfo, callback) {
   if (!orderInfo.order_id) {
-    return callback({err: orderError.order_id_not_exist});
+    return callback({ err: orderError.order_id_not_exist });
   }
 
-  Order.findOne({_id: orderInfo.order_id}, function (err, oldOrder) {
+  Order.findOne({ _id: orderInfo.order_id }, function (err, oldOrder) {
     if (err) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
 
     if (!oldOrder) {
-      return callback({err: orderError.order_not_exist});
+      return callback({ err: orderError.order_not_exist });
     }
 
     if (oldOrder.execute_company.toString() !== oldOrder.create_company.toString()) {
-      return callback({err: orderError.must_self_company_order});
+      return callback({ err: orderError.must_self_company_order });
     }
 
     if (oldOrder.status !== 'unAssigned') {
-      return callback({err: orderError.order_status_mustbe_unassigned});
+      return callback({ err: orderError.order_status_mustbe_unassigned });
     }
 
     orderInfo.oldOrder = oldOrder;
@@ -604,7 +604,7 @@ exports.getOrders = function (orderIds, currentPage, limit, callback) {
 
   var skipCount = limit * (currentPage - 1);
   var orderQuery = {
-    _id: {$in: orderIds}
+    _id: { $in: orderIds }
   };
   Order.count(orderQuery, function (err, totalCount) {
     if (!limit) {
@@ -612,25 +612,25 @@ exports.getOrders = function (orderIds, currentPage, limit, callback) {
     }
 
     Order.find(orderQuery)
-      .sort({create_time: -1})
+      .sort({ create_time: -1 })
       .limit(limit)
       .skip(skipCount)
       .populate('order_detail create_company delivery_contact pickup_contact')
       .exec(function (err, orders) {
         if (err)
-          return callback({err: orderError.internal_system_error}, null);
+          return callback({ err: orderError.internal_system_error }, null);
 
-        return callback(null, {totalCount: totalCount, currentPage: currentPage, limit: limit, orders: orders});
+        return callback(null, { totalCount: totalCount, currentPage: currentPage, limit: limit, orders: orders });
       });
   });
 };
 
 function findChildrenOrders(order, callback) {
-  Order.find({parent_order: order._id})
+  Order.find({ parent_order: order._id })
     .populate('pickup_contact delivery_contact create_company execute_company execute_group execute_driver')
     .exec(function (err, childrenOrders) {
       if (err) {
-        return callback({err: orderError.internal_system_error}, null);
+        return callback({ err: orderError.internal_system_error }, null);
       }
 
       if (childrenOrders.length > 0) {
@@ -638,7 +638,7 @@ function findChildrenOrders(order, callback) {
           if (!childOrder.execute_driver) {
             findChildrenOrders(childOrder, function (err, childrenOrderEntities) {
               if (err)
-                return itemCallback({err: orderError.internal_system_error});
+                return itemCallback({ err: orderError.internal_system_error });
 
               if (childrenOrderEntities && childrenOrderEntities.length > 0) {
                 childOrder._doc.children = childrenOrderEntities;
@@ -663,15 +663,15 @@ function findChildrenOrders(order, callback) {
 }
 
 exports.getChildrenOrders = function (orderId, callback) {
-  Order.findOne({_id: orderId})
+  Order.findOne({ _id: orderId })
     .populate('order_detail pickup_contact delivery_contact create_company execute_company')
     .exec(function (err, order) {
       if (err) {
-        return callback({err: orderError.internal_system_error}, null);
+        return callback({ err: orderError.internal_system_error }, null);
       }
 
       if (!order) {
-        return callback({err: orderError.order_not_exist}, null);
+        return callback({ err: orderError.order_not_exist }, null);
       }
 
       findChildrenOrders(order, function (err, children) {
@@ -689,9 +689,9 @@ exports.getChildrenOrders = function (orderId, callback) {
 
 function getDriverOrder(orderId, callback) {
   var driverOrders = [];
-  Order.find({parent_order: orderId, delete_status: false}).exec(function (err, orders) {
+  Order.find({ parent_order: orderId, delete_status: false }).exec(function (err, orders) {
     if (err) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
 
     async.each(orders, function (order, itemCallback) {
@@ -728,15 +728,15 @@ function getDriverOrder(orderId, callback) {
 //获取当前订单下游所有司机订单
 exports.getDriverChildrenOrderIds = function (orderId, callback) {
 
-  Order.findOne({_id: orderId})
+  Order.findOne({ _id: orderId })
     .populate('order_detail pickup_contact delivery_contact')
     .exec(function (err, order) {
       if (err) {
-        return callback({err: orderError.internal_system_error}, null);
+        return callback({ err: orderError.internal_system_error }, null);
       }
 
       if (!order) {
-        return callback({err: orderError.order_not_exist}, null);
+        return callback({ err: orderError.order_not_exist }, null);
       }
 
       getDriverOrder(orderId, function (err, driverOrders) {
@@ -757,15 +757,15 @@ exports.getDriverChildrenOrderIds = function (orderId, callback) {
 
 exports.getDriverChildrenOrders = function (orderId, callback) {
 
-  Order.findOne({_id: orderId})
+  Order.findOne({ _id: orderId })
     .populate('order_detail pickup_contact delivery_contact')
     .exec(function (err, order) {
       if (err) {
-        return callback({err: orderError.internal_system_error}, null);
+        return callback({ err: orderError.internal_system_error }, null);
       }
 
       if (!order) {
-        return callback({err: orderError.order_not_exist}, null);
+        return callback({ err: orderError.order_not_exist }, null);
       }
 
       getDriverOrder(orderId, function (err, driverOrders) {
@@ -781,22 +781,22 @@ exports.getDriverChildrenOrders = function (orderId, callback) {
 
 //获取大订单下所有司机订单
 exports.getAllDriverChildrenOrders = function (orderId, callback) {
-  Order.findOne({_id: orderId})
+  Order.findOne({ _id: orderId })
     .populate('order_detail pickup_contact delivery_contact')
     .exec(function (err, order) {
       if (err) {
-        return callback({err: orderError.internal_system_error}, null);
+        return callback({ err: orderError.internal_system_error }, null);
       }
 
       if (!order) {
-        return callback({err: orderError.order_not_exist}, null);
+        return callback({ err: orderError.order_not_exist }, null);
       }
 
-      Order.find({order_detail: order.order_details._id, execute_driver: {'$ne': null}})
+      Order.find({ order_detail: order.order_details._id, execute_driver: { '$ne': null } })
         .populate('order_detail pickup_contact delivery_contact execute_driver')
         .exec(function (err, driverOrders) {
           if (err) {
-            return callback({err: orderError.internal_system_error}, null);
+            return callback({ err: orderError.internal_system_error }, null);
           }
 
           return callback(null, driverOrders);
@@ -805,20 +805,20 @@ exports.getAllDriverChildrenOrders = function (orderId, callback) {
 };
 
 exports.getAllDriverOrdersByDriverOrderId = function (driverOrderId, callback) {
-  Order.findOne({_id: driverOrderId}).exec(function (err, driverOrder) {
+  Order.findOne({ _id: driverOrderId }).exec(function (err, driverOrder) {
     if (err) {
-      return callback({err: orderError.internal_system_error}, null);
+      return callback({ err: orderError.internal_system_error }, null);
     }
 
     if (!driverOrder) {
-      return callback({err: orderError.order_not_exist}, null);
+      return callback({ err: orderError.order_not_exist }, null);
     }
 
-    Order.find({order_detail: driverOrder.order_detail, execute_driver: {'$ne': null}})
+    Order.find({ order_detail: driverOrder.order_detail, execute_driver: { '$ne': null } })
       .populate('order_detail pickup_contact delivery_contact execute_driver')
       .exec(function (err, driverOrders) {
         if (err) {
-          return callback({err: orderError.internal_system_error}, null);
+          return callback({ err: orderError.internal_system_error }, null);
         }
 
         return callback(null, driverOrders);
@@ -831,12 +831,12 @@ function getCompanyOrders(sourceOrder, callback) {
   var companyOrders = [];
   companyOrders.push(sourceOrder);
 
-  Order.find({parent_order: sourceOrder._id, $or: [{delete_status: {$exists: false}}, {delete_status: false}]})
+  Order.find({ parent_order: sourceOrder._id, $or: [{ delete_status: { $exists: false } }, { delete_status: false }] })
     .populate('order_detail create_company execute_company execute_group create_group execute_driver pickup_contact delivery_contact')
-    .sort({'create_time': -1})
+    .sort({ 'create_time': -1 })
     .exec(function (err, orders) {
       if (err) {
-        return callback({err: orderError.internal_system_error}, null);
+        return callback({ err: orderError.internal_system_error }, null);
       }
 
       if (!orders || orders.length === 0)
@@ -879,42 +879,42 @@ function getCompanyOrders(sourceOrder, callback) {
 
 exports.getOrderById = function (orderId, callback) {
   Order.findOne({
-      _id: orderId,
-      $or: [{delete_status: {$exists: false}}, {delete_status: false}]
-    })
+    _id: orderId,
+    $or: [{ delete_status: { $exists: false } }, { delete_status: false }]
+  })
     .populate('execute_group create_group create_user create_company tender').exec(function (err, order) {
-    if (err) {
-      return callback({err: orderError.internal_system_error});
-    }
+      if (err) {
+        return callback({ err: orderError.internal_system_error });
+      }
 
-    if (!order) {
-      return callback({err: orderError.order_not_exist});
-    }
+      if (!order) {
+        return callback({ err: orderError.order_not_exist });
+      }
 
-    return callback(null, order);
-  });
+      return callback(null, order);
+    });
 };
 
 exports.getChildrenByParentId = function (parentId, callback) {
   Order.find({
     parent_order: parentId,
-    $or: [{delete_status: {$exists: false}}, {delete_status: false}]
+    $or: [{ delete_status: { $exists: false } }, { delete_status: false }]
   }, function (err, orders) {
     if (err || !orders) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
     return callback(null, orders);
   });
 };
 
 exports.getOrderByIdAndPopulate = function (orderId, populateStr, callback) {
-  Order.findOne({_id: orderId}).populate(populateStr).exec(function (err, order) {
+  Order.findOne({ _id: orderId }).populate(populateStr).exec(function (err, order) {
     if (err) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
 
     if (!order) {
-      return callback({err: orderError.order_not_exist});
+      return callback({ err: orderError.order_not_exist });
     }
 
     return callback(null, order);
@@ -924,7 +924,7 @@ exports.getOrderByIdAndPopulate = function (orderId, populateStr, callback) {
 exports.getOrderAssignedInfoByOrderId = function (order, callback) {
   if (!order) {
     //TODO message: err not defined
-    return callback({err: orderError.internal_system_error}, null);
+    return callback({ err: orderError.internal_system_error }, null);
   }
 
   getCompanyOrders(order, function (err, companyOrders) {
@@ -938,37 +938,37 @@ exports.getOrderAssignedInfoByOrderId = function (order, callback) {
 
 function getSortConditions(sort) {
   sort = sort || {};
-  var result = {'create_time': -1};
+  var result = { 'create_time': -1 };
   switch (sort.name) {
     case 'order_number':
-      result = {'order_details.order_number': sort.value};
+      result = { 'order_details.order_number': sort.value };
       break;
     case 'pickup_start_time':
-      result = {'pickup_start_time': sort.value};
+      result = { 'pickup_start_time': sort.value };
       break;
     case 'delivery_start_time':
-      result = {'delivery_start_time': sort.value};
+      result = { 'delivery_start_time': sort.value };
       break;
     case 'source':
-      result = {'source': sort.value};
+      result = { 'source': sort.value };
       break;
     case 'description':
-      result = {'description': sort.value};
+      result = { 'description': sort.value };
       break;
     case 'goods_name':
-      result = {'order_details.goods_name': sort.value};
+      result = { 'order_details.goods_name': sort.value };
       break;
     case 'damage':
-      result = {'damaged': sort.value};
+      result = { 'damaged': sort.value };
       break;
     case 'delivery_contact_name':
-      result = {'delivery_contacts.name': sort.value};
+      result = { 'delivery_contacts.name': sort.value };
       break;
     case 'assign_time':
-      result = {'assign_time': sort.value};
+      result = { 'assign_time': sort.value };
       break;
     case 'entrance_time':
-      result = {'pickup_sign_events.time': sort.value};
+      result = { 'pickup_sign_events.time': sort.value };
       break;
     default:
       break;
@@ -989,61 +989,61 @@ function generateQueryCondition(orderQuery, searchArray, user) {
     switch (searchItem.key) {
       case 'isDeleted':
         if (searchItem.value === 'false' || searchItem.value === false) {
-          orderQuery.$and.push({$or: [{'delete_status': {$exists: false}}, {'delete_status': false}]});
+          orderQuery.$and.push({ $or: [{ 'delete_status': { $exists: false } }, { 'delete_status': false }] });
         }
         else {
-          orderQuery.$and.push({'delete_status': true});
+          orderQuery.$and.push({ 'delete_status': true });
         }
 
         break;
       case 'order_status':
         if (searchItem.value) {
-          orderQuery.$and.push({'status': {$in: searchItem.value}});
+          orderQuery.$and.push({ 'status': { $in: searchItem.value } });
         }
         break;
 
       case 'createTimeStart':
         if (searchItem.value) {
-          orderQuery.$and.push({'create_time': {$exists: true}});
-          orderQuery.$and.push({'create_time': {$gte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'create_time': { $exists: true } });
+          orderQuery.$and.push({ 'create_time': { $gte: new Date(searchItem.value) } });
         }
         break;
       case 'createTimeEnd':
         if (searchItem.value) {
-          orderQuery.$and.push({'create_time': {$exists: true}});
-          orderQuery.$and.push({'create_time': {$lte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'create_time': { $exists: true } });
+          orderQuery.$and.push({ 'create_time': { $lte: new Date(searchItem.value) } });
         }
         break;
 
       case 'planDeliveryTimeStart':
         if (searchItem.value) {
-          orderQuery.$and.push({'delivery_start_time': {$exists: true}});
-          orderQuery.$and.push({'delivery_start_time': {$gte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'delivery_start_time': { $exists: true } });
+          orderQuery.$and.push({ 'delivery_start_time': { $gte: new Date(searchItem.value) } });
         }
         break;
       case 'planDeliveryTimeEnd':
         if (searchItem.value) {
-          orderQuery.$and.push({'delivery_end_time': {$exists: true}});
-          orderQuery.$and.push({'delivery_end_time': {$lte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'delivery_end_time': { $exists: true } });
+          orderQuery.$and.push({ 'delivery_end_time': { $lte: new Date(searchItem.value) } });
         }
         break;
 
       case 'deliveryTimeStart':
         if (searchItem.value) {
-          orderQuery.$and.push({'delivery_time': {$exists: true}});
-          orderQuery.$and.push({'delivery_time': {$gte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'delivery_time': { $exists: true } });
+          orderQuery.$and.push({ 'delivery_time': { $gte: new Date(searchItem.value) } });
         }
         break;
       case 'deliveryTimeEnd':
         if (searchItem.value) {
-          orderQuery.$and.push({'delivery_time': {$exists: true}});
-          orderQuery.$and.push({'delivery_time': {$lte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'delivery_time': { $exists: true } });
+          orderQuery.$and.push({ 'delivery_time': { $lte: new Date(searchItem.value) } });
         }
         break;
       case 'goods_name':
         if (searchItem.value) {
-          orderQuery.$and.push({'order_details': {$exists: true}});
-          orderQuery.$and.push({'order_details.goods_name': {$regex: searchItem.value, $options: 'i'}});
+          orderQuery.$and.push({ 'order_details': { $exists: true } });
+          orderQuery.$and.push({ 'order_details.goods_name': { $regex: searchItem.value, $options: 'i' } });
         }
         break;
       case 'damaged':
@@ -1054,51 +1054,51 @@ function generateQueryCondition(orderQuery, searchArray, user) {
 
       case 'planPickupTimeStart':
         if (searchItem.value) {
-          orderQuery.$and.push({'pickup_start_time': {$exists: true}});
-          orderQuery.$and.push({'pickup_start_time': {$gte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'pickup_start_time': { $exists: true } });
+          orderQuery.$and.push({ 'pickup_start_time': { $gte: new Date(searchItem.value) } });
         }
         break;
       case 'planPickupTimeEnd':
         if (searchItem.value) {
-          orderQuery.$and.push({'pickup_end_time': {$exists: true}});
-          orderQuery.$and.push({'pickup_end_time': {$lte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'pickup_end_time': { $exists: true } });
+          orderQuery.$and.push({ 'pickup_end_time': { $lte: new Date(searchItem.value) } });
         }
         break;
 
       case 'pickupTimeStart':
         if (searchItem.value) {
-          orderQuery.$and.push({'pickup_time': {$exists: true}});
-          orderQuery.$and.push({'pickup_time': {$gte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'pickup_time': { $exists: true } });
+          orderQuery.$and.push({ 'pickup_time': { $gte: new Date(searchItem.value) } });
         }
         break;
       case 'pickupTimeEnd':
         if (searchItem.value) {
-          orderQuery.$and.push({'pickup_time': {$exists: true}});
-          orderQuery.$and.push({'pickup_time': {$lte: new Date(searchItem.value)}});
+          orderQuery.$and.push({ 'pickup_time': { $exists: true } });
+          orderQuery.$and.push({ 'pickup_time': { $lte: new Date(searchItem.value) } });
         }
         break;
       case 'sender':
         if (searchItem.value) {
-          orderQuery.$and.push({'sender_name': {$regex: searchItem.value, $options: 'i'}});
+          orderQuery.$and.push({ 'sender_name': { $regex: searchItem.value, $options: 'i' } });
         }
         break;
       case 'receiver':
         if (searchItem.value) {
-          orderQuery.$and.push({'receiver_name': {$regex: searchItem.value, $options: 'i'}});
+          orderQuery.$and.push({ 'receiver_name': { $regex: searchItem.value, $options: 'i' } });
         }
         break;
       case 'description':
         if (searchItem.value) {
-          orderQuery.$and.push({'description': {$regex: searchItem.value, $options: 'i'}});
+          orderQuery.$and.push({ 'description': { $regex: searchItem.value, $options: 'i' } });
         }
         break;
       case 'order_number':
         if (searchItem.value) {
           orderQuery.$and.push({
             $or: [{
-              'order_details.order_number': {$regex: searchItem.value, $options: 'i'}
+              'order_details.order_number': { $regex: searchItem.value, $options: 'i' }
             },
-              {'order_details.refer_order_number': {$regex: searchItem.value, $options: 'i'}}
+            { 'order_details.refer_order_number': { $regex: searchItem.value, $options: 'i' } }
             ]
           });
         }
@@ -1107,30 +1107,30 @@ function generateQueryCondition(orderQuery, searchArray, user) {
         if (searchItem.value) {
           orderQuery.$and.push({
             $or: [{
-              'execute_drivers.username': {$regex: searchItem.value, $options: 'i'}
+              'execute_drivers.username': { $regex: searchItem.value, $options: 'i' }
             }, {
-              'execute_drivers.nickname': {$regex: searchItem.value, $options: 'i'}
+              'execute_drivers.nickname': { $regex: searchItem.value, $options: 'i' }
             }, {
-              'execute_drivers.plate_numbers': {$regex: searchItem.value, $options: 'i'}
+              'execute_drivers.plate_numbers': { $regex: searchItem.value, $options: 'i' }
             }, {
-              'execute_companies.name': {$regex: searchItem.value, $options: 'i'}
+              'execute_companies.name': { $regex: searchItem.value, $options: 'i' }
             }]
           });
         }
         break;
       case 'assign_status':
         if (searchItem.value) {
-          orderQuery.$and.push({assign_status: {$in: searchItem.value}});
+          orderQuery.$and.push({ assign_status: { $in: searchItem.value } });
         }
         break;
       case 'viewer':
         if (searchItem.value) {
           if (searchItem.value === 'sender') {
-            orderQuery.$and.push({'sender_company.company_id': user.company._id.toString()});
+            orderQuery.$and.push({ 'sender_company.company_id': user.company._id.toString() });
             needInGroup = false;
           }
           if (searchItem.value === 'receiver') {
-            orderQuery.$and.push({'receiver_company.company_id': user.company._id.toString()});
+            orderQuery.$and.push({ 'receiver_company.company_id': user.company._id.toString() });
             needInGroup = false;
           }
         }
@@ -1155,37 +1155,37 @@ function generateAbnormalCondition(orderQuery) {
   }
 
   //超过预计时间还未提货
-  orderQuery.$or.push({$and: [{status: 'unPickupSigned'}, {pickup_deferred: false}, {pickup_end_time: {$exists: true}}, {pickup_end_time: {$lt: new Date()}}]});
+  orderQuery.$or.push({ $and: [{ status: 'unPickupSigned' }, { pickup_deferred: false }, { pickup_end_time: { $exists: true } }, { pickup_end_time: { $lt: new Date() } }] });
   //超过预计时间还未交货
-  orderQuery.$or.push({$and: [{status: 'unDeliverySigned'}, {delivery_deferred: false}, {delivery_end_time: {$exists: true}}, {delivery_end_time: {$lt: new Date()}}]});
+  orderQuery.$or.push({ $and: [{ status: 'unDeliverySigned' }, { delivery_deferred: false }, { delivery_end_time: { $exists: true } }, { delivery_end_time: { $lt: new Date() } }] });
 
   //实际提货时间 > 预计提货时间
-  orderQuery.$or.push({pickup_deferred: true});
+  orderQuery.$or.push({ pickup_deferred: true });
 
   //实际交货时间 > 预计交货时间
-  orderQuery.$or.push({delivery_deferred: true});
+  orderQuery.$or.push({ delivery_deferred: true });
 
   //有货损
-  orderQuery.$or.push({damaged: true});
+  orderQuery.$or.push({ damaged: true });
 
   //缺失件数
-  orderQuery.$or.push({missing_packages: true});
-  orderQuery.$or.push({pickup_missing_packages: true});
-  orderQuery.$or.push({delivery_missing_packages: true});
+  orderQuery.$or.push({ missing_packages: true });
+  orderQuery.$or.push({ pickup_missing_packages: true });
+  orderQuery.$or.push({ delivery_missing_packages: true });
 
   //地址异常
-  orderQuery.$or.push({pickup_address_difference: true});
-  orderQuery.$or.push({delivery_address_difference: true});
+  orderQuery.$or.push({ pickup_address_difference: true });
+  orderQuery.$or.push({ delivery_address_difference: true });
 
-  orderQuery.$or.push({'halfway_events': {$gt: {$size: 0}}});
+  orderQuery.$or.push({ 'halfway_events': { $gt: { $size: 0 } } });
 
   //车牌异常
-  orderQuery.$or.push({pickup_driver_plate_difference: true});
-  orderQuery.$or.push({delivery_driver_plate_difference: true});
-  orderQuery.$or.push({transport_plate_difference: true});
+  orderQuery.$or.push({ pickup_driver_plate_difference: true });
+  orderQuery.$or.push({ delivery_driver_plate_difference: true });
+  orderQuery.$or.push({ transport_plate_difference: true });
 
-  orderQuery.$or.push({un_confirm_first_inform: true});
-  orderQuery.$or.push({un_confirm_second_inform: true});
+  orderQuery.$or.push({ un_confirm_first_inform: true });
+  orderQuery.$or.push({ un_confirm_second_inform: true });
 }
 
 //根据组id和订单状态集合获取当前页的订单
@@ -1205,7 +1205,7 @@ exports.getOrdersByGroupIdsWithStatusArray = function (user, statusArray, curren
     $or: []
   };
 
-  orderQuery.$and.push({status: {$in: statusArray}});
+  orderQuery.$and.push({ status: { $in: statusArray } });
 
   generateQueryCondition(orderQuery, searchArray, user);
 
@@ -1224,9 +1224,9 @@ exports.getOrdersByGroupIdsWithStatusArray = function (user, statusArray, curren
       .sort(sort)
       .exec(function (err, orders) {
         if (err)
-          return callback({err: orderError.internal_system_error}, null);
+          return callback({ err: orderError.internal_system_error }, null);
 
-        return callback(null, {totalCount: totalCount, currentPage: currentPage, limit: limit, orders: orders});
+        return callback(null, { totalCount: totalCount, currentPage: currentPage, limit: limit, orders: orders });
       });
   });
 };
@@ -1234,29 +1234,29 @@ exports.getOrdersByGroupIdsWithStatusArray = function (user, statusArray, curren
 exports.getDriverOrdersByDriverIdWithStatuses = function (driverId, statusArray, type, callback) {
   var orderQuery = {
     execute_driver: driverId,
-    status: {$in: statusArray},
+    status: { $in: statusArray },
     type: type
   };
   if (type === 'driver') {
     orderQuery = {
       type: type,
       execute_driver: driverId,
-      status: {$in: statusArray},
-      $or: [{is_wechat: {$exists: false}}, {is_wechat: false}],
+      status: { $in: statusArray },
+      $or: [{ is_wechat: { $exists: false } }, { is_wechat: false }],
       created: {
         $gte: new Date(new Date() - 30 * 24 * 60 * 60 * 1000)
       }
     };
   }
   Order.find(orderQuery)
-    .sort({create_time: 1})
+    .sort({ create_time: 1 })
     .populate('order_detail pickup_contact delivery_contact')
     .exec(function (err, orders) {
       if (err) {
-        return callback({err: orderError.internal_system_error}, null);
+        return callback({ err: orderError.internal_system_error }, null);
       }
 
-      return callback(null, {orders: orders});
+      return callback(null, { orders: orders });
     });
 };
 
@@ -1268,7 +1268,6 @@ exports.getUserAllOrders = function (user, currentPage, limit, sort, searchArray
 
   var skipCount = limit * (currentPage - 1);
   var orderQuery = {
-    create_user:user._id,
     $or: [],
     $and: []
   };
@@ -1282,6 +1281,8 @@ exports.getUserAllOrders = function (user, currentPage, limit, sort, searchArray
     delete orderQuery.$and;
   }
 
+  orderQuery.$and.push({ create_user: user._id })
+
   sort = getSortConditions(sort);
   Order.count(orderQuery, function (err, totalCount) {
     if (!limit) {
@@ -1294,9 +1295,9 @@ exports.getUserAllOrders = function (user, currentPage, limit, sort, searchArray
       .sort(sort)
       .exec(function (err, orders) {
         if (err)
-          return callback({err: orderError.internal_system_error}, null);
+          return callback({ err: orderError.internal_system_error }, null);
 
-        return callback(null, {totalCount: totalCount, currentPage: currentPage, limit: limit, orders: orders});
+        return callback(null, { totalCount: totalCount, currentPage: currentPage, limit: limit, orders: orders });
       });
   });
 };
@@ -1314,14 +1315,14 @@ exports.getAbnormalOrders = function (user, groupIds, currentPage, limit, sort, 
   };
 
   //不包括删除的运单
-  orderQuery.$and.push({$or: [{'delete_status': {$exists: false}}, {'delete_status': false}]});
+  orderQuery.$and.push({ $or: [{ 'delete_status': { $exists: false } }, { 'delete_status': false }] });
 
   //添加搜索条件
   generateQueryCondition(orderQuery, searchArray, user, groupIds);
 
   var abnormalQuery = {};
   generateAbnormalCondition(abnormalQuery);
-  orderQuery.$and.push({$or: abnormalQuery.$or});
+  orderQuery.$and.push({ $or: abnormalQuery.$or });
 
   if (orderQuery.$or.length === 0) {
     delete orderQuery.$or;
@@ -1338,9 +1339,9 @@ exports.getAbnormalOrders = function (user, groupIds, currentPage, limit, sort, 
       .sort(sort)
       .exec(function (err, orders) {
         if (err)
-          return callback({err: orderError.internal_system_error}, null);
+          return callback({ err: orderError.internal_system_error }, null);
 
-        return callback(null, {totalCount: totalCount, currentPage: currentPage, limit: limit, orders: orders});
+        return callback(null, { totalCount: totalCount, currentPage: currentPage, limit: limit, orders: orders });
       });
   });
 };
@@ -1351,28 +1352,28 @@ exports.getAbnormalOrdersCount = function (currentUser, groupIds, callback) {
   var orderQuery = {
     $and: []
   };
-  orderQuery.$and.push({$or: [{delete_status: {$exists: false}}, {delete_status: false}]});
-  orderQuery.$and.push({execute_company: currentUser.company._id});
-  orderQuery.$and.push({abnormal_handle_user_ids: {$ne: currentUser._id.toString()}});
-  orderQuery.$and.push({execute_group: {$in: groupIds}});
+  orderQuery.$and.push({ $or: [{ delete_status: { $exists: false } }, { delete_status: false }] });
+  orderQuery.$and.push({ execute_company: currentUser.company._id });
+  orderQuery.$and.push({ abnormal_handle_user_ids: { $ne: currentUser._id.toString() } });
+  orderQuery.$and.push({ execute_group: { $in: groupIds } });
 
   var abnormalQuery = {};
   generateAbnormalCondition(abnormalQuery);
 
-  orderQuery.$and.push({$or: abnormalQuery.$or});
+  orderQuery.$and.push({ $or: abnormalQuery.$or });
 
   Order.count(orderQuery, function (err, totalCount) {
     if (err) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
     return callback(null, totalCount);
   });
 };
 
 exports.handleAbnormalOrder = function (orderId, currentUser, callback) {
-  Order.update({_id: orderId}, {$addToSet: {abnormal_handle_user_ids: currentUser._id.toString()}}, function (err, raw) {
+  Order.update({ _id: orderId }, { $addToSet: { abnormal_handle_user_ids: currentUser._id.toString() } }, function (err, raw) {
     if (err) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
     return callback();
   });
@@ -1381,11 +1382,11 @@ exports.handleAbnormalOrder = function (orderId, currentUser, callback) {
 exports.getAssignOrderCount = function (user, callback) {
   Order.count({
     // execute_group: {$in: groupIds},
-    $or: [{'delete_status': {$exists: false}}, {'delete_status': false}],
-    assign_status: {$in: ['unAssigned', 'assigning']}
+    $or: [{ 'delete_status': { $exists: false } }, { 'delete_status': false }],
+    assign_status: { $in: ['unAssigned', 'assigning'] }
   }).exec(function (err, count) {
     if (err) {
-      err = {err: orderError.internal_system_error};
+      err = { err: orderError.internal_system_error };
     }
     return callback(err, count);
   });
@@ -1394,11 +1395,11 @@ exports.getAssignOrderCount = function (user, callback) {
 exports.getOnwayOrderCount = function (user, callback) {
   Order.count({
     // execute_group: {$in: groupIds},
-    $or: [{'delete_status': {$exists: false}}, {'delete_status': false}],
-    status: {$in: ['assigning', 'unPickupSigned', 'unPickuped', 'unDeliverySigned', 'unDeliveried']}
+    $or: [{ 'delete_status': { $exists: false } }, { 'delete_status': false }],
+    status: { $in: ['assigning', 'unPickupSigned', 'unPickuped', 'unDeliverySigned', 'unDeliveried'] }
   }).exec(function (err, count) {
     if (err) {
-      err = {err: orderError.internal_system_error};
+      err = { err: orderError.internal_system_error };
     }
     return callback(err, count);
   });
@@ -1430,9 +1431,9 @@ function updateDeliveryTime(orderEntity, newAssignInfo) {
 }
 
 function findOrdersById(id, callback) {
-  Order.findOne({_id: id, delete_status: false}, function (err, order) {
+  Order.findOne({ _id: id, delete_status: false }, function (err, order) {
     if (err || !order) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
 
     return callback(null, order);
@@ -1440,9 +1441,9 @@ function findOrdersById(id, callback) {
 }
 
 function findChildOrdersByParentWithPopulate(parentId, populate, callback) {
-  Order.find({parent_order: parentId, delete_status: false}).populate(populate).exec(function (err, childOrders) {
+  Order.find({ parent_order: parentId, delete_status: false }).populate(populate).exec(function (err, childOrders) {
     if (err || !childOrders) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
 
     return callback(null, childOrders);
@@ -1484,7 +1485,7 @@ function updateParentExecuters(parentOrder, callback) {
         findOrder.execute_drivers = executeDrivers;
         findOrder.save(function (err, saveOrder) {
           if (err || !saveOrder) {
-            return callback({err: orderError.internal_system_error});
+            return callback({ err: orderError.internal_system_error });
           }
           return updateParentExecuters(findOrder.parent_order, callback);
         });
@@ -1500,177 +1501,14 @@ exports.updateParentExecuters = function (parentOrder, callback) {
 function assignDriver(user, order, orderDetail, assignInfo, isBatch, callback) {
   DriverService.getAssignDriver(assignInfo, user.company._id, function (err, driver) {
     if (err) {
-      return callback({err: err}, null);
+      return callback({ err: err }, null);
     }
     if (!driver) {
-      return callback({err: orderError.driver_not_exist}, null);
+      return callback({ err: orderError.driver_not_exist }, null);
     }
 
     if (assignInfo.is_wechat && (!driver.wechat_profile || !driver.wechat_profile.openid)) {
-      return callback({err: orderError.driver_openid_empty});
-    }
-
-    assignInfo.driver_id = driver._id;
-
-    //提货收获的联系人必须由外界传进来
-    async.auto({
-        pickupContact: function (callback) {
-          var newPickupContact = new Contact({
-            name: assignInfo.pickup_contact_name,
-            phone: assignInfo.pickup_contact_phone,
-            mobile_phone: assignInfo.pickup_contact_mobile_phone,
-            address: assignInfo.pickup_contact_address,
-            email: assignInfo.pickup_contact_email,
-            location: assignInfo.pickup_contact_location,
-            brief: assignInfo.pickup_contact_brief
-          });
-          newPickupContact.save(function (err, pickupContactEntity) {
-            if (err || !pickupContactEntity) {
-              return callback({err: orderError.internal_system_error});
-            }
-
-            callback(null, pickupContactEntity);
-          });
-        },
-        deliveryContact: function (callback) {
-          var deliveryContact = new Contact({
-            name: assignInfo.delivery_contact_name,
-            phone: assignInfo.delivery_contact_phone,
-            mobile_phone: assignInfo.delivery_contact_mobile_phone,
-            address: assignInfo.delivery_contact_address,
-            email: assignInfo.delivery_contact_email,
-            location: assignInfo.delivery_contact_location,
-            brief: assignInfo.delivery_contact_brief
-          });
-
-          deliveryContact.save(function (err, deliveryContactEntity) {
-            if (err || !deliveryContactEntity) {
-              return callback(orderError.internal_system_error, null);
-            }
-
-            return callback(err, deliveryContactEntity);
-          });
-        },
-        order: ['pickupContact', 'deliveryContact', function (callback, results) {
-          var pickupContact = results.pickupContact;
-          var deliveryContact = results.deliveryContact;
-
-          delete driver._doc.password;
-          delete driver._doc.salt;
-          var execute_drivers = [];
-          execute_drivers.push(driver.toJSON());
-
-          var newOrder = new Order({
-            order_detail: order.order_detail,
-            order_details: orderDetail,
-            parent_order: order._id,
-            status: 'unPickupSigned', //分配给司机，则订单变为unPickupSigned
-            customer_name: order.customer_name,
-            create_user: user._id,
-            create_company: user.company._id,
-            create_group: order.execute_group,
-            execute_driver: assignInfo.driver_id,
-            execute_drivers: execute_drivers,
-            pickup_start_time: assignInfo.pickup_start_time,
-            pickup_end_time: assignInfo.pickup_end_time,
-            delivery_start_time: assignInfo.delivery_start_time,
-            delivery_end_time: assignInfo.delivery_end_time,
-            pickup_contact: pickupContact._id,
-            delivery_contact: deliveryContact._id,
-            pickup_contacts: pickupContact,
-            delivery_contacts: deliveryContact,
-            description: order.description,
-            type: 'driver',
-            source: user.company.name,
-            sender_name: order.sender_name,
-            receiver_name: order.receiver_name,
-
-            pickup_entrance_force: order.pickup_entrance_force,
-            pickup_photo_force: order.pickup_photo_force,
-            delivery_entrance_force: order.delivery_entrance_force,
-            delivery_photo_force: order.delivery_photo_force,
-            company_configuration: order.company_configuration,
-            is_wechat: assignInfo.is_wechat || false  //是否为微信运单
-          });
-
-          //设置路单
-          if (assignInfo.road_order_name) {
-            newOrder.road_order = {
-              name: assignInfo.road_order_name,
-              _id: assignInfo.road_order_id
-            };
-          }
-
-          newOrder.assigned_infos = [assignInfo];
-
-          newOrder.save(function (err, driverOrder) {
-            if (err || !driverOrder) {
-              return callback({err: orderError.internal_system_error}, null);
-            }
-
-            updateParentExecuters(driverOrder.parent_order, function (err) {
-              if (err) {
-                return callback(err);
-              }
-
-              if (driverOrder.is_wechat) {
-                wechatLib.pushNewOrderMessageToWechat(driver.wechat_profile.openid, driver._id, driverOrder);
-              }
-              else if (driver.device_id || driver.device_id_ios) {
-                if (!isBatch) {
-                  driverOrder._doc.order_detail = orderDetail;
-                  driverOrder._doc.pickup_contact = pickupContact;
-                  driverOrder._doc.delivery_contact = deliveryContact;
-                  pushSingleAssignToDriver(driver, driverOrder);
-                }
-              }
-              else if (driver.temporary) {
-                if (!isBatch) {
-                  //发送短信
-                  CustomizeEventService.recordAssginDriverEvent(newOrder._id, driver._id, function (err, customizeEvent) {
-                    if (err) {
-                      return callback({err: err});
-                    }
-                    else {
-                      var accessUrl = config.serverAddress + 'order/temporarydriver?customize_event_id=' + customizeEvent._id.toString();
-                      smsLib.ypSendAssginDriverSms(driver.username, accessUrl, function (err, result) {
-                        if (err) {
-                          console.log('send assign driver sms error' + err);
-                        }
-                        console.log('send assign driver sms result' + result);
-                      });
-                    }
-                  });
-                }
-              }
-
-              return callback(null, driverOrder);
-            });
-          });
-        }]
-      },
-      function (err, results) {
-        if (err)
-          return callback(err);
-
-        return callback(err, results.order);
-      }
-    );
-
-  });
-}
-
-function assignWarehouse(user, order, orderDetail, assignInfo, isBatch, callback) {
-  DriverService.getAssignDriver(assignInfo, user.company._id, function (err, driver) {
-    if (err) {
-      return callback({err: err}, null);
-    }
-    if (!driver) {
-      return callback({err: orderError.driver_not_exist}, null);
-    }
-
-    if (assignInfo.is_wechat && (!driver.wechat_profile || !driver.wechat_profile.openid)) {
-      return callback({err: orderError.driver_openid_empty});
+      return callback({ err: orderError.driver_openid_empty });
     }
 
     assignInfo.driver_id = driver._id;
@@ -1689,7 +1527,170 @@ function assignWarehouse(user, order, orderDetail, assignInfo, isBatch, callback
         });
         newPickupContact.save(function (err, pickupContactEntity) {
           if (err || !pickupContactEntity) {
-            return callback({err: orderError.internal_system_error});
+            return callback({ err: orderError.internal_system_error });
+          }
+
+          callback(null, pickupContactEntity);
+        });
+      },
+      deliveryContact: function (callback) {
+        var deliveryContact = new Contact({
+          name: assignInfo.delivery_contact_name,
+          phone: assignInfo.delivery_contact_phone,
+          mobile_phone: assignInfo.delivery_contact_mobile_phone,
+          address: assignInfo.delivery_contact_address,
+          email: assignInfo.delivery_contact_email,
+          location: assignInfo.delivery_contact_location,
+          brief: assignInfo.delivery_contact_brief
+        });
+
+        deliveryContact.save(function (err, deliveryContactEntity) {
+          if (err || !deliveryContactEntity) {
+            return callback(orderError.internal_system_error, null);
+          }
+
+          return callback(err, deliveryContactEntity);
+        });
+      },
+      order: ['pickupContact', 'deliveryContact', function (callback, results) {
+        var pickupContact = results.pickupContact;
+        var deliveryContact = results.deliveryContact;
+
+        delete driver._doc.password;
+        delete driver._doc.salt;
+        var execute_drivers = [];
+        execute_drivers.push(driver.toJSON());
+
+        var newOrder = new Order({
+          order_detail: order.order_detail,
+          order_details: orderDetail,
+          parent_order: order._id,
+          status: 'unPickupSigned', //分配给司机，则订单变为unPickupSigned
+          customer_name: order.customer_name,
+          create_user: user._id,
+          create_company: user.company._id,
+          create_group: order.execute_group,
+          execute_driver: assignInfo.driver_id,
+          execute_drivers: execute_drivers,
+          pickup_start_time: assignInfo.pickup_start_time,
+          pickup_end_time: assignInfo.pickup_end_time,
+          delivery_start_time: assignInfo.delivery_start_time,
+          delivery_end_time: assignInfo.delivery_end_time,
+          pickup_contact: pickupContact._id,
+          delivery_contact: deliveryContact._id,
+          pickup_contacts: pickupContact,
+          delivery_contacts: deliveryContact,
+          description: order.description,
+          type: 'driver',
+          source: user.company.name,
+          sender_name: order.sender_name,
+          receiver_name: order.receiver_name,
+
+          pickup_entrance_force: order.pickup_entrance_force,
+          pickup_photo_force: order.pickup_photo_force,
+          delivery_entrance_force: order.delivery_entrance_force,
+          delivery_photo_force: order.delivery_photo_force,
+          company_configuration: order.company_configuration,
+          is_wechat: assignInfo.is_wechat || false  //是否为微信运单
+        });
+
+        //设置路单
+        if (assignInfo.road_order_name) {
+          newOrder.road_order = {
+            name: assignInfo.road_order_name,
+            _id: assignInfo.road_order_id
+          };
+        }
+
+        newOrder.assigned_infos = [assignInfo];
+
+        newOrder.save(function (err, driverOrder) {
+          if (err || !driverOrder) {
+            return callback({ err: orderError.internal_system_error }, null);
+          }
+
+          updateParentExecuters(driverOrder.parent_order, function (err) {
+            if (err) {
+              return callback(err);
+            }
+
+            if (driverOrder.is_wechat) {
+              wechatLib.pushNewOrderMessageToWechat(driver.wechat_profile.openid, driver._id, driverOrder);
+            }
+            else if (driver.device_id || driver.device_id_ios) {
+              if (!isBatch) {
+                driverOrder._doc.order_detail = orderDetail;
+                driverOrder._doc.pickup_contact = pickupContact;
+                driverOrder._doc.delivery_contact = deliveryContact;
+                pushSingleAssignToDriver(driver, driverOrder);
+              }
+            }
+            else if (driver.temporary) {
+              if (!isBatch) {
+                //发送短信
+                CustomizeEventService.recordAssginDriverEvent(newOrder._id, driver._id, function (err, customizeEvent) {
+                  if (err) {
+                    return callback({ err: err });
+                  }
+                  else {
+                    var accessUrl = config.serverAddress + 'order/temporarydriver?customize_event_id=' + customizeEvent._id.toString();
+                    smsLib.ypSendAssginDriverSms(driver.username, accessUrl, function (err, result) {
+                      if (err) {
+                        console.log('send assign driver sms error' + err);
+                      }
+                      console.log('send assign driver sms result' + result);
+                    });
+                  }
+                });
+              }
+            }
+
+            return callback(null, driverOrder);
+          });
+        });
+      }]
+    },
+      function (err, results) {
+        if (err)
+          return callback(err);
+
+        return callback(err, results.order);
+      }
+    );
+
+  });
+}
+
+function assignWarehouse(user, order, orderDetail, assignInfo, isBatch, callback) {
+  DriverService.getAssignDriver(assignInfo, user.company._id, function (err, driver) {
+    if (err) {
+      return callback({ err: err }, null);
+    }
+    if (!driver) {
+      return callback({ err: orderError.driver_not_exist }, null);
+    }
+
+    if (assignInfo.is_wechat && (!driver.wechat_profile || !driver.wechat_profile.openid)) {
+      return callback({ err: orderError.driver_openid_empty });
+    }
+
+    assignInfo.driver_id = driver._id;
+
+    //提货收获的联系人必须由外界传进来
+    async.auto({
+      pickupContact: function (callback) {
+        var newPickupContact = new Contact({
+          name: assignInfo.pickup_contact_name,
+          phone: assignInfo.pickup_contact_phone,
+          mobile_phone: assignInfo.pickup_contact_mobile_phone,
+          address: assignInfo.pickup_contact_address,
+          email: assignInfo.pickup_contact_email,
+          location: assignInfo.pickup_contact_location,
+          brief: assignInfo.pickup_contact_brief
+        });
+        newPickupContact.save(function (err, pickupContactEntity) {
+          if (err || !pickupContactEntity) {
+            return callback({ err: orderError.internal_system_error });
           }
 
           callback(null, pickupContactEntity);
@@ -1752,7 +1753,7 @@ function assignWarehouse(user, order, orderDetail, assignInfo, isBatch, callback
 
         newOrder.save(function (err, driverOrder) {
           if (err || !driverOrder) {
-            return callback({err: orderError.internal_system_error}, null);
+            return callback({ err: orderError.internal_system_error }, null);
           }
 
           driverOrder._doc.order_detail = orderDetail;
@@ -1772,7 +1773,7 @@ function assignWarehouse(user, order, orderDetail, assignInfo, isBatch, callback
               //发送短信
               CustomizeEventService.recordAssginDriverEvent(newOrder._id, driver._id, function (err, customizeEvent) {
                 if (err) {
-                  return callback({err: err});
+                  return callback({ err: err });
                 }
                 else {
                   var accessUrl = config.serverAddress + 'order/temporarydriver?customize_event_id=' + customizeEvent._id.toString();
@@ -1800,13 +1801,13 @@ function assignWarehouse(user, order, orderDetail, assignInfo, isBatch, callback
 }
 
 function assignCompany(user, order, orderDetail, assignInfo, callback) {
-  Company.findOne({_id: assignInfo.company_id}, function (err, company) {
+  Company.findOne({ _id: assignInfo.company_id }, function (err, company) {
     if (err) {
-      return callback({err: orderError.internal_system_error}, null);
+      return callback({ err: orderError.internal_system_error }, null);
     }
 
     if (!company) {
-      return callback({err: orderError.company_not_exist}, null);
+      return callback({ err: orderError.company_not_exist }, null);
     }
 
     //提货收获的联系人必须由外界传进来
@@ -1823,7 +1824,7 @@ function assignCompany(user, order, orderDetail, assignInfo, callback) {
         });
         newPickupContact.save(function (err, pickupContactEntity) {
           if (err || !pickupContactEntity) {
-            return callback({err: orderError.internal_system_error});
+            return callback({ err: orderError.internal_system_error });
           }
 
           callback(null, pickupContactEntity);
@@ -1888,7 +1889,7 @@ function assignCompany(user, order, orderDetail, assignInfo, callback) {
 
         newOrder.save(function (err, companyOrder) {
           if (err || !companyOrder) {
-            return callback({err: orderError.internal_system_error}, null);
+            return callback({ err: orderError.internal_system_error }, null);
           }
 
           updateParentExecuters(companyOrder.parent_order, function (err) {
@@ -1915,7 +1916,7 @@ function assignCompany(user, order, orderDetail, assignInfo, callback) {
 
 function pushRemoveOrderMessageToDriver(driverId, orderId, callback) {
   //推送通知
-  Driver.findOne({_id: driverId}, function (err, findDriver) {
+  Driver.findOne({ _id: driverId }, function (err, findDriver) {
     if (err) {
       return callback(orderError.internal_system_error);
     }
@@ -1930,7 +1931,7 @@ function pushRemoveOrderMessageToDriver(driverId, orderId, callback) {
 }
 
 function removeSubOrders(parentOrder, callback) {
-  Order.find({parent_order: parentOrder._id}, function (err, childOrders) {
+  Order.find({ parent_order: parentOrder._id }, function (err, childOrders) {
     if (err || !childOrders) {
       return callback(orderError.internal_system_error);
     }
@@ -1975,17 +1976,17 @@ exports.assignOrderToCompany = function (user, order, orderDetail, assignInfo, c
 
 exports.matchOrderStatus = function (orderId, statusArray, callback) {
   if (!orderId || !statusArray) {
-    return callback({err: orderError.params_null});
+    return callback({ err: orderError.params_null });
   }
 
-  Order.findOne({_id: orderId, status: {$in: statusArray}}, function (err, findOrder) {
+  Order.findOne({ _id: orderId, status: { $in: statusArray } }, function (err, findOrder) {
     if (err) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
     if (!findOrder) {
-      return callback(null, {order: findOrder, inStatus: false});
+      return callback(null, { order: findOrder, inStatus: false });
     }
-    return callback(null, {order: findOrder, inStatus: true});
+    return callback(null, { order: findOrder, inStatus: true });
   });
 };
 
@@ -2007,7 +2008,7 @@ exports.updateOrderBasicAssignInfo = function (orderId, newAssignInfo, callback)
       case 'driver':
       case 'warehouse':
       case 'company':
-        Order.findOne({_id: newAssignInfo.order_id}).populate('order_detail pickup_contact delivery_contact').exec(function (err, findOrder) {
+        Order.findOne({ _id: newAssignInfo.order_id }).populate('order_detail pickup_contact delivery_contact').exec(function (err, findOrder) {
           if (err || !findOrder) {
             return callback(orderError.internal_system_error);
           }
@@ -2034,7 +2035,7 @@ exports.updateOrderBasicAssignInfo = function (orderId, newAssignInfo, callback)
 
                 if (findOrder.type !== 'company') {
 
-                  Driver.findOne({_id: newAssignInfo.driver_id}, function (err, findDriver) {
+                  Driver.findOne({ _id: newAssignInfo.driver_id }, function (err, findDriver) {
                     if (err) {
                       return callback(orderError.internal_system_error);
                     }
@@ -2070,16 +2071,16 @@ exports.updateOrderBasicAssignInfo = function (orderId, newAssignInfo, callback)
 };
 
 function removeAssignedOrder(order_id, callback) {
-  Order.findOne({_id: order_id}, function (err, removedOrder) {
+  Order.findOne({ _id: order_id }, function (err, removedOrder) {
     if (err) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
     if (!removedOrder) {
-      return callback({err: orderError.order_not_exist});
+      return callback({ err: orderError.order_not_exist });
     }
 
     if (removedOrder.status !== 'unAssigned' && removedOrder.status !== 'assigning' && removedOrder.status !== 'unPickupSigned') {
-      return callback({err: orderError.order_can_not_delete});
+      return callback({ err: orderError.order_can_not_delete });
     }
 
 
@@ -2088,7 +2089,7 @@ function removeAssignedOrder(order_id, callback) {
     removedOrder.execute_companies = [];
     removedOrder.save(function (err, saveRemovedOrder) {
       if (err || !saveRemovedOrder) {
-        return callback({err: orderError.internal_system_error});
+        return callback({ err: orderError.internal_system_error });
       }
 
       updateParentExecuters(removedOrder.parent_order, function (err) {
@@ -2132,7 +2133,7 @@ exports.isOrderAllowSeeing = function (order, currentUser, otherCondition, callb
     }
   }
 
-// 如果都不是，则判断当前用户是否为运单的创建者或执行者
+  // 如果都不是，则判断当前用户是否为运单的创建者或执行者
   UserService.getGroups(currentUser._id, function (err, userGroups) {
     if (err) {
       return callback(err);
@@ -2153,7 +2154,7 @@ exports.isOrderAllowSeeing = function (order, currentUser, otherCondition, callb
 //根据assign_info_id获取分段信息
 exports.getAssignInfoById = function (order, assignInfoId, callback) {
   if (!order || !assignInfoId) {
-    return callback({err: orderError.params_null});
+    return callback({ err: orderError.params_null });
   }
 
   if (!order.assigned_infos || !Array.isArray(order.assigned_infos) || order.assigned_infos.length === 0) {
@@ -2174,7 +2175,7 @@ exports.getAssignInfoById = function (order, assignInfoId, callback) {
 };
 exports.deleteAssignInfoById = function (order, assignInfoId, callback) {
   if (!order || !assignInfoId) {
-    return callback({err: orderError.params_null});
+    return callback({ err: orderError.params_null });
   }
 
   if (!order.assigned_infos || !Array.isArray(order.assigned_infos) || order.assigned_infos.length === 0) {
@@ -2208,7 +2209,7 @@ exports.pushDeleteInfoToDriver = function (driver, orderId) {
 //total_assign_count, assign_count, assign_status, status
 exports.refreshOrderInfo = function (order, callback) {
   if (!order) {
-    return callback({err: orderError.params_null});
+    return callback({ err: orderError.params_null });
   }
 
   if (!order.assigned_infos || !Array.isArray(order.assigned_infos)) {
@@ -2247,7 +2248,7 @@ exports.refreshOrderInfo = function (order, callback) {
       return callback();
     }
     else {
-      Order.find({parent_order: order._id}, function (err, childOrders) {
+      Order.find({ parent_order: order._id }, function (err, childOrders) {
         var isComplete = true;
         for (var i = 0; i < childOrders.length; i++) {
           if (childOrders[i].status !== 'completed') {
@@ -2268,11 +2269,11 @@ exports.refreshOrderInfo = function (order, callback) {
 };
 
 exports.getOrderByOrderIdAndDriverId = function (orderId, driverId, callback) {
-  Order.findOne({_id: orderId, execute_driver: driverId})
+  Order.findOne({ _id: orderId, execute_driver: driverId })
     .populate('execute_driver')
     .exec(function (err, order) {
       if (err) {
-        return callback({err: orderError.internal_system_error});
+        return callback({ err: orderError.internal_system_error });
       }
       return callback(null, order);
     });
@@ -2283,13 +2284,13 @@ exports.finishDriverOrderCount = function (driverId, callback) {
     execute_driver: driverId,
     status: 'completed',
     $or: [{
-      delete_status: {$exists: false}
+      delete_status: { $exists: false }
     }, {
       delete_status: false
     }]
   }, function (err, count) {
     if (err) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
     return callback(null, count);
   });
@@ -2299,7 +2300,7 @@ exports.getWechatDriverOrders = function (driverId, statuses, skip, limit, callb
   var condition = {
     type: 'driver',
     execute_driver: driverId,
-    status: {$in: statuses},
+    status: { $in: statuses },
     delete_status: false,
     created: {
       $gte: new Date(new Date() - 30 * 24 * 60 * 60 * 1000)
@@ -2308,12 +2309,12 @@ exports.getWechatDriverOrders = function (driverId, statuses, skip, limit, callb
   };
 
   Order.find(condition)
-    .sort({created: -1})
+    .sort({ created: -1 })
     .skip(skip)
     .limit(limit)
     .exec(function (err, orders) {
       if (err) {
-        err = {err: orderError.internal_system_error};
+        err = { err: orderError.internal_system_error };
       }
       return callback(err, orders);
     });
@@ -2338,7 +2339,7 @@ exports.exportCompanyOrder = function (groupIds, filter, columns) {
         worksheet.commit();
         workbook.commit()
           .then(function () {
-            fulfill({root: '.', filePath: filePath, filename: filePath});
+            fulfill({ root: '.', filePath: filePath, filename: filePath });
           });
       }).catch(reject);
     }, function (reason) {
@@ -2390,7 +2391,7 @@ function writeSheet(cursor, worksheet, columns, companyName) {
                 return execute_company_array.indexOf(elem) == pos;
               }
             });
-            Company.find({'_id': {$in: execute_company_array}}).lean().exec(function (err, result) {
+            Company.find({ '_id': { $in: execute_company_array } }).lean().exec(function (err, result) {
               if (err) {
                 return reject(err);
               } else {
@@ -2411,7 +2412,7 @@ function writeSheet(cursor, worksheet, columns, companyName) {
                 return execute_driver_array.indexOf(elem) == pos;
               }
             });
-            Driver.find({'_id': {$in: execute_driver_array}}).lean().exec(function (err, result) {
+            Driver.find({ '_id': { $in: execute_driver_array } }).lean().exec(function (err, result) {
               if (err) {
                 return reject(err);
               } else {
@@ -2425,7 +2426,7 @@ function writeSheet(cursor, worksheet, columns, companyName) {
         }
 
         var p4 = new Promise(function (fulfill, reject) {
-          OrderDetail.find({'_id': {$in: order_detail_array}}).lean().exec(function (err, result) {
+          OrderDetail.find({ '_id': { $in: order_detail_array } }).lean().exec(function (err, result) {
             if (err) {
               return reject(err);
             } else {
@@ -2438,7 +2439,7 @@ function writeSheet(cursor, worksheet, columns, companyName) {
         i++;
 
         var p5 = new Promise(function (fulfill, reject) {
-          Contact.find({'_id': {$in: contact_array}}).lean().exec(function (err, result) {
+          Contact.find({ '_id': { $in: contact_array } }).lean().exec(function (err, result) {
             if (err) {
               return reject(err);
             } else {
@@ -2452,10 +2453,10 @@ function writeSheet(cursor, worksheet, columns, companyName) {
 
         if (columns_map.hasOwnProperty('关注人')) {
           var p6 = new Promise(function (fulfill, reject) {
-            SalesmanCompany.find({username: salesman_array}).select({
+            SalesmanCompany.find({ username: salesman_array }).select({
               username: 1,
               nickname: 1
-            }).sort({username: 1}).lean().exec(function (err, salesmen) {
+            }).sort({ username: 1 }).lean().exec(function (err, salesmen) {
               if (err) {
                 return reject(err);
               } else {
@@ -2608,7 +2609,7 @@ function writeSheet(cursor, worksheet, columns, companyName) {
 function getOrdersOfGroupByFilter(groupIds, filter) {
   return new Promise(function (fulfill, reject) {
     var conditions = {
-      execute_group: {$in: groupIds},
+      execute_group: { $in: groupIds },
       create_time: {
         $gte: filter.startDate,
         $lte: filter.endDate
@@ -2647,16 +2648,16 @@ function getOrdersOfGroupByFilter(groupIds, filter) {
       }
     }
     if (filter.partner_id) {
-      Order.find(conditions, {'_id': 1})
+      Order.find(conditions, { '_id': 1 })
         .exec(function (err, result) {
           if (err) {
             return reject(err);
           }
           if (result && result instanceof Array && result.length > 0) {
             var cursor = Order.find({
-                parent_order: {$in: result},
-                execute_company: filter.partner_id
-              })
+              parent_order: { $in: result },
+              execute_company: filter.partner_id
+            })
               .batchSize(10000).lean().stream();
             fulfill(cursor);
           } else {
@@ -2715,12 +2716,12 @@ exports.getPushUserListObj = function (order, isSalesman, isPickup, isDelivery, 
         }
       });
 
-      return callback(null, {wechatList: wechatUserList, smsList: phoneList});
+      return callback(null, { wechatList: wechatUserList, smsList: phoneList });
 
     });
   }
   else {
-    return callback(null, {wechatList: wechatUserList, smsList: phoneList});
+    return callback(null, { wechatList: wechatUserList, smsList: phoneList });
   }
 };
 
@@ -2792,12 +2793,12 @@ exports.captureAddressLocation = function (companyId, address, callback) {
       delete_status: false,
       status: 'completed'
     })
-    .sort({created: -1})
+    .sort({ created: -1 })
     .limit(1)
     .exec(function (err, orderList) {
       if (err) {
         console.log(err);
-        return callback({err: orderError.internal_system_error});
+        return callback({ err: orderError.internal_system_error });
       }
       if (!orderList || orderList.length === 0) {
         return callback();
@@ -2819,13 +2820,13 @@ exports.getPickupAddressList = function (senderName, pickupAddress, companyId, c
     sender_name: senderName,
     create_company: companyId,
     execute_company: companyId,
-    'pickup_contacts.address': {$regex: pickupAddress, $options: 'i'},
+    'pickup_contacts.address': { $regex: pickupAddress, $options: 'i' },
     delete_status: false
   }).select('pickup_contacts')
     .limit(5)
     .exec(function (err, orders) {
       if (err) {
-        return callback({err: orderError.internal_system_error});
+        return callback({ err: orderError.internal_system_error });
       }
 
       var addressList = orders.map(function (item) {
@@ -2903,15 +2904,15 @@ exports.sendOrderMessage = function (type, order, driverPhone, plateNumber) {
 
 };
 
-exports.verifyOrder = function (user, order, type,price, tiaozhangs, callback) {
+exports.verifyOrder = function (user, order, type, price, tiaozhangs, callback) {
   if (type != 'can_pay_last' && type != 'can_pay_top' && type != 'can_pay_tail' && type != 'can_pay_ya_jin') {
-    return callback({err: {type: 'invalid_type'}});
+    return callback({ err: { type: 'invalid_type' } });
   }
 
 
-  Tender.findOne({order: order._id}, function (err, tender) {
+  Tender.findOne({ order: order._id }, function (err, tender) {
     if (err || !tender) {
-      return callback({err: orderError.internal_system_error});
+      return callback({ err: orderError.internal_system_error });
     }
     var tenderTiaozhangs = [];
     for (var i = 0; i < tiaozhangs.length; i++) {
@@ -2945,9 +2946,9 @@ exports.verifyOrder = function (user, order, type,price, tiaozhangs, callback) {
     tender[type] = true;
     tender.save(function (err, saveTender) {
       if (err || !saveTender) {
-        return callback({err: orderError.internal_system_error});
+        return callback({ err: orderError.internal_system_error });
       }
-      return callback(null, {success: true});
+      return callback(null, { success: true });
     });
   });
 };
