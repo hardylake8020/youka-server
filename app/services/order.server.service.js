@@ -1268,6 +1268,7 @@ exports.getUserAllOrders = function (user, currentPage, limit, sort, searchArray
 
   var skipCount = limit * (currentPage - 1);
   var orderQuery = {
+    create_user:user._id,
     $or: [],
     $and: []
   };

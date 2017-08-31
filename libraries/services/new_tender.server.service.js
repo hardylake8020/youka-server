@@ -984,6 +984,7 @@ exports.getListByUser = function (currentUser, condition, callback) {
   var sort = getSortCondition(condition.sort);
   var skipCount = condition.limit * (condition.currentPage - 1);
 
+  console.log('tender query ', JSON.stringify(query));
   async.auto({
     getCount: function (countCallback) {
       Tender.count(query).exec(function (err, totalCount) {
