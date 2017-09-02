@@ -1394,6 +1394,7 @@ exports.getAssignOrderCount = function (user, callback) {
 
 exports.getOnwayOrderCount = function (user, callback) {
   Order.count({
+    create_user: user._id,
     // execute_group: {$in: groupIds},
     $or: [{ 'delete_status': { $exists: false } }, { 'delete_status': false }],
     status: { $in: ['assigning', 'unPickupSigned', 'unPickuped', 'unDeliverySigned', 'unDeliveried'] }
