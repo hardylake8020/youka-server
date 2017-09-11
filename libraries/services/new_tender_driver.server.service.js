@@ -686,3 +686,29 @@ exports.updatePassword = function (curDriver, newPassword, callback) {
     return callback(null, saveDriver);
   });
 }
+
+exports.removeDriver = function (curDriver, driverId, callback) {
+  Truck.findOne({
+    owner: curDriver._id,
+    driver: driverId
+  }, function (err, truk) {
+    if (err) {
+      return callback({ err: error.system.db_error });
+    }
+
+    if (!truk) {
+      return callback({ err: { type: 'driver_has_deleted' } });
+    }
+    Truck.remove({
+      owner: curDriver._id,
+      driver: driverId
+    }, function (err) {
+      if (err) {
+        return callback({ err: error.system.db_error });
+      }
+      return callback(null, { success: true });
+    });
+  });
+};
+
+
