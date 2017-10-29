@@ -9,7 +9,8 @@ exports.requireById = function (req, res, next) {
   var cardId = req.query.card_id || req.body.card_id || '';
 
   if (!cardId) {
-    return res.send({ err: { type: 'card_id_not_exist' } });
+    req.card = {};
+    return next
   }
 
   cardService.getOneById(cardId, function (err, card) {
