@@ -10,7 +10,7 @@ exports.requireById = function (req, res, next) {
 
   if (!cardId) {
     req.card = {};
-    return next
+    return next()
   }
 
   cardService.getOneById(cardId, function (err, card) {
