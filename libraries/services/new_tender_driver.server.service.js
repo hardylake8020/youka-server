@@ -260,14 +260,14 @@ exports.assignDriver = function (currentTender, card, truck, callback) {
   if (!truck.driver) {
     return callback({ err: { type: 'truck_not_assigned_driver' } });
   }
-
+  card = card || {};
   assignDriver(currentTender, truck.driver_number, card, truck, function (err, result) {
     if (err) {
       return callback(err);
     }
 
     currentTender.truck_number = truck.truck_number;
-    currentTender.card = card._id;
+    currentTender.card = card ? card._id : null;
     currentTender.truck = truck._id;
     currentTender.execute_driver = result.driver.toJSON();
     currentTender.status = 'inProgress';
@@ -298,6 +298,9 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
       });
     },
     card: function (autoCallback) {
+      if (!card) {
+        return autoCallback();
+      }
       card.truck = truck._id;
       card.truck_number = truck.truck_number;
       card.save(function (err, card) {
@@ -310,12 +313,11 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
       });
     },
     truck: function (autoCallback) {
-      truck.card = card._id;
-      truck.card_number = card.number;
+      truck.card = card._id || null;
+      truck.card_number = card.number || null;
       truck.save(function (err, truck) {
         console.log('truck.save', err);
-
-        if (err || !card) {
+        if (err) {
           return autoCallback({ err: error.system.db_error });
         }
         return autoCallback();

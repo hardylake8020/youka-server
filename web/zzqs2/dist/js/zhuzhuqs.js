@@ -260,10 +260,10 @@ zhuzhuqs.config(function () {
 //
 
 zhuzhuqs.constant('config', {
-  serverAddress: 'https://' + window.location.host,
-  serverWebAddress: 'https://' + window.location.host + "/zzqs2",
+  serverAddress: 'http://' + window.location.host,
+  serverWebAddress: 'http://' + window.location.host + "/zzqs2",
   pushServerAddress:document.getElementById('error4').getAttribute('data-value'),
-  login: 'https://' + window.location.host + "/signin",
+  login: 'http://' + window.location.host + "/signin",
   qiniuServerAddress: 'http://7xiwrb.com1.z0.glb.clouddn.com/@',
   maxAddressOffset: 1000
 });
@@ -14441,16 +14441,6 @@ zhuzhuqs.directive('zzCustomizeDialog', function () {
         }
     }
 });
-zhuzhuqs.directive('zzExportDialog', function () {
-  return {
-    restrict:'A',
-    templateUrl:'directive/zz_export_dialog/order_export_dialog.client.directive.html',
-    replace:false,
-    scope:{
-    },
-    controller:'OrderExportController'
-  };
-});
 /**
  * Created by elinaguo on 15/5/20.
  */
@@ -14762,6 +14752,16 @@ zhuzhuqs.directive('zzList', ['GlobalEvent', function (GlobalEvent) {
   };
 }]);
 
+zhuzhuqs.directive('zzExportDialog', function () {
+  return {
+    restrict:'A',
+    templateUrl:'directive/zz_export_dialog/order_export_dialog.client.directive.html',
+    replace:false,
+    scope:{
+    },
+    controller:'OrderExportController'
+  };
+});
 /**
  * Created by elinaguo on 15/5/24.
  */

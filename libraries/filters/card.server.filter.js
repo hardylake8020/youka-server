@@ -7,9 +7,9 @@ var cryptoLib = require('../crypto'),
 
 exports.requireById = function (req, res, next) {
   var cardId = req.query.card_id || req.body.card_id || '';
-  
+
   if (!cardId) {
-    return res.send({err: {type: 'card_id_not_exist'}});
+    return res.send({ err: { type: 'card_id_not_exist' } });
   }
 
   cardService.getOneById(cardId, function (err, card) {
@@ -17,11 +17,11 @@ exports.requireById = function (req, res, next) {
       return res.send(err);
     }
 
-    if (!card) {
-      return res.send({err: error.business.tender_not_exist});
-    }
+    // if (!card) {
+    //   return res.send({err: error.business.tender_not_exist});
+    // }
 
-    req.card = card;
+    req.card = card || {};
     next();
   });
 };

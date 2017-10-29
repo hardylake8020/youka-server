@@ -1096,9 +1096,9 @@ function generateQueryCondition(orderQuery, searchArray, user) {
         if (searchItem.value) {
           orderQuery.$and.push({
             $or: [{
-              'order_details.order_number': { $regex: searchItem.value, $options: 'i' }
+              'order_number': { $regex: searchItem.value, $options: 'i' }
             },
-            { 'order_details.refer_order_number': { $regex: searchItem.value, $options: 'i' } }
+            { 'refer_order_number': { $regex: searchItem.value, $options: 'i' } }
             ]
           });
         }
