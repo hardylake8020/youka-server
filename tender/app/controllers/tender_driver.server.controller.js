@@ -196,3 +196,11 @@ exports.updatePassword = function (req, res, next) {
     return res.send(err || result);
   });
 };
+
+exports.removeDriver = function (req, res, next) {
+  var driver = req.driverById || {};
+  var curDriver = req.driver;
+  newTenderDriverService.removeDriver(curDriver, driver._id, function (err, result) {
+    return res.send(err || result);
+  })
+}
