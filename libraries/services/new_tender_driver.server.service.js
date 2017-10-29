@@ -298,7 +298,7 @@ function assignDriver(tender, driverNumber, card, truck, callback) {
       });
     },
     card: function (autoCallback) {
-      if (!card) {
+      if (!card._id) {
         return autoCallback();
       }
       card.truck = truck._id;
