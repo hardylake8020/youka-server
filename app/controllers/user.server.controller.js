@@ -50,9 +50,9 @@ function verifyEmail(emailAddress, renderData, callback) {
 
 exports.me = function (req, res, next) {
   var user = req.user || {};
-  UserGroup.find({user: user._id}).populate('group').exec(function (err, userGroups) {
+  UserGroup.find({ user: user._id }).populate('group').exec(function (err, userGroups) {
     if (err) {
-      return res.send({err: userError.internal_system_error});
+      return res.send({ err: userError.internal_system_error });
     }
 
     //delete user._doc._id; 前端需要id的值
@@ -68,20 +68,20 @@ exports.sendActivateEmail = function (req, res, next) {
   //邮箱正则
   var usernameReg = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,}){1,2})$/;
   if (!usernameReg.test(username)) {
-    return res.send({err: userError.invalid_email});
+    return res.send({ err: userError.invalid_email });
   }
 
-  User.findOne({username: username}, function (err, user) {
+  User.findOne({ username: username }, function (err, user) {
     if (err) {
-      return res.send({err: userError.internal_system_error});
+      return res.send({ err: userError.internal_system_error });
     }
 
     if (!user) {
-      return res.send({err: userError.account_not_exist});
+      return res.send({ err: userError.account_not_exist });
     }
 
     if (user.email_verified) {
-      return res.send({err: userError.account_has_activated});
+      return res.send({ err: userError.account_has_activated });
     }
 
     var activateUrl = config.serverAddress + 'user/activate/' + user._id;
@@ -110,14 +110,14 @@ exports.employeeActivate = function (req, res, next) {
   var token = req.body.token || '';
 
   if (!username || !username.testMail()) {
-    return res.send({err: userError.invalid_email});
+    return res.send({ err: userError.invalid_email });
   }
   if (!password || password.length < 6) {
-    return res.send({err: userError.invalid_password});
+    return res.send({ err: userError.invalid_password });
   }
 
   if (!token) {
-    return res.send({err: userError.invalid_access_token});
+    return res.send({ err: userError.invalid_access_token });
   }
 
   userService.decryptUsername(token, function (err, username) {
@@ -125,7 +125,7 @@ exports.employeeActivate = function (req, res, next) {
       return res.send(err);
     }
     if (!username) {
-      return res.send({err: userError.account_not_exist});
+      return res.send({ err: userError.account_not_exist });
     }
 
     userService.getUserByUsername(username, function (err, user) {
@@ -133,21 +133,21 @@ exports.employeeActivate = function (req, res, next) {
         return res.send(err);
       }
       if (!user) {
-        return res.send({err: userError.user_not_exist});
+        return res.send({ err: userError.user_not_exist });
       }
       if (user.email_verified) {
-        return res.send({err: userError.account_has_activated});
+        return res.send({ err: userError.account_has_activated });
       }
 
       user.email_verified = true;
       user.password = user.hashPassword(password);
       user.save(function (err) {
         if (err) {
-          return res.send({err: userError.internal_system_error});
+          return res.send({ err: userError.internal_system_error });
         }
 
-        var access_token = cryptoLib.encrypToken({_id: user._id, time: new Date()}, 'secret');
-        return res.send({access_token: access_token});
+        var access_token = cryptoLib.encrypToken({ _id: user._id, time: new Date() }, 'secret');
+        return res.send({ access_token: access_token });
       });
     });
 
@@ -158,11 +158,11 @@ exports.activate = function (req, res, next) {
   var user = req.user || {};
 
   if (!user) {
-    return res.send({err: userError.user_not_exist});
+    return res.send({ err: userError.user_not_exist });
   }
 
   if (user.email_verified) {
-    var access_token = cryptoLib.encrypToken({_id: user._id, time: new Date()}, 'secret');
+    var access_token = cryptoLib.encrypToken({ _id: user._id, time: new Date() }, 'secret');
     res.cookie('access_token', access_token);
     return res.redirect('/zzqs2/index');
   }
@@ -170,10 +170,10 @@ exports.activate = function (req, res, next) {
   user.email_verified = true;
   user.save(function (err) {
     if (err) {
-      return res.send({err: userError.internal_system_error});
+      return res.send({ err: userError.internal_system_error });
     }
 
-    var access_token = cryptoLib.encrypToken({_id: user._id, time: new Date()}, 'secret');
+    var access_token = cryptoLib.encrypToken({ _id: user._id, time: new Date() }, 'secret');
     res.cookie('access_token', access_token);
     return res.redirect('/zzqs2/index');
   });
@@ -183,59 +183,47 @@ exports.activate = function (req, res, next) {
 exports.signUp = function (req, res, next) {
   var username = req.body.username || '';
   var password = req.body.password || '';
+  var mobile_phone = req.body.mobile_phone || '';
 
   //邮箱正则
   var usernameReg = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,}){1,2})$/;
   if (!usernameReg.test(username)) {
-    return res.send({err: userError.invalid_email});
+    return res.send({ err: userError.invalid_email });
   }
 
   //密码验证
   if (password.length < 6) {
-    return res.send({err: userError.invalid_password});
+    return res.send({ err: userError.invalid_password });
   }
+
+  if (mobile_phone.length !== 11) {
+    return res.send({ err: { type: 'invalid_mobile_phone', message: '无效的手机号' } });
+  }
+
 
   User.findOne({
     username: username
   }, function (err, user) {
     if (err) {
-      return res.send({err: userError.internal_system_error});
+      return res.send({ err: userError.internal_system_error });
     }
 
     if (user && !user.email_verified) {
-      return res.send({err: userError.account_not_activate});
+      return res.send({ err: userError.account_not_activate });
     }
     else if (user && user.email_verified) {
-      return res.send({err: userError.account_exist});
+      return res.send({ err: userError.account_exist });
     }
     else {
       var newUser = new User();
       newUser.password = newUser.hashPassword(password);
       newUser.username = username;
       newUser.email_verified = true;
+      newUser.mobile_phone = mobile_phone;
       newUser.save(function (err, user) {
         if (err) {
-          return res.send({err: userError.internal_system_error});
+          return res.send({ err: userError.internal_system_error });
         }
-        // var activateUrl = config.serverAddress + 'user/activate/' + user._id;
-        // var renderData = {
-        //   logoPictureUrl: config.serverAddress + 'zzqs2/images/icon/order_follow/order_follow_share_logo.png',
-        //   username: user.username,
-        //   urlAddress: activateUrl,
-        //   action: '立即激活',
-        //   description: '您已经成功创建新的柱柱签收账户。感谢您执行激活账户这一重要步骤。点击下面的按钮后，您即可通过自己的账户使用柱柱签收的全部服务。',
-        //   websiteUrl: config.serverAddress
-        // };
-        //
-        // verifyEmail(user.username, renderData, function (err, result) {
-        //   if (err) {
-        //     console.log(err);
-        //   }
-        //   console.log('注册邮箱发送返回：' + result);
-        // });
-        //
-        // delete user._doc.password;
-        // delete user._doc.salt;
 
         return res.send(user);
       });
@@ -250,23 +238,23 @@ exports.signIn = function (req, res, next) {
   //邮箱正则
   var mailReg = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,}){1,2})$/;
   if (!mailReg.test(username)) {
-    return res.send({err: userError.invalid_email});
+    return res.send({ err: userError.invalid_email });
   }
 
   //密码验证
   if (password.length < 6) {
-    return res.send({err: userError.invalid_password});
+    return res.send({ err: userError.invalid_password });
   }
 
   User.findOne({
     username: username
   }, function (err, user) {
     if (err) {
-      return res.send({err: userError.internal_system_error});
+      return res.send({ err: userError.internal_system_error });
     }
 
     if (!user) {
-      return res.send({err: userError.account_not_exist});
+      return res.send({ err: userError.account_not_exist });
     }
 
     // if (!user.email_verified) {
@@ -274,16 +262,16 @@ exports.signIn = function (req, res, next) {
     // }
 
     if (!user.authenticate(password)) {
-      return res.send({err: userError.account_not_match});
+      return res.send({ err: userError.account_not_match });
     }
 
-    var access_token = cryptoLib.encrypToken({_id: user._id, time: new Date()}, 'secret');
+    var access_token = cryptoLib.encrypToken({ _id: user._id, time: new Date() }, 'secret');
 
     delete user._doc.password;
     delete user._doc.salt;
     delete user._doc._id;
 
-    return res.send({user: user, access_token: access_token});
+    return res.send({ user: user, access_token: access_token });
   });
 };
 
@@ -304,7 +292,7 @@ exports.profile = function (req, res, next) {
 
   user.save(function (err, user) {
     if (err) {
-      return res.send({err: userError.internal_system_error});
+      return res.send({ err: userError.internal_system_error });
     }
 
     delete user._doc.password;
@@ -314,13 +302,13 @@ exports.profile = function (req, res, next) {
 };
 
 exports.findById = function (req, res, next, id) {
-  User.findOne({_id: id}, function (err, user) {
+  User.findOne({ _id: id }, function (err, user) {
     if (err) {
-      return res.send({err: userError.internal_system_error});
+      return res.send({ err: userError.internal_system_error });
     }
 
     if (!user) {
-      return res.send({err: userError.user_not_exist});
+      return res.send({ err: userError.user_not_exist });
     }
     req.user = user;
     next();
@@ -328,13 +316,13 @@ exports.findById = function (req, res, next, id) {
 };
 
 exports.findByUsername = function (req, res, next, username) {
-  User.findOne({username: username}, function (err, user) {
+  User.findOne({ username: username }, function (err, user) {
     if (err) {
-      return res.send({err: userError.internal_system_error});
+      return res.send({ err: userError.internal_system_error });
     }
 
     if (!user) {
-      return res.send({err: userError.user_not_exist});
+      return res.send({ err: userError.user_not_exist });
     }
     req.user = user;
     next();
@@ -344,15 +332,15 @@ exports.findByUsername = function (req, res, next, username) {
 exports.sendResetPasswordEmail = function (req, res, next) {
   var username = req.query.username || '';
 
-  User.findOne({username: username}).exec(function (err, userEntity) {
+  User.findOne({ username: username }).exec(function (err, userEntity) {
     if (err)
-      return res.send({err: userError.internal_system_error});
+      return res.send({ err: userError.internal_system_error });
 
     if (!userEntity)
-      return res.send({err: userError.account_not_exist});
+      return res.send({ err: userError.account_not_exist });
 
     if (!userEntity.email_verified)
-      return res.send({err: userError.account_not_activate});
+      return res.send({ err: userError.account_not_activate });
 
     resetTempService.getResetToken(userEntity.username, function (err, token) {
       var resetPasswordUrl = config.serverAddress + 'reset_password?token=' + token + '&username=' + userEntity.username;
@@ -382,14 +370,14 @@ exports.updatePassword = function (req, res, next) {
   var token = req.body.token || '';
 
   if (!username || !username.testMail()) {
-    return res.send({err: userError.invalid_email});
+    return res.send({ err: userError.invalid_email });
   }
   if (!password || password.length < 6) {
-    return res.send({err: userError.invalid_password});
+    return res.send({ err: userError.invalid_password });
   }
 
   if (!token) {
-    return res.send({err: userError.invalid_access_token});
+    return res.send({ err: userError.invalid_access_token });
   }
 
   resetTempService.getUsernameById(token, function (err, username) {
@@ -397,11 +385,11 @@ exports.updatePassword = function (req, res, next) {
       return res.send(err);
     }
     if (!username) {
-      req.err = {err: userError.account_not_exist};
+      req.err = { err: userError.account_not_exist };
       return next();
     }
 
-    User.findOne({username: username})
+    User.findOne({ username: username })
       .populate('company')
       .exec(function (err, userEntity) {
 
@@ -409,7 +397,7 @@ exports.updatePassword = function (req, res, next) {
           req.logs = [];
 
         if (err) {
-          req.err = {err: userError.internal_system_error};
+          req.err = { err: userError.internal_system_error };
           req.logs.push({
             username: username,
             role: 'user',
@@ -417,13 +405,13 @@ exports.updatePassword = function (req, res, next) {
             level: 'error',
             access_url: req.path,
             message: 'user.updatePassword.internal_system_error',
-            error: {err: userError.internal_system_error}
+            error: { err: userError.internal_system_error }
           });
           return next();
         }
 
         if (!userEntity) {
-          req.err = {err: userError.account_not_exist};
+          req.err = { err: userError.account_not_exist };
           req.logs.push({
             username: username,
             role: 'user',
@@ -431,13 +419,13 @@ exports.updatePassword = function (req, res, next) {
             level: 'error',
             access_url: req.path,
             message: 'user.updatePassword.account_not_exist',
-            error: {err: userError.account_not_exist}
+            error: { err: userError.account_not_exist }
           });
           return next();
         }
 
         if (!userEntity.email_verified) {
-          req.err = {err: userError.account_not_activate};
+          req.err = { err: userError.account_not_activate };
           req.logs.push({
             username: username,
             role: 'user',
@@ -445,7 +433,7 @@ exports.updatePassword = function (req, res, next) {
             level: 'error',
             access_url: req.path,
             message: 'user.updatePassword.account_not_activate',
-            error: {err: userError.account_not_activate}
+            error: { err: userError.account_not_activate }
           });
           return next();
         }
@@ -453,7 +441,7 @@ exports.updatePassword = function (req, res, next) {
         userEntity.password = userEntity.hashPassword(password);
         userEntity.save(function (err, newUserEntity) {
           if (err || !newUserEntity) {
-            req.err = {err: userError.internal_system_error};
+            req.err = { err: userError.internal_system_error };
             req.logs.push({
               username: username,
               role: 'user',
@@ -461,15 +449,15 @@ exports.updatePassword = function (req, res, next) {
               level: 'error',
               access_url: req.path,
               message: 'user.updatePassword.save.internal_system_error',
-              error: {err: userError.internal_system_error}
+              error: { err: userError.internal_system_error }
             });
             return next();
           }
 
-          var access_token = cryptoLib.encrypToken({_id: newUserEntity._id, time: new Date()}, 'secret');
+          var access_token = cryptoLib.encrypToken({ _id: newUserEntity._id, time: new Date() }, 'secret');
           delete newUserEntity._doc.password;
           delete newUserEntity._doc._id;
-          req.data = {access_token: access_token, user: newUserEntity};
+          req.data = { access_token: access_token, user: newUserEntity };
           req.logs.push({
             username: username,
             role: 'user',
@@ -495,7 +483,7 @@ exports.getEmployeeActivePage = function (req, res, next) {
   var token = req.query.token || '';
 
   if (!token) {
-    return res.send({err: userError.invalid_access_token});
+    return res.send({ err: userError.invalid_access_token });
   }
 
   userService.decryptUsername(token, function (err, username) {
@@ -503,7 +491,7 @@ exports.getEmployeeActivePage = function (req, res, next) {
       return res.send(err);
     }
     if (!username) {
-      return res.send({err: userError.account_not_exist});
+      return res.send({ err: userError.account_not_exist });
     }
     userService.getUserByUsername(username, function (err, user) {
       if (err) {
@@ -511,7 +499,7 @@ exports.getEmployeeActivePage = function (req, res, next) {
       }
 
       if (!user) {
-        return res.send({err: userError.user_not_exist});
+        return res.send({ err: userError.user_not_exist });
       }
 
       if (user.email_verified) {

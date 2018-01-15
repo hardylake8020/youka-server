@@ -15,7 +15,6 @@ body {
             background: url("../../home_page/images/logo.png") no-repeat center;
           }
         }
-
         .user-operation .login {
           display: inline-block;
           color: #fff;
@@ -26,39 +25,32 @@ body {
             -webkit-box-shadow: 0 0 0 2px #ffffff;
             -moz-box-shadow: 0 0 0 2px #ffffff;
             box-shadow: 0 0 0 2px #ffffff;
-
           }
         }
-
         .user-operation .signup {
           display: none;
         }
-
         .link .item {
           color: #fff;
         }
       }
     }
-
     .signup-body {
-
       * {
         margin: 0;
         padding: 0;
       }
-
       margin: 50px auto;
       padding: 0 50px 50px 50px;
       width: 430px;
       background-color: #fff;
       border-radius: 4px;
-
-      .register-container, .result-container {
+      .register-container,
+      .result-container {
         &.hide {
           display: none;
         }
       }
-
       .register-container {
         .title {
           padding: 30px 0 10px;
@@ -74,9 +66,11 @@ body {
             margin: 10px auto;
           }
         }
-
         .form {
-          .username, .password, .password-sure {
+          .username,
+          .mobile_phone,
+          .password,
+          .password-sure {
             .tip {
               font-size: 12px;
               margin-bottom: 5px;
@@ -108,7 +102,8 @@ body {
               }
             }
           }
-          .password, .password-sure {
+          .password,
+          .password-sure {
             margin-top: 15px;
             .tip {
               a {
@@ -123,7 +118,6 @@ body {
               }
             }
           }
-
           .operation {
             margin-top: 40px;
             height: 40px;
@@ -144,7 +138,6 @@ body {
               .register {
                 font-size: 12px;
                 color: #979797;
-
                 a {
                   text-decoration: none;
                   cursor: pointer;
@@ -152,14 +145,11 @@ body {
                 }
               }
             }
-
             .right {
               display: inline-block;
               float: right;
               width: 80px;
-
               height: 40px;
-
               .button {
                 width: 80px;
                 height: 40px;
@@ -169,7 +159,6 @@ body {
                 text-align: center;
                 background-color: #fff;
                 border-radius: 4px;
-
                 &.able {
                   background-color: #0078c6;
                 }
@@ -178,7 +167,6 @@ body {
           }
         }
       }
-
       .result-container {
         padding: 20px 0px 0px;
         .result-title {
@@ -186,7 +174,6 @@ body {
           font-size: 22px;
           text-align: left;
         }
-
         .result-body {
           .result-tip {
             color: #666666;
@@ -194,37 +181,33 @@ body {
             font-size: 13px;
             margin-top: 15px;
           }
-
-          .resultUsername, .sendAgain {
+          .resultUsername,
+          .sendAgain {
             width: 100%;
             height: 40px;
             border: none;
             border-radius: 4px;
             margin-top: 30px;
           }
-
           .resultUsername {
             display: block;
             font-size: 22px;
             color: #0078c6;
             text-align: center;
           }
-
           .sendAgain {
             color: #ffffff;
             background-color: #0078c6;
           }
-
         }
       }
-
     }
   }
 }
 
 @media screen and (max-width: 480px) {
   body {
-    .wrap{
+    .wrap {
       .zz-home-header {
         .navigation {
           .user-operation {
@@ -237,7 +220,6 @@ body {
           }
         }
       }
-
       .signup-body {
         padding: 0 0px 40px;
         width: 85%;
@@ -245,7 +227,9 @@ body {
           .form {
             width: 80%;
             margin: 0 auto;
-            .username,.password,.password-sure {
+            .username,
+            .password,
+            .password-sure {
               .border {
                 width: 100%;
                 padding-left: 10px;
@@ -265,16 +249,13 @@ body {
           }
         }
       }
-
     }
-
   }
-
 }
 
-@media (max-width: @screen-xs-max){
+@media (max-width: @screen-xs-max) {
   body {
-    .wrap{
+    .wrap {
       .zz-home-header {
         .navigation {
           .user-operation {
@@ -287,7 +268,6 @@ body {
           }
         }
       }
-
       .signup-body {
         padding: 0 0px 40px;
         width: 85%;
@@ -295,7 +275,9 @@ body {
           .form {
             width: 80%;
             margin: 0 auto;
-            .username,.password,.password-sure {
+            .username,
+            .password,
+            .password-sure {
               .border {
                 width: 100%;
                 .text {
@@ -311,15 +293,13 @@ body {
           }
         }
       }
-
     }
-
   }
 }
 
 @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
   body {
-    .wrap{
+    .wrap {
       .zz-home-header {
         .navigation {
           .user-operation {
@@ -332,14 +312,15 @@ body {
           }
         }
       }
-
       .signup-body {
         padding: 0 0px 40px;
         .register-container {
           .form {
             width: 80%;
             margin: 0 auto;
-            .username,.password,.password-sure {
+            .username,
+            .password,
+            .password-sure {
               .border {
                 width: 100%;
                 .text {
@@ -355,8 +336,6 @@ body {
           }
         }
       }
-
     }
-
   }
 }

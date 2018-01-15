@@ -55,49 +55,9 @@ module.exports = function (appDb) {
       required: true,
       default: false
     },
-    // weichat_openid: {
-    //   type: String
-    // },
-    // phone: {
-    //   type: String,
-    //   trim: true,
-    //   default: ''
-    // },
-    // photo: {
-    //   type: String,
-    //   trim: true,
-    //   default: ''
-    // },
-    // job_title: {
-    //   type: String
-    // },
-    // create_time: {
-    //   type: Date,
-    //   default: Date.now
-    // },
-    // update_time: {
-    //   type: Date,
-    //   default: Date.now
-    // },
-    // birthday: {
-    //   type: Date
-    // },
-    // age: {
-    //   type: Number,
-    //   default: ''
-    // },
-    // salt: {
-    //   type: String,
-    //   default: 'secret'
-    // },
-    // deleted: {
-    //   type: Boolean,
-    //   default: false
-    // },
-    // current_third_account: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'ThirdAccount'
-    // }
+    mobile_phone: {
+      type: String
+    }
   });
 
   UserSchema.plugin(timestamps, {

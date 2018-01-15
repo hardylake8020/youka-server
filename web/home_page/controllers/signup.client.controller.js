@@ -24,6 +24,7 @@ function SignUp(bodyElement) {
   var allElement = {
     username: bodyElement.find('.signup-body .form .username .text'),
     password: bodyElement.find('.signup-body .form .password .text'),
+    mobile_phone: bodyElement.find('.signup-body .form .mobile_phone .text'),
     surePassword: bodyElement.find('.signup-body .form .password-sure .text'),
     error: bodyElement.find('.signup-body .form .operation .error'),
     signUp: bodyElement.find('.signup-body .form .operation .button'),
@@ -52,6 +53,7 @@ function SignUp(bodyElement) {
 
     var username = allElement.username.val();
     var password = allElement.password.val();
+    var mobile_phone = allElement.mobile_phone.val();
     var surePassword = allElement.surePassword.val();
 
     if (!username || !username.testMail()) {
@@ -61,6 +63,12 @@ function SignUp(bodyElement) {
     }
     if (!password || password.length < 6) {
       showError(true, '密码不足6位');
+      showSignUp(false);
+      return false;
+    }
+
+    if (!mobile_phone || mobile_phone.length !== 11) {
+      showError(true, '请输入正确的手机号');
       showSignUp(false);
       return false;
     }
@@ -76,7 +84,7 @@ function SignUp(bodyElement) {
     }
 
     $.ajax({
-      data: {username: username, password: password},
+      data: { username: username, password: password, mobile_phone: mobile_phone },
       type: 'post',
       url: '/user/signup',
       dataType: 'json'
@@ -98,7 +106,7 @@ function SignUp(bodyElement) {
               errorText = '邮箱已注册，但未激活';
               break;
             case 'internal_system_error':
-            default :
+            default:
               errorText = '系统错误，注册失败';
               break;
           }
@@ -122,12 +130,12 @@ function SignUp(bodyElement) {
 
   allElement.sendAgain.click(function () {
     $.ajax({
-      data:{username:allElement.username.val()},
-      type:'post',
-      url:'/user/activate',
-      dataType:'json'
-    }).done(function (result){
-      if(result.err){
+      data: { username: allElement.username.val() },
+      type: 'post',
+      url: '/user/activate',
+      dataType: 'json'
+    }).done(function (result) {
+      if (result.err) {
         switch (result.err.type) {
           case 'invalid_email': {
             alert("无效的邮箱地址!");
@@ -141,7 +149,7 @@ function SignUp(bodyElement) {
             alert("您的邮箱已经激活，请直接登录！");
             break;
           }
-          default :
+          default:
           case 'internal_system_error': {
             alert("您的邮箱注册失败，不能重新注册，请刷新页面重试！");
             break;
@@ -149,10 +157,10 @@ function SignUp(bodyElement) {
         }
       }
       else {
-        alert ('邮件已发送，请注意查收');
+        alert('邮件已发送，请注意查收');
       }
-    }).fail(function(){
-      alert ('系统错误，请重试！');
+    }).fail(function () {
+      alert('系统错误，请重试！');
     });
   });
 
@@ -160,7 +168,7 @@ function SignUp(bodyElement) {
 
   //公共方法开始
 
-  function showResult (){
+  function showResult() {
     if (!allElement.registerContainer.hasClass('hide')) {
       allElement.registerContainer.addClass('hide');
     }

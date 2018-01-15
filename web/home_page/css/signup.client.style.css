@@ -60,12 +60,14 @@ body .wrap .signup-body .register-container .title .underline {
   margin: 10px auto;
 }
 body .wrap .signup-body .register-container .form .username .tip,
+body .wrap .signup-body .register-container .form .mobile_phone .tip,
 body .wrap .signup-body .register-container .form .password .tip,
 body .wrap .signup-body .register-container .form .password-sure .tip {
   font-size: 12px;
   margin-bottom: 5px;
 }
 body .wrap .signup-body .register-container .form .username .border,
+body .wrap .signup-body .register-container .form .mobile_phone .border,
 body .wrap .signup-body .register-container .form .password .border,
 body .wrap .signup-body .register-container .form .password-sure .border {
   width: 330px;
@@ -77,6 +79,7 @@ body .wrap .signup-body .register-container .form .password-sure .border {
   overflow: hidden;
 }
 body .wrap .signup-body .register-container .form .username .border .icon,
+body .wrap .signup-body .register-container .form .mobile_phone .border .icon,
 body .wrap .signup-body .register-container .form .password .border .icon,
 body .wrap .signup-body .register-container .form .password-sure .border .icon {
   display: inline-block;
@@ -86,6 +89,7 @@ body .wrap .signup-body .register-container .form .password-sure .border .icon {
   float: left;
 }
 body .wrap .signup-body .register-container .form .username .border .text,
+body .wrap .signup-body .register-container .form .mobile_phone .border .text,
 body .wrap .signup-body .register-container .form .password .border .text,
 body .wrap .signup-body .register-container .form .password-sure .border .text {
   background-color: #fafafa;
