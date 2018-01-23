@@ -17,7 +17,7 @@ var driverError = require('../errors/driver'),
   userService = require('../services/user'),
   DriverService = require('../services/driver'),
   driverEvaluationService = require('../services/driver_evaluation'),
-//用户模型
+  //用户模型
   Driver = appDb.model('Driver'),
   Company = appDb.model('Company'),
   InviteDriver = appDb.model('InviteDriver'),
@@ -36,36 +36,36 @@ exports.invite1 = function (req, res, next) {
   var curCompany = user.company || {};
 
   if (!phone.testPhone()) {
-    return res.send({err: driverError.invalid_phone});
+    return res.send({ err: driverError.invalid_phone });
   }
 
   async.auto({
-    isDriverExist: function(autoCallback) {
+    isDriverExist: function (autoCallback) {
       DriverService.getDriverByPhone(phone, function (err, driverEntity) {
         if (err) {
-          err = {err: err};
+          err = { err: err };
         }
         return autoCallback(err, driverEntity);
       });
     },
-    isDriverCompanyExist: ['isDriverExist', function(autoCallback, result) {
+    isDriverCompanyExist: ['isDriverExist', function (autoCallback, result) {
       if (!result.isDriverExist) {
         return autoCallback();
       }
 
-      DriverService.getCorporateDriver(result.isDriverExist._id, curCompany._id, function(err, driverCompany){
+      DriverService.getCorporateDriver(result.isDriverExist._id, curCompany._id, function (err, driverCompany) {
         if (err) {
-          return autoCallback({err: err});
+          return autoCallback({ err: err });
         }
         if (driverCompany) {
-          return autoCallback({err: driverError.has_been_partner});
+          return autoCallback({ err: driverError.has_been_partner });
         }
 
         return autoCallback();
       });
 
     }],
-    createDriver: ['isDriverExist', 'isDriverCompanyExist', function(autoCallback, result) {
+    createDriver: ['isDriverExist', 'isDriverCompanyExist', function (autoCallback, result) {
       if (result.isDriverExist) {
         return autoCallback(null, result.isDriverExist);
       }
@@ -76,28 +76,28 @@ exports.invite1 = function (req, res, next) {
       newDriver.password = newDriver.hashPassword(password);
       newDriver.save(function (err, saveDriver) {
         if (err) {
-          err = {err: driverError.internal_system_error};
+          err = { err: driverError.internal_system_error };
         }
 
 
         console.log('create a new driver: ' + phone + ', ' + password);
         //发送短信
-        smsLib.sendDriverInviteSms(phone, curCompany.name, function (err, result) {});
+        smsLib.sendDriverInviteSms(phone, curCompany.name, function (err, result) { });
 
         return autoCallback(err, saveDriver);
       });
 
     }],
-    createDriverCompany: ['createDriver', function(autoCallback, result){
-      DriverService.createDriverCompany(result.createDriver._id, curCompany._id, function(err, driverCompany) {
+    createDriverCompany: ['createDriver', function (autoCallback, result) {
+      DriverService.createDriverCompany(result.createDriver._id, curCompany._id, function (err, driverCompany) {
         if (err) {
-          err = {err: err};
+          err = { err: err };
         }
         return autoCallback(err, driverCompany);
       });
     }]
 
-  }, function(err, result){
+  }, function (err, result) {
 
     if (err) {
       return res.send(err);
@@ -119,46 +119,46 @@ exports.invite = function (req, res, next) {
   //手机号验证(11位数字)
   var phoneRegex = /\d{11}/;
   if (!phoneRegex.test(phone)) {
-    return res.send({err: driverError.invalid_phone});
+    return res.send({ err: driverError.invalid_phone });
   }
   else {
-    Company.findOne({_id: curCompany}, function (err, company) {
+    Company.findOne({ _id: curCompany }, function (err, company) {
       if (err) {
-        return res.send({err: driverError.internal_system_error});
+        return res.send({ err: driverError.internal_system_error });
       }
       else if (!company) {
-        return res.send({err: driverError.partner_not_exist});
+        return res.send({ err: driverError.partner_not_exist });
       }
       else {
         smsLib.sendDriverInviteSms(phone, company.name, function (err, result) {
           if (err) {
-            return res.send({err: driverError.invite_sms_error});
+            return res.send({ err: driverError.invite_sms_error });
           }
 
           DriverService.getDriverByPhone(phone, function (err, driverEntity) {
             if (err) {
-              req.err = {err: err};
+              req.err = { err: err };
               return next();
             }
             //司机已注册
             if (driverEntity) {
               DriverService.getInviteDriver(phone, curCompany._id, function (err, findInviteDriver) {
                 if (err) {
-                  req.err = {err: err};
+                  req.err = { err: err };
                   return next();
                 }
                 if (!findInviteDriver) {
                   //先创建合作关系
                   DriverService.createDriverCompany(driverEntity._id, curCompany._id, function (err, createDriverCompany) {
                     if (err) {
-                      req.err = {err: driverError.internal_system_error};
+                      req.err = { err: driverError.internal_system_error };
                       return next();
                     }
 
                     //再接收邀请
                     DriverService.createInviteDriver(phone, curCompany._id, 'accepted', function (err, createInviteDriver) {
                       if (err) {
-                        req.err = {err: driverError.internal_system_error};
+                        req.err = { err: driverError.internal_system_error };
                         return next();
                       }
                       createInviteDriver._doc.company = curCompany; //目的在于客户端可以获取公司信息，当前的company字段时ObjectId
@@ -171,14 +171,14 @@ exports.invite = function (req, res, next) {
                 }
                 else {
                   if (findInviteDriver.status === 'accepted') { //已成为合作伙伴
-                    req.err = {err: driverError.has_been_partner};
+                    req.err = { err: driverError.has_been_partner };
                     return next();
                   }
                   else {
                     //创建合作关系
                     DriverService.createDriverCompany(driverEntity._id, curCompany._id, function (err, createDriverCompany) {
                       if (err) {
-                        req.err = {err: driverError.internal_system_error};
+                        req.err = { err: driverError.internal_system_error };
                         return next();
                       }
 
@@ -186,7 +186,7 @@ exports.invite = function (req, res, next) {
                       findInviteDriver.status = 'accepted';
                       findInviteDriver.save(function (err, saveInviteDriver) {
                         if (err || !saveInviteDriver) {
-                          req.err = {err: driverError.internal_system_error};
+                          req.err = { err: driverError.internal_system_error };
                           return next();
                         }
 
@@ -208,7 +208,7 @@ exports.invite = function (req, res, next) {
               //添加邀请记录
               DriverService.createInviteDriver(phone, curCompany._id, 'inviting', function (err, createInviteDriver) {
                 if (err) {
-                  req.err = {err: driverError.internal_system_error};
+                  req.err = { err: driverError.internal_system_error };
                   return next();
                 }
 
@@ -234,20 +234,20 @@ exports.signUp = function (req, res, next) {
   //手机号验证(11位数字)
   var phoneRegex = /\d{11}/;
   if (!phoneRegex.test(username)) {
-    return res.send({err: driverError.invalid_phone});
+    return res.send({ err: driverError.invalid_phone });
   }
 
   //密码验证（至少6位）
   if (password.length < 6) {
-    return res.send({err: driverError.invalid_password});
+    return res.send({ err: driverError.invalid_password });
   }
 
   DriverService.getDriverByPhone(username, function (err, findDriver) {
     if (err) {
-      return res.send({err:err});
+      return res.send({ err: err });
     }
     if (findDriver && findDriver.password) {
-      return res.send({err: driverError.account_exist});
+      return res.send({ err: driverError.account_exist });
     }
 
     if (!findDriver) {
@@ -259,12 +259,12 @@ exports.signUp = function (req, res, next) {
 
     findDriver.save(function (err, driver) {
       if (err) {
-        return res.send({err: driverError.internal_system_error});
+        return res.send({ err: driverError.internal_system_error });
       }
       else {
         DriverService.addCooperation(driver, function (err) {
           if (err) {
-            req.err = {err: err};
+            req.err = { err: err };
             return next();
           }
 
@@ -288,7 +288,7 @@ exports.getSMSVerifyCode = function (req, res, next) {
   //手机号验证(11位数字)
   var phoneRegex = /\d{11}/;
   if (!phoneRegex.test(phone)) {
-    return res.send({err: driverError.invalid_phone});
+    return res.send({ err: driverError.invalid_phone });
   }
 
   var code = smsLib.generateVerifyCode();
@@ -296,13 +296,12 @@ exports.getSMSVerifyCode = function (req, res, next) {
   newSMSVerify.code = code;
   newSMSVerify.save(function (err, smsVerify) {
     if (err) {
-      return res.send({err: driverError.internal_system_error});
+      return res.send({ err: driverError.internal_system_error });
     }
 
-    delete smsVerify._doc.code;
     smsLib.ypSendSmsVerifyCode(phone, code, function (err, result) {
       if (err) {
-        return res.send({err: driverError.sms_send_error});
+        return res.send({ err: driverError.sms_send_error });
       }
       return res.send(smsVerify);
     });
@@ -317,25 +316,25 @@ exports.signIn = function (req, res, next) {
   //手机号验证(11位数字)
   var phoneRegex = /\d{11}/;
   if (!phoneRegex.test(username) && username.length > 11) {
-    return res.send({err: driverError.invalid_phone});
+    return res.send({ err: driverError.invalid_phone });
   }
 
   //密码验证（至少6位）
   if (password.length < 6) {
-    return res.send({err: driverError.invalid_password});
+    return res.send({ err: driverError.invalid_password });
   }
 
-  Driver.findOne({username: username}, function (err, driver) {
+  Driver.findOne({ username: username }, function (err, driver) {
     if (err) {
-      return res.send({err: driverError.internal_system_error});
+      return res.send({ err: driverError.internal_system_error });
     }
 
     if (!driver) {
-      return res.send({err: driverError.account_not_exist});
+      return res.send({ err: driverError.account_not_exist });
     }
 
     if (!driver.authenticate(password)) {
-      return res.send({err: driverError.invalid_password});
+      return res.send({ err: driverError.invalid_password });
     }
 
     if (driver.current_third_account) {
@@ -355,25 +354,25 @@ exports.signIn = function (req, res, next) {
         driver.save(function (err, saveDriver) {
           if (err || !saveDriver) {
             console.log(err);
-            req.err = {err: driverError.internal_system_error};
+            req.err = { err: driverError.internal_system_error };
             return next();
           }
 
-          access_token = cryptoLib.encrypToken({_id: saveDriver._id, time: new Date()}, 'secret');
+          access_token = cryptoLib.encrypToken({ _id: saveDriver._id, time: new Date() }, 'secret');
           delete saveDriver._doc.password;
-          return res.send({access_token: access_token, driver: saveDriver});
+          return res.send({ access_token: access_token, driver: saveDriver });
         });
       }
       else {
-        access_token = cryptoLib.encrypToken({_id: driver._id, time: new Date()}, 'secret');
+        access_token = cryptoLib.encrypToken({ _id: driver._id, time: new Date() }, 'secret');
         delete driver._doc.password;
-        return res.send({access_token: access_token, driver: driver});
+        return res.send({ access_token: access_token, driver: driver });
       }
     }
     else {
-      access_token = cryptoLib.encrypToken({_id: driver._id, time: new Date()}, 'secret');
+      access_token = cryptoLib.encrypToken({ _id: driver._id, time: new Date() }, 'secret');
       delete driver._doc.password;
-      return res.send({access_token: access_token, driver: driver});
+      return res.send({ access_token: access_token, driver: driver });
     }
   });
 };
@@ -387,17 +386,17 @@ exports.getOrderById = function (req, res, next) {
   req.query = req.query || {};
   var order_id = req.query.order_id || '';
 
-  Order.findOne({_id: order_id}).populate('order_detail pickup_contact delivery_contact').exec(function (err, orderEntity) {
+  Order.findOne({ _id: order_id }).populate('order_detail pickup_contact delivery_contact').exec(function (err, orderEntity) {
     if (err) {
-      return res.send({err: orderError.internal_system_error});
+      return res.send({ err: orderError.internal_system_error });
     }
 
     if (!orderEntity) {
-      return res.send({err: orderError.order_not_exist});
+      return res.send({ err: orderError.order_not_exist });
     }
 
     if (orderEntity.execute_driver.toString() !== currentDriver._id.toString()) {
-      return res.send({err: orderError.order_not_visible});
+      return res.send({ err: orderError.order_not_visible });
     }
 
     return res.send(orderEntity);
@@ -459,7 +458,7 @@ exports.getOrdersByStatuses = function (req, res, next) {
     if (err)
       return res.send(err);
 
-    return res.send({orders: result.orders});
+    return res.send({ orders: result.orders });
   });
 };
 
@@ -573,7 +572,7 @@ exports.updateProfile = function (req, res, next) {
 
   driver.save(function (err, newDriver) {
     if (err) {
-      return res.send({err: driverError.internal_system_error});
+      return res.send({ err: driverError.internal_system_error });
     }
     delete newDriver._doc.password;
     delete newDriver._doc._id;
@@ -588,16 +587,16 @@ exports.getUpdatePasswordVerifyCode = function (req, res, next) {
 
   var phoneRegex = /\d{11}/;
   if (!phoneRegex.test(username)) {
-    return res.send({err: driverError.invalid_phone});
+    return res.send({ err: driverError.invalid_phone });
   }
 
-  Driver.findOne({username: username}, function (err, driver) {
+  Driver.findOne({ username: username }, function (err, driver) {
     if (err) {
-      return res.send({err: driverError.internal_system_error});
+      return res.send({ err: driverError.internal_system_error });
     }
 
     if (!driver) {
-      return res.send({err: driverError.account_not_exist});
+      return res.send({ err: driverError.account_not_exist });
     }
 
     var code = smsLib.generateVerifyCode();
@@ -608,13 +607,13 @@ exports.getUpdatePasswordVerifyCode = function (req, res, next) {
 
     smsVerify.save(function (err, smsVerify) {
       if (err || !smsVerify) {
-        return res.send({err: driverError.internal_system_error});
+        return res.send({ err: driverError.internal_system_error });
       }
 
       if (isKuaiChuang) {
         smsLib.ypSendKuaiChuangSmsVerifyCode(username, code, function (err, result) {
           if (err) {
-            return res.send({err: driverError.sms_send_error});
+            return res.send({ err: driverError.sms_send_error });
           }
 
           delete smsVerify._doc.code;
@@ -624,7 +623,7 @@ exports.getUpdatePasswordVerifyCode = function (req, res, next) {
       else {
         smsLib.ypSendSmsVerifyCode(username, code, function (err, result) {
           if (err) {
-            return res.send({err: driverError.sms_send_error});
+            return res.send({ err: driverError.sms_send_error });
           }
 
           delete smsVerify._doc.code;
@@ -644,43 +643,43 @@ exports.updatePassword = function (req, res, next) {
   //手机号验证(11位数字)
   var phoneRegex = /\d{11}/;
   if (!phoneRegex.test(username)) {
-    return res.send({err: driverError.invalid_phone});
+    return res.send({ err: driverError.invalid_phone });
   }
 
   //密码验证（至少6位）
   if (password.length < 6) {
-    return res.send({err: driverError.invalid_password});
+    return res.send({ err: driverError.invalid_password });
   }
 
-  SMSVerify.findOne({_id: verify_id}, function (err, smsVerify) {
+  SMSVerify.findOne({ _id: verify_id }, function (err, smsVerify) {
     if (err) {
-      return res.send({err: driverError.internal_system_error});
+      return res.send({ err: driverError.internal_system_error });
     }
 
     if (!smsVerify) {
-      return res.send({err: driverError.invalid_verify_id});
+      return res.send({ err: driverError.invalid_verify_id });
     }
 
     if (smsVerify.code !== verifycode) {
-      return res.send({err: driverError.invalid_verify_code});
+      return res.send({ err: driverError.invalid_verify_code });
     }
-    Driver.findOne({username: username}, function (err, driver) {
+    Driver.findOne({ username: username }, function (err, driver) {
       if (err) {
-        return res.send({err: driverError.internal_system_error});
+        return res.send({ err: driverError.internal_system_error });
       }
       if (!driver) {
-        return res.send({err: driverError.account_not_exist});
+        return res.send({ err: driverError.account_not_exist });
       }
       driver.password = driver.hashPassword(password);
       driver.save(function (err, driverDoc) {
         if (err || !driverDoc) {
-          return res.send({err: driverError.internal_system_error});
+          return res.send({ err: driverError.internal_system_error });
         }
 
-        var access_token = cryptoLib.encrypToken({_id: driver._id, time: new Date()}, 'secret');
+        var access_token = cryptoLib.encrypToken({ _id: driver._id, time: new Date() }, 'secret');
         delete driver._doc.password;
         delete driver._doc._id;
-        return res.send({access_token: access_token, driver: driver});
+        return res.send({ access_token: access_token, driver: driver });
       });
     });
   });
@@ -692,17 +691,17 @@ exports.updateDeviceId = function (req, res, next) {
   var type = req.body.type;
 
   if (!device_id) {
-    return res.send({err: driverError.device_id_invalid});
+    return res.send({ err: driverError.device_id_invalid });
   }
 
   Driver.findOne({
     $or: [
-      {device_id: device_id},
-      {device_id_ios: device_id}
+      { device_id: device_id },
+      { device_id_ios: device_id }
     ]
   }, function (err, oldDriver) {
     if (err) {
-      return res.send({err: driverError.internal_system_error});
+      return res.send({ err: driverError.internal_system_error });
     }
     else {
       async.auto({
@@ -712,7 +711,7 @@ exports.updateDeviceId = function (req, res, next) {
             oldDriver.device_id = null;
             oldDriver.save(function (err) {
               if (err)
-                return callback({err: driverError.internal_system_error});
+                return callback({ err: driverError.internal_system_error });
 
               return callback();
             });
@@ -735,10 +734,10 @@ exports.updateDeviceId = function (req, res, next) {
           }
           driver.save(function (err) {
             if (err) {
-              return res.send({err: driverError.internal_system_error});
+              return res.send({ err: driverError.internal_system_error });
             }
             else {
-              return res.send({success: true});
+              return res.send({ success: true });
             }
           });
         }
@@ -757,16 +756,16 @@ exports.version = function (req, res, next) {
   if (version && platform && username) {
     DriverService.updateDriverVersionByUsername(version, platform, username, function (err, driver) {
       if (type === 'kuaichuan') {
-        return res.send({version: config.app_kuaichuan_android_version, app_url: config.app_kuaichuan_android_url});
+        return res.send({ version: config.app_kuaichuan_android_version, app_url: config.app_kuaichuan_android_url });
       }
-      return res.send({version: config.app_version, app_url: config.serverAddress + 'zzqs2/toDownloadApp'});
+      return res.send({ version: config.app_version, app_url: config.serverAddress + 'zzqs2/toDownloadApp' });
     });
   }
   else {
     if (type === 'kuaichuan') {
-      return res.send({version: config.app_kuaichuan_android_version, app_url: config.app_kuaichuan_android_url});
+      return res.send({ version: config.app_kuaichuan_android_version, app_url: config.app_kuaichuan_android_url });
     }
-    return res.send({version: '1009', app_url: config.serverAddress + 'zzqs2/toDownloadApp'});
+    return res.send({ version: '1009', app_url: config.serverAddress + 'zzqs2/toDownloadApp' });
   }
 };
 
@@ -776,11 +775,11 @@ exports.versionIos = function (req, res, next) {
   var username = req.body.username || req.query.username || '';
   if (version && platform && username) {
     DriverService.updateDriverVersionByUsername(version, platform, username, function (err, driver) {
-      return res.send({version: config.app_version_ios, app_url: config.app_download_ios_redirect_url});
+      return res.send({ version: config.app_version_ios, app_url: config.app_download_ios_redirect_url });
     });
   }
   else {
-    return res.send({version: config.app_version_ios, app_url: config.app_download_ios_redirect_url});
+    return res.send({ version: config.app_version_ios, app_url: config.app_download_ios_redirect_url });
   }
 };
 
@@ -790,7 +789,7 @@ exports.getEvaluationPage = function (req, res, next) {
   var companyId = req.query.company_id || '';
 
   if (!driverId || !orderId || !companyId) {
-    return res.send({err: driverError.params_null});
+    return res.send({ err: driverError.params_null });
   }
   driverEvaluationService.getByOrderIdAndDriverId(orderId, driverId, companyId, function (err, evaluation) {
     if (err) {
@@ -804,8 +803,8 @@ exports.getEvaluationPage = function (req, res, next) {
           content_text: evaluation.content_text
         };
 
-        var returnValue = {order: evaluation.order, content: content};
-        return res.render(path.join(__dirname, '../../web/popup_page/views/driver_evaluation.client.view.html'), {evaluation: JSON.stringify(returnValue)});
+        var returnValue = { order: evaluation.order, content: content };
+        return res.render(path.join(__dirname, '../../web/popup_page/views/driver_evaluation.client.view.html'), { evaluation: JSON.stringify(returnValue) });
       });
     }
     else {
@@ -814,13 +813,13 @@ exports.getEvaluationPage = function (req, res, next) {
           return res.send(err);
         }
         if (!findOrder) {
-          return res.send({err: orderError.order_not_exist});
+          return res.send({ err: orderError.order_not_exist });
         }
         if (findOrder.status !== 'completed') {
-          return res.send({err: {type: 'order_is_not_completed'}});
+          return res.send({ err: { type: 'order_is_not_completed' } });
         }
-        var returnValue = {order: findOrder, content: null};
-        return res.render(path.join(__dirname, '../../web/popup_page/views/driver_evaluation.client.view.html'), {evaluation: JSON.stringify(returnValue)});
+        var returnValue = { order: findOrder, content: null };
+        return res.render(path.join(__dirname, '../../web/popup_page/views/driver_evaluation.client.view.html'), { evaluation: JSON.stringify(returnValue) });
       });
     }
   });
@@ -838,7 +837,7 @@ exports.createEvaluation = function (req, res, next) {
   }
 
   if (!orderId || !driverId) {
-    return res.send({err: driverError.params_null});
+    return res.send({ err: driverError.params_null });
   }
 
   driverEvaluationService.create(orderId, driverId, currentUser, false, level, contentText, function (err, result) {
@@ -857,7 +856,7 @@ exports.updateEvaluation = function (req, res, next) {
     level = 1;
   }
   if (!evaluationId) {
-    return res.send({err: driverError.params_null});
+    return res.send({ err: driverError.params_null });
   }
 
   userService.decryptId(evaluationId, function (err, decryptId) {

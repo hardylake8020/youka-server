@@ -15,16 +15,17 @@ exports.ypSendSmsVerifyCode = function (phone, code, callback) {
     .send({
       apikey: ypApikey,
       mobile: phone,
-      text: '【柱柱签收】您的验证码' + code + '，请在10分钟内使用。'
+      text: '【柱柱优卡】您的验证码' + code + '，请在10分钟内使用。'
     })
     .end(function (err, res) {
       var resp = JSON.parse(res.text);
-      if(err || resp.code != 0){
+      if (err || resp.code != 0) {
         console.log('ypSendSmsVerifyCode', phone, code, err, res.text);
       }
       return callback(err, res.text);
     });
 };
+
 
 exports.ypSendKuaiChuangSmsVerifyCode = function (phone, code, callback) {
   if (process.env.NODE_ENV === 'test') {
@@ -41,7 +42,7 @@ exports.ypSendKuaiChuangSmsVerifyCode = function (phone, code, callback) {
     })
     .end(function (err, res) {
       var resp = JSON.parse(res.text);
-      if(err || resp.code != 0){
+      if (err || resp.code != 0) {
         console.log('ypSendKuaiChuangSmsVerifyCode', phone, code, err, res.text);
       }
       return callback(err, res.text);
@@ -64,7 +65,7 @@ exports.ypSendPickupInforms = function (phone, name, order, search_number, drive
     })
     .end(function (err, res) {
       var resp = JSON.parse(res.text);
-      if(err || resp.code != 0){
+      if (err || resp.code != 0) {
         console.log('ypSendPickupInforms', phone, name, order, search_number, driver, err, res.text);
       }
       return callback(err, res.text);
@@ -86,7 +87,7 @@ exports.sendDriverInviteSms = function (phone, companyName, callback) {
     })
     .end(function (err, res) {
       var resp = JSON.parse(res.text);
-      if(err || resp.code != 0){
+      if (err || resp.code != 0) {
         console.log('sendDriverInviteSms', phone, companyName, err, res.text);
       }
       return callback(err, res.text);
@@ -108,7 +109,7 @@ exports.ypSendAssginDriverSms = function (phone, accessUrl, callback) {
     })
     .end(function (err, res) {
       var resp = JSON.parse(res.text);
-      if(err || resp.code != 0){
+      if (err || resp.code != 0) {
         console.log('ypSendAssginDriverSms', phone, accessUrl, err, res.text);
       }
       return callback(err, res.text);
@@ -122,24 +123,24 @@ exports.generateVerifyCode = function () {
 };
 
 // 添加合作中介，提示关注微信号
-exports.sendBidderForWechat = function(phone){
+exports.sendBidderForWechat = function (phone) {
   if (process.env.NODE_ENV === 'test') {
     return;
   }
 
   agent.post(ypSmsUrl)
-  .set('Accept', 'text/plain;charset=utf-8')
-  .set('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
-  .send({
-    apikey: ypApikey,
-    mobile: phone,
-    text: '【柱柱签收】您有一条新标书，欲知详情，请关注微信公众号“柱柱签收网”'
-  })
-  .end(function (err, res) {
-    var resp = JSON.parse(res.text);
-    if(err || resp.code != 0){
-      console.log('sendBidderForWechat', phone, text,  err, res.text);
-    }
-    return;
-  });
+    .set('Accept', 'text/plain;charset=utf-8')
+    .set('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
+    .send({
+      apikey: ypApikey,
+      mobile: phone,
+      text: '【柱柱签收】您有一条新标书，欲知详情，请关注微信公众号“柱柱签收网”'
+    })
+    .end(function (err, res) {
+      var resp = JSON.parse(res.text);
+      if (err || resp.code != 0) {
+        console.log('sendBidderForWechat', phone, text, err, res.text);
+      }
+      return;
+    });
 };

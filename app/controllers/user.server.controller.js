@@ -235,16 +235,20 @@ exports.signIn = function (req, res, next) {
   var username = req.body.username || '';
   var password = req.body.password || '';
 
+
   //邮箱正则
   var mailReg = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,}){1,2})$/;
   if (!mailReg.test(username)) {
     return res.send({ err: userError.invalid_email });
   }
 
+
   //密码验证
   if (password.length < 6) {
     return res.send({ err: userError.invalid_password });
   }
+
+
 
   User.findOne({
     username: username

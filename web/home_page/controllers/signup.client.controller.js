@@ -8,6 +8,7 @@
 $(function () {
 
   var bodyElement = $('body');
+  var verifiCode = '';
 
   var importModule = new Import(bodyElement);
 
@@ -33,8 +34,9 @@ function SignUp(bodyElement) {
     resultUsername: bodyElement.find('.resultUsername'),
     sendAgain: bodyElement.find('.sendAgain'),
     registerContainer: bodyElement.find('.register-container'),
-    resultContainer: bodyElement.find('.result-container')
-
+    resultContainer: bodyElement.find('.result-container'),
+    getVerifyCode: bodyElement.find('.signup-body .form .verify_code .get_verify_code'),
+    inputVerifyCode: bodyElement.find('.signup-body .form .verify_code .input_verify_code'),
   };
 
   //事件处理开始
@@ -44,6 +46,34 @@ function SignUp(bodyElement) {
   allElement.surePassword.keyup(changeText);
   allElement.resultContainer.addClass('hide');
 
+  var sendingCode = false;
+  allElement.getVerifyCode.click(function () {
+    if (sendingCode) {
+      return;
+    }
+    var mobile_phone = allElement.mobile_phone.val();
+    if (!mobile_phone || mobile_phone.length !== 11) {
+      showError(true, '请输入正确的手机号');
+      showSignUp(false);
+      return false;
+    }
+
+    $.ajax({
+      data: { username: mobile_phone },
+      type: 'post',
+      url: '/driver/getsmsverifycode',
+      dataType: 'json',
+      success: function (result) {
+        verifiCode = result.code;
+        allElement.getVerifyCode.text('发送成功..');
+        setTimeout(function () {
+          allElement.getVerifyCode.text('重新发送');
+        }, 60000);
+      }
+    });
+
+
+  });
   allElement.form.submit(function () {
     if (!canSignUp()) {
       return false;
@@ -55,6 +85,27 @@ function SignUp(bodyElement) {
     var password = allElement.password.val();
     var mobile_phone = allElement.mobile_phone.val();
     var surePassword = allElement.surePassword.val();
+    var verify_code = allElement.inputVerifyCode.val();
+
+    if (!verifiCode) {
+      showError(true, '请输获取证码');
+      showSignUp(false);
+      return false;
+    }
+
+    if (!verify_code) {
+      showError(true, '请输入验证码');
+      showSignUp(false);
+      return false;
+    }
+
+
+    if (verify_code !== verifiCode) {
+      showError(true, '请输入验正确证码');
+      showSignUp(false);
+      return false;
+    }
+
 
     if (!username || !username.testMail()) {
       showError(true, '邮箱不合法');
