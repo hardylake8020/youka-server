@@ -202,7 +202,15 @@ exports.signUp = function (req, res, next) {
 
 
   User.findOne({
-    username: username
+    $or: [{
+      username: username
+    },
+    {
+      mobile_phone: mobile_phone
+    }
+    ]
+
+
   }, function (err, user) {
     if (err) {
       return res.send({ err: userError.internal_system_error });
@@ -236,11 +244,11 @@ exports.signIn = function (req, res, next) {
   var password = req.body.password || '';
 
 
-  //邮箱正则
-  var mailReg = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,}){1,2})$/;
-  if (!mailReg.test(username)) {
-    return res.send({ err: userError.invalid_email });
-  }
+  // //邮箱正则
+  // var mailReg = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,}){1,2})$/;
+  // if (!mailReg.test(username)) {
+  //   return res.send({ err: userError.invalid_email });
+  // }
 
 
   //密码验证
@@ -251,7 +259,7 @@ exports.signIn = function (req, res, next) {
 
 
   User.findOne({
-    username: username
+    $or: [{ username: username }, { mobile_phone: username }]
   }, function (err, user) {
     if (err) {
       return res.send({ err: userError.internal_system_error });

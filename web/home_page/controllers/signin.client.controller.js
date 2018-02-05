@@ -2,7 +2,7 @@
  * Created by Wayne on 15/10/14.
  */
 
-$(function(){
+$(function () {
 
   var bodyElement = $('body');
 
@@ -23,7 +23,7 @@ function SignIn(bodyElement) {
     password: bodyElement.find('.login-body .form .password .text'),
     error: bodyElement.find('.login-body .form .operation .error'),
     login: bodyElement.find('.login-body .form .operation .button'),
-    forgetPassword:bodyElement.find('.login-body .form .password .tip .forgetPassword'),
+    forgetPassword: bodyElement.find('.login-body .form .password .tip .forgetPassword'),
     form: bodyElement.find('.login-body .form')
   };
 
@@ -44,23 +44,23 @@ function SignIn(bodyElement) {
     var username = allElement.username.val();
     var password = allElement.password.val();
 
-    if (!username || !username.testMail()) {
-      showError(true, '邮箱不合法');
-      isLoging = false;
-      return false;
-    }
+    // if (!username || !username.testMail()) {
+    //   showError(true, '邮箱不合法');
+    //   isLoging = false;
+    //   return false;
+    // }
     if (!password || password.length < 6) {
       showError(true, '密码不足6位');
       isLoging = false;
       return false;
     }
 
-    $.cookie('zz-username', username, {expires: 7});
-    $.cookie('zz-password', password, {expires: 7});
+    $.cookie('zz-username', username, { expires: 7 });
+    $.cookie('zz-password', password, { expires: 7 });
 
 
     $.ajax({
-      data: {username: username, password: password},
+      data: { username: username, password: password },
       type: 'post',
       url: '/user/signin',
       dataType: 'json'
@@ -94,7 +94,7 @@ function SignIn(bodyElement) {
         else {
           window.location = '/zzqs/login?token=' + result.access_token;
         }
-    })
+      })
       .fail(function () {
         showError(true, "系统出错，请刷新页面重试！");
         isLoging = false;
@@ -159,8 +159,8 @@ function SignIn(bodyElement) {
     changeText();
   }
 
-  allElement.forgetPassword.click(function(){
-    window.location.href="/home/forget";
+  allElement.forgetPassword.click(function () {
+    window.location.href = "/home/forget";
   });
 
   init();

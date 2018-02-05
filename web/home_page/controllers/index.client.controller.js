@@ -72,7 +72,7 @@ function SignUp(bodyElement) {
     }
 
     $.ajax({
-      data: {username: username, password: password},
+      data: { username: username, password: password },
       type: 'post',
       url: '/user/signup',
       dataType: 'json'
@@ -95,7 +95,7 @@ function SignUp(bodyElement) {
               errorText = '邮箱已注册，但未激活';
               break;
             case 'internal_system_error':
-            default :
+            default:
               errorText = '系统错误，注册失败';
               break;
           }
@@ -169,23 +169,23 @@ function SignIn(bodyElement) {
     var username = allElement.username.val();
     var password = allElement.password.val();
 
-    if (!username || !username.testMail()) {
-      showError(true, '邮箱不合法');
-      isLoging = false;
-      return false;
-    }
+    // if (!username || !username.testMail()) {
+    //   showError(true, '邮箱不合法');
+    //   isLoging = false;
+    //   return false;
+    // }
     if (!password || password.length < 6) {
       showError(true, '密码不足6位');
       isLoging = false;
       return false;
     }
 
-    $.cookie('zz-username', username, {expires: 7});
-    $.cookie('zz-password', password, {expires: 7});
+    $.cookie('zz-username', username, { expires: 7 });
+    $.cookie('zz-password', password, { expires: 7 });
 
 
     $.ajax({
-      data: {username: username, password: password},
+      data: { username: username, password: password },
       type: 'post',
       url: '/user/signin',
       dataType: 'json'
